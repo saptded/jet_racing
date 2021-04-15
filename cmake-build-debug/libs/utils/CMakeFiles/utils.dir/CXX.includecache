@@ -7,6 +7,10 @@
 #IncludeRegexTransform: 
 
 ../libs/utils/include/utils.hpp
+vector
+-
+iostream
+-
 
 /home/saptded/Technopark/Project/jet_racing/libs/utils/src/utils.cpp
 utils.hpp

@@ -6,6 +6,9 @@
 #ifndef JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_
 #define JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_
 
+#include <memory>
+#include <list>
+
 #include "racer.hpp"
 #include "observer.hpp"
 
@@ -14,25 +17,26 @@ class Model : Observable {
     Model(/*Server *server*/);
     ~Model();
 
-    void updateModel();
+    void updateModel(RotationDirection &&rotationDirection);
+    void setObserves(const std::vector<Observer*>& obs);
 
  private:
     void updateMap();
-    void updateRacers();
+    void updateRacers(RotationDirection &rotationDirection);
 
-    void updateRacer();
+    void updateRacer(RotationDirection &rotationDirection);
     void updateEnemies();
 
-    void notifyObserves(ModelResponse *response) override;
-    void addObserver(Observer observer) override; // ?
-    void removeObserver(Observer observer) override; // ?
+    void notifyObserves(ModelResponse &response) override;
+    void addObserver(Observer *observer) override; // ?
+    void removeObserver(Observer *observer) override; // ?
 
 
-    Racer *racer;
+    Racer racer;
 //    Map *map;
 //    Server *server
 
-    Observer *observes;
+    std::list<Observer*> observes;
 };
 
 #endif //JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_

@@ -5,6 +5,9 @@
 #ifndef JET_RACING_LIBS_UTILS_INCLUDE_UTILS_HPP_
 #define JET_RACING_LIBS_UTILS_INCLUDE_UTILS_HPP_
 
+#include <vector>
+#include <iostream>
+
 typedef struct Point {
     int x;
     int y;

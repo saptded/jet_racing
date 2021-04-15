@@ -9,14 +9,17 @@
 
 class Racer {
  public:
-    void updateRacerPosition();
+    Racer();
+    ~Racer() = default;
+
+    void updateRacerPosition(const std::vector<Point>& Points);
     void updateRacerRotation(RotationDirection addingRotation = RotationDirection::none);
     void updateRacerSpeed(Speed addingSpeed = Speed{0, 0});
 
  private:
     int rotation;
     Speed speed;
-    Point position[3];
+    std::vector<Point> position;
 };
 
 #endif //JET_RACING_LIBS_RACER_INCLUDE_RACER_HPP_

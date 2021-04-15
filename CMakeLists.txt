@@ -3,3 +3,9 @@ project(jet_racing)
 set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(libs)
+
+find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
+
+
+add_executable(main myMain.cpp)
+target_link_libraries(main PUBLIC controller model modelResponse observer racer utils sfml-graphics)

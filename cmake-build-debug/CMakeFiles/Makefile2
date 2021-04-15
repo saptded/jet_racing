@@ -72,6 +72,7 @@ CMAKE_BINARY_DIR = /home/saptded/Technopark/Project/jet_racing/cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/main.dir/all
 all: libs/all
 
 .PHONY : all
@@ -82,6 +83,7 @@ preinstall: libs/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/main.dir/clean
 clean: libs/clean
 
 .PHONY : clean
@@ -228,6 +230,38 @@ libs/utils/clean: libs/utils/CMakeFiles/utils.dir/clean
 .PHONY : libs/utils/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/main.dir
+
+# All Build rule for target.
+CMakeFiles/main.dir/all: libs/model/CMakeFiles/model.dir/all
+CMakeFiles/main.dir/all: libs/racer/CMakeFiles/racer.dir/all
+CMakeFiles/main.dir/all: libs/utils/CMakeFiles/utils.dir/all
+CMakeFiles/main.dir/all: libs/observer/CMakeFiles/observer.dir/all
+CMakeFiles/main.dir/all: libs/modelResponse/CMakeFiles/modelResponse.dir/all
+CMakeFiles/main.dir/all: libs/controller/CMakeFiles/controller.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target main"
+.PHONY : CMakeFiles/main.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles 14
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/main.dir/rule
+
+# Convenience name for target.
+main: CMakeFiles/main.dir/rule
+
+.PHONY : main
+
+# clean rule for target.
+CMakeFiles/main.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/clean
+.PHONY : CMakeFiles/main.dir/clean
+
+#=============================================================================
 # Target rules for target libs/model/CMakeFiles/model.dir
 
 # All Build rule for target.
@@ -237,7 +271,7 @@ libs/model/CMakeFiles/model.dir/all: libs/observer/CMakeFiles/observer.dir/all
 libs/model/CMakeFiles/model.dir/all: libs/modelResponse/CMakeFiles/modelResponse.dir/all
 	$(MAKE) $(MAKESILENT) -f libs/model/CMakeFiles/model.dir/build.make libs/model/CMakeFiles/model.dir/depend
 	$(MAKE) $(MAKESILENT) -f libs/model/CMakeFiles/model.dir/build.make libs/model/CMakeFiles/model.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target model"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=5,6 "Built target model"
 .PHONY : libs/model/CMakeFiles/model.dir/all
 
 # Build rule for subdir invocation for target.
@@ -264,7 +298,7 @@ libs/model/CMakeFiles/model.dir/clean:
 libs/racer/CMakeFiles/racer.dir/all: libs/utils/CMakeFiles/utils.dir/all
 	$(MAKE) $(MAKESILENT) -f libs/racer/CMakeFiles/racer.dir/build.make libs/racer/CMakeFiles/racer.dir/depend
 	$(MAKE) $(MAKESILENT) -f libs/racer/CMakeFiles/racer.dir/build.make libs/racer/CMakeFiles/racer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=9,10 "Built target racer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=11,12 "Built target racer"
 .PHONY : libs/racer/CMakeFiles/racer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -291,7 +325,7 @@ libs/racer/CMakeFiles/racer.dir/clean:
 libs/utils/CMakeFiles/utils.dir/all:
 	$(MAKE) $(MAKESILENT) -f libs/utils/CMakeFiles/utils.dir/build.make libs/utils/CMakeFiles/utils.dir/depend
 	$(MAKE) $(MAKESILENT) -f libs/utils/CMakeFiles/utils.dir/build.make libs/utils/CMakeFiles/utils.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=11,12 "Built target utils"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=13,14 "Built target utils"
 .PHONY : libs/utils/CMakeFiles/utils.dir/all
 
 # Build rule for subdir invocation for target.
@@ -320,7 +354,7 @@ libs/observer/CMakeFiles/observer.dir/all: libs/utils/CMakeFiles/utils.dir/all
 libs/observer/CMakeFiles/observer.dir/all: libs/modelResponse/CMakeFiles/modelResponse.dir/all
 	$(MAKE) $(MAKESILENT) -f libs/observer/CMakeFiles/observer.dir/build.make libs/observer/CMakeFiles/observer.dir/depend
 	$(MAKE) $(MAKESILENT) -f libs/observer/CMakeFiles/observer.dir/build.make libs/observer/CMakeFiles/observer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=7,8 "Built target observer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=9,10 "Built target observer"
 .PHONY : libs/observer/CMakeFiles/observer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -348,7 +382,7 @@ libs/modelResponse/CMakeFiles/modelResponse.dir/all: libs/racer/CMakeFiles/racer
 libs/modelResponse/CMakeFiles/modelResponse.dir/all: libs/utils/CMakeFiles/utils.dir/all
 	$(MAKE) $(MAKESILENT) -f libs/modelResponse/CMakeFiles/modelResponse.dir/build.make libs/modelResponse/CMakeFiles/modelResponse.dir/depend
 	$(MAKE) $(MAKESILENT) -f libs/modelResponse/CMakeFiles/modelResponse.dir/build.make libs/modelResponse/CMakeFiles/modelResponse.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=5,6 "Built target modelResponse"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/CMakeFiles --progress-num=7,8 "Built target modelResponse"
 .PHONY : libs/modelResponse/CMakeFiles/modelResponse.dir/all
 
 # Build rule for subdir invocation for target.

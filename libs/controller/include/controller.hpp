@@ -5,20 +5,24 @@
 #ifndef JET_RACING_LIBS_CONTROLLER_INCLUDE_CONTROLLER_HPP_
 #define JET_RACING_LIBS_CONTROLLER_INCLUDE_CONTROLLER_HPP_
 
+#include <SFML/Graphics.hpp>
 #include "model.hpp"
 
 class Controller : Observer {
  public:
     Controller(/*Server *server*/);
-    ~Controller();
+    ~Controller() = default;
 
-    void startGame(char *params);
+    void startGame();
+    void modelSettings();
 
  private:
-    void handleEvent(ModelResponse *response) override;
+    void handleEvent(ModelResponse &response) override;
     void handleButtonEvent();
 
-    Model *model;
+    std::shared_ptr<Model> model;
+    bool finishGame;
+    sf::Window window;
 };
 
 #endif //JET_RACING_LIBS_CONTROLLER_INCLUDE_CONTROLLER_HPP_

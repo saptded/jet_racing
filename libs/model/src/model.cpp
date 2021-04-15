@@ -4,42 +4,48 @@
 
 #include "model.hpp"
 
-Model::Model() {
+Model::Model() : racer(Racer()) {}
 
-}
+Model::~Model() = default;
 
-Model::~Model() {
-
-}
-
-void Model::updateModel() {
-
+void Model::updateModel(RotationDirection &&rotationDirection) {
+    updateMap();
+    updateRacers(rotationDirection);
 }
 
 void Model::updateMap() {
-
+    std::cout << "Map was updated" << std::endl;
 }
 
-void Model::updateRacers() {
-
+void Model::updateRacers(RotationDirection &rotationDirection) {
+    updateEnemies();
+    updateRacer(rotationDirection);
 }
 
-void Model::updateRacer() {
-
+void Model::updateRacer(RotationDirection &rotationDirection) {
+    racer.updateRacerRotation(rotationDirection);
 }
 
 void Model::updateEnemies() {
-
+    std::cout << "Get information from server" << std::endl;
 }
 
-void Model::notifyObserves(ModelResponse *response) {
-
+void Model::notifyObserves(ModelResponse &response) {
+    for (const auto& obs : observes) {
+        obs->handleEvent(response);
+    }
 }
 
-void Model::addObserver(Observer observer) {
-
+void Model::addObserver(Observer *observer) {
+    observes.push_back(observer);
 }
 
-void Model::removeObserver(Observer observer) {
-
+void Model::removeObserver(Observer *observer) {
+    observes.remove(observer);
 }
+void Model::setObserves(const std::vector<Observer*>& obs) {
+    for (auto o : obs) {
+        addObserver(o);
+    }
+}
+

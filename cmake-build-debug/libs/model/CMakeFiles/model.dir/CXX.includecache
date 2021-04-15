@@ -7,6 +7,32 @@
 #IncludeRegexTransform: 
 
 ../libs/model/include/model.hpp
+memory
+-
+list
+-
+racer.hpp
+../libs/model/include/racer.hpp
+observer.hpp
+../libs/model/include/observer.hpp
+
+../libs/modelResponse/include/modelResponse.hpp
+racer.hpp
+../libs/modelResponse/include/racer.hpp
+
+../libs/observer/include/observer.hpp
+modelResponse.hpp
+../libs/observer/include/modelResponse.hpp
+
+../libs/racer/include/racer.hpp
+utils.hpp
+../libs/racer/include/utils.hpp
+
+../libs/utils/include/utils.hpp
+vector
+-
+iostream
+-
 
 /home/saptded/Technopark/Project/jet_racing/libs/model/src/model.cpp
 model.hpp

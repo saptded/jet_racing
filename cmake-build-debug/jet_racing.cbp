@@ -5,7 +5,7 @@
 		<Option title="jet_racing"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\libs\;CMake Files\libs\model\;CMake Files\libs\racer\;CMake Files\libs\utils\;CMake Files\libs\observer\;CMake Files\libs\modelResponse\;CMake Files\libs\controller\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SFML\;CMake Files\libs\;CMake Files\libs\model\;CMake Files\libs\racer\;CMake Files\libs\utils\;CMake Files\libs\observer\;CMake Files\libs\modelResponse\;CMake Files\libs\controller\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/saptded/Technopark/Project/jet_racing/cmake-build-debug"/>
@@ -32,6 +32,62 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="main">
+				<Option output="/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/main" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/saptded/Technopark/Project/jet_racing/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/controller/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/model/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/racer/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/utils/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/observer/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/modelResponse/include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 main"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="main/fast">
+				<Option output="/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/main" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/saptded/Technopark/Project/jet_racing/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/controller/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/model/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/racer/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/utils/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/observer/include"/>
+					<Add directory="/home/saptded/Technopark/Project/jet_racing/libs/modelResponse/include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 main/fast"/>
 					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/saptded/Technopark/Project/jet_racing/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -362,8 +418,26 @@
 		<Unit filename="/home/saptded/Technopark/Project/jet_racing/libs/utils/src/utils.cpp">
 			<Option target="utils"/>
 		</Unit>
+		<Unit filename="/home/saptded/Technopark/Project/jet_racing/myMain.cpp">
+			<Option target="main"/>
+		</Unit>
 		<Unit filename="/home/saptded/Technopark/Project/jet_racing/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/saptded/Technopark/Project/jet_racing/../../../../../usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/saptded/Technopark/Project/jet_racing/../../../../../usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfigDependencies.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/saptded/Technopark/Project/jet_racing/../../../../../usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/saptded/Technopark/Project/jet_racing/../../../../../usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLSharedTargets-none.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/saptded/Technopark/Project/jet_racing/../../../../../usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLSharedTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SFML\"/>
 		</Unit>
 		<Unit filename="/home/saptded/Technopark/Project/jet_racing/libs/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\libs\"/>

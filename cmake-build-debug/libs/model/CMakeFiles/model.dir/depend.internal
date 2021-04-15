@@ -3,4 +3,8 @@
 
 libs/model/CMakeFiles/model.dir/src/model.cpp.o
  ../libs/model/include/model.hpp
+ ../libs/modelResponse/include/modelResponse.hpp
+ ../libs/observer/include/observer.hpp
+ ../libs/racer/include/racer.hpp
+ ../libs/utils/include/utils.hpp
  /home/saptded/Technopark/Project/jet_racing/libs/model/src/model.cpp
