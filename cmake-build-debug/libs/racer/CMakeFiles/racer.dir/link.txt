@@ -1,2 +1,0 @@
-/usr/bin/ar qc libracer.a CMakeFiles/racer.dir/src/racer.cpp.o
-/usr/bin/ranlib libracer.a

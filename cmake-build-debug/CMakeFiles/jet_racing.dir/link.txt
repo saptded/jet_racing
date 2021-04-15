@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/jet_racing.dir/libs/Model/include/model.cpp.o -o jet_racing 
