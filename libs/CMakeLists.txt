@@ -1,0 +1,6 @@
+add_subdirectory(model)
+add_subdirectory(racer)
+add_subdirectory(utils)
+add_subdirectory(observer)
+add_subdirectory(modelResponse)
+add_subdirectory(controller)
