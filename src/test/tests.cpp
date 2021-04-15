@@ -2,11 +2,20 @@
 // Created by dark0ghost on 14.04.2021.
 //
 #include <gtest/gtest.h>
+#include "../hpp/DataGame.hpp"
 
 import game_server;
-import clent
+import clent;
+
 
 TEST(stress_test, tests_input) {
+    auto server = GameServer();
+    server.start_server();
+
+    auto client = GameClient();
+    DataGame data = {{"status", "server"}};
+    auto res = client.send_data()
+    ASSERT_EQ(res.status, 200);
 
 }
 

@@ -9,6 +9,7 @@
 class DataGame{
 public:
     std::vector<Position> position{};
+    int status;
 
 
 

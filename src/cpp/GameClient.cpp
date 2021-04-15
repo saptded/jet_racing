@@ -8,7 +8,7 @@ export module client;
 #include "../hpp/AbstractClient.hpp"
 #include <string>
 
-export class GameServer: public AbstractClient{
+export class GameClient: public AbstractClient{
 
 public:
    void close() override{
