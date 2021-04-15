@@ -13,9 +13,11 @@ gcc: 11
 ## Use
 
 ```c++
-#include "library.hpp"
+import game_server;
 
 int main(void){
-    
+    auto server = GameServer();
+    server.start_server();
+    return 0;
 }
 ```

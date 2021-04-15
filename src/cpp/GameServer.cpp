@@ -19,6 +19,8 @@ public:
         this->port = port;
     }
 
+    GameServer() = default;
+
 
     void start_server()  override{
 

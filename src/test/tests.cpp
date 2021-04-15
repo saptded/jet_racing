@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 
 import game_server;
+import clent
 
 TEST(stress_test, tests_input) {
 
