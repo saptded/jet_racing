@@ -1,2 +1,21 @@
-# jet_racing
-Arcade multiplayer 2d jet-powered levitating car race using track geometry to speed up
+### WebServer
+
+
+## Depends
+````
+Boost: 1.65.1
+c++-standart: 20
+clang: 12
+gcc: 11
+````
+
+
+## Use
+
+```c++
+#include "library.hpp"
+
+int main(void){
+    
+}
+```

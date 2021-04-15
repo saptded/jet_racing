@@ -1,0 +1,46 @@
+name: Build
+
+on:  [pull_request, push]
+
+
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: .
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install gtest manually
+        run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp ./lib/libgtest*.a /usr/lib  && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: start linter
+        uses: docker://github/super-linter:v2.1.0
+      - name: start clang format
+        uses: HorstBaerbel/action-clang-format@1.4
+        with:
+          scandir: '.'
+          excludedirs: 'build'
+          extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
+          style: google
+      - name: covarage
+        uses: romeovs/lcov-reporter-action@v0.2.16
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
+      - name: configure
+        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-Werror" ..
+      - name: make
+        run: cd build && make
+      - name: Run Test
+        run: build/tests  --gtest_filter=* --gtest_color=no
+      - name: Run codecov
+        run: cd .. && bash <(curl -s https://codecov.io/bash) -t ${{secrets.CODECOV_TOKEN}}
