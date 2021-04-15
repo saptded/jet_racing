@@ -1,35 +1,12 @@
 #ifndef PROJECT_INCLUDE_ELEMENT_H_
 #define PROJECT_INCLUDE_ELEMENT_H_
 
-#include <cstddef>
+#include "AbstractElement.h"
 
-enum Type {
-    line,
-    arc,
-    propeller,
-    accelerator,
-    delayer,
-    portal,
-    finish
-};
-
-typedef struct Point {
-    size_t x;
-    size_t y;
-} Point;
-
-class Element {
+class Line : public AbstractElement {
  public:
-    Element() = default;
-    virtual ~Element() = default;
-    virtual Type getType() = 0;
- private:
-    Type type{};
-};
-
-class Line : public Element {
- public:
-    explicit Line(Point start, Point end) : start({start.x, start.y}), end({end.x, end.y}), type(Type::line) {}
+    explicit Line(Point start, Point end) :
+        start({start.x, start.y}), end({end.x, end.y}), type(Type::line) {}
     ~Line() override = default;
 
     Type getType() override;
@@ -40,10 +17,10 @@ class Line : public Element {
     Type type;
 };
 
-class Arc : public Element {
+class Arc : public AbstractElement {
  public:
     explicit Arc(Point start, Point end, Point center) :
-    start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), type(Type::arc) {}
+        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), type(Type::arc) {}
 
     ~Arc() override = default;
 
@@ -56,10 +33,10 @@ class Arc : public Element {
     Type type;
 };
 
-class Propeller : public Element {
+class Propeller : public AbstractElement {
  public:
-    explicit Propeller(Point start, Point end, Point center) :
-    start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), type(Type::propeller) {}
+    explicit Propeller(Point start, Point end, Point center, bool isDynamic) :
+        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::propeller) {}
 
     ~Propeller() override = default;
 
@@ -69,13 +46,14 @@ class Propeller : public Element {
     Point start;
     Point end;
     Point center;
+    bool isDynamic;
     Type type;
 };
 
-class Accelerator : public Element {
+class Accelerator : public AbstractElement {
  public:
-    explicit Accelerator(Point start, Point end, Point center) :
-        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), type(Type::accelerator) {}
+    explicit Accelerator(Point start, Point end, Point center, bool isDynamic) :
+        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::accelerator) {}
 
     ~Accelerator() override = default;
 
@@ -85,13 +63,14 @@ class Accelerator : public Element {
     Point start;
     Point end;
     Point center;
+    bool isDynamic;
     Type type;
 };
 
-class Delayer : public Element {
+class Delayer : public AbstractElement {
  public:
-    explicit Delayer(Point start, Point end, Point center) :
-        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), type(Type::delayer) {}
+    explicit Delayer(Point start, Point end, Point center, bool isDynamic) :
+        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::delayer) {}
 
     ~Delayer() override = default;
 
@@ -101,13 +80,14 @@ class Delayer : public Element {
     Point start;
     Point end;
     Point center;
+    bool isDynamic;
     Type type;
 };
 
-class Portal : public Element {
+class Portal : public AbstractElement {
  public:
-    explicit Portal(Point start, Point end, Point center) :
-        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), type(Type::portal) {}
+    explicit Portal(Point start, Point end, Point center, bool isDynamic) :
+        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::portal) {}
 
     ~Portal() override = default;
 
@@ -117,13 +97,14 @@ class Portal : public Element {
     Point start;
     Point end;
     Point center;
+    bool isDynamic;
     Type type;
 };
 
-class Finish : public Element {
+class Finish : public AbstractElement {
  public:
-    explicit Finish(Point start, Point end, Point center) :
-        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), type(Type::finish) {}
+    explicit Finish(Point start, Point end, Point center, bool isDynamic) :
+        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::finish) {}
 
     ~Finish() override = default;
 
@@ -133,8 +114,8 @@ class Finish : public Element {
     Point start;
     Point end;
     Point center;
+    bool isDynamic;
     Type type;
 };
-
 
 #endif  // PROJECT_INCLUDE_ELEMENT_H_

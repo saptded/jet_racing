@@ -1,4 +1,4 @@
-#include "../include/Element.h"
+#include "../include/AbstractElement.h"
 #include "../include/Map.h"
 
 #define FILENAME "../../map.txt"

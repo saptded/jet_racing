@@ -4,10 +4,10 @@
 #include <memory>
 #include <vector>
 
-#include "Element.h"
+#include "AbstractElement.h"
 
 typedef struct Block {
-    std::vector<std::shared_ptr<Element>> elements;
+    std::vector<std::shared_ptr<AbstractElement>> elements;
 } Block;
 
 

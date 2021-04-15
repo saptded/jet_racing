@@ -16,12 +16,14 @@ class Map {
     ~Map() = default;
 
     void parseFile(const std::string& filename);
-    void pushElementInBlock(Element& element);
-    void pushBlockIntoStage();
-    Element& getCollisionElement(Stage& stage, size_t pos_x, size_t pos_y);
+    void pushElementInBlock(AbstractElement& element);
+    void pushBlockInStage();
+    std::vector<std::shared_ptr<AbstractElement>> getDynamicElements(size_t pos_x, size_t pos_y);
+    AbstractElement& getCollisionElement(size_t pos_x, size_t pos_y);
     Stage& getCurrentStage(size_t pos_x, size_t pos_y);
  private:
-    std::vector<std::shared_ptr<Element>> elements;
+    std::vector<std::shared_ptr<AbstractElement>> elements;
+    std::vector<std::shared_ptr<AbstractElement>> dynamicElements;
     Block block;
     Stage stage;
 };
