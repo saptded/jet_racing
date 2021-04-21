@@ -1,10 +1,18 @@
 //
 // Created by dark0ghost on 14.04.2021.
 //
+module;
 export module game_server;
 
-
-#include "boost/asio.hpp"
+/**
+ * require c++20
+ */
+const struct timespec *__restrict __abstime;
+struct sigevent;
+const struct itimerspec *__utmr;
+/**
+ *
+ */
 #include "../hpp/AbstractServer.hpp"
 
 export class GameServer: public AbstractServer{
@@ -19,8 +27,6 @@ public:
         this->port = port;
     }
 
-    GameServer() = default;
-
 
     void start_server()  override{
 
@@ -28,7 +34,7 @@ public:
     void close()  override{
 
     }
-     void update_data_from_user() override {
+    void update_data_from_user() override {
 
     }
 

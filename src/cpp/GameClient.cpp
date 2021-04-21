@@ -19,6 +19,7 @@ public:
    }
    std::string get_data() override{
 
+       return std::string();
    }
 
 
