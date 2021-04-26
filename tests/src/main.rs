@@ -1,4 +1,9 @@
 
+
+extern "C"{
+
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

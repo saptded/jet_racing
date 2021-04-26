@@ -1,18 +1,7 @@
 //
 // Created by dark0ghost on 14.04.2021.
 //
-module;
-export module game_server;
 
-/**
- * require c++20
- */
-const struct timespec *__restrict __abstime;
-struct sigevent;
-const struct itimerspec *__utmr;
-/**
- *
- */
 #include "../hpp/AbstractServer.hpp"
 
 export class GameServer: public AbstractServer{
