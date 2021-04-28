@@ -6,7 +6,7 @@ set(CMAKE_CPP_COMPILER clang)
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
 
-set(CMAKE_CXX_FLAGS "-fmodules -std=c++20 -stdlib=libc++  -Wall  -Wpedantic -fpermissive --coverage  -fimplicit-modules -fimplicit-module-maps -v")
+set(CMAKE_CXX_FLAGS "-std=c++20 -stdlib=libc++  -Wall  -Wpedantic -fpermissive --coverage  -v")
 set(CMAKE_CXX_COMPILER /usr/bin/clang-12)
 include(ExternalProject)
 
@@ -21,7 +21,7 @@ ExternalProject_Add(
         INSTALL_COMMAND ""
 )
 
-FIND_PACKAGE(Boost 1.74.0 REQUIRED COMPONENTS system thread regex)
+FIND_PACKAGE(Boost 1.76.0 REQUIRED COMPONENTS system thread regex)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 link_libraries(gcov)

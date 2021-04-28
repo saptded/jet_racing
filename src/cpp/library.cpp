@@ -1,4 +1,3 @@
-export module libserver;
 #include  <iostream>
 
 int main(){
