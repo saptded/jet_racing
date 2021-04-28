@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 3.17)
 project(libserver)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CPP_COMPILER clang)
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
 
-set(CMAKE_CXX_FLAGS "-std=c++20 -stdlib=libc++  -Wall  -Wpedantic -fpermissive --coverage  -v")
-set(CMAKE_CXX_COMPILER /usr/bin/clang-12)
+set(CMAKE_CXX_FLAGS "-Wall  -Wpedantic -fpermissive --coverage  -v")
 include(ExternalProject)
 
 ExternalProject_Add(
@@ -38,7 +35,7 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
 
 
-add_library(libserver SHARED  src/hpp/library.hpp src/hpp/AbstractServer.hpp src/hpp/AbstractClient.hpp src/hpp/DataGame.hpp src/cpp/GameServer.cpp src/cpp/GameClient.cpp src/hpp/Position.h)
+add_library(libserver SHARED  src/hpp/library.hpp src/hpp/AbstractServer.hpp src/hpp/AbstractClient.hpp src/hpp/DataGame.hpp src/cpp/GameServer.cpp src/cpp/GameClient.cpp src/hpp/Position.h src/hpp/ServerDataConnection.h)
 
 add_executable(tests src/test/tests.cpp)
 add_executable(main src/cpp/library.cpp)

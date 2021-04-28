@@ -4,10 +4,14 @@
 
 #include "../hpp/AbstractServer.hpp"
 
-export class GameServer: public AbstractServer{
+class GameServer: public AbstractServer{
 
     size_t port = 40432;
     boost::asio::io_service io_service{};
+
+    std::string get_request(){
+
+    }
 
 
 public:

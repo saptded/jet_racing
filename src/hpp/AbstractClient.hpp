@@ -5,9 +5,11 @@
 #ifndef LIBSERVER_ABSTRACTCLIENT_H
 #define LIBSERVER_ABSTRACTCLIENT_H
 #include "DataGame.hpp"
-
+#include <cstring>
 
 class AbstractClient{
+protected:
+    virtual std::string get_request() = 0;
 public:
     virtual DataGame get_updates() = 0;
     virtual void close() = 0;

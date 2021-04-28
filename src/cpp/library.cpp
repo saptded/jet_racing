@@ -1,6 +1,8 @@
-#include  <iostream>
+#include <iostream>
+#include "GameClient.cpp"
+
 
 int main(){
-std::cout <<1;
+std::cout << 1;
 }
 
