@@ -1,0 +1,4 @@
+add_library(viewerSourceRacer STATIC src/viewerSourceRacer.cpp)
+
+target_include_directories(viewerSourceRacer PUBLIC include)
+target_link_libraries(viewerSourceRacer PUBLIC response utils)
