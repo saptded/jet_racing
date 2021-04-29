@@ -1,5 +1,5 @@
 #include <iostream>
-#include "GameClient.cpp"
+#include "GameServer.cpp"
 
 
 int main(){

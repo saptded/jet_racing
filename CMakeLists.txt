@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.17)
 project(libserver)
 
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CPP_COMPILER clang)
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
 
