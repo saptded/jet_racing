@@ -10,39 +10,32 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <cmath>
 
-#define PI 3.14159
 
-
-ViewerSourceRacer::ViewerSourceRacer(Point point) {
-    float length = fabs(points[1].x - points[0].x);
-    float height = fabs(points[0].y - points[1].y);
-    car.setSize(sf::Vector2f(length, height/2));
-    car.setOrigin(length,0);
-    car.setFillColor(sf::Color::Cyan);
-    car.setPosition(points[0].x, points[0].y);
-
-    fire.setSize(sf::Vector2f(length, height/2));
-    fire.setOrigin(length,-height/2);
-    fire.setPosition(points[0].x, points[0].y);
-    fire.setFillColor(sf::Color::Red);
-
-    zeroAngle = countAngle(points);
-}
-void ViewerSourceRacer::setPos(float x, float y) {
-    car.setPosition(x, y);
-    fire.setPosition(x, y);
-}
-void ViewerSourceRacer::setRot(Point * points) {
-    car.setRotation(countAngle(points) - zeroAngle);
-    fire.setRotation(countAngle(points) - zeroAngle);
-}
-float ViewerSourceRacer::countAngle(Point *p) {
-    float angl = atan2f(p[1].x-p[0].x, p[1].y-p[0].y) * 180 / PI;
-    if (angl < 0){
-        angl +=180;
+ViewerSourceRacer::ViewerSourceRacer(float width, float height, int id) {
+    car.setSize(sf::Vector2f(width/2, height));
+    car.setOrigin(width/4, height/2);
+    if(id == 0){
+        car.setFillColor(sf::Color::Cyan);
+    } else {
+        car.setFillColor(sf::Color::Blue);
     }
-    return angl;
+
+    fire.setSize(sf::Vector2f(width/2, height));
+    fire.setOrigin(-width/4,height/2);
+    fire.setFillColor(sf::Color::Red);
 }
+void ViewerSourceRacer::setPos(Point& pos) {
+    car.setPosition(pos.x, pos.y);
+    fire.setPosition(pos.x, pos.y);
+}
+void ViewerSourceRacer::setRot(float rotation) {
+    if (rotation < 0){
+        rotation+=180; // вроде такого недложно случится но если засунуть в sfml rotation<0, будет sigsegv
+    }
+    car.setRotation(rotation);
+    fire.setRotation(rotation);
+}
+
 void ViewerSourceRacer::drawRacer(sf::RenderWindow &window) {
     window.draw(fire);
     window.draw(car);

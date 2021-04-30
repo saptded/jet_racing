@@ -18,9 +18,10 @@ struct ResponseResults {
 };
 
 struct ResponseRacer {
-    using Response = ::Response<RACER>; // ждет игрока едущего смотрящего вверх по экрану (голубое - машина, красное - огонь)
+    using Response = ::Response<RACER>;
     Point point;
     Speed speed;
+    float rotation;
     int id; // прошу чтобы у собственного игрока было всегда 0, у остальных постоянно закрепленнное значение
     // это может быть избыточно, но пусть будет пока
 };
@@ -42,8 +43,8 @@ struct ResponseChangeStage {
 
 struct ResponseInit {
     using Response = ::Response<INIT>;
-    float height;
-    float width;
+    float widthRacer;
+    float heightRacer;
     std::vector<ResponseRacer> racers; // 0 по порядку - наш
     std::vector<abstractElement> stage; // первый stage - туннели, dynamic objects
     // событие отдельное думаю точно нужно, тк по нему будут вызываться конструкторы объектов

@@ -34,7 +34,8 @@ private:
 template <typename T, typename M>
 void Viewer::render (T& data, ::Response<INIT>, M& dist){
     consoleLogFirst("init in Viewer.h");
-    src.createRacers(data.racers, dist);
+    src.createStage(data.stage);
+    src.createRacers(data.racers, data.widthRacer, data.heightRacer, dist);
     src.drawAll(dist);
 }
 
@@ -47,9 +48,8 @@ void Viewer::render (T& data, ::Response<RACER>, M& dist){
 template <typename T, typename M>
 void Viewer::render (T& data, ::Response<ENEMIES>, M& dist){
     consoleLogFirst("enemies in Viewer.h");
-
     for (auto racer: data.enemies) {
-        src.updateRacer(racer.id, data);
+        src.updateRacer(racer.id, racer);
     }
 }
 

@@ -15,7 +15,7 @@
 class ViewerSource {
 public:
     void createStage(std::vector<abstractElement>& elements);
-    void createRacers(std::vector<ResponseRacer>&, sf::RenderWindow&);
+    void createRacers(std::vector<ResponseRacer>&, float width, float height, sf::RenderWindow&);
 
     void updateDynamics(ResponseDynamicObjects&);
     void updateRacer(int id, ResponseRacer&);
@@ -23,11 +23,11 @@ public:
     void drawAll(sf::RenderWindow&);
 
 private:
-    sf::View view;
+    //sf::View view;
     //void updateView();
 
     int stage = 0;
-    std::vector<sf::VertexArray> tunnels;
+    std::vector<sf::VertexArray> walls;
     //sf::RectangleShape racer;
     //std::vector<sf::RectangleShape> enemies;
     std::vector<sf::RectangleShape> dynamicObjects;
@@ -36,7 +36,8 @@ private:
     sf::VertexArray createArc(abstractElement&);
     sf::VertexArray createLine(abstractElement&);
 
-    float zeroAngle;
+    void drawStage(sf::RenderWindow& window);
+
 
     //    sf::Image carIm, fireIm;
     //    sf::Texture car, fire;

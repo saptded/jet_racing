@@ -14,14 +14,12 @@
 
 class ViewerSourceRacer {
 public:
-    explicit ViewerSourceRacer(Point* points);
-    void setPos(float x, float y);
-    void setRot(Point*);
+    explicit ViewerSourceRacer(float width, float height, int id);
+    void setPos(Point& position);
+    void setRot(float rotation);
     void drawRacer(sf::RenderWindow& window);
 private:
     sf::RectangleShape car;
     sf::RectangleShape fire;
-    float zeroAngle;
-    float countAngle(Point* points);
 };
 

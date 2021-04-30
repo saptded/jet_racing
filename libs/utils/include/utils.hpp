@@ -9,7 +9,7 @@
 
 typedef struct Point {
     float x;
-    float y; // поменяла на float тк sfml с ним работает. если нужно можешь спокойно менять обратно на int
+    float y;
 } Point;
 
 typedef struct Speed {
@@ -19,13 +19,13 @@ typedef struct Speed {
 
 enum RotationDirection { left, right, none };
 
-enum elementType {line, arc}; //....
+enum elementType {line, arcTime, arcNtime}; //....
 
 typedef struct abstractElement {
     elementType type;
     Point start;
     Point end;
-    Point center;
+    Point centre;
 } abstractElement;
 
 
