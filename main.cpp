@@ -50,8 +50,8 @@ int main() {
 
     auto stage = makeStage();
 
-    float height_car = 80;
-    float width_car_fire = 320;
+    float height_car = 24;
+    float width_car_fire = 80;
     Point point = {100, 100};
     Speed speed = {10, 10};
 
