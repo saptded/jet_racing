@@ -1,31 +1,10 @@
-//
-// Created by saptded on 15.04.2021.
-//
-
 #include "racer.hpp"
 
-Racer::Racer() :
-    rotation(0),
-    speed({0, 0}),
-    position(std::vector<Point>{{0, 0}, {1, 1}, {2, 2}}) {}
-
-void Racer::updateRacerPosition(const std::vector<Point> &newPoints) {
-
-}
-
-void Racer::updateRacerRotation(RotationDirection rotationDirection) {
-    if (rotationDirection == RotationDirection::left) {
-        std::cout << "LEFT" << std::endl;
-    }
-    if (rotationDirection == RotationDirection::right) {
-        std::cout << "RIGHT" << std::endl;
-    }
-    if (rotationDirection == RotationDirection::none) {
-        std::cout << "NONE" << std::endl;
-    }
-}
-
-void Racer::updateRacerSpeed(Speed addingSpeed) {
-
-}
-
+Racer::Racer(Point point)
+    : _width(50)
+    , _height(25)
+    , _rotation(0)
+    , _speed({0, 0})
+    , _rotationSpeed({0, 0})
+    , _position(std::pair<Point, Point>{point, {point.x + _width, point.y - _height}})
+    , _center({3 * point.x + _width / 4, point.y + _height / 2}) {}

@@ -1,42 +1,37 @@
+#pragma once
 
-//
-// Created by saptded on 15.04.2021.
-//
-
-#ifndef JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_
-#define JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_
-
-#include <memory>
 #include <list>
+#include <memory>
 
-#include "racer.hpp"
+#include "abstractModel.hpp"
 #include "observer.hpp"
+#include "racer.hpp"
+#include "racerController.hpp"
 
-class Model : Observable {
- public:
-    Model(/*Server *server*/);
+class Model : public AbstractModel {
+public:
+    Model();
     ~Model();
 
-    void updateModel(RotationDirection &&rotationDirection);
-    void setObserves(const std::vector<Observer*>& obs);
+    void updateModel(Rotation &rotation) override;
 
- private:
+private:
+    Rotation _currentCommand{};
+
+    void addObserver(Observer *observer) override;
+    void removeObserver(Observer *observer) override;
+    void notifyObserves(Response &response) override;
+
     void updateMap();
-    void updateRacers(RotationDirection &rotationDirection);
+    void updateRacers();
 
-    void updateRacer(RotationDirection &rotationDirection);
+    void updateRacer();
     void updateEnemies();
 
-    void notifyObserves(ModelResponse &response) override;
-    void addObserver(Observer *observer) override; // ?
-    void removeObserver(Observer *observer) override; // ?
+    Racer _racer;
+    RacerController _racerController;
+    //    Map *map;
+    //    Server *server
 
-
-    Racer racer;
-//    Map *map;
-//    Server *server
-
-    std::list<Observer*> observes;
+    std::list<Observer *> _observes;
 };
-
-#endif //JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_

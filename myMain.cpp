@@ -1,12 +1,7 @@
-//
-// Created by saptded on 15.04.2021.
-//
-
-#include "controller.hpp"
+#include "presenter.hpp"
 
 int main() {
-    Controller controller;
+    std::shared_ptr<Presenter> presenter = std::shared_ptr<Presenter>(Presenter::create());
 
-    controller.startGame();
-
+    presenter->run();
 }

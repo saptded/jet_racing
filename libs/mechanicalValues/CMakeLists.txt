@@ -1,0 +1,3 @@
+add_library(mechanicalValues STATIC src/mechanicalValues.cpp)
+
+target_include_directories(mechanicalValues PUBLIC include)

@@ -6,6 +6,5 @@ add_subdirectory(libs)
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-
 add_executable(main myMain.cpp)
-target_link_libraries(main PUBLIC controller model modelResponse observer racer utils sfml-graphics)
+target_link_libraries(main PUBLIC presenter model modelResponse observer racer mechanicalValues sfml-graphics)
