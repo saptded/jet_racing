@@ -7,7 +7,6 @@
 #include <boost/bind.hpp>
 #include <iostream>
 
-class iterator;
 
 class GameClient: public AbstractClient{
     boost::asio::ip::tcp::endpoint ep;
@@ -66,7 +65,7 @@ class GameClient: public AbstractClient{
             // automatically grow to accommodate the entire line. The growth may be
             // limited by passing a maximum size to the streambuf constructor.
             boost::asio::async_read_until(sock, response, "\r\n",
-                                          boost::bind(&client::handle_read_status_line, this,
+                                          boost::bind(&GameClient::handle_read_status_line, this,
                                                       boost::asio::placeholders::error));
         }
         else
@@ -101,7 +100,7 @@ class GameClient: public AbstractClient{
 
             // Read the response headers, which are terminated by a blank line.
             boost::asio::async_read_until(sock, response, "\r\n\r\n",
-                                          boost::bind(&client::handle_read_headers, this,
+                                          boost::bind(&GameClient::handle_read_headers, this,
                                                       boost::asio::placeholders::error));
         }
         else
@@ -128,7 +127,7 @@ class GameClient: public AbstractClient{
             // Start reading remaining data until EOF.
             boost::asio::async_read(socket, response,
                                     boost::asio::transfer_at_least(1),
-                                    boost::bind(&client::handle_read_content, this,
+                                    boost::bind(&GameClient::handle_read_content, this,
                                                 boost::asio::placeholders::error));
         }
         else
@@ -145,7 +144,7 @@ class GameClient: public AbstractClient{
             // Continue reading remaining data until EOF.
             boost::asio::async_read(sock, response,
                                     boost::asio::transfer_at_least(1),
-                                    boost::bind(handle_read_content, this,
+                                    boost::bind(&GameClient::handle_read_content, this,
                                                 boost::asio::placeholders::error));
         } else if (err != boost::asio::error::eof) {
             std::cout << "Error: " << err << "\n";
@@ -155,10 +154,6 @@ class GameClient: public AbstractClient{
     std::string get_request(){
         return "";
     }
-
-
-
-
 
 public:
     explicit GameClient(ServerDataConnection server_data_connection, boost::asio::io_service& io_service): sock(io_service){
