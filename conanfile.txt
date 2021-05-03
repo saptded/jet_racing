@@ -1,0 +1,7 @@
+[requires]
+restinio/0.6.7@stiffstream/stable
+
+
+[options]
+restinio:boost_libs=static
+restinio:fmt_header_only=true

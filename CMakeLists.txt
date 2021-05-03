@@ -7,7 +7,7 @@ set(CMAKE_CPP_COMPILER clang)
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
 
-set(CMAKE_CXX_FLAGS "-Wall  -Wpedantic -fpermissive --coverage  -v")
+set(CMAKE_CXX_FLAGS "-fpermissive --coverage  -v")
 include(ExternalProject)
 
 ExternalProject_Add(
@@ -21,7 +21,7 @@ ExternalProject_Add(
         INSTALL_COMMAND ""
 )
 
-FIND_PACKAGE(Boost 1.76.0 REQUIRED COMPONENTS system thread regex)
+FIND_PACKAGE(Boost 1.66.0 REQUIRED COMPONENTS system thread regex)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 link_libraries(gcov)
@@ -37,6 +37,10 @@ enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
 
+find_package(fmt REQUIRED)
+find_package(restinio REQUIRED)
+
+
 
 add_library(libserver SHARED  src/hpp/library.hpp src/hpp/AbstractServer.hpp src/hpp/AbstractClient.hpp src/hpp/DataGame.hpp src/cpp/GameServer.cpp src/cpp/GameClient.cpp src/hpp/Position.h src/hpp/ServerDataConnection.h)
 
@@ -46,4 +50,4 @@ add_executable(main src/cpp/library.cpp)
 add_test(tests tests)
 
 target_link_libraries(tests PRIVATE GTest::GTest GTest::Main)
-target_link_libraries(libserver ${Boost_LIBRARIES})
+target_link_libraries(libserver ${Boost_LIBRARIES} fmt::fmt restinio::restinio)
