@@ -2,3 +2,6 @@
 	path = /cppcoro
 	url = https://github.com/lewissbaker/cppcoro.git
 	branc = master
+[submodule "oatpp"]
+	path = oatpp
+	url = https://github.com/oatpp/oatpp.git
