@@ -8,14 +8,14 @@
 #include <cstring>
 #include <string>
 
-class AbstractClient{
+class GameClient{
 protected:
-    virtual std::string get_request() = 0;
-    virtual std::string get_data() = 0;
+     std::string get_request();
+     std::string get_data();
 public:
-    virtual DataGame get_updates() = 0;
-    virtual void close() = 0;
-    virtual void send_data(DataGame data) = 0;
+    DataGame get_updates();
+    void close();
+    void send_data(DataGame& data);
 
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H

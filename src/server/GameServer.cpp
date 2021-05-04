@@ -6,15 +6,19 @@
 #include <restinio/all.hpp>
 #include <utility>
 #include <Connection.hpp>
-#include "AbstractServer.hpp"
 
 
-class GameServer: public AbstractServer{
+
+class GameServer{
 
     using router_t = restinio::router::express_router_t<>;
 
     Connection connection;
- //   std::unique_ptr<router_t> router =  std::make_unique<router_t>();
+    std::unique_ptr<router_t> router =  std::make_unique<router_t>();
+
+    void route(){
+
+    }
 
 
 
@@ -24,13 +28,8 @@ public:
         route();
     }
 
-    void route(){
 
-
-    }
-
-
-    void start_server()  override{
+    void start() {
        /* restinio::run(
                 restinio::on_this_thread()
                         .address(connection.host)
@@ -39,13 +38,9 @@ public:
                         );*/
 
     }
-    void close()  override{
+    void close() {
 
     }
-    void update_data_from_user() override {
-
-    }
-
 
 };
 

@@ -1,0 +1,10 @@
+//
+// Created by dark0ghost on 05.04.2021.
+//
+
+
+#ifndef LIBSERVER_GAMESERVER_HPP
+#define LIBSERVER_GAMESERVER_HPP
+
+
+#endif //LIBSERVER_GAMESERVER_HPP
