@@ -8,5 +8,4 @@ public:
     virtual void updateModel(Rotation &rotation) = 0;
 
 private:
-
 };

@@ -8,6 +8,8 @@
 #include "racer.hpp"
 #include "racerController.hpp"
 
+struct AbstractElement;
+
 class Model : public AbstractModel {
 public:
     Model();
@@ -27,6 +29,8 @@ private:
 
     void updateRacer();
     void updateEnemies();
+
+    void onCollision(const AbstractElement& element);
 
     Racer _racer;
     RacerController _racerController;

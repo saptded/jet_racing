@@ -66,5 +66,3 @@ Presenter *Presenter::create() {
     static auto presenter = new Presenter;
     return presenter;
 }
-
-

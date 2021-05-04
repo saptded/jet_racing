@@ -2,34 +2,31 @@
 
 #include "racerController.hpp"
 
-void RacerController::changeRotation(const Rotation &_rotation, Racer &racer, const double extraAccelerate) const {  // SpeedX - left; SpeedY - right
+void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &racer, const double &extraAccelerate) const {  // SpeedX - left; SpeedY - right
     switch (_rotation) {
         case left:
-            if (racer._rotationSpeed.speedY > 2) {
-                racer._rotationSpeed.speedY = 1.5;
-            }
+            //            if (racer._rotationSpeed.speedY > _maxRotationSpeed - 3) {
+            //                racer._rotationSpeed.speedY = 2;
+            //            }
             if (racer._rotationSpeed.speedX < _maxRotationSpeed + extraAccelerate * 2) {
                 racer._rotationSpeed.speedX += _rotationAccelerate + extraAccelerate;
 
-                if (racer._rotationSpeed.speedY >= _rotationAccelerate) {
+                if (racer._rotationSpeed.speedY >= 0) {
                     racer._rotationSpeed.speedY -= _rotationAccelerate + extraAccelerate;
                 }
             }
-
             break;
         case right:
-            if (racer._rotationSpeed.speedX > 2) {
-                racer._rotationSpeed.speedX = 1.5;
-            }
-
+            //            if (racer._rotationSpeed.speedX > _maxRotationSpeed - 3) {
+            //                racer._rotationSpeed.speedX = 2;
+            //            }
             if (racer._rotationSpeed.speedY < _maxRotationSpeed + extraAccelerate * 2) {
                 racer._rotationSpeed.speedY += _rotationAccelerate + extraAccelerate;
-                if (racer._rotationSpeed.speedX >= _rotationAccelerate) {
+                if (racer._rotationSpeed.speedX >= 0) {
 
                     racer._rotationSpeed.speedX -= _rotationAccelerate;
                 }
             }
-
             break;
         case none:
 
@@ -41,8 +38,30 @@ void RacerController::changeRotation(const Rotation &_rotation, Racer &racer, co
             }
             break;
     }
+}
 
-    racer._rotation += racer._rotationSpeed.speedX - racer._rotationSpeed.speedY;
+void RacerController::changeSpeed(Racer &racer, const double &extraAccelerate) const {
+    racer._speed.speedX += cos((racer._rotation * M_PI) / 180) * (_speedAccelerate + extraAccelerate);
+
+    if (racer._speed.speedX > _maxSpeed) {
+        racer._speed.speedX -= _speedAccelerate;
+    }
+    if (racer._speed.speedX < (-_maxSpeed)) {
+        racer._speed.speedX += _speedAccelerate;
+    }
+
+    racer._speed.speedY -= sin((racer._rotation * M_PI) / 180) * (_speedAccelerate + extraAccelerate);
+
+    if (racer._speed.speedY > _maxSpeed) {
+        racer._speed.speedY -= _speedAccelerate;
+    }
+    if (racer._speed.speedY < (-_maxSpeed)) {
+        racer._speed.speedY += _speedAccelerate;
+    }
+}
+
+void RacerController::updateRotation(Racer &racer, const double &extraDegrees) {
+    racer._rotation += racer._rotationSpeed.speedX - racer._rotationSpeed.speedY + extraDegrees;
 
     double x1Old = racer._position.first.x;
     double y1Old = racer._position.first.y;
@@ -61,31 +80,29 @@ void RacerController::changeRotation(const Rotation &_rotation, Racer &racer, co
     racer._position.second.y = ((x2Old - xCenter) * sinAlfa + (y2Old - yCenter) * cosAlfa) + yCenter;
 }
 
-void RacerController::update(Racer &racer) const {
-    racer._position.first.x += racer._speed.speedX;
-    racer._position.first.y += racer._speed.speedY;
-    racer._position.second.x += racer._speed.speedX;
-    racer._position.second.y += racer._speed.speedY;
+void RacerController::updatePosition(Racer &racer, const Point &newCenterPosition) {
+    if (HAVE_NEW_POSITION(newCenterPosition)) {
+        double deltaX = racer._center.x - newCenterPosition.x;
+        double deltaY = racer._center.y - newCenterPosition.y;
 
-    racer._center.x += racer._speed.speedX;
-    racer._center.y += racer._speed.speedY;
+        racer._center.x = newCenterPosition.x;
+        racer._center.y = newCenterPosition.y;
 
-    racer._speed.speedX += cos((racer._rotation * M_PI) / 180) * _speedAccelerate;
+        racer._position.first.x += deltaX;
+        racer._position.first.y += deltaY;
+        racer._position.second.x += deltaX;
+        racer._position.second.y += deltaY;
 
-    if (racer._speed.speedX > _maxSpeed) {
-        racer._speed.speedX -= _speedAccelerate;
-    }
-    if (racer._speed.speedX < (-_maxSpeed)) {
-        racer._speed.speedX += _speedAccelerate;
-    }
+        racer._speed.speedX = 0;
+        racer._speed.speedY = 0;
+    } else {
+        racer._position.first.x += racer._speed.speedX;
+        racer._position.first.y += racer._speed.speedY;
+        racer._position.second.x += racer._speed.speedX;
+        racer._position.second.y += racer._speed.speedY;
 
-    racer._speed.speedY -= sin((racer._rotation * M_PI) / 180) * _speedAccelerate;
-
-    if (racer._speed.speedY > _maxSpeed) {
-        racer._speed.speedY -= _speedAccelerate;
-    }
-    if (racer._speed.speedY < (-_maxSpeed)) {
-        racer._speed.speedY += _speedAccelerate;
+        racer._center.x += racer._speed.speedX;
+        racer._center.y += racer._speed.speedY;
     }
 }
 

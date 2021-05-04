@@ -2,13 +2,10 @@
 
 #include "mechanicalValues.hpp"
 
-class Racer {
- public:
+struct Racer {
     explicit Racer(Point point = {0, 0});
     Racer(const Racer &racer) = default;
-
-    Racer& operator=(const Racer &racer) = default;
-
+    Racer &operator=(const Racer &racer) = default;
     ~Racer() = default;
 
     double _width;

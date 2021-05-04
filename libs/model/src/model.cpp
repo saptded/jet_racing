@@ -1,5 +1,26 @@
 #include "model.hpp"
 
+//enum Type {
+//    line,
+//};
+//
+//typedef struct AbstractElement {
+//    virtual void updateElement() = 0;
+//
+//    Type type{};
+//    Point start{};
+//    Point end{};
+//    Point center{};
+//    bool isDynamic{};
+//} AbstractElement;
+//
+//typedef struct Line : public AbstractElement {
+//    Line(Type type, Point, Point, Point, bool b) {}
+//    void updateElement() override{};
+//} Line;
+//
+//[[maybe_unused]] Line lineElem = {Type::line, {0, 50}, {1280, 50}, {640, 50}, false};
+
 Model::Model()
     : _racer({50, 50}) {}
 
@@ -30,11 +51,22 @@ void Model::updateRacers() {
 }
 
 void Model::updateRacer() {
-    _racerController.changeRotation(_currentCommand, _racer);
-    _racerController.update(_racer);
+    _racerController.changeRotationSpeed(_currentCommand, _racer);
+    _racerController.changeSpeed(_racer);
+
+    _racerController.updateRotation(_racer);
+    _racerController.updatePosition(_racer);
 
     Response response{Event::updateRacer, std::make_optional(&_racer)};
     notifyObserves(response);
 }
 
 void Model::updateEnemies() {}
+
+//void Model::onCollision(const AbstractElement &element) {
+//    switch (element.type) {
+//        case line:
+//
+//            break;
+//    }
+//}
