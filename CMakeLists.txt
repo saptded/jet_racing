@@ -23,7 +23,7 @@ enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
 
-
+add_subdirectory(src/lib)
 
 add_executable(tests src/test/tests.cpp)
 add_executable(main src/library.cpp)
