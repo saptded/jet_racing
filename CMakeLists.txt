@@ -26,8 +26,8 @@ include_directories(${GTEST_INCLUDE_DIR})
 FIND_PACKAGE(Boost 1.76.0 REQUIRED COMPONENTS system thread regex)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
-find_package(fmt REQUIRED)
-find_package(restinio REQUIRED)
+find_package(fmt )
+find_package(restinio )
 
 
 add_subdirectory(src/lib)
@@ -40,4 +40,4 @@ add_executable(main src/library.cpp)
 add_test(tests tests)
 
 target_link_libraries(main PRIVATE libserver libclient libdata_struct)
-target_link_libraries(tests PRIVATE GTest::GTest GTest::Main  libserver libclient libdata_struct fmt::fmt restinio::restinio)
+target_link_libraries(tests PRIVATE GTest::GTest GTest::Main  libserver libclient libdata_struct)

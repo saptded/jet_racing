@@ -3,12 +3,12 @@
 //
 #include <gtest/gtest.h>
 #include <DataGame.hpp>
-#include <GameClient.cpp>
+#include "GameClient.hpp"
 
 
 TEST(stress_test, tests_input) {
     auto client = GameClient();
-    DataGame data = DataGame(std::vector<Position>());
+    DataGame data = DataGame(std::vector<Position<int>>());
     client.send_data(data);
     ASSERT_EQ(data.status, 200);
 
