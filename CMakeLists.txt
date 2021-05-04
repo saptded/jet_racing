@@ -9,19 +9,6 @@ SET(Boost_USE_MULTITHREAD ON)
 set(CMAKE_CXX_FLAGS "-std=c++20  -fpermissive --coverage  -v  -Wall -Werror ")
 include(ExternalProject)
 
-ExternalProject_Add(
-        boost
-        PREFIX ${CMAKE_CURRENT_BINARY_DIR}/boost
-        URL "https://dl.bintray.com/boostorg/release/1.76.0/source/boost_1_76_0.tar.gz"
-        GIT_TAG "Boost_1_76_0"
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND bjam --with-regex toolset=gcc variant=debug link=static install --prefix=${CMAKE_CURRENT_BINARY_DIR}/boostinstall
-        BUILD_IN_SOURCE 1
-        INSTALL_COMMAND ""
-)
-
-FIND_PACKAGE(Boost 1.76.0 REQUIRED COMPONENTS system thread regex)
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 link_libraries(gcov)
 
@@ -36,26 +23,21 @@ enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
 
+FIND_PACKAGE(Boost 1.76.0 REQUIRED COMPONENTS system thread regex)
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+
 find_package(fmt REQUIRED)
 find_package(restinio REQUIRED)
 
 
-add_library(libclient SHARED src/client/GameClient.cpp src/client/GameClient.hpp)
-include_directories(libclient src/client)
+add_subdirectory(src/lib)
 
-add_library(libdata_struct INTERFACE src/data_structs/DataGame.hpp  src/data_structs/Position.hpp src/data_structs/Connection.hpp)
-include_directories(libdata_struct src/data_structs)
-
-add_library(libserver SHARED src/server/GameServer.cpp src/server/GameServer.hpp)
-include_directories(libserver src/server)
 
 add_executable(tests src/test/tests.cpp)
 add_executable(main src/library.cpp)
 
 
 add_test(tests tests)
-target_link_libraries(libserver  libdata_struct)
-target_link_libraries(libclient libdata_struct)
+
 target_link_libraries(main PRIVATE libserver libclient libdata_struct)
-target_link_libraries(tests PRIVATE GTest::GTest GTest::Main  libserver libclient libdata_struct)
-target_link_libraries(libserver ${Boost_LIBRARIES} fmt::fmt restinio::restinio)
+target_link_libraries(tests PRIVATE GTest::GTest GTest::Main  libserver libclient libdata_struct fmt::fmt restinio::restinio)

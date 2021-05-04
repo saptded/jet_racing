@@ -7,19 +7,20 @@
 #include "Position.hpp"
 #include <utility>
 #include <vector>
+
 struct DataGame{
-    DataGame(int i, std::vector<Position> vector): position(std::move(vector)) {
-         status = i;
+    DataGame(int i, std::vector<Position<int>> vector): position(std::move(vector)) {
+        status = i;
     }
 
 
     DataGame()  = default;
 
-    DataGame(std::vector<Position> vector): position(std::move(vector)) {
+    explicit DataGame(std::vector<Position<int>> vector): position(std::move(vector)) {
 
     }
 
-    std::vector<Position> position{};
+    std::vector<Position<int>> position{};
     int status{};
 
 

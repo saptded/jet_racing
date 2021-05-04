@@ -1,8 +1,6 @@
-#include "server/GameServer.cpp"
+#include<GameServer.hpp>
+#include <GameClient.hpp>
 
+int main(){
 
-int main() {
-    auto connection = Connection{8089};//, "localhost"};
-    GameServer server(connection);
 }
-

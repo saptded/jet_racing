@@ -4,7 +4,8 @@
 #pragma once
 #ifndef LIBSERVER_CONNECTION_HPP
 #define LIBSERVER_CONNECTION_HPP
-#include <cstring>
+
+#include <string>
 
 struct Connection {
     int port = 80;

@@ -2,9 +2,9 @@
 // Created by dark0ghost on 15.04.2021.
 //
 
-#include <boost/bind.hpp>
-#include <iostream>
 #include <DataGame.hpp>
+#include <iostream>
+#include <vector>
 
 
 class GameClient{
@@ -35,7 +35,7 @@ public:
 
     DataGame get_updates(){
 
-        return DataGame(200,std::vector<Position>());
+        return DataGame(200,std::vector<Position<int>>());
     }
 
 
