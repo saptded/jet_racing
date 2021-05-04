@@ -7,7 +7,7 @@
 #define LIBSERVER_ABSTRACTSERVER_HPP
 
 
-#include "Connection.hpp"
+#include "../connection_data/Connection.hpp"
 
 class AbstractServer{
 public:

@@ -5,7 +5,7 @@
 #pragma once
 #include <restinio/all.hpp>
 #include <utility>
-#include "../hpp/AbstractServer.hpp"
+#include "AbstractServer.hpp"
 
 
 class GameServer: public AbstractServer{

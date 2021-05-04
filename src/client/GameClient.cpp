@@ -1,7 +1,7 @@
 //
 // Created by dark0ghost on 15.04.2021.
 //
-#include "../hpp/AbstractClient.hpp"
+#include "AbstractClient.hpp"
 #include "../hpp/ServerDataConnection.h"
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>

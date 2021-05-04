@@ -4,7 +4,7 @@
 
 #ifndef LIBSERVER_ABSTRACTCLIENT_H
 #define LIBSERVER_ABSTRACTCLIENT_H
-#include "DataGame.hpp"
+#include "../data_structs/DataGame.hpp"
 #include <cstring>
 
 class AbstractClient{

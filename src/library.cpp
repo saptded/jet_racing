@@ -1,4 +1,4 @@
-#include "GameServer.cpp"
+#include "server/GameServer.cpp"
 
 
 int main() {

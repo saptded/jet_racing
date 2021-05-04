@@ -2,7 +2,7 @@
 // Created by dark0ghost on 14.04.2021.
 //
 #include <gtest/gtest.h>
-#include "../hpp/DataGame.hpp"
+#include "../data_structs/DataGame.hpp"
 
 import game_server;
 import clent;

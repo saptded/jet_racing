@@ -6,8 +6,7 @@
 #define LIBSERVER_DATAGAME_HPP
 #include "Position.h"
 #include <vector>
-class DataGame{
-public:
+struct DataGame{
     std::vector<Position> position{};
     int status;
 

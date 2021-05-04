@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
 
-set(CMAKE_CXX_FLAGS "-std=c++20  -fpermissive --coverage  -v  -Wall ")
+set(CMAKE_CXX_FLAGS "-std=c++20  -fpermissive --coverage  -v  -Wall -Werror ")
 include(ExternalProject)
 
 ExternalProject_Add(
@@ -20,7 +20,7 @@ ExternalProject_Add(
         INSTALL_COMMAND ""
 )
 
-FIND_PACKAGE(Boost 1.66.0 REQUIRED COMPONENTS system thread regex)
+FIND_PACKAGE(Boost 1.76.0 REQUIRED COMPONENTS system thread regex)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 link_libraries(gcov)
@@ -41,10 +41,10 @@ find_package(restinio REQUIRED)
 
 
 
-add_library(libserver SHARED  src/hpp/library.hpp src/hpp/AbstractServer.hpp src/hpp/AbstractClient.hpp src/hpp/DataGame.hpp src/cpp/GameServer.cpp src/cpp/GameClient.cpp src/hpp/Position.h src/hpp/ServerDataConnection.h src/hpp/Connection.hpp)
+add_library(libserver SHARED src/server/AbstractServer.hpp src/client/AbstractClient.hpp src/data_structs/DataGame.hpp src/server/GameServer.cpp src/client/GameClient.cpp src/data_structs/Position.h src/data_structs/Connection.hpp)
 
 add_executable(tests src/test/tests.cpp)
-add_executable(main src/cpp/library.cpp)
+add_executable(main src/library.cpp)
 
 add_test(tests tests)
 
