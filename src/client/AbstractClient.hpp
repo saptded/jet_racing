@@ -4,17 +4,18 @@
 
 #ifndef LIBSERVER_ABSTRACTCLIENT_H
 #define LIBSERVER_ABSTRACTCLIENT_H
-#include "../data_structs/DataGame.hpp"
+#include "DataGame.hpp"
 #include <cstring>
+#include <string>
 
 class AbstractClient{
 protected:
     virtual std::string get_request() = 0;
+    virtual std::string get_data() = 0;
 public:
     virtual DataGame get_updates() = 0;
     virtual void close() = 0;
     virtual void send_data(DataGame data) = 0;
-    virtual std::string get_data() = 0;
 
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H

@@ -2,9 +2,10 @@
 // Created by dark0ghost on 14.04.2021.
 //
 
-#pragma once
+
 #include <restinio/all.hpp>
 #include <utility>
+#include <Connection.hpp>
 #include "AbstractServer.hpp"
 
 

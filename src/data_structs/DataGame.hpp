@@ -4,7 +4,7 @@
 
 #ifndef LIBSERVER_DATAGAME_HPP
 #define LIBSERVER_DATAGAME_HPP
-#include "Position.h"
+#include "Position.hpp"
 #include <vector>
 struct DataGame{
     std::vector<Position> position{};

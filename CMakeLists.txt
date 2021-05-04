@@ -40,13 +40,22 @@ find_package(fmt REQUIRED)
 find_package(restinio REQUIRED)
 
 
+add_library(libclient SHARED src/client/GameClient.cpp src/client/AbstractClient.hpp)
+include_directories(libclient src/client)
 
-add_library(libserver SHARED src/server/AbstractServer.hpp src/client/AbstractClient.hpp src/data_structs/DataGame.hpp src/server/GameServer.cpp src/client/GameClient.cpp src/data_structs/Position.h src/data_structs/Connection.hpp)
+add_library(libdata_struct INTERFACE src/data_structs/DataGame.hpp  src/data_structs/Position.hpp src/data_structs/Connection.hpp)
+include_directories(libdata_struct src/data_structs)
+
+add_library(libserver SHARED src/server/AbstractServer.hpp  src/server/GameServer.cpp)
+include_directories(libserver src/server)
 
 add_executable(tests src/test/tests.cpp)
 add_executable(main src/library.cpp)
 
-add_test(tests tests)
 
+add_test(tests tests)
+target_link_libraries(libserver  libdata_struct)
+target_link_libraries(libclient libdata_struct)
+target_link_libraries(main PRIVATE libserver libclient libdata_struct)
 target_link_libraries(tests PRIVATE GTest::GTest GTest::Main)
 target_link_libraries(libserver ${Boost_LIBRARIES} fmt::fmt restinio::restinio)
