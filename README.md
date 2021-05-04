@@ -10,7 +10,7 @@ gcc: 10
 ````
 
 
-## Use
+## Use server
 
 ```cpp
 import game_server;
@@ -18,6 +18,19 @@ import game_server;
 int main(void){
     auto server = GameServer();
     server.start();
+    return 0;
+}
+```
+
+
+## Use server
+
+```cpp
+#include <GameClient.hpp>;
+
+int main(void){
+    auto client = GameServer();
+    client.send_data();
     return 0;
 }
 ```
