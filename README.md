@@ -1,4 +1,4 @@
-### WebServer
+## WebServer
 
 
 ## Depends
@@ -12,7 +12,7 @@ gcc: 10
 
 ## Use
 
-```c++
+```cpp
 import game_server;
 
 int main(void){
