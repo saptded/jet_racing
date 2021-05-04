@@ -3,41 +3,28 @@
 //
 
 #include <DataGame.hpp>
-#include <iostream>
 #include <vector>
+#include <GameClient.hpp>
 
 
-class GameClient{
 
-    std::string get_request() {
-        return "";
-    }
+DataGame GameClient::get_updates() {
+    return DataGame(200,std::vector<Position<int>>());
+}
 
-    std::string get_data() {
+void GameClient::close() {
 
-        return std::string();
-    }
+}
 
+void GameClient::send_data(DataGame &data) {
+    data.status = 200;
 
-public:
-    explicit GameClient()= default;
+}
 
-   void close() {
+std::string GameClient::get_request() {
+    return std::string();
+}
 
-   }
-   void send_data(DataGame& data) {
-      for(auto i : data.position)
-          std::cout<< i.x <<"\n";
-
-      data.status = 200;
-
-   }
-
-    DataGame get_updates(){
-
-        return DataGame(200,std::vector<Position<int>>());
-    }
-
-
-};
-
+std::string GameClient::get_data() {
+    return std::string();
+}

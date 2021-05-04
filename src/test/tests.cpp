@@ -2,7 +2,6 @@
 // Created by dark0ghost on 14.04.2021.
 //
 #include <gtest/gtest.h>
-#include <DataGame.hpp>
 #include "GameClient.hpp"
 
 
