@@ -23,14 +23,6 @@ enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
 
-FIND_PACKAGE(Boost 1.76.0 REQUIRED COMPONENTS system thread regex)
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-
-find_package(fmt )
-find_package(restinio )
-
-
-add_subdirectory(src/lib)
 
 
 add_executable(tests src/test/tests.cpp)
