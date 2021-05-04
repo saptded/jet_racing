@@ -1,8 +1,8 @@
-#include <iostream>
 #include "GameServer.cpp"
 
 
-int main(){
-std::cout << 1;
+int main() {
+    auto connection = Connection{8089};//, "localhost"};
+    GameServer server(connection);
 }
 

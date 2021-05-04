@@ -3,10 +3,11 @@
 //
 
 
-#include  <cstdlib>
 #ifndef LIBSERVER_ABSTRACTSERVER_HPP
 #define LIBSERVER_ABSTRACTSERVER_HPP
 
+
+#include "Connection.hpp"
 
 class AbstractServer{
 public:
@@ -14,8 +15,7 @@ public:
     virtual void start_server() = 0;
     virtual void close() = 0;
     virtual void update_data_from_user() = 0;
-protected:
-    size_t port = 0;
+
 
 };
 #endif //LIBSERVER_ABSTRACTSERVER_HPP
