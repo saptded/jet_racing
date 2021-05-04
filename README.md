@@ -23,7 +23,7 @@ int main(void){
 ```
 
 
-## Use server
+## Use client
 
 ```cpp
 #include <GameClient.hpp>;
