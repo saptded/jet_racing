@@ -7,11 +7,7 @@
 #define LIBSERVER_GAMESERVER_HPP
 
 #include <Connection.hpp>
-
-class run_on_this_thread_settings_t;
-
-
-typedef void(run)(run_on_this_thread_settings_t &&settings);
+#include <interface_for_high_level_api.h>
 
 
 class GameServer{
