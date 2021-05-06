@@ -1,6 +1,36 @@
 #include "presenter.hpp"
 #include "model.hpp"
 #include <SFML/Graphics.hpp>
+#include <complex>
+
+enum Type {
+    line,
+};
+
+typedef struct AbstractElement {
+    AbstractElement(Type type, Point start, Point end, Point center, bool isDynamic)
+        : type(type)
+        , start(start)
+        , end(end)
+        , center(center)
+        , isDynamic(isDynamic) {}
+
+    Type type;
+    Point start;
+    Point end;
+    Point center;
+    bool isDynamic;
+
+    virtual void updateElement() {};
+} AbstractElement;
+
+typedef struct Line : public AbstractElement {
+    Line(Type type, Point start, Point end, Point center, bool isDynamic)
+        : AbstractElement(type, start, end, center, isDynamic) {}
+    void updateElement() override{};
+} Line;
+
+[[maybe_unused]] Line obj1(Type::line, {400, 400}, {1000, 400}, {640, 50}, false);
 
 Presenter::Presenter()
     : _finishGame(false)
@@ -31,18 +61,44 @@ void Presenter::handleEvent(Response &response) {
     auto height = static_cast<float>(response._racer.value()->_height);
     auto width = static_cast<float>(response._racer.value()->_width);
 
+    sf::CircleShape point1(4);
+    point1.setOrigin(4, 4);
+    point1.setPosition(response._racer.value()->_position.first.x, response._racer.value()->_position.first.y);
+    point1.setFillColor(sf::Color::Magenta);
+
+    sf::CircleShape point2(4);
+    point2.setOrigin(4, 4);
+    point2.setPosition(response._racer.value()->_position.second.x, response._racer.value()->_position.second.y);
+    point2.setFillColor(sf::Color::Red);
+
+    sf::CircleShape center(4);
+    center.setOrigin(4, 4);
+    center.setPosition(response._racer.value()->_center.x, response._racer.value()->_center.y);
+    center.setFillColor(sf::Color::Black);
+
     sf::RectangleShape racer(sf::Vector2f(width, height));
     racer.setOrigin(3 * width / 4, height / 2);
     racer.move(static_cast<float>(response._racer.value()->_center.x), static_cast<float>(response._racer.value()->_center.y));
     racer.rotate(-static_cast<float>(response._racer.value()->_rotation));
     racer.setFillColor(sf::Color::Cyan);
 
+
+    sf::RectangleShape lin(sf::Vector2f(1280, 1));
+    lin.setPosition(obj1.start.x, obj1.start.y);
+    double a = std::atan((obj1.end.y - obj1.start.y) / (obj1.end.x - obj1.start.x));
+    lin.rotate(a * 180 / M_PI);
+    lin.setFillColor(sf::Color::Red);
+
     _window.clear();
     _window.draw(racer);
+    _window.draw(lin);
+    _window.draw(point1);
+    _window.draw(point2);
+    _window.draw(center);
     _window.display();
 }
 
-void Presenter::handleButtonEvent() {
+void Presenter::handleButtonEvent() { // TODO сделай из этого интерфейс в который передашь функтор-реакцию (updateModel)
     sf::Event buttonEvent{};
     Rotation currentCommand = Rotation::none;
 
