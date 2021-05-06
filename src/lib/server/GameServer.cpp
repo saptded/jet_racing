@@ -4,20 +4,22 @@
 
 
 #include <GameServer.hpp>
-#include <algorithm>
-#include <Connection.hpp>
-#include <iostream>
 
 
-GameServer::GameServer(Connection connection1) : connection(std::move(connection1)) {
-        route();
-    }
-void GameServer::start(run runs) {
-    // runs();
+[[maybe_unused]] void GameServer::close() {
 }
 
-void GameServer::close() {
-    std::cout << 1;
+[[maybe_unused]] auto GameServer::addUser(auto req, auto params) {
+    const auto qp = parse_query(req->header().query());
+
+}
+
+[[maybe_unused]] auto GameServer::setNewPosition(auto req, auto params) {
+    return nullptr;
+}
+
+[[maybe_unused]] auto GameServer::sendNewPosition(auto req, auto params) {
+    return nullptr;
 }
 
 

@@ -4,10 +4,10 @@
 
 #ifndef LIBSERVER_POSITION_HPP
 #define LIBSERVER_POSITION_HPP
-template<class T>
-
+template<typename T>
 struct Position{
     T x{};
     T y{};
+    T z{};
 };
 #endif //LIBSERVER_POSITION_HPP

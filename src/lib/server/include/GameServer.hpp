@@ -8,17 +8,24 @@
 
 #include <Connection.hpp>
 #include <interface_for_high_level_api.h>
-
+#include <Position.hpp>
 
 class GameServer{
+
+    std::vector<std::pair<std::string,Position<int>>> userBuffer;
+
     Connection connection;
     void route(){
 
     }
 public:
-    explicit GameServer(Connection connection1);
-    void start(run);
-    void close();
+    [[maybe_unused]] auto addUser(auto req, auto params);
+
+    [[maybe_unused]] auto setNewPosition(auto req, auto params);
+
+    [[maybe_unused]] auto sendNewPosition(auto req, auto params);
+
+    [[maybe_unused]] void close();
 };
 
 #endif //LIBSERVER_GAMESERVER_HPP

@@ -9,7 +9,7 @@
 
 
 DataGame GameClient::get_updates() {
-    return DataGame(200,std::vector<Position<int>>());
+    return DataGame(200,std::vector<std::pair<std::string,Position<int>>>());
 }
 
 void GameClient::close() {

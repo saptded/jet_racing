@@ -7,20 +7,23 @@
 #include "Position.hpp"
 #include <utility>
 #include <vector>
+#include <string>
+
+using UserPosition = std::pair<std::string, Position<int>>;
 
 struct DataGame{
-    DataGame(int i, std::vector<Position<int>> vector): position(std::move(vector)) {
+    DataGame(int i, std::vector<UserPosition> vector): position(std::move(vector)) {
         status = i;
     }
 
 
     DataGame()  = default;
 
-    explicit DataGame(std::vector<Position<int>> vector): position(std::move(vector)) {
+    explicit DataGame(std::vector<UserPosition> vector): position(std::move(vector)) {
 
     }
 
-    std::vector<Position<int>> position{};
+    std::vector<UserPosition> position{};
     int status{};
 
 
