@@ -10,12 +10,12 @@
 
 class GameClient{
 protected:
-     std::string get_request();
-     std::string get_data();
+     std::string getRequest();
+     std::string getData();
 public:
-    DataGame get_updates();
+    DataGame getUpdates();
     void close();
-    void send_data(DataGame& data);
+    void sendData(DataGame& data);
 
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H

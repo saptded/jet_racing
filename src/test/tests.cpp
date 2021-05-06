@@ -9,7 +9,7 @@
 TEST(stress_test, tests_input) {
     auto client = GameClient();
     DataGame data = DataGame(std::vector<std::pair<std::string,Position>>());
-    client.send_data(data);
+    client.sendData(data);
     ASSERT_EQ(data.status, 200);
 
 }

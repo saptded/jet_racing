@@ -39,7 +39,7 @@ return 0;
 
 int main(void){
     auto client = GameServer();
-    client.send_data();
+    client.sendData();
     return 0;
 }
 ```

@@ -8,7 +8,7 @@
 
 
 
-DataGame GameClient::get_updates() {
+DataGame GameClient::getUpdates() {
     return DataGame(200,std::vector<UserPosition>());
 }
 
@@ -16,15 +16,15 @@ void GameClient::close() {
 
 }
 
-void GameClient::send_data(DataGame &data) {
+void GameClient::sendData(DataGame &data) {
     data.status = 200;
 
 }
 
-std::string GameClient::get_request() {
+std::string GameClient::getRequest() {
     return std::string();
 }
 
-std::string GameClient::get_data() {
+std::string GameClient::getData() {
     return std::string();
 }
