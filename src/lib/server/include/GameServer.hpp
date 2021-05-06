@@ -9,21 +9,52 @@
 #include <Connection.hpp>
 #include <interface_for_high_level_api.h>
 #include <Position.hpp>
+#include <iostream>
 
-class GameServer{
+class [[maybe_unused]] GameServer{
 
-    std::vector<std::pair<std::string,Position<int>>> userBuffer;
+    std::vector<UserPosition> userBuffer;
 
-    Connection connection;
-    void route(){
+    [[maybe_unused]] Connection connection;
+
+public:
+    [[maybe_unused]] auto addUser(auto req, auto params) {
+        const auto qp = parse_query(req->header().query());
+        std::string username = std::string(qp["username"]);
+        userBuffer.emplace_back(std::pair(username, Position{"0","0", "0"}));
+        return req->create_response().set_body("{'status': 'ok'}}").done();
+    }
+
+    [[maybe_unused]] auto setNewPosition(auto req, auto params){
+        const auto qp = parse_query(req->header().query());
+        std::string username = std::string(qp["username"]);
+        std::string x = std::string(qp["x"]);
+        std::string y = std::string(qp["x"]);
+        std::string z = std::string(qp["z"]);
+        for (auto& i: userBuffer) {
+            if(i.first == username){
+                userBuffer.emplace_back(std::pair(username, Position{x,y, z}));
+                return req->create_response().set_body("{'status': 'ok'}}").done();
+            }
+        }
+        return req->create_response().set_body("{'status': 'fail'}}").done();
+    }
+
+
+    [[maybe_unused]] auto sendNewPosition(auto req, auto params) {
+        std::string response = "{";
+        for (auto j = 0; j < userBuffer.size(); j++) {
+            const auto &i = userBuffer[j];
+            if (j != userBuffer.size())
+                response += "'" + i.first + "': { 'x': {" + i.second.x + "}" + "," + "'y': {" + i.second.y + "}" + "," +
+                            "'z': {" + i.second.z + "}" + "" + "},";
+            response += "'" + i.first + "': { 'x': {" + i.second.x + "}" + "," + "'y': {" + i.second.y + "}" + "," +
+                        "'z': {" + i.second.z + "}" + "" + "}";
+        }
+        response += '}';
+        return req->create_response().set_body(response).done();
 
     }
-public:
-    [[maybe_unused]] auto addUser(auto req, auto params);
-
-    [[maybe_unused]] auto setNewPosition(auto req, auto params);
-
-    [[maybe_unused]] auto sendNewPosition(auto req, auto params);
 
     [[maybe_unused]] void close();
 };

@@ -3,15 +3,17 @@
 //
 #include <gtest/gtest.h>
 #include "GameClient.hpp"
+#include <GameServer.hpp>
 
 
 TEST(stress_test, tests_input) {
     auto client = GameClient();
-    DataGame data = DataGame(std::vector<std::pair<std::string,Position<int>>>());
+    DataGame data = DataGame(std::vector<std::pair<std::string,Position>>());
     client.send_data(data);
     ASSERT_EQ(data.status, 200);
 
 }
+
 
 int main(int argc, char **argv){
     ::testing::GTEST_FLAG(catch_exceptions) = true;

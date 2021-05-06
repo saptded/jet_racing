@@ -9,7 +9,6 @@
 #include <vector>
 #include <string>
 
-using UserPosition = std::pair<std::string, Position<int>>;
 
 struct DataGame{
     DataGame(int i, std::vector<UserPosition> vector): position(std::move(vector)) {

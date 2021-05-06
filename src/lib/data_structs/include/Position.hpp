@@ -4,10 +4,12 @@
 
 #ifndef LIBSERVER_POSITION_HPP
 #define LIBSERVER_POSITION_HPP
-template<typename T>
+#include <string>
 struct Position{
-    T x{};
-    T y{};
-    T z{};
+    std::string x{};
+    std::string y{};
+    std::string z{};
 };
+
+using UserPosition = std::pair<std::string, Position>;
 #endif //LIBSERVER_POSITION_HPP
