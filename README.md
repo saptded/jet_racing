@@ -13,12 +13,21 @@ gcc: 10
 ## Use server
 
 ```cpp
-import game_server;
+#include <GameServer.hpp>
 
 int main(void){
-    auto server = GameServer();
-    server.start();
-    return 0;
+  auto router = std::make_unique<router::express_router_t<>>();
+  auto server = GameServer();
+  router->http_get(R"(/register))",server.addUser);
+
+  
+  restinio::run(
+    restinio::on_this_thread()
+               .port(8081)
+               .address("localhost")
+               .request_handler(router)
+               );
+return 0;
 }
 ```
 
