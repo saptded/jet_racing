@@ -10,6 +10,10 @@
     userBuffer.clear();
 }
 
+auto GameServer::ping(auto req, auto params) {
+    return req->create_response().set_body("{'status': 200}").done();
+}
+
 
 
 

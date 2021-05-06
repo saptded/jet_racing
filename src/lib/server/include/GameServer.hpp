@@ -18,6 +18,7 @@ class [[maybe_unused]] GameServer{
     [[maybe_unused]] Connection connection;
 
 public:
+    auto ping(auto req, auto params);
     [[maybe_unused]] auto addUser(auto req, auto params) {
         const auto qp = parse_query(req->header().query());
         std::string username = std::string(qp["username"]);
