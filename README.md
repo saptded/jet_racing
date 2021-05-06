@@ -33,7 +33,7 @@ return 0;
 
 
 ## Use client
-
+wrapper - https://github.com/whoshuu/cpr
 ```cpp
 #include <GameClient.hpp>;
 

@@ -5,6 +5,7 @@
 #ifndef LIBSERVER_CONNECTION_HPP
 #define LIBSERVER_CONNECTION_HPP
 
+
 #include <string>
 
 struct Connection {

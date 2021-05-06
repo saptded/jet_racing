@@ -7,9 +7,9 @@
 #define LIBSERVER_GAMESERVER_HPP
 
 #include <Connection.hpp>
-#include <interface_for_high_level_api.h>
 #include <Position.hpp>
 #include <iostream>
+#include <vector>
 
 class [[maybe_unused]] GameServer{
 

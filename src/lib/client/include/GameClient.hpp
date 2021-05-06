@@ -7,15 +7,29 @@
 #include "DataGame.hpp"
 #include <cstring>
 #include <string>
+#include <utility>
+#include <curl_intarface.h>
+#include <Connection.hpp>
 
+template<typename... Ts>
 class GameClient{
-protected:
-     std::string getRequest();
-     std::string getData();
+     Connection connection;
+     Response (*getRequest)(Ts&&... ts);
+
 public:
+    explicit GameClient(Connection connection1, Response (get)(Ts&&... ts)){
+        connection = std::move(connection1);
+        getRequest = &get;
+    }
+    explicit GameClient(Response (get)(Ts&&... ts)){
+        getRequest = &get;
+        connection = Connection();
+    }
+
     DataGame getUpdates();
     void close();
     void sendData(DataGame& data);
 
+    std::vector<std::string> searchOpenSession(std::vector<std::string> ipList, std::string port);
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H
