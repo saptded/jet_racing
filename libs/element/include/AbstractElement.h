@@ -20,12 +20,16 @@ typedef struct Point {
 
 class AbstractElement {
  public:
-    AbstractElement() = default;
+    AbstractElement(Point start, Point end, Point center) : _start({start.x, start.y}), _end({end.x, end.y}), _center({center.x, center.y}) {}
     virtual ~AbstractElement() = default;
     virtual Type getType() = 0;
+
+    Point _start;
+    Point _end;
+    Point _center;
+
  private:
     Type type{};
 };
-
 
 #endif  // PROJECT_INCLUDE_ABSTRACTELEMENT_H_

@@ -1,18 +1,13 @@
-cmake_minimum_required(VERSION 3.16)
-project(libmap CXX)
-
-set(CMAKE_CXX_STANDARD 20)
+cmake_minimum_required(VERSION 3.13)
+project(jet_racing)
+set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wpedantic -Werror")
 
-add_library(map STATIC project/src/Map.cpp)
-target_include_directories(map PUBLIC project/include)
+add_subdirectory(libs)
 
-add_library(element STATIC project/src/Element.cpp)
-target_include_directories(element PUBLIC project/include)
-
-add_executable(libmap project/src/main.cpp)
-target_link_libraries(libmap map element)
+add_executable(main main.cpp)
+target_link_libraries(main PUBLIC map element)
 
 find_package(GTest REQUIRED)
 set(SOURCES tests/run_tests.cpp tests/tests.cpp)

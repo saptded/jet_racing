@@ -1,5 +1,5 @@
-#include "../include/AbstractElement.h"
-#include "../include/Map.h"
+#include "libs/element/include/AbstractElement.h"
+#include "libs/map/include/Map.h"
 
 #define FILENAME "../../map.txt"
 

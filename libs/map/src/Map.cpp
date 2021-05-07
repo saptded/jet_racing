@@ -12,7 +12,8 @@ void Map::parseFile(const std::string &filename) {
 
     Point start = {0, 0};
     Point end = {0, 1};
-    Line line(start, end);
+    Point center = {0, 0};
+    Line line(start, end, center);
 
     pushElementInBlock(line);
 
@@ -38,7 +39,8 @@ AbstractElement& Map::getCollisionElement(size_t pos_x, size_t pos_y) {
 
     Point start = {0, 0};
     Point end = {0, 1};
-    static Line line(start, end);
+    Point center = {0, 0};
+    static Line line(start, end, center);
 
     std::cout << "Using car's position calculate the element player should collide with" << std::endl;
 
