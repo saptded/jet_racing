@@ -8,6 +8,9 @@
 
 #include <string>
 
+/*
+ * mb make save url api ?
+ */
 struct Connection {
     int port = 80;
     std::string host = "localhost";

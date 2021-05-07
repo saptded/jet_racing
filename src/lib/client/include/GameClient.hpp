@@ -26,9 +26,8 @@ public:
         connection = Connection();
     }
 
-    DataGame getUpdates();
-    void close();
-    void sendData(DataGame& data);
+    std::string getUpdates();
+    void sendData(UserPosition& userPosition);
 
     std::vector<std::string> searchOpenSession(std::vector<std::string> ipList, std::string port);
 };

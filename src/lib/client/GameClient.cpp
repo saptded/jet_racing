@@ -9,20 +9,20 @@
 #include <curl_intarface.h>
 
 
-
+/*
+ * GameServer.sendNewPosition : /get_updates
+ */
 template<typename... Ts>
-DataGame GameClient<Ts...>::getUpdates() {
-    return DataGame(200,std::vector<UserPosition>());
+std::string  GameClient<Ts...>::getUpdates() {
+    auto response = getRequest(Url(connection.host + ":" + std::string(connection.port) + "/get_updates"));
+    return response.text;
 }
 
 template<typename... Ts>
-void GameClient<Ts...>::close() {
+void GameClient<Ts...>::sendData(UserPosition &userPosition) {
+    std::string information = "{ 'username':'" + userPosition.first +"','x':" + userPosition.second.x + "," + "'y':" + userPosition.second.y + "," + "'z':" + userPosition.second.z + "}";
+    auto response = getRequest(Url(connection.host + ":" + std::string(connection.port) + "/set_position"));
 
-}
-
-template<typename... Ts>
-void GameClient<Ts...>::sendData(DataGame &data) {
-    data.status = 200;
 }
 
 template<typename... Ts>

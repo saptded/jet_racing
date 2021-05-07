@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 SET(Boost_USE_STATIC_LIBS OFF)
 SET(Boost_USE_MULTITHREAD ON)
 
-set(CMAKE_CXX_FLAGS "-fpermissive --coverage  -v  -Wall -Werror -fconcepts")
+set(CMAKE_CXX_FLAGS "-fpermissive --coverage  -v  -Wall -Werror ")
 include(ExternalProject)
 
 
