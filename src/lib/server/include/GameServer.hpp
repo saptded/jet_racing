@@ -11,14 +11,18 @@
 #include <iostream>
 #include <vector>
 
+
 class [[maybe_unused]] GameServer{
 
     std::vector<UserPosition> userBuffer;
 
 public:
 
-
-    auto ping(auto req, auto params);
+    auto ping(auto req){
+        return req->create_response()
+                .set_body("{'status': 200}")
+                .done();
+    }
 
 
     [[maybe_unused]] auto addUser(auto req, auto params) {
@@ -44,7 +48,7 @@ public:
     }
 
 
-    [[maybe_unused]] auto sendNewPosition(auto req, auto params) {
+    [[maybe_unused]] auto& sendNewPosition(auto& req, auto& params) {
         std::string response = "{";
         for (auto j = 0; j < userBuffer.size(); j++) {
             const auto &i = userBuffer[j];
@@ -56,7 +60,6 @@ public:
         }
         response += '}';
         return req->create_response().set_body(response).done();
-
     }
 
     [[maybe_unused]] void close();
