@@ -12,7 +12,15 @@
 typedef struct Point {
     float x;
     float y;
+    Point operator+(const Point& rv) const {
+        return {x + rv.x,y + rv.y};
+    }
+    Point operator-(const Point& rv) const {
+        return {x - rv.x,y - rv.y};
+    }
 } Point;
+
+
 
 typedef struct Speed {
     int speedX;
@@ -32,7 +40,7 @@ public:
     Point centre;
     bool isDynamic = false;
     std::shared_ptr<DrawableObject> drObj;
-    void createDrawable();
+    void createDrawable(int stage);
     template<typename M> void draw(M& target){};
 };
 

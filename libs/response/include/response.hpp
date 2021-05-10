@@ -7,7 +7,7 @@
 #include "racer.hpp"
 
 enum ViewEvent {
-    INIT, RACER, ENEMIES, DYNAMIC_OBJECTS, CHANGE_STAGE, RENDER, RESULTS,
+    INIT, RACER, ENEMIES, STAGE, CHANGE_STAGE, RENDER, RESULTS,
 };
 
 template<ViewEvent event>
@@ -15,7 +15,8 @@ struct Response {};
 
 struct ResponseInit {
     using Response = ::Response<INIT>;
-    std::vector<Racer>& racers; // 0 по порядку - наш
+    Racer& racer;
+    std::vector<Racer>& enemies; // 0 по порядку - наш
     std::vector<abstractElement>& stage; // первый stage - туннели, dynamic objects
     // событие отдельное думаю точно нужно, тк по нему будут вызываться конструкторы объектов
 };
@@ -30,14 +31,15 @@ struct ResponseEnemies {
     std::vector<Racer>& enemies;
 };
 
-struct ResponseDynamicObjects {
-    using Response = ::Response<DYNAMIC_OBJECTS>;
-    std::vector<abstractElement>& elements; // только dynamic objects (прилетает каждую итерацию)
+struct ResponseStage {
+    using Response = ::Response<STAGE>;
+    std::vector<abstractElement>& stage; // все объекты карты // только dynamic objects (прилетает каждую итерацию)
 };
 
 struct ResponseChangeStage {
     using Response = ::Response<CHANGE_STAGE>;
     std::vector<abstractElement>& stage; // очередной stage - туннели, dynamic objects (2 раза)
+    // + обновление цветов
 };
 
 struct ResponseRender {

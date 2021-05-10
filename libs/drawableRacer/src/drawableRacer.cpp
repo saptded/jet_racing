@@ -10,7 +10,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include <cmath>
 
-void drawableRacer::loadSources() {
+void DrawableRacer::loadSources() {
     imCar.loadFromFile("media/car2.png");
     imCar.createMaskFromColor(sf::Color::Magenta);
     textureCar.loadFromImage(imCar);
@@ -22,23 +22,11 @@ void drawableRacer::loadSources() {
     textureFire.setSmooth(true);
 }
 
-drawableRacer::drawableRacer(float width, float height, int id) {
-    loadSources();
-    car.setOrigin(width/4, height/2);
-    car.setTexture(textureCar);
-    if(id == 0){
-        car.setColor(sf::Color::Red);
-    } else {
-        car.setColor(sf::Color::Blue);
-    }
-    fire.setOrigin(-width/4,height/2);
-    fire.setTexture(textureFire);
-}
-void drawableRacer::setPos(std::pair<Point,Point>& pos) {
+void DrawableRacer::setPos(std::pair<Point,Point>& pos) {
     car.setPosition(pos.first.x, pos.first.y);
     fire.setPosition(pos.first.x, pos.first.y);
 }
-void drawableRacer::setRot(float rotation) {
+void DrawableRacer::setRot(float& rotation) {
     if (rotation < 0){
         rotation+=180; // вроде такого недложно случится но если засунуть в sfml rotation<0, будет sigsegv
     }
@@ -46,11 +34,29 @@ void drawableRacer::setRot(float rotation) {
     fire.setRotation(rotation);
 }
 
-void drawableRacer::changeFire(Speed speed){
+void DrawableRacer::changeFire(Speed& speed){
     //
 }
 
-void drawableRacer::drawRacer(sf::RenderWindow &window) {
-    window.draw(fire);
+void DrawableRacer::create(Racer &racer) {
+    loadSources();
+    car.setOrigin(racer._width/4, racer._height/2);
+    car.setTexture(textureCar);
+    if(racer._id == 0){
+        car.setColor(sf::Color::Red);
+    } else {
+        car.setColor(sf::Color::Blue);
+    }
+    fire.setOrigin(-racer._width/4,racer._height/2);
+    fire.setTexture(textureFire);
+}
+void DrawableRacer::draw(Racer &racer, sf::RenderWindow &window) {
+    setPos(racer._position);
+    setRot(racer._rotation);
+    changeFire(racer._speed);
+    drawWindow(window);
+}
+void DrawableRacer::drawWindow(sf::RenderWindow &window) {
     window.draw(car);
+    window.draw(fire);
 }

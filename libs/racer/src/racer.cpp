@@ -3,6 +3,8 @@
 //
 
 #include "racer.hpp"
+#include "drawableRacer.hpp"
+
 Racer::Racer(Point point, int id) {
 
     _position = {point, point};
@@ -15,3 +17,13 @@ Racer::Racer(Point point, int id) {
     _origin = _origin;
     _id = id;
 }
+
+void Racer::createDrawable(){
+    drObj = std::make_shared<DrawableRacer>();
+    drObj->create(*this);
+};
+
+template<>
+void Racer::draw<sf::RenderWindow>(sf::RenderWindow& target){
+    drObj->draw(*this, target);
+};

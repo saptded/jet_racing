@@ -4,8 +4,8 @@
 
 #include "utils.hpp"
 #include "drawableObject.hpp"
-void abstractElement::createDrawable(){
-    drObj->create(*this);
+void abstractElement::createDrawable(int stage){
+    drObj->create(*this, stage);
 };
 
 template<>

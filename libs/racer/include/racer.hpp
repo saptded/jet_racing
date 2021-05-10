@@ -6,6 +6,7 @@
 
 #include "utils.hpp"
 
+class DrawableRacer;
 struct Racer {
     explicit Racer(Point point = {0, 0}, int id = 0);
     Racer(const Racer &racer) = default;
@@ -23,4 +24,8 @@ struct Racer {
     Point _origin;
 
     int _id;
+
+    std::shared_ptr<DrawableRacer> drObj;
+    void createDrawable();
+    template<typename M> void draw(M& target){};
 };

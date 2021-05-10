@@ -10,18 +10,19 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
+#include <racer.hpp>
 
-class drawableRacer {
+class DrawableRacer {
 public:
     void create (Racer& racer);
     void draw(Racer& racer, sf::RenderWindow& window);
+
 private:
     void loadSources();
-    void changeFire(Speed speed);
+    void changeFire(Speed& speed);
     void setPos(std::pair<Point,Point>& position);
-    void setRot(float rotation);
-    void createView();
-
+    void setRot(float& rotation);
+    void drawWindow(sf::RenderWindow& window);
     sf::Sprite car;
     sf::Sprite fire;
     sf::Texture textureCar;
@@ -29,6 +30,5 @@ private:
     sf::Image imCar;
     sf::Image imFire;
 
-    sf::View view; // это странно но удобно...
 };
 

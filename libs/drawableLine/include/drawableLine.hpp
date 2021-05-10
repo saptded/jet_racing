@@ -10,7 +10,7 @@
 
 class DrawableLine: public DrawableObject {
 public:
-    void create(abstractElement& element) override;
+    void create(abstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
     void draw(abstractElement& element, sf::RenderWindow& window) override {};
 private:
