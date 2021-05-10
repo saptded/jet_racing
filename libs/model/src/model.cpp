@@ -21,7 +21,7 @@ typedef struct AbstractElement {
     Point center;
     bool isDynamic;
 
-    virtual void updateElement() {};
+    virtual void updateElement(){};
 } AbstractElement;
 
 typedef struct Line : public AbstractElement {
@@ -62,7 +62,7 @@ void Model::updateRacers() {
 }
 
 void Model::updateRacer() {
-    Line obj1(Type::line, {400, 400}, {1000, 400}, {640, 50}, false);
+    Line obj1(Type::line, {400, 400}, {400, 0}, {640, 50}, false);
 
     onCollision(obj1);
     _racerController.changeRotationSpeed(_currentCommand, _racer);
@@ -76,11 +76,11 @@ void Model::updateRacer() {
 
 void Model::updateEnemies() {}
 
-double lineCoefficient(const AbstractElement& line) {
+double Model::lineCoefficient(const AbstractElement &line) {
     double k = 0;
     if (line.end.x == line.start.x) {
         k = 10000000;
-    } else if (line.end.y - line.start.y) {
+    } else if (line.end.y == line.start.y) {
         k = 0.000001;
     } else {
         k = ((line.end.y - line.start.y) / (line.end.x - line.start.x));
@@ -94,7 +94,7 @@ void Model::onCollision(const AbstractElement &collisionElement) {
             double k = lineCoefficient(collisionElement);
             double b = collisionElement.start.y - collisionElement.start.x * k;
             double lineX = (_racer._center.y - b) / k;
-            double  lineY = k * _racer._center.x + b;
+            double lineY = k * _racer._center.x + b;
 
             std::function<bool(double, double)> compX;
             std::function<bool(double, double)> compY;
@@ -105,30 +105,24 @@ void Model::onCollision(const AbstractElement &collisionElement) {
                 compY = [](double x1, double x2) { return x1 > x2; };
             }
 
-            if (lineX > _racer._center.x + _racer._speed.speedX + 10) {
+            if (lineX > _racer._center.x + _racer._speed.speedX) {
                 compX = [](double x1, double x2) { return x1 < x2; };
             } else {
                 compX = [](double x1, double x2) { return x1 > x2; };
             }
 
-            if (compY(lineY, _racer._center.y) || compX(lineX, _racer._center.x)) {
-                _racerController.changeSpeed(_racer, -3 * _racer._speed.speedX, -3 * _racer._speed.speedY);
+            if (compY(lineY, _racer._position.first.y) || compX(lineX, _racer._position.first.x)) {  // back collision
+                _racerController.changeSpeed(_racer, 0.1 * _racer._speed.speedX / 10, 0.1 * _racer._speed.speedX / 10);
+                _racerController.changeRotationSpeed(_currentCommand, _racer, 0.3);
             }
 
-//            if (collisionElement.start.y - collisionElement.end.y == 0) {
-//                if (collisionElement.start.y > _racer._position.second.y + 5) { // front
-//                    _racerController.changeSpeed(_racer, 0, -2 * _racer._speed.speedY);
-//                } else {
-//                    _racerController.changeSpeed(_racer);
-//                }
-//                if (collisionElement.start.y > _racer._position.first.y) { // back
-//                    _racerController.changeSpeed(_racer, 0, 0.2);
-//                } else if (collisionElement.start.y >= _racer._center.y) {
-//                    _racerController.changeSpeed(_racer, 0, 0.4);
-//                }
-//            }
+            if (compY(lineY, _racer._center.y) || compX(lineX, _racer._center.x)) {  // front collision
+                double extraAccelerateX = 2.6 * std::cos(90 * 180 / M_PI - std::atan(k)) * _racer._speed.speedX;
+                double extraAccelerateY = 2.6 * std::sin(90 * 180 / M_PI - std::atan(k)) * _racer._speed.speedY;
+                _racerController.changeSpeed(_racer, extraAccelerateX, extraAccelerateY);
+            }
+
             _racerController.changeSpeed(_racer);
-             break;
+            break;
     }
 }
-

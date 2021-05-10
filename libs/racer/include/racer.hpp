@@ -16,4 +16,5 @@ struct Racer {
     Speed _rotationSpeed;
     std::pair<Point, Point> _position;
     Point _center;
+    Point _origin;
 };
