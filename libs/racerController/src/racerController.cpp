@@ -30,17 +30,17 @@ void RacerController::changeSpeed(Racer &racer, const double &extraAccelerateX, 
     racer._speed.speedY -= sin((racer._rotation * M_PI) / 180) * _speedAccelerate;
     racer._speed.speedY += extraAccelerateY;
 
-    if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 2) {
+    if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 10) {
         racer._speed.speedX -= _speedAccelerate;
     }
-    if (racer._speed.speedX < (-_maxSpeed + extraAccelerateX * 2)) {
+    if (racer._speed.speedX < (-_maxSpeed + extraAccelerateX * 10)) {
         racer._speed.speedX += _speedAccelerate;
     }
 
-    if (racer._speed.speedY > _maxSpeed + extraAccelerateX * 2) {
+    if (racer._speed.speedY > _maxSpeed + extraAccelerateX * 10) {
         racer._speed.speedY -= _speedAccelerate;
     }
-    if (racer._speed.speedY < (-_maxSpeed + extraAccelerateX * 2)) {
+    if (racer._speed.speedY < (-_maxSpeed + extraAccelerateX * 10)) {
         racer._speed.speedY += _speedAccelerate;
     }
 

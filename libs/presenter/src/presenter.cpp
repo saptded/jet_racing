@@ -30,7 +30,7 @@ typedef struct Line : public AbstractElement {
     void updateElement() override{};
 } Line;
 
-[[maybe_unused]] Line obj1(Type::line, {400, 400}, {1000, 400}, {640, 50}, false);
+[[maybe_unused]] Line obj1(Type::line, {400, 400}, {400, 0}, {640, 50}, false);
 
 Presenter::Presenter()
     : _finishGame(false)
@@ -77,7 +77,7 @@ void Presenter::handleEvent(Response &response) {
     center.setFillColor(sf::Color::Black);
 
     sf::RectangleShape racer(sf::Vector2f(width, height));
-    racer.setOrigin(3 * width / 4, height / 2);
+    racer.setOrigin(response._racer.value()->_origin.x, response._racer.value()->_origin.y);
     racer.move(static_cast<float>(response._racer.value()->_center.x), static_cast<float>(response._racer.value()->_center.y));
     racer.rotate(-static_cast<float>(response._racer.value()->_rotation));
     racer.setFillColor(sf::Color::Cyan);

@@ -31,11 +31,12 @@ private:
     void updateEnemies();
 
     void onCollision(const AbstractElement& element);
+    double lineCoefficient(const AbstractElement &line);
 
     Racer _racer;
-    RacerController _racerController;
-    //    Map *map;
     //    Server *server
+    //    Map *map;
 
+    RacerController _racerController;
     std::list<Observer *> _observes;
 };
