@@ -3,16 +3,6 @@
 
 #include <cstddef>
 
-//enum Type {
-//    line,
-//    arc,
-//    propeller,
-//    accelerator,
-//    delayer,
-//    portal,
-//    finish
-//};
-
 typedef struct Point {
     Point(size_t p_x, size_t p_y) : x(p_x), y(p_y) {}
     size_t x;
@@ -26,7 +16,7 @@ class AbstractElement {
                                                             _center({center.x, center.y}) {}
     virtual ~AbstractElement() = default;
 
-    virtual bool intersect(Point playerStart, Point playerEnd) = 0;
+    virtual bool intersect(Point playerA, Point playerB, Point playerC, Point playerD) = 0;
     virtual bool isElementDynamic() = 0;
 
     Point _start;

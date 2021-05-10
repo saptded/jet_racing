@@ -1,8 +1,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include <iostream>
-
 #include "Parser.h"
 
 std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filename) {
@@ -22,7 +20,6 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
         if (name_stage != "stage") {
             continue;
         }
-//        std::cout << "\t" << stage_tree.get<std::string>("<xmlattr>.stageNumber") << std::endl;
 
         Stage stage;
 
@@ -36,8 +33,6 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
                 continue;
             }
 
-//            std::cout << "\t" << block_tree.get<std::string>("<xmlattr>.blockNumber") << std::endl;
-
             Block block;
             for (const auto &it_elements_tree : block_tree) {
                 std::string name_element;
@@ -48,9 +43,6 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
                 if (name_element != "element") {
                     continue;
                 }
-
-//                std::cout << "\t" << element_tree.get<std::string>("<xmlattr>.name") << std::endl;
-//                std::cout << "\t" << element_tree.get<std::string>("<xmlattr>.startX") << std::endl;
 
                 Point start(element_tree.get<size_t>("<xmlattr>.startX"), element_tree.get<size_t>("<xmlattr>.startY"));
                 Point end(element_tree.get<size_t>("<xmlattr>.endX"), element_tree.get<size_t>("<xmlattr>.endY"));

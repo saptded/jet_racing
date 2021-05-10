@@ -8,17 +8,16 @@ class Idle : public AbstractElement {
     explicit Idle(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
     ~Idle() override = default;
 
-    bool intersect(Point playerStart, Point playerEnd) override;
+    bool intersect(Point playerA, Point playerB, Point playerC, Point playerD) override;
     bool isElementDynamic() override;
 };
-
 
 class Line : public AbstractElement {
  public:
     explicit Line(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
     ~Line() override = default;
 
-    bool intersect(Point playerStart, Point playerEnd) override;
+    bool intersect(Point playerA, Point playerB, Point playerC, Point playerD) override;
     bool isElementDynamic() override;
 };
 
@@ -27,7 +26,7 @@ class Arc : public AbstractElement {
     explicit Arc(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
     ~Arc() override = default;
 
-    bool intersect(Point playerStart, Point playerEnd) override;
+    bool intersect(Point playerA, Point playerB, Point playerC, Point playerD) override;
     bool isElementDynamic() override;
 };
 
@@ -36,7 +35,7 @@ class Rectangle : public AbstractElement {
     Rectangle(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
     ~Rectangle() override = default;
 
-    bool intersect(Point playerStart, Point playerEnd) override;
+    bool intersect(Point playerA, Point playerB, Point playerC, Point playerD) override;
 };
 
 class Propeller : public Rectangle {
