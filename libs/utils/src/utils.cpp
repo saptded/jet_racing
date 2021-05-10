@@ -3,3 +3,16 @@
 //
 
 #include "utils.hpp"
+#include "drawableObject.hpp"
+void abstractElement::createDrawable(){
+    drObj->create(*this);
+};
+
+template<>
+void abstractElement::draw<sf::RenderWindow>(sf::RenderWindow& target){
+    if(isDynamic){
+        drObj->draw(*this, target);
+    } else {
+        drObj->draw(target);
+    }
+};

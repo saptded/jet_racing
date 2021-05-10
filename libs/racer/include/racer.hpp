@@ -2,24 +2,25 @@
 // Created by saptded on 15.04.2021.
 //
 
-#ifndef JET_RACING_LIBS_RACER_INCLUDE_RACER_HPP_
-#define JET_RACING_LIBS_RACER_INCLUDE_RACER_HPP_
+#pragma once
 
 #include "utils.hpp"
 
-class Racer {
- public:
-    Racer();
+struct Racer {
+    explicit Racer(Point point = {0, 0}, int id = 0);
+    Racer(const Racer &racer) = default;
+    Racer &operator=(const Racer &racer) = default;
     ~Racer() = default;
 
-    void updateRacerPosition(const std::vector<Point>& Points);
-    void updateRacerRotation(RotationDirection addingRotation = RotationDirection::none);
-    void updateRacerSpeed(Speed addingSpeed = Speed{0, 0});
+    float _width;
+    float _height;
 
- private:
-    int rotation;
-    Speed speed;
-    std::vector<Point> position;
+    float _rotation;
+    Speed _speed;
+    Speed _rotationSpeed;
+    std::pair<Point, Point> _position;
+    Point _center;
+    Point _origin;
+
+    int _id;
 };
-
-#endif //JET_RACING_LIBS_RACER_INCLUDE_RACER_HPP_

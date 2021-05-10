@@ -7,4 +7,5 @@ add_subdirectory(libs)
 find_package(SFML 2.5 COMPONENTS graphics REQUIRED)
 
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC controller model modelResponse observer racer utils sfml-graphics response viewer viewerSourceRacer viewerSource)
+#target_link_libraries(main PUBLIC sfml-graphics)
+target_link_libraries(main PUBLIC racer utils sfml-graphics response drawableObject drawableLine drawableArc)

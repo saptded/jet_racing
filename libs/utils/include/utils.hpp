@@ -4,8 +4,10 @@
 
 #pragma once
 
-#include <vector>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <iostream>
+#include <memory>
+#include <vector>
 
 typedef struct Point {
     float x;
@@ -19,13 +21,33 @@ typedef struct Speed {
 
 enum RotationDirection { left, right, none };
 
-enum elementType {line, arcTime, arcNtime}; //....
+enum elementType {line, arcTime, arcNtime, notype}; //....
 
-typedef struct abstractElement {
-    elementType type;
+class DrawableObject;
+
+class abstractElement {
+public:
     Point start;
     Point end;
     Point centre;
-} abstractElement;
+    bool isDynamic = false;
+    std::shared_ptr<DrawableObject> drObj;
+    void createDrawable();
+    template<typename M> void draw(M& target){};
+};
+
+//// если реализацию шаблонного метода вынести в отдельный файл, он не сможет слинковать
+//// если оставить в этом, utils.hpp и drawableObject.hpp должны включать друг друга циклично
+//// поэтому сделано как сделано...
+//template<typename M>
+//void abstractElement::draw(M& target){
+//    if(isDynamic){
+//        drObj2.draw(*this, target);
+//    } else {
+//        drObj2.draw(target);
+//    }
+//};
+
+
 
 
