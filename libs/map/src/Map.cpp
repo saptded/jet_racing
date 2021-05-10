@@ -3,51 +3,32 @@
 
 #include "Map.h"
 
-Map::Map(const std::string& filename) {
-    parseFile(filename);
-}
-
-void Map::parseFile(const std::string &filename) {
-    std::cout << "Parsing file" << std::endl;
-
-    Point start = {0, 0};
-    Point end = {0, 1};
-    Point center = {0, 0};
-    Line line(start, end, center);
-
-    pushElementInBlock(line);
-
-    pushBlockInStage();
-}
-
-void Map::pushElementInBlock(AbstractElement& element) {
-    std::cout << "Push element into block while parsing file" << std::endl;
-}
-
-void Map::pushBlockInStage() {
-    std::cout << "Push block into stage while parsing file" << std::endl;
+Map::Map(const std::string &filename) {
+    stages = parser.parseFile(filename);
 }
 
 std::vector<std::shared_ptr<AbstractElement>> Map::getDynamicElements(size_t pos_x, size_t pos_y) {
-    std::cout << "Find dynamic elements and push into vector" << std::endl;
-    std::vector<std::shared_ptr<AbstractElement>> dynamicElems;
-    return dynamicElems;
+    for (auto &it : elements) {
+        if (it->isElementDynamic()) {
+            dynamicElements.push_back(it);
+        }
+    }
+    return dynamicElements;
 }
 
-AbstractElement& Map::getCollisionElement(size_t pos_x, size_t pos_y) {
-    stage = getCurrentStage(pos_x, pos_y);
+AbstractElement &Map::getCollisionElement(Point posStart, Point posEnd, Point posCenter) {
+    for (auto &it : elements) {
+        bool isCollision = it->intersect(posStart, posCenter);
+        if (isCollision) {
+            return *it;
+        }
+    }
 
-    Point start = {0, 0};
-    Point end = {0, 1};
-    Point center = {0, 0};
-    static Line line(start, end, center);
-
-    std::cout << "Using car's position calculate the element player should collide with" << std::endl;
-
-    return line;
+    static Idle idle({0, 0}, {0, 0}, {0, 0});
+    return idle;
 }
 
-Stage& Map::getCurrentStage(size_t pos_x, size_t pos_y) {
-    std::cout << "Using car's position calculate in what stage he is" << std::endl;
-    return stage;
-}
+//Stage &Map::getCurrentStage(Point posStart, Point posEnd, Point posCenter) {
+//    std::cout << "Using car's position calculate in what stage he is" << std::endl;
+//    return stage;
+//}

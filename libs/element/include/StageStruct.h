@@ -6,8 +6,8 @@
 
 #include "BlockStruct.h"
 
-typedef struct Stage {
+struct Stage {
     std::vector<std::shared_ptr<Block>> blocks;
-} Stage;
+};
 
 #endif  // PROJECT_INCLUDE_STAGESTRUCT_H_

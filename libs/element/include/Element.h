@@ -3,125 +3,83 @@
 
 #include "AbstractElement.h"
 
+class Idle : public AbstractElement {
+ public:
+    explicit Idle(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
+    ~Idle() override = default;
+
+    bool intersect(Point playerStart, Point playerEnd) override;
+    bool isElementDynamic() override;
+};
+
+
 class Line : public AbstractElement {
  public:
-//    explicit Line(Point start, Point end) :
-//        start({start.x, start.y}), end({end.x, end.y}), type(Type::line) {}
-    explicit Line(Point start, Point end, Point center) : AbstractElement(start, end, center), type(Type::line) {}
-
+    explicit Line(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
     ~Line() override = default;
 
-    Type getType() override;
-
- private:
-//    Point start;
-//    Point end;
-    Type type;
+    bool intersect(Point playerStart, Point playerEnd) override;
+    bool isElementDynamic() override;
 };
 
 class Arc : public AbstractElement {
  public:
-    explicit Arc(Point start, Point end, Point center) : AbstractElement(start, end, center), type(Type::arc) {}
-
+    explicit Arc(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
     ~Arc() override = default;
 
-    Type getType() override;
-
- private:
-//    Point start;
-//    Point end;
-//    Point center;
-    Type type;
+    bool intersect(Point playerStart, Point playerEnd) override;
+    bool isElementDynamic() override;
 };
 
-class Propeller : public AbstractElement {
+class Rectangle : public AbstractElement {
  public:
-//    explicit Propeller(Point start, Point end, Point center, bool isDynamic) :
-//        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::propeller) {}
+    Rectangle(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
+    ~Rectangle() override = default;
 
-    explicit Propeller(Point start, Point end, Point center) : AbstractElement(start, end, center), type(Type::propeller) {}
+    bool intersect(Point playerStart, Point playerEnd) override;
+};
+
+class Propeller : public Rectangle {
+ public:
+    explicit Propeller(Point start, Point end, Point center, bool isDynamic) : Rectangle(start, end, center) {}
     ~Propeller() override = default;
 
-    Type getType() override;
+    bool isElementDynamic() override;
 
  private:
-//    Point start;
-//    Point end;
-//    Point center;
     bool isDynamic;
-    Type type;
 };
 
-class Accelerator : public AbstractElement {
+class Accelerator : public Rectangle {
  public:
-//    explicit Accelerator(Point start, Point end, Point center, bool isDynamic) :
-//        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::accelerator) {}
-
-    explicit Accelerator(Point start, Point end, Point center) : AbstractElement(start, end, center), type(Type::accelerator) {}
+    explicit Accelerator(Point start, Point end, Point center) : Rectangle(start, end, center) {}
     ~Accelerator() override = default;
 
-    Type getType() override;
-
- private:
-//    Point start;
-//    Point end;
-//    Point center;
-    bool isDynamic;
-    Type type;
+    bool isElementDynamic() override;
 };
 
-class Delayer : public AbstractElement {
+class Delayer : public Rectangle {
  public:
-//    explicit Delayer(Point start, Point end, Point center, bool isDynamic) :
-//        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::delayer) {}
-
-    explicit Delayer(Point start, Point end, Point center) : AbstractElement(start, end, center), type(Type::delayer) {}
+    explicit Delayer(Point start, Point end, Point center) : Rectangle(start, end, center) {}
     ~Delayer() override = default;
 
-    Type getType() override;
-
- private:
-//    Point start;
-//    Point end;
-//    Point center;
-    bool isDynamic;
-    Type type;
+    bool isElementDynamic() override;
 };
 
-class Portal : public AbstractElement {
+class Portal : public Rectangle {
  public:
-//    explicit Portal(Point start, Point end, Point center, bool isDynamic) :
-//        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::portal) {}
-
-    explicit Portal(Point start, Point end, Point center) : AbstractElement(start, end, center), type(Type::portal) {}
+    explicit Portal(Point start, Point end, Point center) : Rectangle(start, end, center) {}
     ~Portal() override = default;
 
-    Type getType() override;
-
- private:
-//    Point start;
-//    Point end;
-//    Point center;
-    bool isDynamic;
-    Type type;
+    bool isElementDynamic() override;
 };
 
-class Finish : public AbstractElement {
+class Finish : public Rectangle {
  public:
-//    explicit Finish(Point start, Point end, Point center, bool isDynamic) :
-//        start({start.x, start.y}), end({end.x, end.y}), center({center.x, center.y}), isDynamic(isDynamic), type(Type::finish) {}
-
-    explicit Finish(Point start, Point end, Point center) : AbstractElement(start, end, center), type(Type::finish) {}
+    explicit Finish(Point start, Point end, Point center) : Rectangle(start, end, center) {}
     ~Finish() override = default;
 
-    Type getType() override;
-
- private:
-//    Point start;
-//    Point end;
-//    Point center;
-    bool isDynamic;
-    Type type;
+    bool isElementDynamic() override;
 };
 
 #endif  // PROJECT_INCLUDE_ELEMENT_H_

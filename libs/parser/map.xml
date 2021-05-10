@@ -1,0 +1,14 @@
+<map>
+    <stages>1</stages>
+    <stage stageNumber="1">
+        <blocks>2</blocks>
+        <block blockNumber="1">
+            <element name="line" startX="100" startY="750" endX="100" endY="450" centerX="0" centerY="0" />
+            <element name="line" startX="250" startY="750" endX="250" endY="450" centerX="0" centerY="0" />
+        </block>
+        <block blockNumber="2">
+            <element name="arc" startX="100" startY="450" endX="500" endY="450" centerX="300" centerY="450" />
+            <element name="arc" startX="250" startY="450" endX="350" endY="450" centerX="300" centerY="450"/>
+        </block>
+    </stage>
+</map>
