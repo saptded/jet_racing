@@ -13,50 +13,36 @@ std::vector<abstractElement> makeStage();
 
 int main(){
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Tile");
-    window.clear(sf::Color::White);
-    window.display();
+    // одна линия
+    abstractElement elemLine {
+        {350,200},
+        {450, 200},
+        {400,200},
+        false,
+        std::make_shared<DrawableArc>(),
+    };
+    elemLine.createDrawable();
+    // одна дуга
+    DrawableArc arc;
+    abstractElement elemArc {
+        {170,160},
+        {200,150},
+        {200, 200},
+        false,
+        std::make_shared<DrawableArc>(),
+    };
+    elemArc.createDrawable();
+    // stage (интересно было попробовать)
+    std::vector<abstractElement> elems = makeStage();
 
     while(window.isOpen()) {
-        sf::Event event{};
-        while (window.pollEvent(event))
-        {
-            switch (event.type)
-            {
-                case sf::Event::Closed: {
-                    // одна линия
-                    abstractElement elemLine {
-                        {350,200},
-                        {450, 200},
-                        {400,200},
-                        false,
-                        std::make_shared<DrawableArc>(),
-                    };
-                    elemLine.createDrawable();
-                    // одна дуга
-                    DrawableArc arc;
-                    abstractElement elemArc {
-                        {170,160},
-                        {200,150},
-                        {200, 200},
-                        false,
-                        std::make_shared<DrawableArc>(),
-                    };
-                    elemArc.createDrawable();
-                    // stage (интересно было попробовать)
-                    std::vector<abstractElement> elems = makeStage();
-
-                    //
-                    window.clear(sf::Color::White);
-                    elemLine.draw(window);
-                    elemArc.draw(window);
-                    for (auto el: elems){
-                        el.draw(window);
-                    }
-                    window.display();
-                    break;
-                }
-            }
+        window.clear(sf::Color::White);
+        elemLine.draw(window);
+        elemArc.draw(window);
+        for (auto el: elems){
+            el.draw(window);
         }
+        window.display();
     }
 }
 
