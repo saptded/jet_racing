@@ -29,6 +29,8 @@ public:
     std::string getUpdates();
     void sendData(UserPosition& userPosition);
 
+    void join(std::string username);
+
     std::vector<std::string> searchOpenSession(std::vector<std::string> ipList, std::string port);
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H
