@@ -35,10 +35,14 @@ return 0;
 ## Use client
 
 ```cpp
-#include <GameClient.hpp>;
+#include <cpr/cpr.h>
+using namespace cpr;
+#include <GameClient.hpp>
+
 
 int main(void){
-    auto client = GameServer();
+    Connection conn = {"localhost", "9873"};
+    auto client = GameClient(conn, Get);
     client.sendData();
     return 0;
 }
