@@ -6,7 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
-#include <drawableArc.hpp>
+#include <drawableObjects.hpp>
 
 std::vector<abstractElement> makeStage();
 

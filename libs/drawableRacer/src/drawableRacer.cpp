@@ -4,11 +4,10 @@
 
 #include "drawableRacer.hpp"
 #include "utils.hpp"
-#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <cmath>
+#include "sfColor.hpp"
 
 void DrawableRacer::loadSources() {
     imCar.loadFromFile("media/car2.png");
@@ -30,23 +29,21 @@ void DrawableRacer::setRot(float& rotation) {
     if (rotation < 0){
         rotation+=180; // вроде такого недложно случится но если засунуть в sfml rotation<0, будет sigsegv
     }
-    car.setRotation(rotation);
-    fire.setRotation(rotation);
+    car.setRotation(rotation+90);
+    fire.setRotation(rotation+90);
 }
 
 void DrawableRacer::changeFire(Speed& speed){
-    //
+    float absSpeed = powf( (powf(speed.speedX,2) + powf(speed.speedY,2)), 0.5);
+    fire.setColor(sf::Color(255,255,255,((int)absSpeed)%225));
 }
 
 void DrawableRacer::create(Racer &racer) {
     loadSources();
     car.setOrigin(racer._width/4, racer._height/2);
     car.setTexture(textureCar);
-    if(racer._id == 0){
-        car.setColor(sf::Color::Red);
-    } else {
-        car.setColor(sf::Color::Blue);
-    }
+    sfColor chooseColor;
+    car.setColor(chooseColor.getCar(racer._id));
     fire.setOrigin(-racer._width/4,racer._height/2);
     fire.setTexture(textureFire);
 }

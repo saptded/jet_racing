@@ -8,50 +8,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
-#include <drawableArc.hpp>
-#include <drawableLine.hpp>
+#include <drawableObjects.hpp>
 
 void handlePlayerInput(sf::Keyboard::Key key, bool isPressed, ResponseRacer& respRacer);
 std::vector<abstractElement> makeStage();
-
-//int mainv(){
-//    sf::RenderWindow window(sf::VideoMode(1200, 1000), "Tile");
-//    sf::View view;
-//    sf::RectangleShape someSprite;
-//    someSprite.setFillColor(sf::Color::Cyan);
-//    someSprite.setSize(sf::Vector2f(40,60));
-//    someSprite.setPosition(100,100);
-//// Initialize the view to a rectangle located at (100, 100) and with a size of 400x200
-//    view.reset(sf::FloatRect(95, 95, 50, 70));
-//// Rotate it by 45 degrees
-////    view.rotate(45);
-//// Set its target viewport to be half of the window
-//    //view.setViewport(sf::FloatRect(0.5f, 0.f, 0.5f, 1.f));
-//// Apply it
-//    window.setView(view);
-//// Render stuff
-//    while(window.isOpen()){
-//        window.clear(sf::Color::White);
-//        window.draw(someSprite);
-//        window.display();
-//// Set the default view back
-//        sf::Event event{};
-//        while (window.pollEvent(event))
-//        {
-//            switch (event.type)
-//            {
-//                case sf::Event::Closed:
-//                    window.clear(sf::Color::White);
-//                    window.setView(window.getDefaultView());
-//// Render stuff not affected by the view
-//                    window.draw(someSprite);
-//                    window.display();
-//                    break;
-//            }
-//        }
-//
-//    }
-//}
 
 int main() {
 
@@ -69,8 +29,8 @@ int main() {
         enemies.push_back(enemy);
     }
     ResponseEnemies{enemies};
-
-    sf::RenderWindow window(sf::VideoMode(1200, 1000), "Tile");
+    sf::RenderWindow window(sf::VideoMode(1200, 1000), "SFML window");
+    //window.setFramerateLimit(30);
     Viewer viewer;
     ResponseInit respInit {
         racer, enemies, stage
@@ -100,7 +60,8 @@ int main() {
                     handlePlayerInput(event.key.code, false, respRacer);
                     break;
                 case sf::Event::Closed:
-                    window.close();
+                    ResponseChangeStage respChSt {stage};
+                    viewer.render(respChSt, window);
                     break;
             }
         }
@@ -139,9 +100,9 @@ void handlePlayerInput(sf::Keyboard::Key key, bool isPressed, ResponseRacer& res
     } else if (key == sf::Keyboard::Left){
         respRacer.racer._position.first.x -=5;
         respRacer.racer._position.first.x -=5;
-    } else if (key == sf::Keyboard::Right){
-        respRacer.racer._position.first.x +=5;
-        respRacer.racer._position.first.x +=5;
+    } else if (key == sf::Keyboard::Right) {
+        respRacer.racer._position.first.x += 5;
+        respRacer.racer._position.first.x += 5;
     }
 };
 
@@ -158,5 +119,8 @@ std::vector<abstractElement> makeStage(){
     stage.push_back({{500,750}, {600,650},{500,650}, false, std::make_shared<DrawableArc>()});
     stage.push_back({{600,650}, {600,50}, {0,0}, false, std::make_shared<DrawableLine>()});
     stage.push_back({{500,500}, {500,50}, {0,0}, false, std::make_shared<DrawableLine>()});
+
+    stage.push_back({{50,750}, {150,750},{0,0}, false, std::make_shared<DrawableLine>()});
+    stage.push_back({{500,60}, {600,50},{0,0}, false, std::make_shared<DrawablePortal>()});
     return stage;
 }

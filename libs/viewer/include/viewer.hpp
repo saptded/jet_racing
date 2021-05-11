@@ -26,7 +26,7 @@ private:
     template <typename T, typename M> void render (T& data, ::Response<RENDER>, M& dist);
 
     std::shared_ptr<sfViewerDetails> details;
-    int stage = 0;
+    int stage = 1;
 };
 
 template <typename T, typename M>
@@ -60,7 +60,7 @@ void Viewer::render (T& data, ::Response<CHANGE_STAGE>, M& dist){
     stage+=1;
     for (auto &elem: data.stage){
         elem.createDrawable(stage);
-        elem.draw();
+        elem.draw(dist);
     }
 }
 
@@ -72,5 +72,5 @@ void Viewer::render (T& data, ::Response<STAGE>, M& dist){
 }
 template <typename T, typename M>
 void Viewer::render(T &data, ::Response<RENDER>, M &dist) {
-    details->display(dist, 0);
+    details->display(dist, stage);
 }

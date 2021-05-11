@@ -4,9 +4,10 @@
 
 #pragma once
 
-#include <iostream>
-#include "utils.hpp"
 #include "racer.hpp"
+#include "utils.hpp"
+#include <iostream>
+#include <sfColor.hpp>
 
 class sfViewerDetails{
 public:
@@ -15,4 +16,5 @@ public:
     void display(sf::RenderWindow& window, int stage);
 private:
     sf::View view;
+    sfColor colors = sfColor();
 };

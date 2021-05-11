@@ -12,9 +12,9 @@ Racer::Racer(Point point, int id) {
     _height = 40;
     _rotation = 0;
     _rotationSpeed = {0, 0};
-    _speed = {0, 0};
+    _speed = {45, 150};
     _center = {_width/4, _height/2};
-    _origin = _origin;
+    _origin;
     _id = id;
 }
 
