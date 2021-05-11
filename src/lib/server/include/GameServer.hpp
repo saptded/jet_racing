@@ -28,7 +28,7 @@ public:
     [[maybe_unused]] auto addUser(auto req, auto params) {
         const auto qp = parse_query(req->header().query());
         std::string username = std::string(qp["username"]);
-        userBuffer.emplace_back(std::pair(username, Position{"0","0", "0"}));
+        userBuffer.push_back(std::pair(username, Position{"0","0", "0"}));
         return req->create_response().set_body("{'status': 'ok'}}").done();
     }
 
@@ -40,7 +40,7 @@ public:
         std::string z = std::string(qp["z"]);
         for (auto& i: userBuffer) {
             if(i.first == username){
-                userBuffer.emplace_back(std::pair(username, Position{x,y, z}));
+                userBuffer.push_back(std::pair(username, Position{x,y, z}));
                 return req->create_response().set_body("{'status': 'ok'}}").done();
             }
         }
