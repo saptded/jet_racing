@@ -4,7 +4,8 @@
 #include <gtest/gtest.h>
 #define test_jet_racing
 #include "GameClient.hpp"
-#include <write.h>
+#include "serialization.h"
+
 class Response{
 
 };
@@ -23,9 +24,9 @@ TEST(stress_test, tests_input) {
 }
 
 TEST(serialization_test, tests_input) {
-   Position user = Position{"racer", "1", "2", "4"};
-   std::string  response;
-   writeJSONPosition( std::cout, user);
+    Position user = Position{"racer", "1", "2", "4"};
+    std::string response = writeToJson(user);
+    std::cout << response;
 }
 
 
