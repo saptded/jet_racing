@@ -40,16 +40,16 @@ public:
         std::string z = std::string(qp["z"]);
         for (auto& i: userBuffer) {
             if(i.username == username){
-                userBuffer.push_back(Position{username, x,y, z});
+                i = (Position{username, x,y, z});
                 return req->create_response().set_body("{'status': 'ok'}}").done();
             }
         }
-        bool res = false;
-        std::copy_if(userBuffer.back(), userBuffer.end(),  userBuffer, [username, &res](auto name){ res = (name.username ==  username);  return  name.username ==  username; });
+       /* bool res = false;
+        std::copy_if(userBuffer.back(), userBuffer.end(),  std::insert_iterator (Position{username, x,y, z}), [username, &res](auto name){ res = (name.username ==  username);  return  name.username ==  username; });
         if(res){
             return req->create_response().set_body("{'status': 'ok'}}").done();
         }
-        return req->create_response().set_body("{'status': 'fail'}}").done();
+        return req->create_response().set_body("{'status': 'fail'}}").done();*/
     }
 
 
