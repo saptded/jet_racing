@@ -31,4 +31,4 @@ add_executable(tests src/test/tests.cpp)
 add_test(tests tests)
 
 
-target_link_libraries(tests PRIVATE GTest::GTest GTest::Main  libserver libclient libdata_struct)
+target_link_libraries(tests PRIVATE GTest::GTest GTest::Main  libserver libclient libdata_struct libserialization)

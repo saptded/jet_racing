@@ -6,10 +6,9 @@
 #define LIBSERVER_POSITION_HPP
 #include <string>
 struct Position{
+    std::string username{};
     std::string x{};
     std::string y{};
     std::string z{};
 };
-
-using UserPosition = std::pair<std::string, Position>;
 #endif //LIBSERVER_POSITION_HPP

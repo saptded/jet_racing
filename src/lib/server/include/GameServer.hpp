@@ -14,7 +14,7 @@
 
 class [[maybe_unused]] GameServer{
 
-    std::vector<UserPosition> userBuffer;
+    std::vector<Position> userBuffer;
 
 public:
 
@@ -28,7 +28,7 @@ public:
     [[maybe_unused]] auto addUser(auto req, auto params) {
         const auto qp = parse_query(req->header().query());
         std::string username = std::string(qp["username"]);
-        userBuffer.push_back(std::pair(username, Position{"0","0", "0"}));
+        userBuffer.push_back(Position{username,"0","0", "0"});
         return req->create_response().set_body("{'status': 'ok'}}").done();
     }
 
@@ -39,8 +39,8 @@ public:
         std::string y = std::string(qp["x"]);
         std::string z = std::string(qp["z"]);
         for (auto& i: userBuffer) {
-            if(i.first == username){
-                userBuffer.push_back(std::pair(username, Position{x,y, z}));
+            if(i.username == username){
+                userBuffer.push_back(Position{username, x,y, z});
                 return req->create_response().set_body("{'status': 'ok'}}").done();
             }
         }
@@ -53,10 +53,10 @@ public:
         for (auto j = 0; j < userBuffer.size(); j++) {
             const auto &i = userBuffer[j];
             if (j != userBuffer.size())
-                response += "'" + i.first + "': { 'x': {" + i.second.x + "}" + "," + "'y': {" + i.second.y + "}" + "," +
-                            "'z': {" + i.second.z + "}" + "" + "},";
-            response += "'" + i.first + "': { 'x': {" + i.second.x + "}" + "," + "'y': {" + i.second.y + "}" + "," +
-                        "'z': {" + i.second.z + "}" + "" + "}";
+                response += "'" + i.username + "': { 'x': {" + i.x + "}" + "," + "'y': {" + i.y + "}" + "," +
+                            "'z': {" + i.z + "}" + "" + "},";
+            response += "'" + i.username + "': { 'x': {" + i.x + "}" + "," + "'y': {" + i.y + "}" + "," +
+                        "'z': {" + i.z + "}" + "" + "}";
         }
         response += '}';
         return req->create_response().set_body(response).done();
