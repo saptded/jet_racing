@@ -1,5 +1,4 @@
-#ifndef PROJECT_INCLUDE_BLOCKSTRUCT_H_
-#define PROJECT_INCLUDE_BLOCKSTRUCT_H_
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -9,5 +8,3 @@
 struct Block {
     std::vector<std::shared_ptr<AbstractElement>> elements;
 };
-
-#endif  // PROJECT_INCLUDE_BLOCKSTRUCT_H_

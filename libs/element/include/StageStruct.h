@@ -1,5 +1,4 @@
-#ifndef PROJECT_INCLUDE_STAGESTRUCT_H_
-#define PROJECT_INCLUDE_STAGESTRUCT_H_
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -9,5 +8,3 @@
 struct Stage {
     std::vector<std::shared_ptr<Block>> blocks;
 };
-
-#endif  // PROJECT_INCLUDE_STAGESTRUCT_H_
