@@ -17,12 +17,12 @@ enum Tag {
     object
 };
 struct Tlist {
-    Tag type;
-    std::vector<json_value *> vector_value;
+    Tag type{};
+    std::vector<json_value *> vector_value{};
 };
 struct Jobject {
-    Tag type;
-    std::map<std::string, json_value *> map_value;
+    Tag type{};
+    std::map<std::string, json_value *> map_value{};
 };
 
 #endif //LIBSERVER_JSON_VAL_H
