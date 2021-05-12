@@ -3,11 +3,11 @@
 
 #include <cstddef>
 
-typedef struct Point {
-    Point(size_t p_x, size_t p_y) : x(p_x), y(p_y) {}
+struct Point {
+    Point(size_t posX, size_t posY) : x(posX), y(posY) {}
     size_t x;
     size_t y;
-} Point;
+};
 
 class AbstractElement {
  public:
@@ -16,7 +16,7 @@ class AbstractElement {
                                                             _center({center.x, center.y}) {}
     virtual ~AbstractElement() = default;
 
-    virtual bool intersect(Point playerA, Point playerB, Point playerC, Point playerD) = 0;
+    virtual bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) = 0;
     virtual bool isElementDynamic() = 0;
 
     Point _start;

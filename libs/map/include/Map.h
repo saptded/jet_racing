@@ -17,7 +17,7 @@ class Map {
     ~Map() = default;
 
     std::vector<std::shared_ptr<AbstractElement>> getDynamicElements();
-    AbstractElement &getCollisionElement(Point posStart, Point posEnd, Point posCenter);
+    AbstractElement &getCollisionElement(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight);
  private:
     std::vector<std::shared_ptr<AbstractElement>> elements;
     std::vector<std::shared_ptr<AbstractElement>> dynamicElements;

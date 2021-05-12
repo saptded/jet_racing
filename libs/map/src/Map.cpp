@@ -16,9 +16,9 @@ std::vector<std::shared_ptr<AbstractElement>> Map::getDynamicElements() {
     return dynamicElements;
 }
 
-AbstractElement &Map::getCollisionElement(Point posStart, Point posEnd, Point posCenter) {
+AbstractElement &Map::getCollisionElement(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
     for (auto &it : elements) {
-        bool isCollision = it->intersect(posStart, posCenter);
+        bool isCollision = it->intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight);
         if (isCollision) {
             return *it;
         }

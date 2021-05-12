@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Wpedantic -Werror")
 add_subdirectory(libs)
 
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC map element parser logger)
+target_link_libraries(main PUBLIC map element parser logger math)
 
 find_package(GTest REQUIRED)
 set(SOURCES tests/run_tests.cpp tests/tests.cpp)

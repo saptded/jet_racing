@@ -22,7 +22,6 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
         }
 
         Stage stage;
-
         for (const auto &it_blocks_tree : stage_tree) {
             std::string name_block;
             boost::property_tree::ptree block_tree;
