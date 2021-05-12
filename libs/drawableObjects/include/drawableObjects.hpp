@@ -4,16 +4,18 @@
 
 #pragma once
 
+#include "mechanicalValues.hpp"
+//#include "AbstractElement.h"
 #include "drawableObject.hpp"
-#include "utils.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 
 class DrawableArc: public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
-    void draw(sf::RenderWindow& window) override;
+    DrawableArc(Point start, Point end, Point center);
+    void create(AbstractElement& element, int stage) override;
+    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
+   // void draw(sf::RenderWindow& window) override;
     float getAngle(Point&centre, Point&rad); // сделаны public для тестирования(
     float calcRadius(Point& one, Point& two); //
 private:
@@ -22,9 +24,9 @@ private:
 
 class DrawableLine: public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
+    void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::VertexArray lines[3];
 };
@@ -33,36 +35,36 @@ private:
 
 class DrawableAccelerator: public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
+    void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };
 
 class DrawableDelayer: public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
+    void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };
 
 class DrawablePortal: public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
+    void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };
 
 class DrawableFinish: public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
+    void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };

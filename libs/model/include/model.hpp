@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 
+#include "Map.h"
 #include "abstractModel.hpp"
 #include "observer.hpp"
 #include "racer.hpp"
@@ -22,6 +23,7 @@ private:
 
     void addObserver(Observer *observer) override;
     void removeObserver(Observer *observer) override;
+
     void notifyObserves(Response &response) override;
 
     void updateMap();
@@ -30,12 +32,12 @@ private:
     void updateRacer();
     void updateEnemies();
 
-    void onCollision(const AbstractElement& element);
+    void onCollision(const AbstractElement &element);
     double lineCoefficient(const AbstractElement &line);
 
     Racer _racer;
     //    Server *server
-    //    Map *map;
+    std::unique_ptr<Map> map;
 
     RacerController _racerController;
     std::list<Observer *> _observes;

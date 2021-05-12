@@ -5,9 +5,9 @@
 #pragma once
 
 #include "racer.hpp"
-#include "utils.hpp"
 #include <iostream>
 #include <sfColor.hpp>
+#include <SFML/Graphics.hpp>
 
 class sfViewerDetails{
 public:

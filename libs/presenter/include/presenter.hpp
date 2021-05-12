@@ -4,6 +4,7 @@
 #include <abstractModel.hpp>
 #include <memory>
 #include <observer.hpp>
+#include "viewer.hpp"
 
 class Presenter : public Observer {
 public:
@@ -17,6 +18,9 @@ public:
 
 private:
     Presenter();
+
+    std::unique_ptr<Viewer> viewer;
+
 
     bool _finishGame;
     std::shared_ptr<AbstractModel> _model;
