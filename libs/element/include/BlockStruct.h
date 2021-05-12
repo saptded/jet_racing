@@ -10,5 +10,4 @@ struct Block {
     std::vector<std::shared_ptr<AbstractElement>> elements;
 };
 
-
 #endif  // PROJECT_INCLUDE_BLOCKSTRUCT_H_

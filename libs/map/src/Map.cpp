@@ -1,4 +1,3 @@
-#include <iostream>
 #include <memory>
 
 #include "Map.h"
@@ -16,7 +15,10 @@ std::vector<std::shared_ptr<AbstractElement>> Map::getDynamicElements() {
     return dynamicElements;
 }
 
-AbstractElement &Map::getCollisionElement(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
+AbstractElement &Map::getCollisionElement(Point playerTopLeft,
+                                          Point playerTopRight,
+                                          Point playerBottomLeft,
+                                          Point playerBottomRight) {
     for (auto &it : elements) {
         bool isCollision = it->intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight);
         if (isCollision) {

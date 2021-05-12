@@ -1,0 +1,25 @@
+<map>
+    <stage stageNumber="1">
+        <block blockNumber="1">
+            <element name="line" startX="100" startY="700" endX="100" endY="350" centerX="0" centerY="0"/>
+            <element name="line" startX="250" startY="700" endX="250" endY="350" centerX="0" centerY="0"/>
+        </block>
+        <block blockNumber="2">
+            <element name="line" startX="100" startY="350" endX="100" endY="150" centerX="0" centerY="0"/>
+            <element name="line" startX="100" startY="150" endX="650" endY="150" centerX="0" centerY="0"/>
+            <element name="line" startX="650" startY="150" endX="650" endY="350" centerX="0" centerY="0"/>
+            <element name="line" startX="250" startY="350" endX="450" endY="350" centerX="0" centerY="0"/>
+            <element name="accelerator" startX="250" startY="300" endX="450" endY="200" centerX="350" centerY="250"/>
+        </block>
+        <block blockNumber="3">
+            <element name="line" startX="450" startY="350" endX="450" endY="650" centerX="0" centerY="0"/>
+            <element name="line" startX="350" startY="350" endX="350" endY="500" centerX="0" centerY="0"/>
+            <element name="line" startX="450" startY="650" endX="650" endY="650" centerX="0" centerY="0"/>
+        </block>
+        <block blockNumber="4">
+            <element name="line" startX="650" startY="500" endX="950" endY="500" centerX="0" centerY="0"/>
+            <element name="line" startX="650" startY="650" endX="950" endY="650" centerX="0" centerY="0"/>
+            <element name="finish" startX="950" startY="650" endX="1000" endY="500" centerX="975" centerY="575"/>
+        </block>
+    </stage>
+</map>

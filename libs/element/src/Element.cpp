@@ -1,18 +1,14 @@
+#include <algorithm>
+#include <cmath>
+#include <vector>
+
 #include "Element.h"
 #include "MathCalculation.h"
 
-#include <vector>
-#include <cmath>
-#include <algorithm>
-
-#include <iostream>
-
-constexpr double power = 2;
 constexpr double eps = 1e-7;
 constexpr double lambdaMin = 0.994444444;
 constexpr double lambdaMax = 1.005555556;
 constexpr double straightAngle = 180;
-constexpr double rightAngle = 90;
 constexpr double toRadian = M_PI / 180;
 constexpr double toDegree = 180 / M_PI;
 constexpr int approximationDegree = 30;
@@ -63,25 +59,25 @@ bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBott
             return true;
         }
 
-        //TODO переисменовать переменные
-        double xFirstProjection = (double) this->_start.x - (double) it.x;
-        double yFirstProjection = (double) this->_start.y - (double) it.y;
-        double xSecondProjection = (double) this->_end.x - (double) it.x;
-        double ySecondProjection = (double) this->_end.y - (double) it.y;
+        double projectionPlayerFigureStartX = (double) this->_start.x - (double) it.x;
+        double projectionPlayerFigureEndX = (double) this->_end.x - (double) it.x;
+        double projectionPlayerFigureStartY = (double) this->_start.y - (double) it.y;
+        double projectionPlayerFigureEndY = (double) this->_end.y - (double) it.y;
 
-        double angleCosine = cosineAngle(xFirstProjection, xSecondProjection, yFirstProjection, ySecondProjection);
+        double cosinePlayerFigure = findCosine(projectionPlayerFigureStartX,
+                                               projectionPlayerFigureEndX,
+                                               projectionPlayerFigureStartY,
+                                               projectionPlayerFigureEndY);
 
-
-
-        if (angleCosine == 1) {
+        if (cosinePlayerFigure == 1) {
             return false;
         }
 
-        if (1 - angleCosine < eps) {
-            if ((acos(angleCosine) * toDegree > straightAngle * lambdaMin
-                && acos(angleCosine) * toDegree < straightAngle * lambdaMax) ||
-                (acos(angleCosine) * toDegree > -(straightAngle * lambdaMax)
-                    && acos(angleCosine) * toDegree > -(straightAngle * lambdaMin))) {
+        if (1 - cosinePlayerFigure < eps) {
+            if ((acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin
+                && acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
+                (acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMax)
+                    && acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMin))) {
                 return true;
             }
         }
@@ -96,7 +92,8 @@ bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBotto
     double yProjectionCenterEnd = (double) this->_center.y - (double) this->_end.y;
 
     double cosineOfAngleStartEnd =
-        cosineAngle(xProjectionCenterStart, xProjectionCenterEnd, yProjectionCenterStart, yProjectionCenterEnd);
+        findCosine(xProjectionCenterStart, xProjectionCenterEnd, yProjectionCenterStart, yProjectionCenterEnd);
+
     if (cosineOfAngleStartEnd > 1 || cosineOfAngleStartEnd < -1) {
         return false;
     }
@@ -113,24 +110,37 @@ bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBotto
     std::vector<Line> approximatedLines;
 
     for (int i = approximationDegree; i <= degree; i += approximationDegree) {
-        double radiusProjectionX = radius * cos(i * toRadian);
-        double radiusProjectionY = radius * sin(i * toRadian);
+        double projectionOfAdjacentAngle = radius * cos(i * toRadian);
+        double projectionOfOppositeAngle = radius * sin(i * toRadian);
 
-        double newPointX = 0;
-        double newPointY = 0;
+        double newPointX;
+        double newPointY;
 
-        if (degree <= rightAngle) {
-            if (this->_center.x >= this->_start.x) {
-                newPointX = (double) this->_center.x - radiusProjectionX;
-            } else {
-                newPointX = (double) this->_center.x + radiusProjectionX;
+        if (i < degree) {
+            if (this->_center.x > this->_start.x) {
+                newPointX = (double) this->_center.x - projectionOfAdjacentAngle;
+                newPointY = (double) this->_center.y - projectionOfOppositeAngle;
             }
 
-            if (this->_center.y >= this->_start.y) {
-                newPointY = (double) this->_center.y - radiusProjectionY;
-            } else {
-                newPointY = (double) this->_center.y + radiusProjectionY;
+            if (this->_center.x < this->_start.x) {
+                newPointX = (double) this->_center.x + projectionOfAdjacentAngle;
+                newPointY = (double) this->_center.y + projectionOfOppositeAngle;
             }
+
+            if (this->_center.y > this->_start.y) {
+                newPointX = (double) this->_center.x + projectionOfOppositeAngle;
+                newPointY = (double) this->_center.y - projectionOfAdjacentAngle;
+            }
+
+            if (this->_center.y < this->_start.y) {
+                newPointX = (double) this->_center.x - projectionOfOppositeAngle;
+                newPointY = (double) this->_center.y + projectionOfAdjacentAngle;
+            }
+        }
+
+        if (i == degree) {
+            newPointX = (double) this->_end.x;
+            newPointY = (double) this->_end.y;
         }
 
         Point newEnd = {(size_t) round(newPointX), (size_t) round(newPointY)};
@@ -145,12 +155,10 @@ bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBotto
 
     for (auto it : approximatedLines) {
         if (it.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight)) {
-            std::cout << "пересечение" << std::endl;
             return true;
         }
     }
 
-    std::cout << "нет пересечения" << std::endl;
     return false;
 }
 

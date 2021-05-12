@@ -1,8 +1,8 @@
 #ifndef PROJECT_INCLUDE_MAP_H_
 #define PROJECT_INCLUDE_MAP_H_
 
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "Element.h"
@@ -17,7 +17,10 @@ class Map {
     ~Map() = default;
 
     std::vector<std::shared_ptr<AbstractElement>> getDynamicElements();
-    AbstractElement &getCollisionElement(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight);
+    AbstractElement &getCollisionElement(Point playerTopLeft,
+                                         Point playerTopRight,
+                                         Point playerBottomLeft,
+                                         Point playerBottomRight);
  private:
     std::vector<std::shared_ptr<AbstractElement>> elements;
     std::vector<std::shared_ptr<AbstractElement>> dynamicElements;
