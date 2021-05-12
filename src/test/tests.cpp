@@ -26,7 +26,10 @@ TEST(stress_test, tests_input) {
 TEST(serialization_test, tests_input) {
     Position user = Position{"racer", "1", "2", "4"};
     std::string response = writeToJson(user);
-    std::cout << response;
+    ASSERT_EQ(response, "{\"username\":\"racer\",\"x\":1,\"y\":2,\"z\":4}");
+}
+TEST(json_parser_test, tests_input) {
+
 }
 
 
