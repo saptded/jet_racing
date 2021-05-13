@@ -1,9 +1,13 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
+#include "Logger.h"
 #include "Parser.h"
 
 std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filename) {
+    init_logger("parsing.log");
+    write_info("Start parsing map");
+
     boost::property_tree::ptree tree;
     boost::property_tree::read_xml(filename, tree);
 
@@ -12,6 +16,8 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
     std::vector<std::shared_ptr<Stage>> stages;
 
     for (const auto &itStagesTree : mapTree) {
+        write_info("Parsing stage");
+
         std::string nameStage;
         boost::property_tree::ptree stageTree;
 
@@ -22,7 +28,10 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
         }
 
         Stage stage;
+
+        write_info("Parsing elements");
         for (const auto &itElementsTree : stageTree) {
+
             std::string nameElement;
             boost::property_tree::ptree elementTree;
 
@@ -62,9 +71,11 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
                 stage.elements.push_back(finish_pointer);
             }
         }
+        write_info("Filling stage with elements");
         std::shared_ptr<Stage> stagePointer(new Stage(stage));
         stages.push_back(stagePointer);
     }
+    write_info("Returning all stages");
 
     return stages;
 }

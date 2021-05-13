@@ -14,3 +14,5 @@ std::shared_ptr<AbstractElement> Map::getCollisionElement(Point playerTopLeft, P
 
     return nullptr;
 }
+
+std::vector<std::shared_ptr<Stage>> Map::getStages() { return stages; }

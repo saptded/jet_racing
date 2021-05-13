@@ -14,6 +14,7 @@ public:
     explicit Map(const std::string &filename);
     ~Map() = default;
 
+    std::vector<std::shared_ptr<Stage>> getStages();
     std::shared_ptr<AbstractElement> getCollisionElement(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight);
 
 private:

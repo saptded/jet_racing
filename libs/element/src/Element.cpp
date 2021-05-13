@@ -32,21 +32,21 @@ bool Finish::isElementDynamic() { return false; }
 bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
-    for (auto it : points) {
-        if ((it.x == _start.x && it.y == _start.y) || (it.x == _end.x && it.y == _end.y)) {
+    for (auto playerPoint : points) {
+        if ((playerPoint.x == _start.x && playerPoint.y == _start.y) || (playerPoint.x == _end.x && playerPoint.y == _end.y)) {
             return true;
         }
 
-        float projectionPlayerFigureStartX = _start.x - it.x;
-        float projectionPlayerFigureEndX = _end.x - it.x;
-        float projectionPlayerFigureStartY = _start.y - it.y;
-        float projectionPlayerFigureEndY = _end.y - it.y;
+        float projectionPlayerFigureStartX = _start.x - playerPoint.x;
+        float projectionPlayerFigureEndX = _end.x - playerPoint.x;
+        float projectionPlayerFigureStartY = _start.y - playerPoint.y;
+        float projectionPlayerFigureEndY = _end.y - playerPoint.y;
 
         float cosinePlayerFigure =
             findCosine(projectionPlayerFigureStartX, projectionPlayerFigureEndX, projectionPlayerFigureStartY, projectionPlayerFigureEndY);
 
-        if (cosinePlayerFigure == 1) {
-            return false;
+        if (cosinePlayerFigure == 1 || cosinePlayerFigure == -1) {
+            return true;
         }
 
         if (1 - cosinePlayerFigure < eps) {
@@ -62,7 +62,7 @@ bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBott
     return false;
 }
 
-std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc& arc) {
+std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc &arc) {
     std::vector<Line> approximatedLines;
 
     for (int i = 1; i <= iteration; i++) {
