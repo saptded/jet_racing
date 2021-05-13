@@ -5,10 +5,10 @@
 Map::Map(const std::string &filename) { stages = parser.parseFile(filename); }
 
 std::shared_ptr<AbstractElement> Map::getCollisionElement(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
-    for (auto &it : elements) {
-        bool isCollision = it->intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight);
+    for (auto &element : elements) {
+        bool isCollision = element->intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight);
         if (isCollision) {
-            return it;
+            return element;
         }
     }
 
