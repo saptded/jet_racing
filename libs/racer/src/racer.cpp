@@ -1,5 +1,6 @@
 //<<<<<<< HEAD
 #include "racer.hpp"
+#include "drawableRacer.hpp"
 
 Racer::Racer(Point point, int id)
     : _width(125)
@@ -9,7 +10,10 @@ Racer::Racer(Point point, int id)
     , _rotationSpeed({0, 0})
     , _position(std::pair<Point, Point>{point, {point.x + _width, point.y + _height}})
     , _center({point.x + 5 * _width / 6, point.y + _height / 2})
-    , _origin({5 * _width / 6, _height / 2}) {}
+    , _origin({5 * _width / 6, _height / 2})
+    , _id(id)
+    ,_drObj(std::make_shared<DrawableRacer>(_width, _height, _id))
+{}
 //=======
 ////
 //// Created by saptded on 15.04.2021.
@@ -36,8 +40,8 @@ Racer::Racer(Point point, int id)
 //    drObj->create(*this);
 //};
 //
-//template<>
-//void Racer::draw<sf::RenderWindow>(sf::RenderWindow& target){
-//    drObj->draw(*this, target);
-//};
+template<>
+void Racer::draw<sf::RenderWindow>(sf::RenderWindow& target){
+    _drObj->draw(*this, target);
+};
 //>>>>>>> view_kseny

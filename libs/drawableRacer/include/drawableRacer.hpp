@@ -13,14 +13,15 @@
 
 class DrawableRacer {
 public:
-    void create (Racer& racer);
-    void draw(Racer& racer, sf::RenderWindow& window);
+    DrawableRacer() = delete;
+    DrawableRacer(float width, float height, int id);
+    void draw(const Racer& racer, sf::RenderWindow& window);
 
 private:
     void loadSources();
-    void changeFire(Speed& speed);
-    void setPos(std::pair<Point,Point>& position);
-    void setRot(float& rotation);
+    void changeFire(const Speed& speed);
+    void setPos(const std::pair<Point,Point>& position);
+    void setRot(const float& rotation);
     void drawWindow(sf::RenderWindow& window);
     sf::Sprite car;
     sf::Sprite fire;

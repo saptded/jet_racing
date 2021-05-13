@@ -42,6 +42,10 @@ void Model::updateModel(Rotation &rotation) {
 
     updateMap();
     updateRacers();
+
+    //там window.display()
+    Response response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
+    notifyObserves(response);
 }
 
 void Model::addObserver(Observer *observer) { _observes.push_back(observer); }
@@ -60,9 +64,6 @@ void Model::updateMap() {
     Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(map->getStage())};
 
     notifyObserves(response);
-//  отображение окна
-    response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
-    notifyObserves(response);
 }
 
 void Model::updateRacers() {
@@ -72,14 +73,14 @@ void Model::updateRacers() {
 
 void Model::updateRacer() {
 
-    //    onCollision(obj1);
-    //    _racerController.changeRotationSpeed(_currentCommand, _racer);
-    //
-    //    _racerController.updateRotation(_racer);
-    //    _racerController.updatePosition(_racer);
+        //onCollision(obj1);
+        _racerController.changeRotationSpeed(_currentCommand, _racer);
 
-    //    Response response{Event::updateRacer, std::make_optional(&_racer)};
-    //    notifyObserves(response);
+        _racerController.updateRotation(_racer);
+        _racerController.updatePosition(_racer);
+
+        Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
+        notifyObserves(response);
 }
 
 void Model::updateEnemies() {}

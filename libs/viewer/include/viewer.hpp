@@ -4,7 +4,6 @@
 
 #pragma once
 
-//#include "utils.hpp"
 #include "response.hpp"
 #include <iostream>
 #include <optional>
@@ -12,12 +11,12 @@
 
 class Viewer {
 public:
-    Viewer() { details = std::make_shared<sfViewerDetails>(); };
+    Viewer();
     // template <typename T, typename M>
     void render(Response &data, sf::RenderWindow &dist) {
         switch (data.eventType) {
-            case INIT:  break;
-            case RACER: break;
+            case INIT: break;
+            case RACER: renderRacer(data, dist); break;
             case ENEMIES: break;
             case STAGE: renderMap(data, dist); break;
             case CHANGE_STAGE: break;
@@ -31,6 +30,7 @@ private:
     //    void init(const Response &data, sf::RenderWindow &dist);
     void renderMap(Response &data, sf::RenderWindow &dist);
     void displayWindow(sf::RenderWindow& dist);
+    void renderRacer(Response &data, sf::RenderWindow &dist);
     //    //template <typename T, typename M>
     //    void render (Response data, , sf::RenderWindow &dist);
     //    template <typename T, typename M> void render (T& data, ::Response<RACER>, M& dist);

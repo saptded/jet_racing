@@ -22,7 +22,6 @@ struct Racer {
 
     int _id;
 
-    std::shared_ptr<DrawableRacer> drObj;
-    void createDrawable();
+    std::shared_ptr<DrawableRacer> _drObj;
     template <typename M> void draw(M &target){};
 };
