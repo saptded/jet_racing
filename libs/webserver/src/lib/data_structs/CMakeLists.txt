@@ -1,0 +1,2 @@
+add_library(libdata_struct SHARED Connection.cpp include/curl_intarface.h)
+target_include_directories(libdata_struct PUBLIC include)
