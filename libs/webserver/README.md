@@ -3,8 +3,7 @@
 
 ## Depends
 ````text
-Boost: 1.76.0
-c++ - standard: 20
+c++ - standard: 17
 clang: **not support**
 gcc: 10
 ````

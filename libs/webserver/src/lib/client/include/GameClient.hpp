@@ -10,6 +10,8 @@
 #include <curl_intarface.h>
 #include <Connection.hpp>
 #include <Position.hpp>
+#include <vector>
+
 
 template<typename Request>
 class GameClient{
@@ -26,18 +28,14 @@ public:
     }
 
     std::string getUpdates() {
-     #ifndef test_jet_racing
-        auto response = Request::getRequest(Url(connection.host + ":" + std::string(connection.port) + "/get_updates"));
+        auto response = Request::getRequest(Url(connection.host + ":" +  connection.port + "/get_updates"));
         return response.text;
-     #else
-        return "200";
-     #endif
     }
 
 
     void sendData(Position &userPosition) {
-        auto response = Request::getRequest(Url(connection.host + ":" + std::string(
-                reinterpret_cast<const char *>(connection.port)) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
+        auto response = Request::getRequest(Url(connection.host + ":" +
+               connection.port + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
     }
 
     void join(std::string username);

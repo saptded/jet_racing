@@ -4,10 +4,7 @@
 
 #ifndef LIBSERVER_CURL_INTARFACE_H
 #define LIBSERVER_CURL_INTARFACE_H
-class Response;
 
-template <typename... Ts>
-Response Get(Ts&&... ts);
 
 class Url;
 

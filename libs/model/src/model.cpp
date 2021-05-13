@@ -1,9 +1,15 @@
+
 #include <cmath>
 #include <functional>
+
 
 #include "AbstractElement.h"
 #include "model.hpp"
 
+#define LIBSERVER_CURL_INTARFACE_H
+#include <cpr/cpr.h>
+using Url = cpr::Url;
+#include <GameClient.hpp>
 enum Type {
     line,
 };
@@ -32,6 +38,14 @@ enum Type {
 // } Line;
 
 //[[maybe_unused]] Line lineElem = {Type::line, {0, 50}, {1280, 50}, {640, 50}, false};
+
+class Request{
+
+public:
+    static cpr::Response getRequest(Url t){
+        return cpr::Get(t);
+    }
+};
 
 Model::Model()
     : _racer({450, 350}), map(std::make_unique<Map>(std::string("/home/kseny/tp/JET/maps/mapTest.xml"))) {
@@ -82,7 +96,10 @@ void Model::updateRacer() {
     //    notifyObserves(response);
 }
 
-void Model::updateEnemies() {}
+void Model::updateEnemies() {
+    GameClient client = GameClient<Request>();
+    client.getUpdates();
+}
 
 // double Model::lineCoefficient(const AbstractElement &line) {
 //     double k = 0;

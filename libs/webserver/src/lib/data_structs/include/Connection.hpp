@@ -12,7 +12,7 @@
  * mb make save url api ?
  */
 struct Connection {
-    int port = 80;
+    std::string port = "80";
     std::string host = "localhost";
 };
 #endif //LIBSERVER_CONNECTION_HPP
