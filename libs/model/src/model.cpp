@@ -34,7 +34,7 @@ enum Type {
 //[[maybe_unused]] Line lineElem = {Type::line, {0, 50}, {1280, 50}, {640, 50}, false};
 
 Model::Model()
-    : _racer({450, 350}), map(std::make_unique<Map>(std::string("/home/saptded/Technopark/Project/jet_racing/maps/mapTest.xml"))) {
+    : _racer({450, 350}), map(std::make_unique<Map>(std::string("/home/kseny/tp/JET/maps/mapTest.xml"))) {
 }
 
 void Model::updateModel(Rotation &rotation) {
@@ -59,6 +59,9 @@ Model::~Model() = default;
 void Model::updateMap() {
     Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(map->getStage())};
 
+    notifyObserves(response);
+//  отображение окна
+    response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
     notifyObserves(response);
 }
 

@@ -17,10 +17,10 @@ class Map {
     ~Map() = default;
 
     std::vector<std::shared_ptr<AbstractElement>> getDynamicElements();
-    AbstractElement &getCollisionElement(PointM playerTopLeft,
-                                         PointM playerTopRight,
-                                         PointM playerBottomLeft,
-                                         PointM playerBottomRight);
+    AbstractElement &getCollisionElement(Point playerTopLeft,
+                                         Point playerTopRight,
+                                         Point playerBottomLeft,
+                                         Point playerBottomRight);
 
     std::vector<std::shared_ptr<AbstractElement>> getStage();
 

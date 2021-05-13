@@ -21,7 +21,7 @@ public:
             case ENEMIES: break;
             case STAGE: renderMap(data, dist); break;
             case CHANGE_STAGE: break;
-            case RENDER: break;
+            case RENDER: displayWindow(dist); break;
             case RESULTS: break;
         }
         //        render(data, data.eventType, dist);
@@ -30,6 +30,7 @@ public:
 private:
     //    void init(const Response &data, sf::RenderWindow &dist);
     void renderMap(Response &data, sf::RenderWindow &dist);
+    void displayWindow(sf::RenderWindow& dist);
     //    //template <typename T, typename M>
     //    void render (Response data, , sf::RenderWindow &dist);
     //    template <typename T, typename M> void render (T& data, ::Response<RACER>, M& dist);

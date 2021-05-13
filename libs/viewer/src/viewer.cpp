@@ -9,3 +9,6 @@ void Viewer::renderMap(Response &data, sf::RenderWindow &dist) {
         elem->draw(dist);
     }
 }
+void Viewer::displayWindow(sf::RenderWindow &dist) {
+    details->display(dist, 1);
+}

@@ -84,6 +84,7 @@ void Presenter::handleButtonEvent() { // TODO сделай из этого ин�
 
 Presenter *Presenter::create() {
     static auto presenter = new Presenter;
+    presenter->viewer = std::make_unique<Viewer>();
     return presenter;
 }
 

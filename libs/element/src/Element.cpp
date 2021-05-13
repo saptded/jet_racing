@@ -18,7 +18,7 @@ constexpr int approximationDegree = 30;
 constexpr float defaultCenterX = 0;
 constexpr float defaultCenterY = 0;
 
-bool Idle::intersect(PointM playerTopLeft, PointM playerTopRight, PointM playerBottomLeft, PointM playerBottomRight) {
+bool Idle::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
     return false;
 }
 
@@ -54,8 +54,8 @@ bool Finish::isElementDynamic() {
     return false;
 }
 
-bool Line::intersect(PointM playerTopLeft, PointM playerTopRight, PointM playerBottomLeft, PointM playerBottomRight) {
-    std::vector<PointM> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
+bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
+    std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     for (auto it : points) {
         if ((it.x == this->_start.x && it.y == this->_start.y) || (it.x == this->_end.x && it.y == this->_end.y)) {
@@ -88,7 +88,7 @@ bool Line::intersect(PointM playerTopLeft, PointM playerTopRight, PointM playerB
 
     return false;
 }
-bool Arc::intersect(PointM playerTopLeft, PointM playerTopRight, PointM playerBottomLeft, PointM playerBottomRight) {
+bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
     double xProjectionCenterStart = (double) this->_center.x - (double) this->_start.x;
     double yProjectionCenterStart = (double) this->_center.y - (double) this->_start.y;
     double xProjectionCenterEnd = (double) this->_center.x - (double) this->_end.x;
@@ -146,8 +146,8 @@ bool Arc::intersect(PointM playerTopLeft, PointM playerTopRight, PointM playerBo
             newPointY = (double) this->_end.y;
         }
 
-        PointM newEnd = {(float) round(newPointX), (float) round(newPointY)};
-        PointM center = {defaultCenterX, defaultCenterY};
+        Point newEnd = {(float) round(newPointX), (float) round(newPointY)};
+        Point center = {defaultCenterX, defaultCenterY};
 
         Line line(this->_start, newEnd, center);
 
@@ -165,16 +165,16 @@ bool Arc::intersect(PointM playerTopLeft, PointM playerTopRight, PointM playerBo
     return false;
 }
 
-bool Rectangle::intersect(PointM playerTopLeft, PointM playerTopRight, PointM playerBottomLeft, PointM playerBottomRight) {
-    std::vector<PointM> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
+bool Rectangle::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
+    std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     auto minmaxHeight = std::minmax_element(points.begin(),
                                             points.end(),
-                                            [](PointM const &lhs, PointM const &rhs) { return lhs.y < rhs.y; });
+                                            [](Point const &lhs, Point const &rhs) { return lhs.y < rhs.y; });
 
     auto minmaxWidth = std::minmax_element(points.begin(),
                                            points.end(),
-                                           [](PointM const &lhs, PointM const &rhs) { return lhs.x < rhs.x; });
+                                           [](Point const &lhs, Point const &rhs) { return lhs.x < rhs.x; });
 
     float playerTop = minmaxHeight.second->y;
     float playerBottom = minmaxHeight.first->y;
@@ -194,10 +194,10 @@ bool Rectangle::intersect(PointM playerTopLeft, PointM playerTopRight, PointM pl
     return false;
 }
 
-void AbstractElement::createDrawable(int stage) {
-    drObj->create(*this, stage);
-}
+//void AbstractElement::createDrawable(int stage) {
+//    drObj->create(*this, stage);
+//}
 
 void AbstractElement::draw(sf::RenderWindow &window) {
-    drObj->draw(window);
+    _drObj->draw(window);
 }

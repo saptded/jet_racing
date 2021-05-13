@@ -19,5 +19,5 @@ void sfViewerDetails::display(sf::RenderWindow &window, int stage){
     window.display();
     window.clear(colors.getBg(stage));
     //view.zoom(0.5f);
-    window.setView(view);
+    //window.setView(view);
 }

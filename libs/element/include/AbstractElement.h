@@ -17,9 +17,13 @@ class DrawableObject;
 
 class AbstractElement {
  public:
-    AbstractElement(Point start, Point end, Point center, std::shared_ptr<DrawableObject>) : _start({start.x, start.y}),
+    AbstractElement(Point start, Point end, Point center, std::shared_ptr<DrawableObject> drObj) : _start({start.x, start.y}),
                                                             _end({end.x, end.y}),
-                                                            _center({center.x, center.y}) {}
+                                                            _center({center.x, center.y}),
+                                                            _drObj(drObj) {};
+    AbstractElement(Point start, Point end, Point center) : _start({start.x, start.y}),
+        _end({end.x, end.y}),
+        _center({center.x, center.y}){};
     virtual ~AbstractElement() = default;
 
     virtual bool intersect(Point playerTopLeft,
@@ -32,7 +36,7 @@ class AbstractElement {
     Point _start;
     Point _end;
     Point _center;
-    std::shared_ptr<DrawableObject> drObj;
+    std::shared_ptr<DrawableObject> _drObj;
     void createDrawable(int stage);
     void draw(sf::RenderWindow &window);
 
