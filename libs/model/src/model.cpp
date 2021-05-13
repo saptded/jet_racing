@@ -70,7 +70,7 @@ void Model::updateRacer() {
     _racerController.updateRotation(_racer);
     _racerController.updatePosition(_racer);
 
-    Response response{Event::updateRacer, std::make_optional(&_racer)};
+    Response response{ViewEvent::RACER, std::make_optional(&_racer)};
     notifyObserves(response);
 }
 

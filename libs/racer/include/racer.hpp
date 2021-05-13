@@ -8,10 +8,10 @@ struct Racer {
     Racer &operator=(const Racer &racer) = default;
     ~Racer() = default;
 
-    double _width;
-    double _height;
+    float _width;
+    float _height;
 
-    double _rotation;
+    float _rotation;
     Speed _speed;
     Speed _rotationSpeed;
     std::pair<Point, Point> _position;

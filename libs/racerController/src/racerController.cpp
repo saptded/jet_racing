@@ -2,7 +2,7 @@
 
 #include "racerController.hpp"
 
-void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &racer, const double &extraAccelerate) const {  // SpeedX - left; SpeedY - right
+void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &racer, const float &extraAccelerate) const {  // SpeedX - left; SpeedY - right
     switch (_rotation) {
         case left:
             if (racer._rotationSpeed.speedX < _maxRotationSpeed + extraAccelerate * 2) {
@@ -23,7 +23,7 @@ void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &race
     }
 }
 
-void RacerController::changeSpeed(Racer &racer, const double &extraAccelerateX, const double &extraAccelerateY) const {
+void RacerController::changeSpeed(Racer &racer, const float &extraAccelerateX, const float &extraAccelerateY) const {
     racer._speed.speedX += cos((racer._rotation * M_PI) / 180) * _speedAccelerate;
     racer._speed.speedX += extraAccelerateX;
 
@@ -44,25 +44,25 @@ void RacerController::changeSpeed(Racer &racer, const double &extraAccelerateX, 
         racer._speed.speedY += _speedAccelerate;
     }
 
-    deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 8));
-    deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 8));
+    deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 15));
+    deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 15));
 }
 
-void RacerController::updateRotation(Racer &racer, const double &extraDegrees) {
+void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
     racer._rotation += racer._rotationSpeed.speedX - racer._rotationSpeed.speedY + extraDegrees;
 
-    double addingRotation = racer._rotation - _previousRotation;
+    float addingRotation = racer._rotation - _previousRotation;
 
-    double x1Old = racer._position.first.x;
-    double y1Old = racer._position.first.y;
-    double x2Old = racer._position.second.x;
-    double y2Old = racer._position.second.y;
+    float x1Old = racer._position.first.x;
+    float y1Old = racer._position.first.y;
+    float x2Old = racer._position.second.x;
+    float y2Old = racer._position.second.y;
 
-    double xCenter = racer._center.x;
-    double yCenter = racer._center.y;
+    float xCenter = racer._center.x;
+    float yCenter = racer._center.y;
 
-    double cosAlfa = cos(-addingRotation * (M_PI / 180));
-    double sinAlfa = sin(-addingRotation * (M_PI / 180));
+    float cosAlfa = cos(-addingRotation * (M_PI / 180));
+    float sinAlfa = sin(-addingRotation * (M_PI / 180));
 
     racer._position.first.x = ((x1Old - xCenter) * cosAlfa - (y1Old - yCenter) * sinAlfa) + xCenter;
     racer._position.first.y = ((x1Old - xCenter) * sinAlfa + (y1Old - yCenter) * cosAlfa) + yCenter;
@@ -74,8 +74,8 @@ void RacerController::updateRotation(Racer &racer, const double &extraDegrees) {
 
 void RacerController::updatePosition(Racer &racer, const Point &newCenterPosition) {
     if (HAVE_NEW_POSITION(newCenterPosition)) {
-        double deltaX = racer._center.x - newCenterPosition.x;
-        double deltaY = racer._center.y - newCenterPosition.y;
+        float deltaX = racer._center.x - newCenterPosition.x;
+        float deltaY = racer._center.y - newCenterPosition.y;
 
         racer._center.x = newCenterPosition.x;
         racer._center.y = newCenterPosition.y;
@@ -96,14 +96,14 @@ void RacerController::updatePosition(Racer &racer, const Point &newCenterPositio
     }
 }
 
-RacerController::RacerController(const double &rotAcc, const double &speedAcc, const double &maxSpeed, const double &maxRotationSpeed)
+RacerController::RacerController(const float &rotAcc, const float &speedAcc, const float &maxSpeed, const float &maxRotationSpeed)
     : _rotationAccelerate(rotAcc)
     , _speedAccelerate(speedAcc)
     , _maxSpeed(maxSpeed)
     , _maxRotationSpeed(maxRotationSpeed)
     , _previousRotation(0) {}
 
-void RacerController::deceleratingSpeed(double &speed, const double &speedDecelerator) const {
+void RacerController::deceleratingSpeed(float &speed, const float &speedDecelerator) const {
     if (speed > 0) {
         if (speed - speedDecelerator <= 0) {
             speed = 0;

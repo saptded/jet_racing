@@ -3,14 +3,15 @@
 #include <iostream>
 #include <vector>
 
-typedef struct Point {
-    double x;
-    double y;
-} Point;
+struct Point {
+    Point(float posX, float posY) : x(posX), y(posY) {}
+    float x;
+    float y;
+};
 
-typedef struct Speed {
-    double speedX;
-    double speedY;
-} Speed;
+struct Speed {
+    float speedX;
+    float speedY;
+};
 
-enum Rotation { left, right, none };
+enum Rotation { left, right, none, finish };
