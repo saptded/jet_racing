@@ -11,7 +11,7 @@ constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
 constexpr float toRadian = M_PI / 180;
 constexpr float toDegree = 180 / M_PI;
-constexpr float approximationDegree = 5;
+constexpr float approximationDegree = 1;
 constexpr size_t defaultCenterX = 0;
 constexpr size_t defaultCenterY = 0;
 
