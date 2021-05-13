@@ -1,15 +1,8 @@
 #pragma once
 
-#include "AbstractElement.h"
+#include <vector>
 
-// class Idle : public AbstractElement {
-//  public:
-//     explicit Idle(Point start, Point end, Point center) : AbstractElement(start, end, center) {}
-//     ~Idle() override = default;
-//
-//     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
-//     bool isElementDynamic() override;
-// };
+#include "AbstractElement.h"
 
 class Line : public AbstractElement {
 public:
@@ -28,6 +21,8 @@ public:
     ~Arc() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    std::vector<Line> getApproximatedArc(int iteration, float radius, const Arc &arc);
+
     bool isElementDynamic() override;
 };
 

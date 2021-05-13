@@ -7,78 +7,63 @@ std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filenam
     boost::property_tree::ptree tree;
     boost::property_tree::read_xml(filename, tree);
 
-    const auto &map_tree = tree.get_child("map");
+    const auto &mapTree = tree.get_child("map");
 
     std::vector<std::shared_ptr<Stage>> stages;
 
-    for (const auto &it_stages_tree : map_tree) {
-        std::string name_stage;
-        boost::property_tree::ptree stage_tree;
+    for (const auto &itStagesTree : mapTree) {
+        std::string nameStage;
+        boost::property_tree::ptree stageTree;
 
-        std::tie(name_stage, stage_tree) = it_stages_tree;
+        std::tie(nameStage, stageTree) = itStagesTree;
 
-        if (name_stage != "stage") {
+        if (nameStage != "stage") {
             continue;
         }
 
         Stage stage;
-        for (const auto &it_blocks_tree : stage_tree) {
-            std::string name_block;
-            boost::property_tree::ptree block_tree;
+        for (const auto &itElementsTree : stageTree) {
+            std::string nameElement;
+            boost::property_tree::ptree elementTree;
 
-            std::tie(name_block, block_tree) = it_blocks_tree;
+            std::tie(nameElement, elementTree) = itElementsTree;
 
-            if (name_block != "block") {
+            if (nameElement != "element") {
                 continue;
             }
 
-            Block block;
-            for (const auto &it_elements_tree : block_tree) {
-                std::string name_element;
-                boost::property_tree::ptree element_tree;
+            Point start(elementTree.get<float>("<xmlattr>.startX"), elementTree.get<float>("<xmlattr>.startY"));
+            Point end(elementTree.get<float>("<xmlattr>.endX"), elementTree.get<float>("<xmlattr>.endY"));
+            Point center(elementTree.get<float>("<xmlattr>.centerX"), elementTree.get<float>("<xmlattr>.centerY"));
 
-                std::tie(name_element, element_tree) = it_elements_tree;
+            auto figure = elementTree.get<std::string>("<xmlattr>.name");
 
-                if (name_element != "element") {
-                    continue;
-                }
-
-                Point start(element_tree.get<float>("<xmlattr>.startX"), element_tree.get<float>("<xmlattr>.startY"));
-                Point end(element_tree.get<float>("<xmlattr>.endX"), element_tree.get<float>("<xmlattr>.endY"));
-                Point center(element_tree.get<float>("<xmlattr>.centerX"), element_tree.get<float>("<xmlattr>.centerY"));
-
-                auto figure = element_tree.get<std::string>("<xmlattr>.name");
-
-                if (figure == "line") {
-                    std::shared_ptr<Line> line_pointer(new Line(start, end, center));
-                    block.elements.push_back(line_pointer);
-                } else if (figure == "arc") {
-                    std::shared_ptr<Arc> arc_pointer(new Arc(start, end, center));
-                    block.elements.push_back(arc_pointer);
-                } else if (figure == "propeller") {
-                    auto isDynamic = element_tree.get<bool>("<xmlattr>.dynamic");
-                    std::shared_ptr<Propeller> propeller_pointer(new Propeller(start, end, center, isDynamic));
-                    block.elements.push_back(propeller_pointer);
-                } else if (figure == "accelerator") {
-                    std::shared_ptr<Accelerator> accelerator_pointer(new Accelerator(start, end, center));
-                    block.elements.push_back(accelerator_pointer);
-                } else if (figure == "delayer") {
-                    std::shared_ptr<Delayer> delayer_pointer(new Delayer(start, end, center));
-                    block.elements.push_back(delayer_pointer);
-                } else if (figure == "portal") {
-                    std::shared_ptr<Portal> portal_pointer(new Portal(start, end, center));
-                    block.elements.push_back(portal_pointer);
-                } else if (figure == "finish") {
-                    std::shared_ptr<Finish> finish_pointer(new Finish(start, end, center));
-                    block.elements.push_back(finish_pointer);
-                }
+            if (figure == "line") {
+                std::shared_ptr<Line> line_pointer(new Line(start, end, center));
+                stage.elements.push_back(line_pointer);
+            } else if (figure == "arc") {
+                std::shared_ptr<Arc> arc_pointer(new Arc(start, end, center));
+                stage.elements.push_back(arc_pointer);
+            } else if (figure == "propeller") {
+                auto isDynamic = elementTree.get<bool>("<xmlattr>.dynamic");
+                std::shared_ptr<Propeller> propeller_pointer(new Propeller(start, end, center, isDynamic));
+                stage.elements.push_back(propeller_pointer);
+            } else if (figure == "accelerator") {
+                std::shared_ptr<Accelerator> accelerator_pointer(new Accelerator(start, end, center));
+                stage.elements.push_back(accelerator_pointer);
+            } else if (figure == "delayer") {
+                std::shared_ptr<Delayer> delayer_pointer(new Delayer(start, end, center));
+                stage.elements.push_back(delayer_pointer);
+            } else if (figure == "portal") {
+                std::shared_ptr<Portal> portal_pointer(new Portal(start, end, center));
+                stage.elements.push_back(portal_pointer);
+            } else if (figure == "finish") {
+                std::shared_ptr<Finish> finish_pointer(new Finish(start, end, center));
+                stage.elements.push_back(finish_pointer);
             }
-
-            std::shared_ptr<Block> block_pointer(new Block(block));
-            stage.blocks.push_back(block_pointer);
         }
-        std::shared_ptr<Stage> stage_pointer(new Stage(stage));
-        stages.push_back(stage_pointer);
+        std::shared_ptr<Stage> stagePointer(new Stage(stage));
+        stages.push_back(stagePointer);
     }
 
     return stages;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "BlockStruct.h"
 #include "Element.h"
 #include "StageStruct.h"
 

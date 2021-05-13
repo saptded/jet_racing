@@ -23,6 +23,4 @@ public:
     Point _start;
     Point _end;
     Point _center;
-
-private:
 };

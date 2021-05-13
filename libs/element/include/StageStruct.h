@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
-#include "BlockStruct.h"
+#include "AbstractElement.h"
 
 struct Stage {
-    std::vector<std::shared_ptr<Block>> blocks;
+    std::vector<std::shared_ptr<AbstractElement>> elements;
 };
