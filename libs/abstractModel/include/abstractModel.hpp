@@ -3,10 +3,9 @@
 #include "mechanicalValues.hpp"
 #include "observer.hpp"
 
-
 class AbstractModel : public Observable {
 public:
-    virtual void updateModel(Rotation &rotation) {};
+    virtual void updateModel(Rotation &rotation){};
 
 private:
 };

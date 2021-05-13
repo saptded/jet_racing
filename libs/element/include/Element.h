@@ -7,10 +7,10 @@
 
 class Idle : public AbstractElement {
 public:
-//    explicit Idle(Point start, Point end, Point center, std::shared_ptr<DrawableObject>& drObj)
-//        : AbstractElement(start, end, center, std::shared_ptr<DrawableObject>(nullptr)) {};
+    //    explicit Idle(Point start, Point end, Point center, std::shared_ptr<DrawableObject>& drObj)
+    //        : AbstractElement(start, end, center, std::shared_ptr<DrawableObject>(nullptr)) {};
     explicit Idle(Point start, Point end, Point center)
-        : AbstractElement(start, end, center) {};
+        : AbstractElement(start, end, center){};
     ~Idle() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
@@ -20,9 +20,9 @@ public:
 class Line : public AbstractElement {
 public:
     explicit Line(Point start, Point end, Point center, std::shared_ptr<DrawableObject> drObj)
-        : AbstractElement(start, end, center, drObj) {};
+        : AbstractElement(start, end, center, drObj){};
     explicit Line(Point start, Point end, Point center)
-        : AbstractElement(start, end, center) {};
+        : AbstractElement(start, end, center){};
     ~Line() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;

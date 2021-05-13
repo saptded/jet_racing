@@ -5,27 +5,23 @@
 #include <string>
 #include <vector>
 
-#include "Element.h"
 #include "BlockStruct.h"
-#include "StageStruct.h"
+#include "Element.h"
 #include "Parser.h"
+#include "StageStruct.h"
 
 class Map {
- public:
+public:
     Map() = default;
     explicit Map(const std::string &filename);
     ~Map() = default;
 
     std::vector<std::shared_ptr<AbstractElement>> getDynamicElements();
-    AbstractElement &getCollisionElement(Point playerTopLeft,
-                                         Point playerTopRight,
-                                         Point playerBottomLeft,
-                                         Point playerBottomRight);
+    AbstractElement &getCollisionElement(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight);
 
     std::vector<std::shared_ptr<AbstractElement>> getStage();
 
-
- private:
+private:
     std::vector<std::shared_ptr<AbstractElement>> elements;
     std::vector<std::shared_ptr<AbstractElement>> dynamicElements;
     Parser parser;

@@ -25,9 +25,9 @@ AbstractElement &Map::getCollisionElement(Point playerTopLeft, Point playerTopRi
     return idle;
 }
 std::vector<std::shared_ptr<AbstractElement>> Map::getStage() {
-    for (const auto& stage : stages) {
-        for (const auto& block : stage->blocks) {
-            for (const auto& element : block->elements) {
+    for (const auto &stage : stages) {
+        for (const auto &block : stage->blocks) {
+            for (const auto &element : block->elements) {
                 elements.push_back(element);
             }
         }
