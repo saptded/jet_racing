@@ -40,8 +40,18 @@ public:
                 reinterpret_cast<const char *>(connection.port)) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
     }
 
-    void join(std::string username);
+    int join(const std::string& username) {
+        auto response = Request::getRequest(Url(connection.host + ":" + std::string(connection.port) + "/add?username=" + username));
+        return response.status_code;
+    }
 
-    std::vector<std::string> searchOpenSession(std::vector<std::string> ipList, std::string port);
+    static inline std::vector<std::string> searchOpenSession(std::vector<std::string> ipList, std::string port){
+        auto result = std::vector<std::string>();
+        for(const auto& i : ipList){
+            auto response = Request::getRequest(Url(i + ":" + port + "/ping"));
+        }
+        return std::vector<std::string>();
+    }
+
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H

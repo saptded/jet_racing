@@ -28,9 +28,7 @@ TEST(serialization_test, tests_input) {
     std::string response = writeToJson(user);
     ASSERT_EQ(response, "{\"username\":\"racer\",\"x\":1,\"y\":2,\"z\":4}");
 }
-TEST(json_parser_test, tests_input) {
 
-}
 
 
 

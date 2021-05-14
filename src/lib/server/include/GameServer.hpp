@@ -38,23 +38,24 @@ public:
         std::string x = std::string(qp["x"]);
         std::string y = std::string(qp["x"]);
         std::string z = std::string(qp["z"]);
-        for (auto& i: userBuffer) {
-            if(i.username == username){
-                i = (Position{username, x,y, z});
-                return req->create_response().set_body("{'status': 'ok'}}").done();
-            }
-        }
-       /* bool res = false;
-        std::copy_if(userBuffer.back(), userBuffer.end(),  std::insert_iterator (Position{username, x,y, z}), [username, &res](auto name){ res = (name.username ==  username);  return  name.username ==  username; });
+        bool res = false;
+        std::replace_if(userBuffer.begin(),userBuffer.end(),[username,&res](const Position& pos){
+            auto response = pos.username == username;
+            res |= response;
+            return response;
+        },Position{username, x,y, z} );
         if(res){
             return req->create_response().set_body("{'status': 'ok'}}").done();
-        }*/
+        }
         return req->create_response().set_body("{'status': 'fail'}}").done();
     }
 
 
-    [[maybe_unused]] auto& sendNewPosition(auto& req, auto& params) {
+    [[maybe_unused]] auto sendNewPosition(auto& req, auto& params) {
         std::string response = "{";
+        /*
+         * использование replace_if не дает  реализовать  алгоритм за O(n);
+         */
         for (auto j = 0; j < userBuffer.size(); j++) {
             const auto &i = userBuffer[j];
             if (j != userBuffer.size())

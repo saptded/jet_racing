@@ -1,3 +1,4 @@
-add_library(libserialization SHARED serialization.cpp include/deserialization.h include/parser.h parser.cpp include/json_val.h)
+add_library(libserialization SHARED  include)
 target_include_directories(libserialization PUBLIC include)
 target_link_libraries(libserialization libdata_struct)
+set_target_properties(libserialization PROPERTIES LINKER_LANGUAGE CXX)
