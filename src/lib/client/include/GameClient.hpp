@@ -9,6 +9,7 @@
 #include <utility>
 #include <curl_intarface.h>
 #include <Connection.hpp>
+#include <deserialization.h>
 #include <Position.hpp>
 
 template<typename Request>
@@ -25,12 +26,17 @@ public:
         connection = Connection();
     }
 
-    std::string getUpdates() {
+
+
+    template<typename Deserialization>
+    Position getUpdates() {
      #ifndef test_jet_racing
+        DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
         auto response = Request::getRequest(Url(connection.host + ":" + std::string(connection.port) + "/get_updates"));
-        return response.text;
+        Position res =  deserObject.getPositionFromJson(response.text);
+        return res;
      #else
-        return "200";
+        return Position{"200"};
      #endif
     }
 

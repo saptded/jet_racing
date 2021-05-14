@@ -19,8 +19,8 @@ class request{
 
 TEST(stress_test, tests_input) {
     auto client = GameClient<request>();
-    auto ret  = client.getUpdates();
-    ASSERT_EQ(ret, "200");
+    auto ret  = client.getUpdates<Response>();
+    ASSERT_EQ(ret.username, "200");
 }
 
 TEST(serialization_test, tests_input) {

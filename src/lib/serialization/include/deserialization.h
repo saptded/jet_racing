@@ -15,13 +15,13 @@
  * 3 - z
  */
 template<typename T>
-class Deserialization{
+class DeserializationObject{
 
     T jsonTransformer = T();
 
 public:
     Position getPositionFromJson(const std::string& json){
-        std::vector<std::pain<std::string, std::string> valueFrmJson = jsonTransformer.jsonToVector(json);
+        std::vector<std::string> valueFrmJson = jsonTransformer.jsonToVector(json);
         std::string username = valueFrmJson[0];
         std::string x = valueFrmJson[1];
         std::string y = valueFrmJson[2];
