@@ -43,4 +43,4 @@ jobs:
       - name: Run Test
         run: build/tests  --gtest_filter=* --gtest_color=no
       - name: Run codecov
-        run: cd .. && bash <(curl -s https://codecov.io/bash) -t ${{secrets.CODECOV_TOKEN}}
+        run: cd .. && bash <(curl -s https://codecov.io/bash) -t b5e4c40ce71b4a6e925633e023a093fa
