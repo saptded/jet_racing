@@ -3,6 +3,7 @@
 #include "viewer.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <abstractModel.hpp>
+#include "SFMLGameWindow.hpp"
 #include <memory>
 #include <observer.hpp>
 
@@ -22,9 +23,10 @@ private:
     std::unique_ptr<Viewer> viewer;
 
     bool _finishGame;
-    std::shared_ptr<AbstractModel> _model;
+    std::unique_ptr<AbstractModel> _model;
+    std::unique_ptr<SFMLGameWindow> _window;
 
-    sf::RenderWindow _window;
+//    sf::RenderWindow _window;
 
     void handleButtonEvent();
 };

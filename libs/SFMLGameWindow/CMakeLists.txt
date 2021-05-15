@@ -1,0 +1,4 @@
+add_library(SFMLGameWindow STATIC src/SFMLGameWindow.cpp)
+
+target_include_directories(SFMLGameWindow PUBLIC include)
+target_link_libraries(SFMLGameWindow PUBLIC sfml-graphics mechanicalValues)

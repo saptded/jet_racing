@@ -44,8 +44,8 @@ void RacerController::changeSpeed(Racer &racer, const float &extraAccelerateX, c
         racer._speed.speedY += _speedAccelerate;
     }
 
-    deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 8));
-    deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 8));
+    deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 15));
+    deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 15));
 }
 
 void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
