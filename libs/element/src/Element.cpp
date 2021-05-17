@@ -29,7 +29,7 @@ bool Portal::isElementDynamic() { return false; }
 
 bool Finish::isElementDynamic() { return false; }
 
-bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
+bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     for (auto playerPoint : points) {
@@ -104,7 +104,7 @@ std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc
     return approximatedLines;
 }
 
-bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
+bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     float xProjectionCenterStart = _center.x - _start.x;
     float yProjectionCenterStart = _center.y - _start.y;
     float xProjectionCenterEnd = _center.x - _end.x;
@@ -135,7 +135,7 @@ bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBotto
     return false;
 }
 
-bool Rectangle::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
+bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     auto minmaxHeight = std::minmax_element(points.begin(), points.end(), [](Point const &lhs, Point const &rhs) { return lhs.y < rhs.y; });

@@ -10,7 +10,7 @@ public:
         : AbstractElement(start, end, center) {}
     ~Line() override = default;
 
-    bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     bool isElementDynamic() override;
 };
 
@@ -20,7 +20,7 @@ public:
         : AbstractElement(start, end, center) {}
     ~Arc() override = default;
 
-    bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     std::vector<Line> getApproximatedArc(int iteration, float radius, const Arc &arc);
 
     bool isElementDynamic() override;
@@ -32,13 +32,14 @@ public:
         : AbstractElement(start, end, center) {}
     ~Rectangle() override = default;
 
-    bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
 };
 
 class Propeller : public Rectangle {
 public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
-        : Rectangle(start, end, center) {}
+        : Rectangle(start, end, center)
+        , isDynamic(false) {}
     ~Propeller() override = default;
 
     bool isElementDynamic() override;
