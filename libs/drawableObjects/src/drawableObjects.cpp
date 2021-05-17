@@ -76,23 +76,6 @@ DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
     : DrawableObject(_start, _end, _center) {
     sf::Color color = chooseColor.getWall(1);
     // только для вертикальных и гозизонтальных линий
-<<<<<<< HEAD
-    if(end.y == start.y){
-        for (int j = -1; j <= 1; j++){
-            lines[j+1] = sf::VertexArray(sf::Lines, 2);
-            lines[j+1][0].position = sf::Vector2f(start.x, start.y+weightK*j);
-            lines[j+1][0].color = color;
-            lines[j+1][1].position = sf::Vector2f(end.x, end.y+weightK*j);
-            lines[j+1][1].color = color;
-        }
-    } else if (end.x == start.x) {
-        for (int j = -1; j <= 1; j++){
-            lines[j+1] = sf::VertexArray(sf::Lines, 2);
-            lines[j+1][0].position = sf::Vector2f(start.x+weightK*j, start.y);
-            lines[j+1][0].color = color;
-            lines[j+1][1].position = sf::Vector2f(end.x+weightK*j, end.y);
-            lines[j+1][1].color = color;
-=======
     if (end.y == start.y) {
         for (int j = -1; j <= 1; j++) {
             lines[j + 1] = sf::VertexArray(sf::Lines, 2);
@@ -108,7 +91,6 @@ DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
             lines[j + 1][0].color = color;
             lines[j + 1][1].position = sf::Vector2f(end.x + j * 0.75, end.y);
             lines[j + 1][1].color = color;
->>>>>>> connecting_modules
         }
     } else {
         // для остальных - некрасиво
