@@ -5,17 +5,19 @@
 #pragma once
 
 #include "racer.hpp"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sfColor.hpp>
-#include <SFML/Graphics.hpp>
 
-class sfViewerDetails{
+class sfViewerDetails {
 public:
-    explicit sfViewerDetails(sf::RenderWindow& window);
-    sfViewerDetails(): viewWidth(float(1920)*1.5), viewHeight(float(1080)*1.5) {};
-    //void init(sf::RenderWindow& window);
-    void update(Racer& racer);
-    void display(sf::RenderWindow& window, int stage);
+    explicit sfViewerDetails(sf::RenderWindow &window);
+    sfViewerDetails()
+        : viewWidth(float(1920) / 3)
+        , viewHeight(float(1080) / 3){};
+    void update(Racer &racer);
+    void display(sf::RenderWindow &window, int stage);
+
 private:
     sf::View view;
     sfColor colors;

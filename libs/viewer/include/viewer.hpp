@@ -29,6 +29,7 @@ public:
 private:
     //    void init(const Response &data, sf::RenderWindow &dist);
     void renderMap(Response &data, sf::RenderWindow &dist);
+
     void displayWindow(sf::RenderWindow& dist);
     void renderRacer(Response &data, sf::RenderWindow& dist);
     //void initRender(Response &data, sf::RenderWindow& dist);

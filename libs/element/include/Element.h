@@ -14,6 +14,9 @@ public:
     ~Line() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+
+//    void collision(Racer &racer, const RacerController &controller) override;
+
     bool isElementDynamic() override;
 };
 
@@ -37,6 +40,7 @@ public:
     ~Rectangle() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    void collision(Racer &racer, const RacerController &controller) override {};
 };
 
 class Propeller : public Rectangle {
@@ -46,6 +50,7 @@ public:
         _drObj = std::make_shared<DrawablePropeller>(start, end, center);
     }
     ~Propeller() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 
@@ -60,6 +65,7 @@ public:
         _drObj = std::make_shared<DrawableAccelerator>(start, end, center);
     }
     ~Accelerator() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };
@@ -71,6 +77,7 @@ public:
         _drObj = std::make_shared<DrawableDelayer>(start, end, center);
     }
     ~Delayer() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };
@@ -82,6 +89,7 @@ public:
         _drObj = std::make_shared<DrawablePortal>(start, end, center);
     }
     ~Portal() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };
@@ -93,6 +101,7 @@ public:
         _drObj = std::make_shared<DrawableFinish>(start, end, center);
     }
     ~Finish() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };

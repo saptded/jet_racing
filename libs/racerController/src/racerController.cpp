@@ -24,10 +24,10 @@ void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &race
 }
 
 void RacerController::changeSpeed(Racer &racer, const float &extraAccelerateX, const float &extraAccelerateY) const {
-    racer._speed.speedX += cos((racer._rotation * M_PI) / 180) * _speedAccelerate;
+    racer._speed.speedX += cosf((racer._rotation * M_PI) / 180) * _speedAccelerate;
     racer._speed.speedX += extraAccelerateX;
 
-    racer._speed.speedY -= sin((racer._rotation * M_PI) / 180) * _speedAccelerate;
+    racer._speed.speedY -= sinf((racer._rotation * M_PI) / 180) * _speedAccelerate;
     racer._speed.speedY += extraAccelerateY;
 
     if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 10) {
@@ -44,8 +44,8 @@ void RacerController::changeSpeed(Racer &racer, const float &extraAccelerateX, c
         racer._speed.speedY += _speedAccelerate;
     }
 
-    deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 8));
-    deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 8));
+    deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 15));
+    deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 15));
 }
 
 void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
@@ -53,21 +53,30 @@ void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
 
     float addingRotation = racer._rotation - _previousRotation;
 
-    float x1Old = racer._position.first.x;
+    float x1Old = racer._position.first.x; // top left
     float y1Old = racer._position.first.y;
-    float x2Old = racer._position.second.x;
+    float x2Old = racer._position.second.x; // bottom right
     float y2Old = racer._position.second.y;
+    float x3Old = racer._positionExtra.first.x; // bottom left
+    float y3Old = racer._positionExtra.first.y;
+    float x4Old = racer._positionExtra.second.x; // top right
+    float y4Old = racer._positionExtra.second.y;
 
     float xCenter = racer._center.x;
     float yCenter = racer._center.y;
 
-    float cosAlfa = cos(-addingRotation * (M_PI / 180));
-    float sinAlfa = sin(-addingRotation * (M_PI / 180));
+    float cosAlfa = cosf(-addingRotation * (M_PI / 180));
+    float sinAlfa = sinf(-addingRotation * (M_PI / 180));
 
-    racer._position.first.x = ((x1Old - xCenter) * cosAlfa - (y1Old - yCenter) * sinAlfa) + xCenter;
+    racer._position.first.x = ((x1Old - xCenter) * cosAlfa - (y1Old - yCenter) * sinAlfa) + xCenter; // top left
     racer._position.first.y = ((x1Old - xCenter) * sinAlfa + (y1Old - yCenter) * cosAlfa) + yCenter;
-    racer._position.second.x = ((x2Old - xCenter) * cosAlfa - (y2Old - yCenter) * sinAlfa) + xCenter;
+    racer._position.second.x = ((x2Old - xCenter) * cosAlfa - (y2Old - yCenter) * sinAlfa) + xCenter; // bottom right
     racer._position.second.y = ((x2Old - xCenter) * sinAlfa + (y2Old - yCenter) * cosAlfa) + yCenter;
+    racer._positionExtra.first.x = ((x3Old - xCenter) * cosAlfa - (y3Old - yCenter) * sinAlfa) + xCenter; // bottom right
+    racer._positionExtra.first.y = ((x3Old - xCenter) * sinAlfa + (y3Old - yCenter) * cosAlfa) + yCenter;
+    racer._positionExtra.second.x = ((x4Old - xCenter) * cosAlfa - (y4Old - yCenter) * sinAlfa) + xCenter; // top right
+    racer._positionExtra.second.y = ((x4Old - xCenter) * sinAlfa + (y4Old - yCenter) * cosAlfa) + yCenter;
+
 
     _previousRotation = racer._rotation;
 }

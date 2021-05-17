@@ -4,7 +4,9 @@
 #include <vector>
 
 struct Point {
-    Point(float posX, float posY) : x(posX), y(posY) {}
+    Point(float posX, float posY)
+        : x(posX)
+        , y(posY) {}
     float x;
     float y;
 };
@@ -14,4 +16,4 @@ struct Speed {
     float speedY;
 };
 
-enum Rotation { left, right, none };
+enum Rotation { left, right, none, finish };

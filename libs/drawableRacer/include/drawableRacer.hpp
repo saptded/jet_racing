@@ -39,6 +39,4 @@ private:
     sf::Texture textureFire;
     sf::Image imCar;
     sf::Image imFire;
-
 };
-

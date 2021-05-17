@@ -4,38 +4,9 @@
 #include "AbstractElement.h"
 #include "model.hpp"
 
-enum Type {
-    line,
-};
-
-// typedef struct AbstractElement {
-//     AbstractElement(Type type, Point start, Point end, Point center, bool isDynamic)
-//         : type(type)
-//         , start(start)
-//         , end(end)
-//         , center(end)
-//         , isDynamic(isDynamic) {}
-//
-//     Type type;
-//     Point start;
-//     Point end;
-//     Point center;
-//     bool isDynamic;
-//
-//     virtual void updateElement(){};
-// } AbstractElement;
-//
-// typedef struct Line : public AbstractElement {
-//     Line(Type type, Point start, Point end, Point center, bool isDynamic)
-//         : AbstractElement(type, start, end, center, isDynamic) {}
-//     void updateElement() override{};
-// } Line;
-
-//[[maybe_unused]] Line lineElem = {Type::line, {0, 50}, {1280, 50}, {640, 50}, false};
-
 Model::Model()
-    : _racer({450, 350}), map(std::make_unique<Map>(std::string("/home/kseny/tp/JET/maps/mapTest.xml"))) {
-}
+    : _racer({100, 850})
+    , _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))) {}
 
 void Model::updateModel(Rotation &rotation) {
     _currentCommand = rotation;
@@ -43,7 +14,6 @@ void Model::updateModel(Rotation &rotation) {
     updateRacers();
     updateMap();
 
-    //там window.display()
     Response response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
     notifyObserves(response);
 }
@@ -61,7 +31,8 @@ void Model::notifyObserves(Response &response) {
 Model::~Model() = default;
 
 void Model::updateMap() {
-    Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(map->getElementsInStage(0))};
+
+    Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(0))};
 
     notifyObserves(response);
 }
@@ -73,14 +44,22 @@ void Model::updateRacers() {
 
 void Model::updateRacer() {
 
-        //onCollision(obj1);
-        _racerController.changeRotationSpeed(_currentCommand, _racer);
+    auto element = _map->getCollisionElement(_racer._position.first, _racer._position.second, _racer._positionExtra.first, _racer._positionExtra.second);
 
-        _racerController.updateRotation(_racer);
-        _racerController.updatePosition(_racer);
 
-        Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
-        notifyObserves(response);
+
+//    if (element->_start.x != 0) {
+//        std::cout << "fuck gg" << std::endl;
+//    }
+
+    _racerController.changeRotationSpeed(_currentCommand, _racer);
+    _racerController.changeSpeed(_racer);
+
+    _racerController.updateRotation(_racer);
+    _racerController.updatePosition(_racer);
+
+    Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
+    notifyObserves(response);
 }
 
 void Model::updateEnemies() {}

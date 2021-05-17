@@ -9,8 +9,9 @@
 #define DEFAULT_MAX_SPEED 6
 #define DEFAULT_MAX_ROTATION_SPEED 7
 #define DEFAULT_EXTRA_VALUE 0
-#define DEFAULT_NEW_POSITION {-1, -1}
-#define HAVE_NEW_POSITION(point)(point.x != -1 && point.y != -1)
+#define DEFAULT_NEW_POSITION                                                                                                                                   \
+    { -1, -1 }
+#define HAVE_NEW_POSITION(point) (point.x != -1 && point.y != -1)
 
 class RacerController {
 public:

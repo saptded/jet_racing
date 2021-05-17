@@ -1,3 +1,5 @@
+#include "drawableObject.hpp"
+#include <AbstractElement.h>
 #include <algorithm>
 #include <cmath>
 #include <vector>
@@ -50,6 +52,7 @@ bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBott
         }
 
         if (1 - cosinePlayerFigure < eps) {
+
             if ((std::acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin &&
                  std::acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
                 (std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMax) &&
