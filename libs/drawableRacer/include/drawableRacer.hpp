@@ -25,7 +25,7 @@ private:
     void drawWindow(sf::RenderWindow &window);
     sf::Sprite car;
     sf::Sprite fire;
-    sf::Texture textureCar;
+    std::unique_ptr<sf::Texture> textureCar;
     sf::Texture textureFire;
     sf::Image imCar;
     sf::Image imFire;

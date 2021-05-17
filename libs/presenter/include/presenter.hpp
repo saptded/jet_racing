@@ -11,6 +11,10 @@ class Presenter : public Observer {
 public:
     static Presenter *create();
 
+    ~Presenter();
+
+
+
     Presenter(const Presenter &) = delete;
     Presenter &operator=(const Presenter &) = delete;
 

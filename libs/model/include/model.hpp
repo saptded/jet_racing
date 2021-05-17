@@ -32,12 +32,12 @@ private:
     void updateRacer();
     void updateEnemies();
 
-    void onCollision(const AbstractElement &element);
-    double lineCoefficient(const AbstractElement &line);
+//    void onCollision(const AbstractElement &element);
+//    double lineCoefficient(const AbstractElement &line);
 
     Racer _racer;
     //    Server *server
-    std::unique_ptr<Map> map;
+    std::unique_ptr<Map> _map;
 
     RacerController _racerController;
     std::list<Observer *> _observes;

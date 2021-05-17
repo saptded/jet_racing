@@ -12,8 +12,8 @@
 void DrawableRacer::loadSources() {
     imCar.loadFromFile("../media/car2.png");
     imCar.createMaskFromColor(sf::Color::Magenta);
-    textureCar.loadFromImage(imCar);
-    textureCar.setSmooth(true);
+    textureCar->loadFromImage(imCar);
+    textureCar->setSmooth(true);
 
     imFire.loadFromFile("../media/fire2.png");
     imFire.createMaskFromColor(sf::Color::Magenta);
@@ -39,10 +39,10 @@ void DrawableRacer::changeFire(const Speed &speed) {
     fire.setColor(sf::Color(255, 255, 255, ((int)absSpeed) % 225));
 }
 
-DrawableRacer::DrawableRacer(float width, float height, int id) {
+DrawableRacer::DrawableRacer(float width, float height, int id) : textureCar(new sf::Texture) {
     loadSources();
     car.setOrigin(width / 4, height / 2);
-    car.setTexture(textureCar);
+    car.setTexture(*textureCar);
     sfColor chooseColor;
     car.setColor(chooseColor.getCar(id));
     fire.setOrigin(-width / 4, height / 2);

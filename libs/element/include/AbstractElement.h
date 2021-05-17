@@ -1,11 +1,12 @@
 #ifndef PROJECT_INCLUDE_ABSTRACTELEMENT_H_
 #define PROJECT_INCLUDE_ABSTRACTELEMENT_H_
 
-//#include <cstddef>
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "mechanicalValues.hpp"
 #include <memory>
-//#include "drawableObject.hpp"
+#include <utility>
+#include "racer.hpp"
+#include "racerController.hpp"
 
 class DrawableObject;
 
@@ -21,7 +22,7 @@ public:
         : _start({start.x, start.y})
         , _end({end.x, end.y})
         , _center({center.x, center.y})
-        , _drObj(drObj){};
+        , _drObj(std::move(drObj)){};
     AbstractElement(Point start, Point end, Point center)
         : _start({start.x, start.y})
         , _end({end.x, end.y})
@@ -29,6 +30,8 @@ public:
     virtual ~AbstractElement() = default;
 
     virtual bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) = 0;
+
+    virtual void collision(Racer &racer, const RacerController &controller) = 0;
 
     virtual bool isElementDynamic() = 0;
 

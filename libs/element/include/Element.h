@@ -1,5 +1,6 @@
-#ifndef PROJECT_INCLUDE_ELEMENT_H_
-#define PROJECT_INCLUDE_ELEMENT_H_
+#pragma once
+
+#include <utility>
 
 #include "AbstractElement.h"
 #include "drawableObjects.hpp"
@@ -14,28 +15,33 @@ public:
     ~Idle() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    void collision(Racer &racer, const RacerController &controller) override {};
     bool isElementDynamic() override;
 };
 
 class Line : public AbstractElement {
 public:
     explicit Line(Point start, Point end, Point center, std::shared_ptr<DrawableObject> drObj)
-        : AbstractElement(start, end, center, drObj){};
+        : AbstractElement(start, end, center, std::move(drObj)){};
     explicit Line(Point start, Point end, Point center)
         : AbstractElement(start, end, center){};
     ~Line() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+
+    void collision(Racer &racer, const RacerController &controller) override;
+
     bool isElementDynamic() override;
 };
 
 class Arc : public AbstractElement {
 public:
     explicit Arc(Point start, Point end, Point center, std::shared_ptr<DrawableObject> drObj)
-        : AbstractElement(start, end, center, drObj){};
+        : AbstractElement(start, end, center, std::move(drObj)){};
     ~Arc() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    void collision(Racer &racer, const RacerController &controller) override {};
     bool isElementDynamic() override;
 };
 
@@ -46,6 +52,7 @@ public:
     ~Rectangle() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    void collision(Racer &racer, const RacerController &controller) override {};
 };
 
 class Propeller : public Rectangle {
@@ -53,6 +60,7 @@ public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
         : Rectangle(start, end, center) {}
     ~Propeller() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 
@@ -65,6 +73,7 @@ public:
     explicit Accelerator(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Accelerator() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };
@@ -74,6 +83,7 @@ public:
     explicit Delayer(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Delayer() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };
@@ -83,6 +93,7 @@ public:
     explicit Portal(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Portal() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };
@@ -92,8 +103,7 @@ public:
     explicit Finish(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Finish() override = default;
+    void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
 };
-
-#endif  // PROJECT_INCLUDE_ELEMENT_H_

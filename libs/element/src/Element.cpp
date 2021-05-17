@@ -65,6 +65,11 @@ bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBott
 
     return false;
 }
+
+void Line::collision(Racer &racer, const RacerController &controller) {
+//    controller.changeSpeed(racer, 4, 4);
+}
+
 bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
     double xProjectionCenterStart = (double)this->_center.x - (double)this->_start.x;
     double yProjectionCenterStart = (double)this->_center.y - (double)this->_start.y;
