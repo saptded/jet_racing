@@ -72,6 +72,7 @@ void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
     changeFire(racer._speed);
     drawWindow(window);
 }
+
 void DrawableRacer::drawWindow(sf::RenderWindow &window) {
     window.draw(car);
     window.draw(fire);

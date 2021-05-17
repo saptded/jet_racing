@@ -33,7 +33,6 @@ Model::~Model() = default;
 void Model::updateMap() {
 
     Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(0))};
-
     notifyObserves(response);
 }
 

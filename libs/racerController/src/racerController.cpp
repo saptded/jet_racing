@@ -24,24 +24,30 @@ void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &race
 }
 
 void RacerController::changeSpeed(Racer &racer, const float &extraAccelerateX, const float &extraAccelerateY) const {
-    racer._speed.speedX += cosf((racer._rotation * M_PI) / 180) * _speedAccelerate;
-    racer._speed.speedX += extraAccelerateX;
-
-    racer._speed.speedY -= sinf((racer._rotation * M_PI) / 180) * _speedAccelerate;
-    racer._speed.speedY += extraAccelerateY;
-
-    if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 10) {
-        racer._speed.speedX -= _speedAccelerate;
+    float decel = _speedAccelerate / 10;
+    if (racer._speed.speedX > _maxSpeed || racer._speed.speedX < -_maxSpeed) {
+        if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 10) {
+            racer._speed.speedX -= decel;
+        }
+        if (racer._speed.speedX < (-_maxSpeed + extraAccelerateX * 10)) {
+            racer._speed.speedX += decel;
+        }
+    } else {
+        racer._speed.speedX += cosf((racer._rotation * M_PI) / 180) * _speedAccelerate;
+        racer._speed.speedX += extraAccelerateX;
     }
-    if (racer._speed.speedX < (-_maxSpeed + extraAccelerateX * 10)) {
-        racer._speed.speedX += _speedAccelerate;
-    }
 
-    if (racer._speed.speedY > _maxSpeed + extraAccelerateX * 10) {
-        racer._speed.speedY -= _speedAccelerate;
-    }
-    if (racer._speed.speedY < (-_maxSpeed + extraAccelerateX * 10)) {
-        racer._speed.speedY += _speedAccelerate;
+
+    if (racer._speed.speedY > _maxSpeed || racer._speed.speedY < -_maxSpeed) {
+        if (racer._speed.speedY > _maxSpeed + extraAccelerateX * 10) {
+            racer._speed.speedY -= decel;
+        }
+        if (racer._speed.speedY < (-_maxSpeed + extraAccelerateX * 10)) {
+            racer._speed.speedY += decel;
+        }
+    } else {
+        racer._speed.speedY -= sinf((racer._rotation * M_PI) / 180) * _speedAccelerate;
+        racer._speed.speedY += extraAccelerateY;
     }
 
     deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 15));
