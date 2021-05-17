@@ -20,7 +20,7 @@ void Viewer::renderMap(Response &data, sf::RenderWindow& dist) {
 
 void Viewer::renderRacer(Response &data, sf::RenderWindow& dist) {
     data.racer->draw(dist);
-    //details->update(data.racer.value());
+    details->update(data.racer.value());
 }
 
 void Viewer::displayWindow(sf::RenderWindow &dist) {

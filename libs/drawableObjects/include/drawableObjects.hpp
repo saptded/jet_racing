@@ -19,6 +19,7 @@ public:
     float calcRadius(Point& one, Point& two); //
 private:
     sf::VertexArray arcs[3];
+    float weightK = 5;
 };
 
 class DrawableLine: public DrawableObject {
@@ -27,6 +28,7 @@ public:
     void draw(sf::RenderWindow& window) override;
 private:
     sf::VertexArray lines[3];
+    float weightK = 5;
 };
 
 // дальше реализаций пока нет

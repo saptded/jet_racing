@@ -17,7 +17,7 @@ DrawableArc::DrawableArc(Point _start, Point _end, Point _center):
     sf::Color color = chooseColor.getWall(1);
     float radius = calcRadius(start, center);
     if (radius != calcRadius(end, center)){
-        std::cout << "wrong arc radius = " << radius << std::endl;
+        std::cout << "wrong arc radius = " << radius << " and " << calcRadius(end, center) << std::endl;
         return;
     }
     float angleStart = getAngle(center, end); //поменято сознательно тк испраили направление
@@ -25,16 +25,16 @@ DrawableArc::DrawableArc(Point _start, Point _end, Point _center):
     if (angleStart < angleEnd){
         angleStart += 2*M_PI;
     }
-    std::cout << "arc " << center.x << ", " << center.y << " : angles st, e : ";
-    std::cout << angleStart/M_PI*180 << " " << angleEnd/M_PI*180 << std::endl;
+//    std::cout << "arc " << center.x << ", " << center.y << " : angles st, e : ";
+//    std::cout << angleStart/M_PI*180 << " " << angleEnd/M_PI*180 << std::endl;
     int vertexCount = (int)(radius);
     float angleStep = (angleEnd-angleStart)/(float)(vertexCount-1);
-    std::cout << " angleStep " << angleStep << std::endl;
+    //std::cout << " angleStep " << angleStep << std::endl;
     for(int j = -1; j <= 1; j++){
         float angle = angleStart;
         arcs[j+1] = sf::VertexArray (sf::LineStrip, vertexCount);
         for (int i = 0; i < vertexCount; i++){
-            arcs[j+1][i].position = sf::Vector2f(center.x-(radius+j*0.75)*cosf(angle), center.y-(radius+j*0.75)*sinf(angle));
+            arcs[j+1][i].position = sf::Vector2f(center.x-(radius+j*weightK)*cosf(angle), center.y-(radius+j*weightK)*sinf(angle));
             arcs[j+1][i].color = color;
             angle+=angleStep;
         }
@@ -82,17 +82,17 @@ DrawableLine::DrawableLine(Point _start, Point _end, Point _center):
     if(end.y == start.y){
         for (int j = -1; j <= 1; j++){
             lines[j+1] = sf::VertexArray(sf::Lines, 2);
-            lines[j+1][0].position = sf::Vector2f(start.x, start.y+j*0.75);
+            lines[j+1][0].position = sf::Vector2f(start.x, start.y+weightK*j);
             lines[j+1][0].color = color;
-            lines[j+1][1].position = sf::Vector2f(end.x, end.y+j*0.75);
+            lines[j+1][1].position = sf::Vector2f(end.x, end.y+weightK*j);
             lines[j+1][1].color = color;
         }
     } else if (end.x == start.x) {
         for (int j = -1; j <= 1; j++){
             lines[j+1] = sf::VertexArray(sf::Lines, 2);
-            lines[j+1][0].position = sf::Vector2f(start.x+j*0.75, start.y);
+            lines[j+1][0].position = sf::Vector2f(start.x+weightK*j, start.y);
             lines[j+1][0].color = color;
-            lines[j+1][1].position = sf::Vector2f(end.x+j*0.75, end.y);
+            lines[j+1][1].position = sf::Vector2f(end.x+weightK*j, end.y);
             lines[j+1][1].color = color;
         }
     } else {
@@ -116,7 +116,7 @@ static sf::RectangleShape generateStdRect(Point start, Point end){
 }
 
 void DrawableLine::draw(sf::RenderWindow &window) {
-    for (auto line: lines){
+    for (auto &line: lines){
         window.draw(line);
     }
 }
