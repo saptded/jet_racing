@@ -1,21 +1,9 @@
-#ifndef PROJECT_INCLUDE_ELEMENT_H_
-#define PROJECT_INCLUDE_ELEMENT_H_
+#pragma once
 
-#include <utility>
+#include <vector>
+#include <drawableObjects.hpp>
 
 #include "AbstractElement.h"
-#include "drawableObjects.hpp"
-#include "mechanicalValues.hpp"
-
-class Idle : public AbstractElement {
-public:
-    explicit Idle(Point start, Point end, Point center)
-        : AbstractElement(start, end, center) {};
-    ~Idle() override = default;
-
-    bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
-    bool isElementDynamic() override;
-};
 
 class Line : public AbstractElement {
 public:
@@ -38,6 +26,7 @@ public:
     ~Arc() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    std::vector<Line> getApproximatedArc(int iteration, float radius, const Arc &arc);
     bool isElementDynamic() override;
 };
 
@@ -107,5 +96,3 @@ public:
 
     bool isElementDynamic() override;
 };
-
-#endif  // PROJECT_INCLUDE_ELEMENT_H_

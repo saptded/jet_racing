@@ -1,13 +1,10 @@
-#ifndef PROJECT_INCLUDE_STAGESTRUCT_H_
-#define PROJECT_INCLUDE_STAGESTRUCT_H_
+#pragma once
 
 #include <memory>
 #include <vector>
 
-#include "BlockStruct.h"
+#include "AbstractElement.h"
 
 struct Stage {
-    std::vector<std::shared_ptr<Block>> blocks;
+    std::vector<std::shared_ptr<AbstractElement>> elements;
 };
-
-#endif  // PROJECT_INCLUDE_STAGESTRUCT_H_
