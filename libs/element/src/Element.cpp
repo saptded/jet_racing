@@ -7,19 +7,15 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr double eps = 1e-7;
-constexpr double lambdaMin = 0.994444444;
-constexpr double lambdaMax = 1.005555556;
-constexpr double straightAngle = 180;
-constexpr double toRadian = M_PI / 180;
-constexpr double toDegree = 180 / M_PI;
-constexpr int approximationDegree = 30;
-constexpr float defaultCenterX = 0;
-constexpr float defaultCenterY = 0;
-
-bool Idle::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) { return false; }
-
-bool Idle::isElementDynamic() { return false; }
+constexpr float eps = 1e-7;
+constexpr float lambdaMin = 0.994444444;
+constexpr float lambdaMax = 1.005555556;
+constexpr float straightAngle = 180;
+constexpr float toRadian = M_PI / 180;
+constexpr float toDegree = 180 / M_PI;
+constexpr float approximationDegree = 1;
+constexpr size_t defaultCenterX = 0;
+constexpr size_t defaultCenterY = 0;
 
 bool Line::isElementDynamic() { return false; }
 
@@ -38,107 +34,102 @@ bool Finish::isElementDynamic() { return false; }
 bool Line::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
-    for (auto it : points) {
-        if ((it.x == this->_start.x && it.y == this->_start.y) || (it.x == this->_end.x && it.y == this->_end.y)) {
+    for (auto playerPoint : points) {
+        if ((playerPoint.x == _start.x && playerPoint.y == _start.y) || (playerPoint.x == _end.x && playerPoint.y == _end.y)) {
             return true;
         }
 
-        double projectionPlayerFigureStartX = (double)this->_start.x - (double)it.x;
-        double projectionPlayerFigureEndX = (double)this->_end.x - (double)it.x;
-        double projectionPlayerFigureStartY = (double)this->_start.y - (double)it.y;
-        double projectionPlayerFigureEndY = (double)this->_end.y - (double)it.y;
+        float projectionPlayerFigureStartX = _start.x - playerPoint.x;
+        float projectionPlayerFigureEndX = _end.x - playerPoint.x;
+        float projectionPlayerFigureStartY = _start.y - playerPoint.y;
+        float projectionPlayerFigureEndY = _end.y - playerPoint.y;
 
-        double cosinePlayerFigure =
+        float cosinePlayerFigure =
             findCosine(projectionPlayerFigureStartX, projectionPlayerFigureEndX, projectionPlayerFigureStartY, projectionPlayerFigureEndY);
 
-        if (cosinePlayerFigure == 1) {
-            return false;
+        if (cosinePlayerFigure == 1 || cosinePlayerFigure == -1) {
+            return true;
         }
 
         if (1 - cosinePlayerFigure < eps) {
-            if ((acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin && acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
-                (acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMax) && acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMin))) {
+
+            if ((std::acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin &&
+                 std::acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
+                (std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMax) &&
+                 std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMin))) {
                 return true;
             }
         }
     }
-
     return false;
 }
 
-void Line::collision(Racer &racer, const RacerController &controller) {
-//    controller.changeSpeed(racer, 4, 4);
-}
-
-bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
-    double xProjectionCenterStart = (double)this->_center.x - (double)this->_start.x;
-    double yProjectionCenterStart = (double)this->_center.y - (double)this->_start.y;
-    double xProjectionCenterEnd = (double)this->_center.x - (double)this->_end.x;
-    double yProjectionCenterEnd = (double)this->_center.y - (double)this->_end.y;
-
-    double cosineOfAngleStartEnd = findCosine(xProjectionCenterStart, xProjectionCenterEnd, yProjectionCenterStart, yProjectionCenterEnd);
-
-    if (cosineOfAngleStartEnd > 1 || cosineOfAngleStartEnd < -1) {
-        return false;
-    }
-
-    double degree = acos(cosineOfAngleStartEnd) * toDegree;
-
-    double radius;
-    if (this->_center.x != this->_start.x) {
-        radius = std::abs((double)this->_center.x - (double)this->_start.x);
-    } else {
-        radius = std::abs((double)this->_center.y - (double)this->_start.y);
-    }
-
+std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc &arc) {
     std::vector<Line> approximatedLines;
 
-    for (int i = approximationDegree; i <= degree; i += approximationDegree) {
-        double projectionOfAdjacentAngle = radius * cos(i * toRadian);
-        double projectionOfOppositeAngle = radius * sin(i * toRadian);
+    for (int i = 1; i <= iteration; i++) {
+        float projectionOfAdjacentAngle = radius * std::cos(static_cast<float>(i) * approximationDegree * toRadian);
+        float projectionOfOppositeAngle = radius * std::sin(static_cast<float>(i) * approximationDegree * toRadian);
 
-        double newPointX;
-        double newPointY;
+        float newPointX;
+        float newPointY;
 
-        if (i < degree) {
-            if (this->_center.x > this->_start.x) {
-                newPointX = (double)this->_center.x - projectionOfAdjacentAngle;
-                newPointY = (double)this->_center.y - projectionOfOppositeAngle;
-            }
-
-            if (this->_center.x < this->_start.x) {
-                newPointX = (double)this->_center.x + projectionOfAdjacentAngle;
-                newPointY = (double)this->_center.y + projectionOfOppositeAngle;
-            }
-
-            if (this->_center.y > this->_start.y) {
-                newPointX = (double)this->_center.x + projectionOfOppositeAngle;
-                newPointY = (double)this->_center.y - projectionOfAdjacentAngle;
-            }
-
-            if (this->_center.y < this->_start.y) {
-                newPointX = (double)this->_center.x - projectionOfOppositeAngle;
-                newPointY = (double)this->_center.y + projectionOfAdjacentAngle;
-            }
+        if (arc._center.x > arc._start.x) {
+            newPointX = _center.x - projectionOfAdjacentAngle;
+            newPointY = _center.y - projectionOfOppositeAngle;
+        } else if (arc._center.x < arc._start.x) {
+            newPointX = _center.x + projectionOfAdjacentAngle;
+            newPointY = _center.y + projectionOfOppositeAngle;
+        } else if (arc._center.y > arc._start.y) {
+            newPointX = _center.x + projectionOfOppositeAngle;
+            newPointY = _center.y - projectionOfAdjacentAngle;
+        } else if (arc._center.y < arc._start.y) {
+            newPointX = _center.x - projectionOfOppositeAngle;
+            newPointY = _center.y + projectionOfAdjacentAngle;
         }
 
-        if (i == degree) {
-            newPointX = (double)this->_end.x;
-            newPointY = (double)this->_end.y;
+        if (i == iteration) {
+            newPointX = _end.x;
+            newPointY = _end.y;
         }
 
-        Point newEnd = {(float)round(newPointX), (float)round(newPointY)};
+        Point newEnd = {newPointX, newPointY};
         Point center = {defaultCenterX, defaultCenterY};
 
-        Line line(this->_start, newEnd, center);
+        Line line(_start, newEnd, center);
 
         approximatedLines.push_back(line);
 
-        std::swap(this->_start, newEnd);
+        std::swap(_start, newEnd);
     }
 
-    for (auto it : approximatedLines) {
-        if (it.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight)) {
+    return approximatedLines;
+}
+
+bool Arc::intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) {
+    float xProjectionCenterStart = _center.x - _start.x;
+    float yProjectionCenterStart = _center.y - _start.y;
+    float xProjectionCenterEnd = _center.x - _end.x;
+    float yProjectionCenterEnd = _center.y - _end.y;
+
+    float cosineOfAngleStartEnd = findCosine(xProjectionCenterStart, xProjectionCenterEnd, yProjectionCenterStart, yProjectionCenterEnd);
+
+    float degree = std::acos(cosineOfAngleStartEnd) * toDegree;
+
+    float radius;
+    if (_center.x != _start.x) {
+        radius = std::abs(_center.x - _start.x);
+    } else {
+        radius = std::abs(_center.y - _start.y);
+    }
+
+    int iteration = std::ceil(degree / approximationDegree);
+
+    Arc initArc(_start, _end, _center);
+    std::vector<Line> approximatedLines = this->getApproximatedArc(iteration, radius, initArc);
+
+    for (auto &line : approximatedLines) {
+        if (line.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight)) {
             return true;
         }
     }
@@ -153,25 +144,24 @@ bool Rectangle::intersect(Point playerTopLeft, Point playerTopRight, Point playe
 
     auto minmaxWidth = std::minmax_element(points.begin(), points.end(), [](Point const &lhs, Point const &rhs) { return lhs.x < rhs.x; });
 
-    float playerTop = minmaxHeight.second->y;
-    float playerBottom = minmaxHeight.first->y;
-    float playerRight = minmaxWidth.second->x;
-    float playerLeft = minmaxWidth.first->x;
+    float playerTopPoint = minmaxHeight.second->y;
+    float playerBottomPoint = minmaxHeight.first->y;
+    float playerRightPoint = minmaxWidth.second->x;
+    float playerLeftPoint = minmaxWidth.first->x;
 
-    float figureTop = std::max(this->_start.y, this->_end.y);
-    float figureBottom = std::min(this->_start.y, this->_end.y);
-    float figureRight = std::max(this->_start.x, this->_end.x);
-    float figureLeft = std::min(this->_start.x, this->_end.x);
+    float figureTopPoint = std::max(_start.y, _end.y);
+    float figureBottomPoint = std::min(_start.y, _end.y);
+    float figureRightPoint = std::max(_start.x, _end.x);
+    float figureLeftPoint = std::min(_start.x, _end.x);
 
-    if ((playerTop <= figureTop || playerBottom >= figureBottom) && (playerRight <= figureRight || playerLeft >= figureLeft)) {
+    if ((playerTopPoint <= figureTopPoint || playerBottomPoint >= figureBottomPoint) &&
+        (playerRightPoint <= figureRightPoint || playerLeftPoint >= figureLeftPoint)) {
         return true;
     }
 
     return false;
 }
 
-// void AbstractElement::createDrawable(int stage) {
-//     drObj->create(*this, stage);
-// }
-
-void AbstractElement::draw(sf::RenderWindow &window) { _drObj->draw(window); }
+void AbstractElement::draw(sf::RenderWindow &window) {
+    _drObj->draw(window);
+}

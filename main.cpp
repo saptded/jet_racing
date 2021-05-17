@@ -124,3 +124,4 @@ std::vector<abstractElement> makeStage(){
     stage.push_back({{500,60}, {600,50},{0,0}, false, std::make_shared<DrawablePortal>()});
     return stage;
 }
+

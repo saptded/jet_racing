@@ -1,6 +1,3 @@
-#ifndef JET_RACING_LIBS_MATH_INCLUDE_MATHCALCULATION_H_
-#define JET_RACING_LIBS_MATH_INCLUDE_MATHCALCULATION_H_
+#pragma once
 
-double findCosine(double xFirstProjection, double xSecondProjection, double yFirstProjection, double ySecondProjection);
-
-#endif  // JET_RACING_LIBS_MATH_INCLUDE_MATHCALCULATION_H_
+float findCosine(float xFirstProjection, float xSecondProjection, float yFirstProjection, float ySecondProjection);

@@ -1,4 +1,3 @@
-#<<<<<<< HEAD
 add_subdirectory(model)
 add_subdirectory(racer)
 add_subdirectory(mechanicalValues)
@@ -11,13 +10,14 @@ add_subdirectory(map)
 add_subdirectory(mathCalc)
 add_subdirectory(element)
 add_subdirectory(parser)
+add_subdirectory(logger)
 
 add_subdirectory(viewer)
 add_subdirectory(sfViewerDetails)
 add_subdirectory(sfColor)
-
 add_subdirectory(drawableObject)
 add_subdirectory(drawableObjects)
 add_subdirectory(drawableRacer)
 
 add_subdirectory(SFMLGameWindow)
+

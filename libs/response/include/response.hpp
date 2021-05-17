@@ -15,7 +15,6 @@
 //     Event event;
 //     const std::optional<Racer *> _racer;
 enum ViewEvent {
-    INIT,
     RACER,
     ENEMIES,
     STAGE,

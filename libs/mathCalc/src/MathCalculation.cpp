@@ -2,15 +2,15 @@
 
 #include "MathCalculation.h"
 
-constexpr double power = 2;
+constexpr float power = 2;
 
-double findCosine(double xFirstProjection, double xSecondProjection, double yFirstProjection, double ySecondProjection) {
-    double firstLength = sqrt(pow(xFirstProjection, power) + pow(yFirstProjection, power));
-    double secondLength = sqrt(pow(xSecondProjection, power) + pow(ySecondProjection, power));
+float findCosine(float xFirstProjection, float xSecondProjection, float yFirstProjection, float ySecondProjection) {
+    float firstLength = std::sqrt(std::pow(xFirstProjection, power) + std::pow(yFirstProjection, power));
+    float secondLength = std::sqrt(std::pow(xSecondProjection, power) + std::pow(ySecondProjection, power));
 
-    double scalarProduct = std::abs(xFirstProjection * xSecondProjection + yFirstProjection * ySecondProjection);
+    float scalarProduct = xFirstProjection * xSecondProjection + yFirstProjection * ySecondProjection;
 
-    double angleCosine = scalarProduct / (firstLength * secondLength);
+    float angleCosine = scalarProduct / (firstLength * secondLength);
 
     return angleCosine;
 }
