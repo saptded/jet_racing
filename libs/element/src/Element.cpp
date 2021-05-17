@@ -194,10 +194,6 @@ bool Rectangle::intersect(Point playerTopLeft, Point playerTopRight, Point playe
     return false;
 }
 
-//void AbstractElement::createDrawable(int stage) {
-//    drObj->create(*this, stage);
-//}
-
 void AbstractElement::draw(sf::RenderWindow &window) {
     _drObj->draw(window);
 }

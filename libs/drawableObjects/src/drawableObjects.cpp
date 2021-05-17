@@ -156,3 +156,22 @@ DrawableLine::DrawableLine(Point _start, Point _end, Point _center){
 //}
 //void DrawableFinish::create(AbstractElement &element, int stage) {}
 //void DrawableFinish::draw(sf::RenderWindow &window) {}
+DrawablePropeller::DrawablePropeller(Point start, Point end, Point center) : DrawableObject(start, end, center) {
+//
+}
+
+DrawableFinish::DrawableFinish(Point start, Point end, Point center) : DrawableObject(start, end, center) {
+
+}
+
+DrawablePortal::DrawablePortal(Point start, Point end, Point center) : DrawableObject(start, end, center) {
+
+}
+
+DrawableDelayer::DrawableDelayer(Point start, Point end, Point center) : DrawableObject(start, end, center) {
+
+}
+
+DrawableAccelerator::DrawableAccelerator(Point start, Point end, Point center) : DrawableObject(start, end, center) {
+
+}

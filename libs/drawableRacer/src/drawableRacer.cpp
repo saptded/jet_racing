@@ -10,12 +10,12 @@
 #include "sfColor.hpp"
 
 void DrawableRacer::loadSources() {
-    imCar.loadFromFile("/home/kseny/tp/JET/media/car2.png");
+    imCar.loadFromFile("/home/kseny/tp/JET/media/fire.png");
     imCar.createMaskFromColor(sf::Color::Magenta);
     textureCar.loadFromImage(imCar);
     textureCar.setSmooth(true);
 
-    imFire.loadFromFile("/home/kseny/tp/JET/media/fire2.png");
+    imFire.loadFromFile("/home/kseny/tp/JET/media/fire.png");
     imFire.createMaskFromColor(sf::Color::Magenta);
     textureFire.loadFromImage(imFire);
     textureFire.setSmooth(true);
@@ -47,6 +47,7 @@ DrawableRacer::DrawableRacer(float width, float height, int id) {
     car.setColor(chooseColor.getCar(id));
     fire.setOrigin(-width/4,height/2);
     fire.setTexture(textureFire);
+
 }
 
 void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
@@ -60,4 +61,18 @@ void DrawableRacer::drawWindow(sf::RenderWindow &window) {
     window.draw(car);
     window.draw(fire);
     //std::cout << "i try" << std::endl;
+}
+
+DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, float rotation) {
+    loadSources();
+    car.setOrigin(origin.x/2, origin.y);
+    car.setTexture(textureCar);
+    car.setTextureRect(sf::IntRect(0, 0, (int)width/2, (int)height));
+    //car.set
+    sfColor chooseColor;
+    car.setColor(chooseColor.getCar(id));
+    fire.setTexture(textureFire);
+    fire.setTextureRect(sf::IntRect(0, 0, (int)width/2, (int)height));
+    fire.setOrigin(origin.x/2 + width/2,origin.y);
+
 }

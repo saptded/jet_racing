@@ -1,14 +1,14 @@
 #ifndef PROJECT_INCLUDE_ELEMENT_H_
 #define PROJECT_INCLUDE_ELEMENT_H_
 
+#include <utility>
+
 #include "AbstractElement.h"
 #include "drawableObjects.hpp"
 #include "mechanicalValues.hpp"
 
 class Idle : public AbstractElement {
 public:
-//    explicit Idle(Point start, Point end, Point center, std::shared_ptr<DrawableObject>& drObj)
-//        : AbstractElement(start, end, center, std::shared_ptr<DrawableObject>(nullptr)) {};
     explicit Idle(Point start, Point end, Point center)
         : AbstractElement(start, end, center) {};
     ~Idle() override = default;
@@ -19,10 +19,10 @@ public:
 
 class Line : public AbstractElement {
 public:
-    explicit Line(Point start, Point end, Point center, std::shared_ptr<DrawableObject> drObj)
-        : AbstractElement(start, end, center, drObj) {};
     explicit Line(Point start, Point end, Point center)
-        : AbstractElement(start, end, center) {};
+        : AbstractElement(start, end, center) {
+        _drObj = std::make_shared<DrawableLine>(start, end, center);
+    };
     ~Line() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
@@ -31,8 +31,10 @@ public:
 
 class Arc : public AbstractElement {
 public:
-    explicit Arc(Point start, Point end, Point center, std::shared_ptr<DrawableObject> drObj)
-        : AbstractElement(start, end, center, drObj){};
+    explicit Arc(Point start, Point end, Point center)
+        : AbstractElement(start, end, center){
+        _drObj = std::make_shared<DrawableArc>(start, end, center);
+    };
     ~Arc() override = default;
 
     bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
@@ -51,7 +53,9 @@ public:
 class Propeller : public Rectangle {
 public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
-        : Rectangle(start, end, center) {}
+        : Rectangle(start, end, center) {
+        _drObj = std::make_shared<DrawablePropeller>(start, end, center);
+    }
     ~Propeller() override = default;
 
     bool isElementDynamic() override;
@@ -63,7 +67,9 @@ private:
 class Accelerator : public Rectangle {
 public:
     explicit Accelerator(Point start, Point end, Point center)
-        : Rectangle(start, end, center) {}
+        : Rectangle(start, end, center) {
+        _drObj = std::make_shared<DrawableAccelerator>(start, end, center);
+    }
     ~Accelerator() override = default;
 
     bool isElementDynamic() override;
@@ -72,7 +78,9 @@ public:
 class Delayer : public Rectangle {
 public:
     explicit Delayer(Point start, Point end, Point center)
-        : Rectangle(start, end, center) {}
+        : Rectangle(start, end, center) {
+        _drObj = std::make_shared<DrawableDelayer>(start, end, center);
+    }
     ~Delayer() override = default;
 
     bool isElementDynamic() override;
@@ -81,7 +89,9 @@ public:
 class Portal : public Rectangle {
 public:
     explicit Portal(Point start, Point end, Point center)
-        : Rectangle(start, end, center) {}
+        : Rectangle(start, end, center) {
+        _drObj = std::make_shared<DrawablePortal>(start, end, center);
+    }
     ~Portal() override = default;
 
     bool isElementDynamic() override;
@@ -90,7 +100,9 @@ public:
 class Finish : public Rectangle {
 public:
     explicit Finish(Point start, Point end, Point center)
-        : Rectangle(start, end, center) {}
+        : Rectangle(start, end, center) {
+        _drObj = std::make_shared<DrawableFinish>(start, end, center);
+    }
     ~Finish() override = default;
 
     bool isElementDynamic() override;
