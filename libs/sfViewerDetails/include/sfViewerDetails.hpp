@@ -11,10 +11,14 @@
 
 class sfViewerDetails{
 public:
-    void init(Racer& racer, sf::RenderWindow& window);
+    explicit sfViewerDetails(sf::RenderWindow& window);
+    sfViewerDetails(): viewWidth(float(1920)/3), viewHeight(float(1080)/3) {};
+    //void init(sf::RenderWindow& window);
     void update(Racer& racer);
     void display(sf::RenderWindow& window, int stage);
 private:
     sf::View view;
-    sfColor colors = sfColor();
+    sfColor colors;
+    float viewHeight = 0;
+    float viewWidth = 0;
 };

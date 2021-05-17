@@ -3,9 +3,9 @@
 #include "drawableRacer.hpp"
 
 Racer::Racer(Point point, int id)
-    : _width(125)
-    , _height(50)
-    , _rotation(200)
+    : _width(60)
+    , _height(20)
+    , _rotation(0)
     , _speed({0, 0})
     , _rotationSpeed({0, 0})
     , _position(std::pair<Point, Point>{point, {point.x + _width, point.y + _height}})

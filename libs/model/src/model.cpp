@@ -40,8 +40,8 @@ Model::Model()
 void Model::updateModel(Rotation &rotation) {
     _currentCommand = rotation;
 
-    updateMap();
     updateRacers();
+    updateMap();
 
     //там window.display()
     Response response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
@@ -61,7 +61,7 @@ void Model::notifyObserves(Response &response) {
 Model::~Model() = default;
 
 void Model::updateMap() {
-    Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(map->getStage())};
+    Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(map->getElementsInStage(0))};
 
     notifyObserves(response);
 }

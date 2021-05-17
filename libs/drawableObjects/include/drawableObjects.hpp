@@ -13,8 +13,6 @@
 class DrawableArc: public DrawableObject {
 public:
     DrawableArc(Point start, Point end, Point center);
-    //void create(AbstractElement& element, int stage) override;
-    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 
     void draw(sf::RenderWindow& window) override;
     float getAngle(Point&centre, Point&rad); // сделаны public для тестирования(
@@ -26,9 +24,7 @@ private:
 class DrawableLine: public DrawableObject {
 public:
     DrawableLine(Point start, Point end, Point center);
-    //void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::VertexArray lines[3];
 };
@@ -38,9 +34,7 @@ private:
 class DrawableAccelerator: public DrawableObject {
 public:
     DrawableAccelerator(Point start, Point end, Point center);
-    //void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };
@@ -48,9 +42,7 @@ private:
 class DrawableDelayer: public DrawableObject {
 public:
     DrawableDelayer(Point start, Point end, Point center);
-    //void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };
@@ -58,9 +50,7 @@ private:
 class DrawablePortal: public DrawableObject {
 public:
     DrawablePortal(Point start, Point end, Point center);
-    //void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };
@@ -68,9 +58,7 @@ private:
 class DrawableFinish: public DrawableObject {
 public:
     DrawableFinish(Point start, Point end, Point center);
-    //void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
-    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };
@@ -81,7 +69,6 @@ public:
     //void create(AbstractElement& element, int stage) override;
     void draw(sf::RenderWindow& window) override;
     void drawRotated(sf::RenderWindow& window, float angle);
-    //void draw(AbstractElement& element, sf::RenderWindow& window) override {};
 private:
     sf::RectangleShape rect;
 };

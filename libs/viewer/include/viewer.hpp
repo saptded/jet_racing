@@ -12,10 +12,10 @@
 class Viewer {
 public:
     Viewer();
-    // template <typename T, typename M>
+    Viewer(sf::RenderWindow &dist);
     void render(Response &data, sf::RenderWindow &dist) {
         switch (data.eventType) {
-            case INIT: break;
+            //case INIT: initRender(data, dist); break;
             case RACER: renderRacer(data, dist); break;
             case ENEMIES: break;
             case STAGE: renderMap(data, dist); break;
@@ -30,7 +30,8 @@ private:
     //    void init(const Response &data, sf::RenderWindow &dist);
     void renderMap(Response &data, sf::RenderWindow &dist);
     void displayWindow(sf::RenderWindow& dist);
-    void renderRacer(Response &data, sf::RenderWindow &dist);
+    void renderRacer(Response &data, sf::RenderWindow& dist);
+    //void initRender(Response &data, sf::RenderWindow& dist);
     //    //template <typename T, typename M>
     //    void render (Response data, , sf::RenderWindow &dist);
     //    template <typename T, typename M> void render (T& data, ::Response<RACER>, M& dist);
