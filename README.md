@@ -16,17 +16,10 @@ gcc: 10
 #include <GameServer.hpp>
 
 int main(void){
-  auto router = std::make_unique<router::express_router_t<>>();
   auto server = GameServer();
-  router->http_get(R"(/register))",server.addUser);
+  router->http_get(R"(/register))",[&server](auto param){ return server.addUser(param)});
 
-  
-  restinio::run(
-    restinio::on_this_thread()
-               .port(8081)
-               .address("localhost")
-               .request_handler(router)
-               );
+  CustomHttpServer::run(router)
 return 0;
 }
 ```
