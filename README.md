@@ -82,7 +82,6 @@ int main(void){
     Connection conn = {"localhost", "9873"};
     auto client = GameClient(conn, Get);
     client.sendData(<data: Position>);
-    
     return 0;
 }
 ```
