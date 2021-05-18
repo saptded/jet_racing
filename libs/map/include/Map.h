@@ -18,7 +18,6 @@ public:
     std::shared_ptr<AbstractElement> getCollisionElement(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight);
 
 private:
-    std::vector<std::shared_ptr<AbstractElement>> elements;
     Parser parser;
     std::vector<std::shared_ptr<Stage>> stages;
 };
