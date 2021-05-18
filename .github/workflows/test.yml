@@ -24,6 +24,8 @@ jobs:
           fetch-depth: 0
       - name: start linter
         uses: docker://github/super-linter:v2.1.0
+        with:
+          VALIDATE_MARKDOWN: false
       - name: start clang format
         uses: HorstBaerbel/action-clang-format@1.4
         with:
