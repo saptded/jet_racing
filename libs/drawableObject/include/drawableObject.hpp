@@ -15,7 +15,8 @@ public:
         start(_start), end(_end), center(_center)
     {};
     virtual void draw(sf::RenderWindow& window) = 0;
-
+    void drawDynamic(sf::RenderWindow& window,  Point _start, Point _end, Point _center){};
+    virtual void change(int stage) = 0;
 protected:
     Point start;
     Point end;

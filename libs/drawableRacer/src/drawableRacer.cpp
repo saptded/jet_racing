@@ -55,15 +55,18 @@ void DrawableRacer::changeFire(const Speed &speed) {
 
 DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, float rotation) {
     loadSources();
+
     car.setTexture(textureCar);
     car.setTextureRect(sf::IntRect(0, 0, (int)width / 2, (int)height));
     car.setOrigin(origin.x - width / 2, origin.y);
-    //     car.set
     sfColor chooseColor;
     car.setColor(chooseColor.getCar(id));
+
     fire.setTexture(textureFire);
     fire.setTextureRect(sf::IntRect(0, 0, (int)width / 2, (int)height));
     fire.setOrigin(origin.x, origin.y);
+
+    setRot(rotation);
 }
 
 void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
