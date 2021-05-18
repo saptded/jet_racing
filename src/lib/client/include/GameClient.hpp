@@ -15,12 +15,11 @@
 template<typename Request>
 class GameClient{
      Connection connection;
-     //Response (&getRequest)(Ts&&... ts);
+
 
 public:
-    explicit GameClient(Connection connection1){// Response (get)(Ts&&...)){
+    explicit GameClient(Connection connection1){
         connection = std::move(connection1);
-       // getRequest = get;
     }
     explicit GameClient(){
         connection = Connection();
@@ -42,8 +41,7 @@ public:
 
 
     void sendData(Position &userPosition) {
-        auto response = Request::getRequest(Url(connection.host + ":" + std::string(
-                reinterpret_cast<const char *>(connection.port)) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
+        auto response = Request::getRequest(Url(connection.host + ":" + std::string(connection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
     }
 
     int join(const std::string& username) {
