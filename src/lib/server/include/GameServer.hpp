@@ -25,15 +25,16 @@ public:
     }
 
 
-    [[maybe_unused]] auto addUser(auto req, auto params) {
+    [[maybe_unused]] auto addUser(auto req) {
         const auto qp = parse_query(req->header().query());
         std::string username = std::string(qp["username"]);
         userBuffer.push_back(Position{username,"0","0", "0"});
         return req->create_response().set_body("{'status': 'ok'}}").done();
     }
 
-    [[maybe_unused]] auto setNewPosition(auto req, auto params){
+    [[maybe_unused]] auto setNewPosition(auto req) {
         const auto qp = parse_query(req->header().query());
+        std::cout << 1;
         std::string username = std::string(qp["username"]);
         std::string x = std::string(qp["x"]);
         std::string y = std::string(qp["x"]);
@@ -51,7 +52,7 @@ public:
     }
 
 
-    [[maybe_unused]] auto sendNewPosition(auto& req, auto& params) {
+    [[maybe_unused]] auto sendNewPosition(auto req) {
         std::string response = "{";
         /*
          * использование replace_if не дает  реализовать  алгоритм за O(n);
