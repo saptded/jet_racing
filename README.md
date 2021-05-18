@@ -66,6 +66,7 @@ int main() {
                     .address("localhost")
                     .port(2021)
                     .request_handler(std::move(router)));
+    
     return 0;
 }
 ```
@@ -80,7 +81,8 @@ using namespace cpr;
 int main(void){
     Connection conn = {"localhost", "9873"};
     auto client = GameClient(conn, Get);
-    client.sendData(<data: Position>); 
+    client.sendData(<data: Position>);
+    
     return 0;
 }
 ```
