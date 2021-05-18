@@ -4,12 +4,13 @@
 #include "racer.hpp"
 #include <optional>
 
-constexpr float DEFAULT_ROTATION_ACCELERATE = 0.25;
-constexpr float DEFAULT_SPEED_ACCELERATE = 0.04;
-constexpr float DEFAULT_MAX_SPEED = 3.5;
-constexpr float DEFAULT_MAX_ROTATION_SPEED = 7;
+constexpr float DEFAULT_ROTATION_ACCELERATE = 0.21;
+constexpr float DEFAULT_SPEED_ACCELERATE = 0.037;
+constexpr float DEFAULT_MAX_SPEED = 3;
+constexpr float DEFAULT_MAX_ROTATION_SPEED = 6;
 constexpr float DEFAULT_EXTRA_VALUE = 0;
-#define DEFAULT_NEW_POSITION { -1, -1 }
+#define DEFAULT_NEW_POSITION                                                                                                                                   \
+    { -1, -1 }
 #define HAVE_NEW_POSITION(point) ((point).x != -1 && (point).y != -1)
 
 class RacerController {

@@ -13,9 +13,9 @@ public:
     };
     ~Line() override = default;
 
-    bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
-
 //    void collision(Racer &racer, const RacerController &controller) override;
+
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
 
     bool isElementDynamic() override;
 };
@@ -28,7 +28,7 @@ public:
     };
     ~Arc() override = default;
 
-    bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     std::vector<Line> getApproximatedArc(int iteration, float radius, const Arc &arc);
     bool isElementDynamic() override;
 };
@@ -39,16 +39,18 @@ public:
         : AbstractElement(start, end, center) {}
     ~Rectangle() override = default;
 
-    bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) override;
+
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     void collision(Racer &racer, const RacerController &controller) override {};
 };
 
 class Propeller : public Rectangle {
 public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
-        : Rectangle(start, end, center) {
+        : Rectangle(start, end, center), isDynamic(false) {
         _drObj = std::make_shared<DrawablePropeller>(start, end, center);
     }
+
     ~Propeller() override = default;
     void collision(Racer &racer, const RacerController &controller) override {};
 

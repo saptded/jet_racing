@@ -43,8 +43,14 @@ void Model::updateRacers() {
 
 void Model::updateRacer() {
 
-    auto element = _map->getCollisionElement(_racer._position.first, _racer._position.second, _racer._positionExtra.first, _racer._positionExtra.second);
+    auto element = _map->getCollisionElement(_racer._position.second,
+                                             _racer._positionExtra.first,
+                                             _racer._positionExtra.second,
+                                             _racer._position.first);
 
+    if (element != nullptr) {
+        std::cout << "fuck gg" << std::endl;
+    }
 
 
 //    if (element->_start.x != 0) {
