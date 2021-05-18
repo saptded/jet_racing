@@ -66,7 +66,6 @@ int main() {
                     .address("localhost")
                     .port(2021)
                     .request_handler(std::move(router)));
-    
     return 0;
 }
 ```
