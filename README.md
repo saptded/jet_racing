@@ -50,21 +50,18 @@ int main() {
                 return (server.template setNewPosition(req));
             }
     );
-    
     router->http_get(
             R"(/add)",
             [&server](auto req, auto params) {
                 return (server.template addUser(req));
             }
     );
-    
     router->http_get(
             R"(/update)",
             [&server](auto req, auto params) {
                 return (server.template sendNewPosition(req));
             }
     );
-    
     restinio::run(
             restinio::on_this_thread<my_server_traits>()
                     .address("localhost")
@@ -82,7 +79,6 @@ int main() {
 #include <cpr/cpr.h>
 using namespace cpr;
 #include <GameClient.hpp>
-
 
 int main(void){
     Connection conn = {"localhost", "9873"};
