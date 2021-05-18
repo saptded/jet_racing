@@ -3,8 +3,7 @@
 
 ## Depends
 ````text
-Boost: 1.76.0
-c++ - standart: 20
+c++ - standart: 17
 clang: **not support**
 gcc: 10
 ````
@@ -41,7 +40,6 @@ struct my_server_traits : public restinio::default_single_thread_traits_t {
     using request_handler_t = restinio::router::express_router_t<>;
 };
 
-
 int main() {
     auto server = GameServer();
     auto router = std::make_unique<restinio::router::express_router_t<>>();
@@ -52,22 +50,21 @@ int main() {
                 return (server.template setNewPosition(req));
             }
     );
+    
     router->http_get(
             R"(/add)",
             [&server](auto req, auto params) {
                 return (server.template addUser(req));
             }
     );
+    
     router->http_get(
             R"(/update)",
             [&server](auto req, auto params) {
                 return (server.template sendNewPosition(req));
             }
     );
-
-
-
-
+    
     restinio::run(
             restinio::on_this_thread<my_server_traits>()
                     .address("localhost")
