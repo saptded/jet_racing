@@ -15,8 +15,6 @@ class DrawableRacer {
 public:
     DrawableRacer() = delete;
 
-    DrawableRacer(float width, float height, int id);
-
     DrawableRacer(float width, float height, Point origin, int id, float rotation);
 
     void draw(const Racer &racer, sf::RenderWindow &window);

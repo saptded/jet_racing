@@ -3,12 +3,14 @@
         <element name="line" startX="50" startY="850" endX="100" endY="850" centerX="0" centerY="0"/>
         <element name="line" startX="50" startY="1000" endX="100" endY="1000" centerX="0" centerY="0"/>
         <element name="arc" startX="150" startY="800" endX="100" endY="850" centerX="100" centerY="800"/>
-        <element name="arc" startX="300" startY="775" endX="100" endY="1000" centerX="100" centerY="775"/>
+        <element name="arc" startX="300" startY="800" endX="100" endY="1000" centerX="100" centerY="800"/>
+        <element name="line" startX="50" startY="1000" endX="100" endY="1000" centerX="0" centerY="0"/>
         <element name="line" startX="150" startY="800" endX="150" endY="775" centerX="0" centerY="0"/>
+        <element name="line" startX="300" startY="800" endX="300" endY="775" centerX="0" centerY="0"/>
         <element name="arc" startX="150" startY="775" endX="600" endY="775" centerX="375" centerY="775"/>
         <element name="arc" startX="300" startY="775" endX="450" endY="775" centerX="375" centerY="775"/>
         <element name="arc" startX="800" startY="775" endX="600" endY="775" centerX="700" centerY="775"/>
-        <element name="arc" startX="950" startY="775" endX="450" endY="1000" centerX="700" centerY="775"/>
+        <element name="arc" startX="950" startY="775" endX="450" endY="775" centerX="700" centerY="775"/>
         <element name="line" startX="800" startY="775" endX="800" endY="550" centerX="0" centerY="0"/>
         <element name="line" startX="950" startY="775" endX="950" endY="550" centerX="0" centerY="0"/>
         <element name="line" startX="950" startY="550" endX="950" endY="525" centerX="0" centerY="0"/>
@@ -17,12 +19,12 @@
         <element name="line" startX="750" startY="500" endX="375" endY="500" centerX="0" centerY="0"/>
         <element name="line" startX="750" startY="325" endX="375" endY="325" centerX="0" centerY="0"/>
         <element name="arc" startX="375" startY="325" endX="375" endY="225" centerX="375" centerY="275"/>
-        <element name="arc" startX="375" startY="500" endX="375" endY="500" centerX="375" centerY="275"/>
+        <element name="arc" startX="375" startY="500" endX="375" endY="50" centerX="375" centerY="275"/>
         <element name="line" startX="375" startY="50" endX="825" endY="50" centerX="0" centerY="0"/>
         <element name="line" startX="375" startY="225" endX="825" endY="225" centerX="0" centerY="0"/>
         <element name="line" startX="825" startY="50" endX="1100" endY="50" centerX="0" centerY="0"/>
         <element name="arc" startX="1100" startY="50" endX="1175" endY="125" centerX="1100" centerY="125"/>
-        <element name="arc" startX="1225" startY="175" endX="1175" endY="125" centerX="1175" centerY="125"/>
+        <element name="arc" startX="1225" startY="175" endX="1175" endY="125" centerX="1225" centerY="125"/>
         <element name="line" startX="1225" startY="175" endX="1275" endY="175" centerX="0" centerY="0"/>
         <element name="arc" startX="1325" startY="125" endX="1275" endY="175" centerX="1275" centerY="125"/>
         <element name="arc" startX="1325" startY="125" endX="1375" endY="75" centerX="1375" centerY="125"/>
@@ -50,6 +52,7 @@
         <element name="line" startX="1850" startY="750" endX="1850" endY="825" centerX="0" centerY="0"/>
         <element name="arc" startX="1700" startY="750" endX="1650" endY="800" centerX="1650" centerY="750"/>
         <element name="arc" startX="1850" startY="825" endX="1675" endY="1000" centerX="1675" centerY="825"/>
+        <element name="line" startX="1275" startY="1000" endX="1675" endY="1000" centerX="0" centerY="0"/>
         <element name="line" startX="1275" startY="800" endX="1650" endY="800" centerX="0" centerY="0"/>
         <element name="line" startX="1275" startY="1000" endX="1375" endY="1000" centerX="0" centerY="0"/>
         <element name="line" startX="1200" startY="1000" endX="1275" endY="1000" centerX="0" centerY="0"/>
