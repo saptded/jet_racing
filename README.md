@@ -8,7 +8,6 @@ clang: **not support**
 gcc: 10
 ````
 
-
 ## Use server
 
 ```cpp
@@ -67,11 +66,9 @@ int main() {
                     .address("localhost")
                     .port(2021)
                     .request_handler(std::move(router)));
-
     return 0;
 }
 ```
-
 
 ## Use client
 
