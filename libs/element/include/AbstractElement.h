@@ -17,7 +17,7 @@ public:
         , _center({center.x, center.y}){};
     virtual ~AbstractElement() = default;
 
-    virtual bool intersect(Point playerTopLeft, Point playerTopRight, Point playerBottomLeft, Point playerBottomRight) = 0;
+    virtual bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) = 0;
 
     virtual void collision(Racer &racer, const RacerController &controller) {};
 
