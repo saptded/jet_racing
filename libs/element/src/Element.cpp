@@ -163,5 +163,14 @@ bool Rectangle::intersect(Point playerTopLeft, Point playerTopRight, Point playe
 }
 
 void AbstractElement::draw(sf::RenderWindow &window) {
-    _drObj->draw(window);
+    if(!isElementDynamic()){
+        _drObj->draw(window);
+    } else {
+        _drObj->drawDynamic(window, _start, _end, _center);
+    }
+
+}
+
+void AbstractElement::changeDrawableObject(int stage) {
+    _drObj->change(stage);
 }
