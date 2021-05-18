@@ -1,7 +1,7 @@
 #include <restinio/all.hpp>
 
 using namespace restinio;
-
+#include <cpr/cpr.h>
 #include <GameServer.hpp>
 
 template<typename T>
@@ -19,11 +19,22 @@ int main() {
     auto server = GameServer();
     auto router = std::make_unique<restinio::router::express_router_t<>>();
     router->http_get(
-            R"(/data/meter/)",
+            R"(/data)",
             [&server](auto req, auto params) {
-                const auto qp = restinio::parse_query(req->header().query());
-
-                return (server.template ping(req));
+                std::cout<< 2;
+                return (server.template setNewPosition(req));
+            }
+    );
+    router->http_get(
+            R"(/add)",
+            [&server](auto req, auto params) {
+                return (server.template addUser(req));
+            }
+    );
+    router->http_get(
+            R"(/update)",
+            [&server](auto req, auto params) {
+                return (server.template sendNewPosition(req));
             }
     );
 
