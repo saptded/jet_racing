@@ -6,7 +6,7 @@
 #ifndef LIBSERVER_GAMESERVER_HPP
 #define LIBSERVER_GAMESERVER_HPP
 
-#include <Connection.hpp>
+#include <ConnectionData.hpp>
 #include <Position.hpp>
 #include <iostream>
 #include <vector>
@@ -29,7 +29,7 @@ public:
         const auto qp = parse_query(req->header().query());
         std::string username = std::string(qp["username"]);
         userBuffer.push_back(Position{username,"0","0", "0"});
-        return req->create_response().set_body("{'status': 'ok'}}").done();
+        return req->create_response().set_body(R"({"status": "ok"}})");
     }
 
     [[maybe_unused]] auto setNewPosition(auto req) {
@@ -46,9 +46,9 @@ public:
             return response;
         },Position{username, x,y, z} );
         if(res){
-            return req->create_response().set_body("{'status': 'ok'}}").done();
+            return req->create_response().set_body(R"({"status": "ok"}})").done();
         }
-        return req->create_response().set_body("{'status': 'fail'}}").done();
+        return req->create_response().set_body(R"({"status": "fail"}})").done();
     }
 
 

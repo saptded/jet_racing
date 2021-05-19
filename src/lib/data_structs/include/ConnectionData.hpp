@@ -11,7 +11,7 @@
 /*
  * mb make save url api ?
  */
-struct Connection {
+struct ConnectionData {
     int port = 80;
     std::string host = "localhost";
 };
