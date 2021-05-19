@@ -18,7 +18,7 @@ class [[maybe_unused]] GameServer{
 
 public:
 
-    auto ping(auto req){
+    constexpr auto ping(auto req){
         return req->create_response()
                 .set_body("{'status': 200}")
                 .done();
@@ -53,19 +53,17 @@ public:
 
 
     [[maybe_unused]] auto sendNewPosition(auto req) {
-        std::string response = "{";
+        std::string response = "[";
         /*
          * использование replace_if не дает  реализовать  алгоритм за O(n);
          */
-        for (auto j = 0; j < userBuffer.size(); j++) {
+        auto sizeUserBuffer = userBuffer.size();
+        for (auto j = 0; j < sizeUserBuffer - 1; j++) {
             const auto &i = userBuffer[j];
-            if (j != userBuffer.size())
-                response += "'" + i.username + "': { 'x': {" + i.x + "}" + "," + "'y': {" + i.y + "}" + "," +
-                            "'z': {" + i.z + "}" + "" + "},";
-            response += "'" + i.username + "': { 'x': {" + i.x + "}" + "," + "'y': {" + i.y + "}" + "," +
-                        "'z': {" + i.z + "}" + "" + "}";
+            response += R"({"username":")"+ i.username +R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","z":")" + i.z + "\"},";
         }
-        response += '}';
+        const auto& endPositionRender = userBuffer[sizeUserBuffer - 1];
+        response += R"({"username":")"+ endPositionRender.username +R"(","x":")" + endPositionRender.x + R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
         return req->create_response().set_body(response).done();
     }
 
