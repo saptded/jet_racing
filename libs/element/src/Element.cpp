@@ -63,6 +63,9 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     }
     return false;
 }
+void Line::collision(Racer &racer, const RacerController &controller) {
+    controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY);
+}
 
 std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc &arc) {
     std::vector<Line> approximatedLines;

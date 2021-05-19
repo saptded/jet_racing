@@ -5,7 +5,7 @@
 #include "model.hpp"
 
 Model::Model()
-    : _racer({100, 850})
+    : _racer({0, 0})
     , _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))) {}
 
 void Model::updateModel(Rotation &rotation) {
@@ -43,19 +43,14 @@ void Model::updateRacers() {
 
 void Model::updateRacer() {
 
-    auto element = _map->getCollisionElement(_racer._position.second,
-                                             _racer._positionExtra.first,
+    auto element = _map->getCollisionElement(_racer._position.first,
                                              _racer._positionExtra.second,
-                                             _racer._position.first);
+                                             _racer._position.second,
+                                             _racer._positionExtra.first);
 
     if (element != nullptr) {
-        std::cout << "fuck gg" << std::endl;
+        element->collision(_racer, _racerController);
     }
-
-
-//    if (element->_start.x != 0) {
-//        std::cout << "fuck gg" << std::endl;
-//    }
 
     _racerController.changeRotationSpeed(_currentCommand, _racer);
     _racerController.changeSpeed(_racer);

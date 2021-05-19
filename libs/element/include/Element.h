@@ -13,7 +13,7 @@ public:
     };
     ~Line() override = default;
 
-//    void collision(Racer &racer, const RacerController &controller) override;
+    void collision(Racer &racer, const RacerController &controller) override;
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
 
@@ -29,6 +29,9 @@ public:
     ~Arc() override = default;
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
+
+    void collision(Racer &racer, const RacerController &controller) override {};
+
     std::vector<Line> getApproximatedArc(int iteration, float radius, const Arc &arc);
     bool isElementDynamic() override;
 };
@@ -52,6 +55,7 @@ public:
     }
 
     ~Propeller() override = default;
+
     void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
@@ -67,6 +71,7 @@ public:
         _drObj = std::make_shared<DrawableAccelerator>(start, end, center);
     }
     ~Accelerator() override = default;
+
     void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
@@ -79,6 +84,7 @@ public:
         _drObj = std::make_shared<DrawableDelayer>(start, end, center);
     }
     ~Delayer() override = default;
+
     void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;
@@ -91,6 +97,7 @@ public:
         _drObj = std::make_shared<DrawablePortal>(start, end, center);
     }
     ~Portal() override = default;
+
     void collision(Racer &racer, const RacerController &controller) override {};
 
     bool isElementDynamic() override;

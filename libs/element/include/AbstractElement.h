@@ -1,15 +1,16 @@
 #pragma once
 
 #include "SFML/Graphics/RenderWindow.hpp"
+#include "interfaceCollisional.hpp"
 #include "mechanicalValues.hpp"
-#include "racerController.hpp"
 #include "racer.hpp"
+#include "racerController.hpp"
 #include <memory>
 #include <utility>
 
 class DrawableObject;
 
-class AbstractElement {
+class AbstractElement : Collisional {
 public:
     AbstractElement(Point start, Point end, Point center)
         : _start({start.x, start.y})
@@ -18,9 +19,7 @@ public:
     virtual ~AbstractElement() = default;
 
     virtual bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) = 0;
-
-    virtual void collision(Racer &racer, const RacerController &controller) {};
-
+    void collision(Racer &racer, const RacerController &controller) override = 0;
     virtual bool isElementDynamic() = 0;
 
     Point _start;
