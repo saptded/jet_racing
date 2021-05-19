@@ -26,18 +26,17 @@ int main() {
             }
     );
     router->http_get(
-            R"(/add)",
-            [&server](auto req, auto params) {
-                return (server.template addUser(req));
-            }
-    );
-    router->http_get(
             R"(/update)",
             [&server](auto req, auto params) {
                 return (server.template sendNewPosition(req));
             }
     );
-
+    router->http_get(
+            R"(/add)",
+            [&server](auto req, auto params) {
+                return (server.template addUser(req)).done();
+            }
+    );
 
 
 
