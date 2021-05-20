@@ -26,3 +26,5 @@ std::shared_ptr<AbstractElement> Map::getCollisionElement(Point &playerTopLeft, 
 }
 
 std::vector<std::shared_ptr<AbstractElement>> Map::getElementsInStage(int currentStage) { return stages[currentStage]->elements; }
+
+std::pair<Point, Point> Map::getStartPointByID(int id) { return racerStart[id]; }

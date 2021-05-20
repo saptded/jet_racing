@@ -16,6 +16,7 @@ public:
 
     std::vector<std::shared_ptr<AbstractElement>> getElementsInStage(int currentStage);
     std::shared_ptr<AbstractElement> getCollisionElement(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight);
+    std::pair<Point, Point> getStartPointByID(int id);
 
 private:
     Parser parser;
