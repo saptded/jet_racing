@@ -67,7 +67,7 @@ void Line::collision(Racer &racer, const RacerController &controller) {
     controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY);
 }
 
-std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc &arc) {
+std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, Arc &arc) {
     std::vector<Line> approximatedLines;
 
     for (int i = 1; i <= iteration; i++) {
@@ -92,18 +92,18 @@ std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc
         }
 
         if (i == iteration) {
-            newPointX = _end.x;
-            newPointY = _end.y;
+            newPointX = arc._end.x;
+            newPointY = arc._end.y;
         }
 
         Point newEnd = {newPointX, newPointY};
         Point center = {defaultCenterX, defaultCenterY};
 
-        Line line(_start, newEnd, center);
+        Line line(arc._start, newEnd, center);
 
         approximatedLines.push_back(line);
 
-        std::swap(_start, newEnd);
+        std::swap(arc._start, newEnd);
     }
 
     return approximatedLines;

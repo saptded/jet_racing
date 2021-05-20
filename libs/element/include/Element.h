@@ -32,7 +32,7 @@ public:
 
     void collision(Racer &racer, const RacerController &controller) override {};
 
-    std::vector<Line> getApproximatedArc(int iteration, float radius, const Arc &arc);
+    std::vector<Line> getApproximatedArc(int iteration, float radius, Arc &arc);
     bool isElementDynamic() override;
 };
 
