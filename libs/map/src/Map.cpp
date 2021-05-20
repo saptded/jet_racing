@@ -4,11 +4,11 @@
 
 Map::Map(const std::string &filename) {
     stages = parser.parseFile(filename);
+
     for (int i = 0; i < 4; i++) {
-        racerStart[i].first.x = 50;
-        racerStart[i].first.y = 875 + static_cast<float>(i) * 50;
-        racerStart[i].second.x = 80;
-        racerStart[i].second.y = 887 + static_cast<float>(i) * 50;
+        Point positionTL = {50, 875 + static_cast<float>(i) * 50};
+        Point positionBR = {80, 887 + static_cast<float>(i) * 50};
+        racerStart.emplace_back(positionTL, positionBR);
     }
 }
 
