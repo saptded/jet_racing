@@ -4,9 +4,8 @@
 #include "AbstractElement.h"
 #include "model.hpp"
 
-Model::Model()
-    : _racer({0, 0})
-    , _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))) {}
+Model::Model(int id)
+    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))), _racer(_map->getStartPointByID(id).first, id) {}
 
 void Model::updateModel(Rotation &rotation) {
     _currentCommand = rotation;
@@ -45,8 +44,8 @@ void Model::updateRacer() {
 
     auto element = _map->getCollisionElement(_racer._position.first,
                                              _racer._positionExtra.second,
-                                             _racer._position.second,
-                                             _racer._positionExtra.first);
+                                             _racer._positionExtra.first,
+                                             _racer._position.second);
 
     if (element != nullptr) {
         element->collision(_racer, _racerController);

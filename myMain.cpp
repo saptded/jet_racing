@@ -1,7 +1,9 @@
 #include "presenter.hpp"
 
 int main() {
-    Presenter *presenter = Presenter::create();
+    int id = 0;
+
+    Presenter *presenter = Presenter::create(id);
     presenter->run();
 
     delete presenter;

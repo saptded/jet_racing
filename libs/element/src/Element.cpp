@@ -139,6 +139,9 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
 
     return false;
 }
+void Arc::collision(Racer &racer, const RacerController &controller) {
+    controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY);
+}
 
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};

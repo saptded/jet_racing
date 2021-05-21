@@ -13,7 +13,7 @@ struct AbstractElement;
 
 class Model : public AbstractModel {
 public:
-    Model();
+    explicit Model(int id);
     ~Model();
 
     void updateModel(Rotation &rotation) override;
@@ -32,13 +32,11 @@ private:
     void updateRacer();
     void updateEnemies();
 
-//    void onCollision(const AbstractElement &element);
-//    double lineCoefficient(const AbstractElement &line);
-
-    Racer _racer;
-    //    Server *server
     std::unique_ptr<Map> _map;
+    Racer _racer;
 
     RacerController _racerController;
     std::list<Observer *> _observes;
+
+    size_t currentStage;
 };

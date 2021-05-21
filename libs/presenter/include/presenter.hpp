@@ -9,7 +9,7 @@
 
 class Presenter : public Observer {
 public:
-    static Presenter *create();
+    static Presenter *create(int id);
 
     ~Presenter();
 
@@ -22,15 +22,11 @@ public:
     void handleEvent(Response &response) override;
 
 private:
-    Presenter();
-
-    std::unique_ptr<Viewer> viewer;
+    explicit Presenter(int id);
 
     bool _finishGame;
+
+    std::unique_ptr<Viewer> viewer;
     std::unique_ptr<AbstractModel> _model;
     std::unique_ptr<SFMLGameWindow> _window;
-
-//    sf::RenderWindow _window;
-
-    void handleButtonEvent();
 };

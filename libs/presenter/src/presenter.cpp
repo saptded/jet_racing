@@ -2,12 +2,11 @@
 #include "model.hpp"
 #include <complex>
 
-Presenter::Presenter()
+Presenter::Presenter(int id)
     : _finishGame(false)
-    , _model(new Model())
+    , _model(new Model(id))
     , _window(new SFMLGameWindow) {
 
-    //    _model->addObserver(this);
 }
 
 void Presenter::run() {
@@ -27,8 +26,8 @@ void Presenter::run() {
 
 void Presenter::handleEvent(Response &response) { viewer->render(response, _window->getWindow()); }
 
-Presenter *Presenter::create() {
-    static auto presenter = new Presenter;
+Presenter *Presenter::create(int id) {
+    static auto presenter = new Presenter(id);
     presenter->_model->addObserver(presenter);
     presenter->viewer = std::make_unique<Viewer>();
     return presenter;

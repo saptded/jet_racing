@@ -1,4 +1,3 @@
-//<<<<<<< HEAD
 #include "racer.hpp"
 #include "drawableRacer.hpp"
 

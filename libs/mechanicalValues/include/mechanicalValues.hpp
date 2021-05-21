@@ -4,9 +4,7 @@
 #include <vector>
 
 struct Point {
-    Point(float posX, float posY)
-        : x(posX)
-        , y(posY) {}
+    Point(float posX, float posY) : x(posX), y(posY) {}
     float x;
     float y;
 };

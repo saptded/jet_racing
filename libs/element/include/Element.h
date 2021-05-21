@@ -30,7 +30,7 @@ public:
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
 
-    void collision(Racer &racer, const RacerController &controller) override {};
+    void collision(Racer &racer, const RacerController &controller) override;
 
     std::vector<Line> getApproximatedArc(int iteration, float radius, Arc &arc);
     bool isElementDynamic() override;
