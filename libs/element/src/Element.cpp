@@ -7,13 +7,13 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 1e-7;
+constexpr float eps = 3;
 constexpr float lambdaMin = 0.994444444;
 constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
 constexpr float toRadian = M_PI / 180;
 constexpr float toDegree = 180 / M_PI;
-constexpr float approximationDegree = 40;
+constexpr float approximationDegree = 5;
 constexpr size_t defaultCenterX = 0;
 constexpr size_t defaultCenterY = 0;
 
@@ -35,37 +35,29 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     for (auto playerPoint : points) {
-        if ((playerPoint.x == _start.x && playerPoint.y == _start.y) || (playerPoint.x == _end.x && playerPoint.y == _end.y)) { // сравнение через епсилон
-            return true;
-        }
+        if (((playerPoint.x <= _start.x && playerPoint.x >= _end.x) || (playerPoint.x >= _start.x && playerPoint.x <= _end.x)) &&
+            ((playerPoint.y <= _start.y && playerPoint.y >= _end.y) || (playerPoint.y >= _start.y && playerPoint.y <= _end.y))) {
 
-        float projectionPlayerFigureStartX = _start.x - playerPoint.x;
-        float projectionPlayerFigureEndX = _end.x - playerPoint.x;
-        float projectionPlayerFigureStartY = _start.y - playerPoint.y;
-        float projectionPlayerFigureEndY = _end.y - playerPoint.y;
+            float factorForLineEquationA = _end.y - _start.y;
+            float factorForLineEquationB = _start.x - _end.x;
+            float factorForLineEquationC = (_start.y * (_end.x - _start.x)) - (_start.x * (_end.y - _start.y));
 
-        float cosinePlayerFigure =
-            findCosine(projectionPlayerFigureStartX, projectionPlayerFigureEndX, projectionPlayerFigureStartY, projectionPlayerFigureEndY);
+            float dividendForDistance = std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);
 
-        if (cosinePlayerFigure == -1) { // убрали cosinePlayerFigure == 1 ||
-            return true;
-        }
+            if (dividendForDistance == 0) {
+                return true;
+            }
 
-        if (std::abs(1 - cosinePlayerFigure) < eps) { // поменяли на модуль
+            auto distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
 
-            if ((std::acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin &&
-                 std::acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
-                (std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMax) &&
-                 std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMin))) {
+            if (std::abs(1 - distanceFromPointToLine) < eps) {
                 return true;
             }
         }
     }
     return false;
 }
-void Line::collision(Racer &racer, const RacerController &controller) {
-    controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY);
-}
+void Line::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY); }
 
 std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, Arc &arc) {
     std::vector<Line> approximatedLines;
@@ -139,9 +131,7 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
 
     return false;
 }
-void Arc::collision(Racer &racer, const RacerController &controller) {
-    controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY);
-}
+void Arc::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY); }
 
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
@@ -169,14 +159,11 @@ bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &pl
 }
 
 void AbstractElement::draw(sf::RenderWindow &window) {
-    if(!isElementDynamic()){
+    if (!isElementDynamic()) {
         _drObj->draw(window);
     } else {
         _drObj->drawDynamic(window, _start, _end, _center);
     }
-
 }
 
-void AbstractElement::changeDrawableObject(int stage) {
-    _drObj->change(stage);
-}
+void AbstractElement::changeDrawableObject(int stage) { _drObj->change(stage); }
