@@ -6,8 +6,8 @@ Map::Map(const std::string &filename) {
     stages = parser.parseFile(filename);
 
     for (int i = 0; i < 4; i++) {
-        Point positionTL = {50, 875 + static_cast<float>(i) * 50};
-        Point positionBR = {80, 887 + static_cast<float>(i) * 50};
+        Point positionTL = {50, 875 + static_cast<float>(i) * 25};
+        Point positionBR = {80, 887 + static_cast<float>(i) * 25};
         racerStart.emplace_back(positionTL, positionBR);
     }
 }

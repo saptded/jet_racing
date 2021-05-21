@@ -13,7 +13,7 @@ constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
 constexpr float toRadian = M_PI / 180;
 constexpr float toDegree = 180 / M_PI;
-constexpr float approximationDegree = 1;
+constexpr float approximationDegree = 40;
 constexpr size_t defaultCenterX = 0;
 constexpr size_t defaultCenterY = 0;
 
@@ -35,7 +35,7 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     for (auto playerPoint : points) {
-        if ((playerPoint.x == _start.x && playerPoint.y == _start.y) || (playerPoint.x == _end.x && playerPoint.y == _end.y)) {
+        if ((playerPoint.x == _start.x && playerPoint.y == _start.y) || (playerPoint.x == _end.x && playerPoint.y == _end.y)) { // сравнение через епсилон
             return true;
         }
 
@@ -47,11 +47,11 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
         float cosinePlayerFigure =
             findCosine(projectionPlayerFigureStartX, projectionPlayerFigureEndX, projectionPlayerFigureStartY, projectionPlayerFigureEndY);
 
-        if (cosinePlayerFigure == 1 || cosinePlayerFigure == -1) {
+        if (cosinePlayerFigure == -1) { // убрали cosinePlayerFigure == 1 ||
             return true;
         }
 
-        if (1 - cosinePlayerFigure < eps) {
+        if (std::abs(1 - cosinePlayerFigure) < eps) { // поменяли на модуль
 
             if ((std::acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin &&
                  std::acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
