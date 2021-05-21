@@ -7,13 +7,13 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 4;
+constexpr float eps = 5;
 constexpr float lambdaMin = 0.994444444;
 constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
 constexpr float toRadian = M_PI / 180;
 constexpr float toDegree = 180 / M_PI;
-constexpr float approximationDegree = 5;
+constexpr float approximationDegree = 3;
 constexpr size_t defaultCenterX = 0;
 constexpr size_t defaultCenterY = 0;
 
@@ -25,7 +25,11 @@ bool Propeller::isElementDynamic() { return isDynamic; }
 
 bool Accelerator::isElementDynamic() { return false; }
 
+void Accelerator::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, 0.5 * racer._speed.speedX, 0.5 * racer._speed.speedY); }
+
 bool Delayer::isElementDynamic() { return false; }
+
+void Delayer::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, -0.5 * racer._speed.speedX, -0.5 * racer._speed.speedY); }
 
 bool Portal::isElementDynamic() { return false; }
 
@@ -42,12 +46,12 @@ bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
     }
 
     if (start.x == end.x) {
-        if (playerPoint.y <= maxY && playerPoint.y >= minY) {
+        if (playerPoint.y <= maxY && playerPoint.y >= minY && playerPoint.x <= end.x + 100 && playerPoint.x >= end.x - 100) {
             return true;
         }
     }
     if (start.y == end.y) {
-        if (playerPoint.x <= maxX && playerPoint.x >= minX) {
+        if (playerPoint.x <= maxX && playerPoint.x >= minX && playerPoint.y <= end.y + 100 && playerPoint.y >= end.y - 100) {
             return true;
         }
     }

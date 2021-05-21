@@ -72,7 +72,7 @@ public:
     }
     ~Accelerator() override = default;
 
-    void collision(Racer &racer, const RacerController &controller) override {};
+    void collision(Racer &racer, const RacerController &controller) override;
 
     bool isElementDynamic() override;
 };
@@ -85,7 +85,7 @@ public:
     }
     ~Delayer() override = default;
 
-    void collision(Racer &racer, const RacerController &controller) override {};
+    void collision(Racer &racer, const RacerController &controller) override;
 
     bool isElementDynamic() override;
 };
