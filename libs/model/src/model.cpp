@@ -11,8 +11,8 @@ Model::Model()
 void Model::updateModel(Rotation &rotation) {
     _currentCommand = rotation;
 
-    updateRacers();
     updateMap();
+    updateRacers();
 
     Response response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
     notifyObserves(response);
