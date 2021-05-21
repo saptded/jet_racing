@@ -7,7 +7,7 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 3;
+constexpr float eps = 4;
 constexpr float lambdaMin = 0.994444444;
 constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
@@ -31,12 +31,35 @@ bool Portal::isElementDynamic() { return false; }
 
 bool Finish::isElementDynamic() { return false; }
 
+bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
+    auto minX = std::min(start.x, end.x);
+    auto maxX = std::max(start.x, end.x);
+    auto minY = std::min(start.y, end.y);
+    auto maxY = std::max(start.y, end.y);
+
+    if ((playerPoint.x <= maxX && playerPoint.x >= minX) && (playerPoint.y <= maxY && playerPoint.y >= minY)) {
+        return true;
+    }
+
+    if (start.x == end.x) {
+        if (playerPoint.y <= maxY && playerPoint.y >= minY) {
+            return true;
+        }
+    }
+    if (start.y == end.y) {
+        if (playerPoint.x <= maxX && playerPoint.x >= minX) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     for (auto playerPoint : points) {
-        if (((playerPoint.x <= _start.x && playerPoint.x >= _end.x) || (playerPoint.x >= _start.x && playerPoint.x <= _end.x)) &&
-            ((playerPoint.y <= _start.y && playerPoint.y >= _end.y) || (playerPoint.y >= _start.y && playerPoint.y <= _end.y))) {
+        if (isPointInZone(playerPoint, _start, _end)) {
 
             float factorForLineEquationA = _end.y - _start.y;
             float factorForLineEquationB = _start.x - _end.x;
@@ -50,7 +73,9 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
 
             auto distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
 
-            if (std::abs(1 - distanceFromPointToLine) < eps) {
+            std::cout << distanceFromPointToLine << std::endl;
+
+            if (distanceFromPointToLine < eps) {
                 return true;
             }
         }
@@ -62,23 +87,23 @@ void Line::collision(Racer &racer, const RacerController &controller) { controll
 std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, Arc &arc) {
     std::vector<Line> approximatedLines;
 
-    for (int i = 1; i <= iteration; i++) {
+    for (int i = 1; i <= iteration; ++i) {
         float projectionOfAdjacentAngle = radius * std::cos(static_cast<float>(i) * approximationDegree * toRadian);
         float projectionOfOppositeAngle = radius * std::sin(static_cast<float>(i) * approximationDegree * toRadian);
 
-        float newPointX;
-        float newPointY;
+        float newPointX = 0;
+        float newPointY = 0;
 
-        if (arc._center.x > arc._start.x) {
+        if (_center.x > _start.x) {
             newPointX = _center.x - projectionOfAdjacentAngle;
             newPointY = _center.y - projectionOfOppositeAngle;
-        } else if (arc._center.x < arc._start.x) {
+        } else if (_center.x < _start.x) {
             newPointX = _center.x + projectionOfAdjacentAngle;
             newPointY = _center.y + projectionOfOppositeAngle;
-        } else if (arc._center.y > arc._start.y) {
+        } else if (_center.y > _start.y) {
             newPointX = _center.x + projectionOfOppositeAngle;
             newPointY = _center.y - projectionOfAdjacentAngle;
-        } else if (arc._center.y < arc._start.y) {
+        } else if (_center.y < _start.y) {
             newPointX = _center.x - projectionOfOppositeAngle;
             newPointY = _center.y + projectionOfAdjacentAngle;
         }
@@ -150,8 +175,8 @@ bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &pl
     float figureRightPoint = std::max(_start.x, _end.x);
     float figureLeftPoint = std::min(_start.x, _end.x);
 
-    if ((playerTopPoint <= figureTopPoint || playerBottomPoint >= figureBottomPoint) &&
-        (playerRightPoint <= figureRightPoint || playerLeftPoint >= figureLeftPoint)) {
+    if (playerTopPoint <= figureTopPoint && playerBottomPoint >= figureBottomPoint && playerRightPoint <= figureRightPoint &&
+        playerLeftPoint >= figureLeftPoint) {
         return true;
     }
 
