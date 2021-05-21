@@ -12,6 +12,7 @@ public:
     sf::Color door = {42, 44, 90};
     sf::Color accelerator = {63, 175, 70, 155};
     sf::Color delayer = {214, 46, 78, 155};
+    sf::Color button = {214, 46, 78, 155};
     sf::Color getWall(int stage);
     sf::Color getBg(int stage);
     sf::Color getCar(int id);
