@@ -14,3 +14,27 @@ float findCosine(float xFirstProjection, float xSecondProjection, float yFirstPr
 
     return angleCosine;
 }
+
+bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
+    auto minX = std::min(start.x, end.x);
+    auto maxX = std::max(start.x, end.x);
+    auto minY = std::min(start.y, end.y);
+    auto maxY = std::max(start.y, end.y);
+
+    if ((playerPoint.x <= maxX && playerPoint.x >= minX) && (playerPoint.y <= maxY && playerPoint.y >= minY)) {
+        return true;
+    }
+
+    if (start.x == end.x) {
+        if (playerPoint.y <= maxY && playerPoint.y >= minY && playerPoint.x <= end.x + 100 && playerPoint.x >= end.x - 100) {
+            return true;
+        }
+    }
+    if (start.y == end.y) {
+        if (playerPoint.x <= maxX && playerPoint.x >= minX && playerPoint.y <= end.y + 100 && playerPoint.y >= end.y - 100) {
+            return true;
+        }
+    }
+
+    return false;
+}

@@ -56,6 +56,21 @@ void DrawableRacer::changeFire(const Speed &speed) {
 DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, float rotation) {
     loadSources();
 
+    point1 = sf::CircleShape(5);
+    point2 = sf::CircleShape(5);
+    point3 = sf::CircleShape(5);
+    point4 = sf::CircleShape(5);
+
+    point1.setOrigin(origin.x, origin.y);
+    point2.setOrigin(origin.x, origin.y);
+    point3.setOrigin(origin.x, origin.y);
+    point4.setOrigin(origin.x, origin.y);
+
+    point1.setFillColor(sf::Color::Black);
+    point2.setFillColor(sf::Color::Black);
+    point3.setFillColor(sf::Color::Blue);
+    point4.setFillColor(sf::Color::Blue);
+
     car.setTexture(textureCar);
     car.setTextureRect(sf::IntRect(0, 0, (int)width / 2, (int)height));
     car.setOrigin(origin.x - width / 2, origin.y);
@@ -72,6 +87,7 @@ DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, fl
 void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
     setPos(racer._center);
     setRot(racer._rotation);
+    setPos(racer);
     changeFire(racer._speed);
     drawWindow(window);
 }
@@ -79,4 +95,16 @@ void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
 void DrawableRacer::drawWindow(sf::RenderWindow &window) {
     window.draw(car);
     window.draw(fire);
+
+    window.draw(point1);
+    window.draw(point2);
+    window.draw(point3);
+    window.draw(point4);
+}
+
+void DrawableRacer::setPos(const Racer& racer) {
+    point1.setPosition(racer._position.first.x, racer._position.first.y);
+    point2.setPosition(racer._position.second.x, racer._position.second.y);
+    point3.setPosition(racer._positionExtra.first.x, racer._positionExtra.first.y);
+    point4.setPosition(racer._positionExtra.second.x, racer._positionExtra.second.y);
 }

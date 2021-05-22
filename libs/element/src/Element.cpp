@@ -2,6 +2,7 @@
 #include <AbstractElement.h>
 #include <algorithm>
 #include <cmath>
+#include <map>
 #include <vector>
 
 #include "Element.h"
@@ -25,39 +26,15 @@ bool Propeller::isElementDynamic() { return isDynamic; }
 
 bool Accelerator::isElementDynamic() { return false; }
 
-void Accelerator::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, 0.5 * racer._speed.speedX, 0.5 * racer._speed.speedY); }
+void Accelerator::collision(Racer &racer, RacerController &controller) { controller.changeSpeed(racer, 0.5 * racer._speed.speedX, 0.5 * racer._speed.speedY); }
 
 bool Delayer::isElementDynamic() { return false; }
 
-void Delayer::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, -0.5 * racer._speed.speedX, -0.5 * racer._speed.speedY); }
+void Delayer::collision(Racer &racer, RacerController &controller) { controller.changeSpeed(racer, -0.5 * racer._speed.speedX, -0.5 * racer._speed.speedY); }
 
 bool Portal::isElementDynamic() { return false; }
 
 bool Finish::isElementDynamic() { return false; }
-
-bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
-    auto minX = std::min(start.x, end.x);
-    auto maxX = std::max(start.x, end.x);
-    auto minY = std::min(start.y, end.y);
-    auto maxY = std::max(start.y, end.y);
-
-    if ((playerPoint.x <= maxX && playerPoint.x >= minX) && (playerPoint.y <= maxY && playerPoint.y >= minY)) {
-        return true;
-    }
-
-    if (start.x == end.x) {
-        if (playerPoint.y <= maxY && playerPoint.y >= minY && playerPoint.x <= end.x + 100 && playerPoint.x >= end.x - 100) {
-            return true;
-        }
-    }
-    if (start.y == end.y) {
-        if (playerPoint.x <= maxX && playerPoint.x >= minX && playerPoint.y <= end.y + 100 && playerPoint.y >= end.y - 100) {
-            return true;
-        }
-    }
-
-    return false;
-}
 
 bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
@@ -77,7 +54,7 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
 
             auto distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
 
-            std::cout << distanceFromPointToLine << std::endl;
+            //            std::cout << distanceFromPointToLine << std::endl;
 
             if (distanceFromPointToLine < eps) {
                 return true;
@@ -86,7 +63,37 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     }
     return false;
 }
-void Line::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY); }
+
+void Line::collision(Racer &racer, RacerController &controller) {
+    std::vector<Point> points = {racer._position.first, racer._positionExtra.second, racer._positionExtra.first, racer._position.second};  // 0, 1, 2, 3
+    std::map<uint8_t, double> distancesToLine;
+    uint8_t k = 0;
+
+    float factorForLineEquationA = _end.y - _start.y;
+    float factorForLineEquationB = _start.x - _end.x;
+    float factorForLineEquationC = (_start.y * (_end.x - _start.x)) - (_start.x * (_end.y - _start.y));
+    for (auto playerPoint : points) {
+
+        float dividendForDistance = std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);
+        double distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
+        distancesToLine.insert(std::make_pair(k++, distanceFromPointToLine));
+    }
+
+    std::function comp = [](const std::pair<uint8_t, double> &rhs, const std::pair<uint8_t, double> &lhs) { return rhs.second < lhs.second; };
+    auto maxDistance = std::max_element(distancesToLine.begin(), distancesToLine.end(), comp);
+    auto minDistance = std::min_element(distancesToLine.begin(), distancesToLine.end(), comp);
+
+    if (minDistance->first == 1 || minDistance->first == 3) {
+        auto lineAngle = std::atan((_start.y - _end.y) / (_start.x - _end.x)) * toDegree;
+        double pushAngle = 90 - lineAngle;
+
+        float extraAccelerateX = 1.5 * std::cos(pushAngle * toRadian) * (racer._speed.speedX + std::copysignf(0.1, racer._speed.speedX));
+        float extraAccelerateY = 1.5 * std::sin(pushAngle * toRadian) * (racer._speed.speedY + std::copysignf(0.1, racer._speed.speedY));
+        controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
+    }
+
+    std::cout << "k";
+}
 
 std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, Arc &arc) {
     std::vector<Line> approximatedLines;
@@ -160,7 +167,7 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
 
     return false;
 }
-void Arc::collision(Racer &racer, const RacerController &controller) { controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY); }
+void Arc::collision(Racer &racer, RacerController &controller) { controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY); }
 
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
