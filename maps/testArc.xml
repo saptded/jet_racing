@@ -1,5 +1,8 @@
 <map>
     <stage>
-        <element name="line" startX="341" startY="3214" endX="1000" endY="500" centerX="375" centerY="775"/>
+        <element name="line" startX="750" startY="500" endX="375" endY="500" centerX="0" centerY="0"/>
+        <element name="line" startX="100" startY="800" endX="800" endY="800" centerX="0" centerY="0"/>
+        <element name="line" startX="0" startY="800" endX="0" endY="0" centerX="0" centerY="0"/>
+        <element name="line" startX="50" startY="123" endX="88" endY="700" centerX="0" centerY="0"/>
     </stage>
 </map>

@@ -16,6 +16,9 @@ float findCosine(float xFirstProjection, float xSecondProjection, float yFirstPr
 }
 
 bool isPointOnTheLeftSideFromLine(const Point &center, const Point &start, const Point &end) {
+    if (start.y == end.y) {
+            return center.y <= start.y;
+    }
     float d = (center.x - start.x) * (end.y - start.y) - (center.y - start.y) * (end.x - start.x);
     return (d <= 0);
 }
@@ -42,4 +45,15 @@ bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
     }
 
     return false;
+}
+
+double getPushAngle(Point &playerPoint, Point &start, Point &end, double lineAngle) {
+    bool left = isPointOnTheLeftSideFromLine(playerPoint, start, end);
+    double pushAngle = 0;
+    if (left) {
+        pushAngle = 90 + lineAngle;
+    } else {
+        pushAngle = -90 + lineAngle;
+    }
+    return pushAngle;
 }

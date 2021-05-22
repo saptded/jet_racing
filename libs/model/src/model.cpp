@@ -53,6 +53,7 @@ void Model::updateRacer() {
 
     _racerController.changeRotationSpeed(_currentCommand, _racer);
     _racerController.changeSpeed(_racer, false);
+//    std::cout << _racer._speed.speedY << std::endl;
 
     _racerController.updateRotation(_racer);
     _racerController.updatePosition(_racer);

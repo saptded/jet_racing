@@ -7,3 +7,5 @@ float findCosine(float xFirstProjection, float xSecondProjection, float yFirstPr
 bool isPointOnTheLeftSideFromLine(const Point &center, const Point &start, const Point &end);
 
 bool isPointInZone(Point &playerPoint, Point &start, Point &end);
+
+double getPushAngle(Point &playerPoint, Point &start, Point &end, double lineAngle);

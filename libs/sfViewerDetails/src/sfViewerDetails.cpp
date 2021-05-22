@@ -14,7 +14,7 @@ sfViewerDetails::sfViewerDetails(sf::RenderWindow& window){  // не испол�
 }
 
 void sfViewerDetails::update(Racer& racer) {
-    //view.setCenter(sf::Vector2f(racer._center.x, racer._center.y));
+    view.setCenter(sf::Vector2f(racer._center.x, racer._center.y));
 }
 
 void sfViewerDetails::display(sf::RenderWindow &window, int stage){

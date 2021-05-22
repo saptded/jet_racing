@@ -13,8 +13,8 @@ class sfViewerDetails {
 public:
     explicit sfViewerDetails(sf::RenderWindow &window);
     sfViewerDetails()
-        : viewWidth(float(1920)  *1.5)
-        , viewHeight(float(1080) *1.5){};
+        : viewWidth(float(1920) / 2)
+        , viewHeight(float(1080) / 2){};
     void update(Racer &racer);
     void display(sf::RenderWindow &window, int stage);
 
