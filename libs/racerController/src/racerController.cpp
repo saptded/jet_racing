@@ -26,12 +26,12 @@ void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &race
 
 void RacerController::changeSpeed(Racer &racer, bool stop, const float &extraAccelerateX, const float &extraAccelerateY) {
     if (!stop) {
-        float decel = _speedAccelerate / 10;
-        if (std::abs(racer._speed.speedX) > std::abs(_maxSpeed + std::copysignf(extraAccelerateX, _maxSpeed) * 4)) {
-            if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 4) {
+        float decel = _speedAccelerate / 9;
+        if (std::abs(racer._speed.speedX) > std::abs(_maxSpeed + std::copysignf(extraAccelerateX, _maxSpeed) * 7)) {
+            if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 7) {
                 racer._speed.speedX -= decel;
             }
-            if (racer._speed.speedX < (-_maxSpeed - extraAccelerateX * 4)) {
+            if (racer._speed.speedX < (-_maxSpeed - extraAccelerateX * 7)) {
                 racer._speed.speedX += decel;
             }
         } else {
@@ -39,11 +39,11 @@ void RacerController::changeSpeed(Racer &racer, bool stop, const float &extraAcc
             racer._speed.speedX += extraAccelerateX;
         }
 
-        if (std::abs(racer._speed.speedY) > std::abs(_maxSpeed + std::copysignf(extraAccelerateY, _maxSpeed) * 4)) {
-            if (racer._speed.speedY > _maxSpeed + extraAccelerateY * 4) {
+        if (std::abs(racer._speed.speedY) > std::abs(_maxSpeed + std::copysignf(extraAccelerateY, _maxSpeed) * 7)) {
+            if (racer._speed.speedY > _maxSpeed + extraAccelerateY * 7) {
                 racer._speed.speedY -= decel;
             }
-            if (racer._speed.speedY < (-_maxSpeed - extraAccelerateY * 4)) {
+            if (racer._speed.speedY < (-_maxSpeed - extraAccelerateY * 7)) {
                 racer._speed.speedY += decel;
             }
         } else {

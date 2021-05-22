@@ -8,7 +8,7 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 3.5;
+constexpr float eps = 4;
 constexpr float lambdaMin = 0.994444444;
 constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
@@ -26,13 +26,20 @@ bool Propeller::isElementDynamic() { return isDynamic; }
 
 bool Accelerator::isElementDynamic() { return false; }
 
-void Accelerator::collision(Racer &racer, RacerController &controller, Rotation command) { controller.changeSpeed(racer, 0.5 * racer._speed.speedX, 0.5 * racer._speed.speedY); }
+void Accelerator::collision(Racer &racer, RacerController &controller, Rotation command) {
+    float extraAccelerateX = 0.06 * std::cos(racer._rotation * toRadian) * racer._speed.speedX;
+    float extraAccelerateY = 0.06 * -std::sin(racer._rotation * toRadian) * racer._speed.speedY;
+
+    controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
+}
 
 bool Delayer::isElementDynamic() { return false; }
 
 void Delayer::collision(Racer &racer, RacerController &controller, Rotation command) {
-//    controller.changeSpeed(racer, false, 0.5 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX / 5),
-//                           0.5 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedY / 5));
+    float extraAccelerateX = 0.15 * -std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX);
+    float extraAccelerateY = 0.15 * std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY);
+
+    controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
 }
 
 bool Portal::isElementDynamic() { return false; }
@@ -91,15 +98,15 @@ void Line::collision(Racer &racer, RacerController &controller, Rotation command
 
     if (distanceToCenter <= 3) {  // critical
         double newPushAngle = getPushAngle(racer._position.second, _start, _end, lineAngle);
-        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.8 * std::cos(newPushAngle * toRadian)),
-                                          static_cast<float>(racer._center.y + 0.8 * -std::sin(newPushAngle * toRadian))});
-        controller.changeSpeed(racer, false, 0.7 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
-                               0.7 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
-        controller.changeRotationSpeed(command, racer, 0.2);
+        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 1 * std::cos(newPushAngle * toRadian)),
+                                          static_cast<float>(racer._center.y + 1 * -std::sin(newPushAngle * toRadian))});
+        controller.changeSpeed(racer, false, 0.5 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
+                               0.5 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
+        controller.changeRotationSpeed(command, racer, 0.15);
     } else if ((minDistance->first == 0 || minDistance->first == 2)) {  // bottom
-        controller.changeSpeed(racer, false, 0.35 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
-                               0.35 * -std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
-        controller.changeRotationSpeed(command, racer, 0.2);
+        controller.changeSpeed(racer, false, 0.25 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
+                               0.25 * -std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
+        controller.changeRotationSpeed(command, racer, 0.15);
     } else if ((minDistance->first == 1 || minDistance->first == 3)) {  // front
         float extraAccelerateX = 1.4 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX);
         float extraAccelerateY = 1.4 * -std::sin(pushAngle * toRadian) * std::abs(racer._speed.speedY);

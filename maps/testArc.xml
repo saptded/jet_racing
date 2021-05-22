@@ -4,5 +4,7 @@
         <element name="line" startX="100" startY="800" endX="800" endY="800" centerX="0" centerY="0"/>
         <element name="line" startX="0" startY="800" endX="0" endY="0" centerX="0" centerY="0"/>
         <element name="line" startX="50" startY="123" endX="88" endY="700" centerX="0" centerY="0"/>
+        <element name="accelerator" startX="0" startY="800" endX="1075" endY="1000" centerX="1000" centerY="150"/>
+
     </stage>
 </map>
