@@ -8,7 +8,7 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 5;
+constexpr float eps = 4;
 constexpr float lambdaMin = 0.994444444;
 constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
@@ -64,6 +64,38 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     return false;
 }
 
+enum class Side {
+    left,
+    right,
+};
+//
+// bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
+//    auto minX = std::min(start.x, end.x);
+//    auto maxX = std::max(start.x, end.x);
+//    auto minY = std::min(start.y, end.y);
+//    auto maxY = std::max(start.y, end.y);
+//
+//    if ((playerPoint.x <= maxX && playerPoint.x >= minX) && (playerPoint.y <= maxY && playerPoint.y >= minY)) {
+//        return true;
+//    }
+//
+//    if (start.x == end.x) {
+//        if (playerPoint.y <= maxY && playerPoint.y >= minY && playerPoint.x <= end.x + 100 && playerPoint.x >= end.x - 100) {
+//            return true;
+//        }
+//    }
+//    if (start.y == end.y) {
+//        if (playerPoint.x <= maxX && playerPoint.x >= minX && playerPoint.y <= end.y + 100 && playerPoint.y >= end.y - 100) {
+//            return true;
+//        }
+//    }
+//
+//    return false;
+//}
+//Определяется так. Предположим, у нас есть 3 точки: А(х1,у1), Б(х2,у2), С(х3,у3). Через точки А и Б проведена прямая. И нам надо определить, как расположена
+//точка С относительно прямой АБ. Для этого вычисляем значение: D = (х3 - х1) * (у2 - у1) - (у3 - у1) * (х2 - х1)
+
+
 void Line::collision(Racer &racer, RacerController &controller) {
     std::vector<Point> points = {racer._position.first, racer._positionExtra.second, racer._positionExtra.first, racer._position.second};  // 0, 1, 2, 3
     std::map<uint8_t, double> distancesToLine;
@@ -83,16 +115,23 @@ void Line::collision(Racer &racer, RacerController &controller) {
     auto maxDistance = std::max_element(distancesToLine.begin(), distancesToLine.end(), comp);
     auto minDistance = std::min_element(distancesToLine.begin(), distancesToLine.end(), comp);
 
-    if (minDistance->first == 1 || minDistance->first == 3) {
-        auto lineAngle = std::atan((_start.y - _end.y) / (_start.x - _end.x)) * toDegree;
-        double pushAngle = 90 - lineAngle;
-
-        float extraAccelerateX = 1.5 * std::cos(pushAngle * toRadian) * (racer._speed.speedX + std::copysignf(0.1, racer._speed.speedX));
-        float extraAccelerateY = 1.5 * std::sin(pushAngle * toRadian) * (racer._speed.speedY + std::copysignf(0.1, racer._speed.speedY));
-        controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
+    auto lineAngle = std::atan((_end.y - _start.y) / (_end.x - _start.x)) * toDegree;
+    bool left = isPointOnTheLeftSideFromLine(racer._center, _start, _end);
+    double pushAngle = 0;
+    if (left) {
+        pushAngle = 90 + lineAngle;
+    } else {
+        pushAngle = -90 + lineAngle;
     }
 
-    std::cout << "k";
+    if (minDistance->first == 1 || minDistance->first == 3) {
+
+        float extraAccelerateX = 1.4 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX);
+        float extraAccelerateY = 1.4 * std::sin(pushAngle * toRadian) * std::abs(racer._speed.speedY);
+        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 1 * std::cos(pushAngle * toRadian)),
+                                          static_cast<float>(racer._center.y + 1 * std::sin(pushAngle * toRadian))});
+        controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
+    }
 }
 
 std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, Arc &arc) {
@@ -167,7 +206,7 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
 
     return false;
 }
-void Arc::collision(Racer &racer, RacerController &controller) { controller.changeSpeed(racer, -2 * racer._speed.speedX, -2 * racer._speed.speedY); }
+void Arc::collision(Racer &racer, RacerController &controller) {}
 
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};

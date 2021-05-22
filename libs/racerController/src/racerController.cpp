@@ -93,8 +93,8 @@ void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
 
 void RacerController::updatePosition(Racer &racer, const Point &newCenterPosition) {
     if (HAVE_NEW_POSITION(newCenterPosition)) {
-        float deltaX = racer._center.x - newCenterPosition.x;
-        float deltaY = racer._center.y - newCenterPosition.y;
+        float deltaX = newCenterPosition.x - racer._center.x;
+        float deltaY = newCenterPosition.y - racer._center.y;
 
         racer._center.x = newCenterPosition.x;
         racer._center.y = newCenterPosition.y;
@@ -107,8 +107,8 @@ void RacerController::updatePosition(Racer &racer, const Point &newCenterPositio
         racer._positionExtra.second.x += deltaX;
         racer._positionExtra.second.y += deltaY;
 
-        racer._speed.speedX = -cosf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
-        racer._speed.speedY = -sinf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
+//        racer._speed.speedX = -cosf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
+//        racer._speed.speedY = -sinf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
     } else {
         racer._position.first.x += racer._speed.speedX;
         racer._position.first.y += racer._speed.speedY;

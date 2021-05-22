@@ -1,5 +1,5 @@
 <map>
     <stage>
-        <element name="line" startX="500" startY="100" endX="500" endY="700" centerX="375" centerY="775"/>
+        <element name="line" startX="341" startY="3214" endX="1000" endY="500" centerX="375" centerY="775"/>
     </stage>
 </map>

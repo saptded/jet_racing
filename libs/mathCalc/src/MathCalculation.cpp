@@ -15,6 +15,11 @@ float findCosine(float xFirstProjection, float xSecondProjection, float yFirstPr
     return angleCosine;
 }
 
+bool isPointOnTheLeftSideFromLine(const Point &center, const Point &start, const Point &end) {
+    float d = (center.x - start.x) * (end.y - start.y) - (center.y - start.y) * (end.x - start.x);
+    return (d <= 0);
+}
+
 bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
     auto minX = std::min(start.x, end.x);
     auto maxX = std::max(start.x, end.x);
