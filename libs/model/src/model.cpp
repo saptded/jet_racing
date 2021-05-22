@@ -48,7 +48,7 @@ void Model::updateRacer() {
                                              _racer._position.second);
 
     if (element != nullptr) {
-        element->collision(_racer, _racerController);
+        element->collision(_racer, _racerController, _currentCommand);
     }
 
     _racerController.changeRotationSpeed(_currentCommand, _racer);

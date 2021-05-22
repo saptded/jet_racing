@@ -26,11 +26,14 @@ bool Propeller::isElementDynamic() { return isDynamic; }
 
 bool Accelerator::isElementDynamic() { return false; }
 
-void Accelerator::collision(Racer &racer, RacerController &controller) { controller.changeSpeed(racer, 0.5 * racer._speed.speedX, 0.5 * racer._speed.speedY); }
+void Accelerator::collision(Racer &racer, RacerController &controller, Rotation command) { controller.changeSpeed(racer, 0.5 * racer._speed.speedX, 0.5 * racer._speed.speedY); }
 
 bool Delayer::isElementDynamic() { return false; }
 
-void Delayer::collision(Racer &racer, RacerController &controller) { controller.changeSpeed(racer, -0.5 * racer._speed.speedX, -0.5 * racer._speed.speedY); }
+void Delayer::collision(Racer &racer, RacerController &controller, Rotation command) {
+//    controller.changeSpeed(racer, false, 0.5 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX / 5),
+//                           0.5 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedY / 5));
+}
 
 bool Portal::isElementDynamic() { return false; }
 
@@ -62,7 +65,7 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     return false;
 }
 
-void Line::collision(Racer &racer, RacerController &controller) {
+void Line::collision(Racer &racer, RacerController &controller, Rotation command) {
     std::vector<Point> points = {racer._position.first, racer._positionExtra.second, racer._positionExtra.first, racer._position.second};  // 0, 1, 2, 3
     std::map<uint8_t, double> distancesToLine;
     uint8_t k = 0;
@@ -86,18 +89,18 @@ void Line::collision(Racer &racer, RacerController &controller) {
     auto lineAngle = std::atan((_end.y - _start.y) / (_end.x - _start.x)) * toDegree;
     double pushAngle = getPushAngle(racer._center, _start, _end, lineAngle);
 
-    if (distanceToCenter <= 2) { // critical
+    if (distanceToCenter <= 3) {  // critical
         double newPushAngle = getPushAngle(racer._position.second, _start, _end, lineAngle);
-        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.5 * std::cos(newPushAngle * toRadian)),
-                                          static_cast<float>(racer._center.y + 0.6 * -std::sin(newPushAngle * toRadian))});
-        controller.changeSpeed(racer, false, std::copysignf(0.6, std::cos(pushAngle * toRadian)) * std::abs(racer._speed.speedX / 5),
-                               std::copysignf(0.6, -std::sin(pushAngle * toRadian)) * std::abs(racer._speed.speedY / 5));
+        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.8 * std::cos(newPushAngle * toRadian)),
+                                          static_cast<float>(racer._center.y + 0.8 * -std::sin(newPushAngle * toRadian))});
+        controller.changeSpeed(racer, false, 0.7 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
+                               0.7 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
+        controller.changeRotationSpeed(command, racer, 0.2);
     } else if ((minDistance->first == 0 || minDistance->first == 2)) {  // bottom
-
-        controller.changeSpeed(racer, false, std::copysignf(0.35, std::cos(pushAngle * toRadian)) * std::abs(racer._speed.speedX / 5),
-                               std::copysignf(0.35, -std::sin(pushAngle * toRadian)) * std::abs(racer._speed.speedY / 5));
+        controller.changeSpeed(racer, false, 0.35 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
+                               0.35 * -std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
+        controller.changeRotationSpeed(command, racer, 0.2);
     } else if ((minDistance->first == 1 || minDistance->first == 3)) {  // front
-
         float extraAccelerateX = 1.4 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX);
         float extraAccelerateY = 1.4 * -std::sin(pushAngle * toRadian) * std::abs(racer._speed.speedY);
         controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.1 * std::cos(pushAngle * toRadian)),
@@ -178,7 +181,7 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
 
     return false;
 }
-void Arc::collision(Racer &racer, RacerController &controller) {}
+void Arc::collision(Racer &racer, RacerController &controller, Rotation command) {}
 
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
