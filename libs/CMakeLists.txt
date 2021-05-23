@@ -22,3 +22,5 @@ add_subdirectory(drawableRacer)
 add_subdirectory(SFMLGameWindow)
 add_subdirectory(interfaceCollisional)
 
+add_subdirectory(webserver)
+
