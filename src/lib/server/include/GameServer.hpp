@@ -19,8 +19,7 @@ public:
 
     constexpr auto ping(auto req){
         return req->create_response()
-                .set_body("{'status': 200}")
-                .done();
+                .set_body(R"({"name":"jet_racing"})");
     }
 
 
