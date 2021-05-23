@@ -1,9 +1,9 @@
 #pragma once
 
+#include "SFMLGameWindow.hpp"
 #include "viewer.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <abstractModel.hpp>
-#include "SFMLGameWindow.hpp"
 #include <memory>
 #include <observer.hpp>
 
@@ -12,8 +12,6 @@ public:
     static Presenter *create(int id);
 
     ~Presenter();
-
-
 
     Presenter(const Presenter &) = delete;
     Presenter &operator=(const Presenter &) = delete;

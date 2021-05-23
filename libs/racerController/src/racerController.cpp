@@ -25,7 +25,7 @@ void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &race
 }
 
 void RacerController::changeSpeed(Racer &racer, bool stop, const float &extraAccelerateX, const float &extraAccelerateY) {
-        if (!stop) {
+    if (!stop) {
         float decel = _speedAccelerate / 9;
         if (std::abs(racer._speed.speedX) > std::abs(_maxSpeed + std::copysignf(extraAccelerateX, _maxSpeed) * 4)) {
             if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 4) {

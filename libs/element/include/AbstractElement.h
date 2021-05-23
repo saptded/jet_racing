@@ -29,5 +29,6 @@ public:
     std::shared_ptr<DrawableObject> _drObj;
     void draw(sf::RenderWindow &window);
     void changeDrawableObject(int stage);
+
 private:
 };

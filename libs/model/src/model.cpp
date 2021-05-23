@@ -5,7 +5,10 @@
 #include "model.hpp"
 
 Model::Model(int id)
-    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))), _racer(_map->getStartPointByID(0).first, id), currentStage(0), finishedRacers(0) {}
+    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
+    , _racer(_map->getStartPointByID(0).first, id)
+    , currentStage(0)
+    , finishedRacers(0) {}
 
 void Model::updateModel(Rotation &rotation) {
     _currentCommand = rotation;
@@ -40,27 +43,23 @@ void Model::updateRacers() {
     updateEnemies();
 
     auto [isFinished, position] = _racer.finished;
-    if (isFinished) {
+    if (isFinished && position == 0) {
         _racer.finished = std::make_tuple(true, ++finishedRacers);
     }
     for (auto &enemy : enemies) {
         auto [isFinished, position] = enemy.finished;
-        if (isFinished) {
+        if (isFinished && position == 0) {
             enemy.finished = std::make_tuple(true, ++finishedRacers);
         }
     }
-
-    if(finishedRacers == enemies.size() + 1) {
-
+    if (finishedRacers == enemies.size() + 1) {
+        std::cout << "game finished" << std::endl;
     }
 }
 
 void Model::updateRacer() {
 
-    auto element = _map->getCollisionElement(_racer._position.first,
-                                             _racer._positionExtra.second,
-                                             _racer._positionExtra.first,
-                                             _racer._position.second);
+    auto element = _map->getCollisionElement(_racer._position.first, _racer._positionExtra.second, _racer._positionExtra.first, _racer._position.second);
 
     if (element != nullptr) {
         element->collision(_racer, _racerController, _currentCommand);

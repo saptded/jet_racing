@@ -1,11 +1,11 @@
 #pragma once
 
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
 #include <racer.hpp>
 
 class DrawableRacer {
@@ -24,16 +24,9 @@ private:
     void setPos(const Point &center);
     void setPos(const std::pair<Point, Point> &position);
     void setPos(const std::pair<Point, Point> &pos, sf::RenderWindow &window);
-    void setPos(const Racer& racer);
     void setRot(const float &rotation);
 
     void drawWindow(sf::RenderWindow &window);
-
-    sf::CircleShape point1;
-    sf::CircleShape point2;
-    sf::CircleShape point3;
-    sf::CircleShape point4;
-
     sf::Sprite car;
     sf::Sprite fire;
     sf::Texture textureCar;

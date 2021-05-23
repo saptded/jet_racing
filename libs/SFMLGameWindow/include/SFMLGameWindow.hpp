@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class SFMLGameWindow{
+class SFMLGameWindow {
 public:
     SFMLGameWindow();
 

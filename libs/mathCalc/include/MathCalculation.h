@@ -8,6 +8,8 @@ bool isPointOnTheLeftSideFromLine(const Point &center, const Point &start, const
 
 bool isPointInZone(Point &playerPoint, Point &start, Point &end);
 
-double getPushAngle(Point &playerPoint, Point &start, Point &end, double lineAngle);
+float getPushAngle(Point &playerPoint, Point &start, Point &end, float lineAngle);
 
 float getArcRadius(const Point &center, const Point &start);
+
+float getArcPushAngle(float distToArcCenter, float radius, const Point &center, const Point &racerPoint);

@@ -15,7 +15,7 @@ public:
     explicit Viewer(sf::RenderWindow &dist);
     void render(Response &data, sf::RenderWindow &dist) {
         switch (data.eventType) {
-            //case INIT: initRender(data, dist); break;
+            // case INIT: initRender(data, dist); break;
             case RACER: renderRacer(data, dist); break;
             case ENEMIES: renderEnemies(data, dist); break;
             case STAGE: renderMap(data, dist); break;
@@ -26,11 +26,11 @@ public:
     };
 
 private:
-    void renderRacer(Response &data, sf::RenderWindow& dist);
-    void renderEnemies(Response &data, sf::RenderWindow& dist);
+    void renderRacer(Response &data, sf::RenderWindow &dist);
+    void renderEnemies(Response &data, sf::RenderWindow &dist);
     void renderMap(Response &data, sf::RenderWindow &dist);
     void increaseStage(Response &data, sf::RenderWindow &dist);
-    void displayWindow(sf::RenderWindow& dist);
+    void displayWindow(sf::RenderWindow &dist);
 
     std::shared_ptr<sfViewerDetails> details;
     int stage = 1;

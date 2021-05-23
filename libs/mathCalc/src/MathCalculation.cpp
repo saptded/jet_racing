@@ -17,7 +17,7 @@ float findCosine(float xFirstProjection, float xSecondProjection, float yFirstPr
 
 bool isPointOnTheLeftSideFromLine(const Point &center, const Point &start, const Point &end) {
     if (start.y == end.y) {
-            return center.y <= start.y;
+        return center.y <= start.y;
     }
     float d = (center.x - start.x) * (end.y - start.y) - (center.y - start.y) * (end.x - start.x);
     return (d <= 0);
@@ -47,9 +47,9 @@ bool isPointInZone(Point &playerPoint, Point &start, Point &end) {
     return false;
 }
 
-double getPushAngle(Point &playerPoint, Point &start, Point &end, double lineAngle) {
+float getPushAngle(Point &playerPoint, Point &start, Point &end, float lineAngle) {
     bool left = isPointOnTheLeftSideFromLine(playerPoint, start, end);
-    double pushAngle = 0;
+    float pushAngle = 0;
     if (left) {
         pushAngle = 90 + lineAngle;
     } else {
@@ -64,4 +64,27 @@ float getArcRadius(const Point &center, const Point &start) {
     } else {
         return std::abs(center.y - start.y);
     }
+}
+
+float getArcPushAngle(float distToArcCenter, float radius, const Point &center, const Point &racerPoint) {
+    float toDegree = 180 / M_PI;
+    float pushAngle = 0;
+    if (distToArcCenter > radius) {
+        pushAngle = (-std::atan((center.y - racerPoint.y) / (center.x - racerPoint.x)) * toDegree);
+        if (pushAngle >= 0 && center.y < racerPoint.y && center.x >= racerPoint.x) {
+            pushAngle += 180;
+        }
+        if (pushAngle <= 0 && center.y > racerPoint.y && center.x >= racerPoint.x) {
+            pushAngle += 180;
+        }
+    } else {
+        pushAngle = (-std::atan((center.y - racerPoint.y) / (center.x - racerPoint.x)) * toDegree);
+        if (pushAngle >= 0 && center.y > racerPoint.y && center.x <= racerPoint.x) {
+            pushAngle += 180;
+        }
+        if (pushAngle <= 0 && center.y < racerPoint.y && center.x <= racerPoint.x) {
+            pushAngle += 180;
+        }
+    }
+    return pushAngle;
 }

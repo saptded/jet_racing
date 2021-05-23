@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <drawableObjects.hpp>
+#include <vector>
 
 #include "AbstractElement.h"
 
@@ -23,7 +23,7 @@ public:
 class Arc : public AbstractElement {
 public:
     explicit Arc(Point start, Point end, Point center)
-        : AbstractElement(start, end, center){
+        : AbstractElement(start, end, center) {
         _drObj = std::make_shared<DrawableArc>(start, end, center);
     };
     ~Arc() override = default;
@@ -42,21 +42,21 @@ public:
         : AbstractElement(start, end, center) {}
     ~Rectangle() override = default;
 
-
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
-    void collision(Racer &racer, RacerController &, Rotation command) override {};
+    void collision(Racer &racer, RacerController &, Rotation command) override{};
 };
 
 class Propeller : public Rectangle {
 public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
-        : Rectangle(start, end, center), isDynamic(false) {
+        : Rectangle(start, end, center)
+        , isDynamic(false) {
         _drObj = std::make_shared<DrawablePropeller>(start, end, center);
     }
 
     ~Propeller() override = default;
 
-    void collision(Racer &racer, RacerController &controller, Rotation command) override {};
+    void collision(Racer &racer, RacerController &controller, Rotation command) override{};
 
     bool isElementDynamic() override;
 
@@ -98,7 +98,7 @@ public:
     }
     ~Portal() override = default;
 
-    void collision(Racer &racer, RacerController &controller, Rotation command) override {};
+    void collision(Racer &racer, RacerController &controller, Rotation command) override{};
 
     bool isElementDynamic() override;
 };
@@ -110,7 +110,7 @@ public:
         _drObj = std::make_shared<DrawableFinish>(start, end, center);
     }
     ~Finish() override = default;
-    void collision(Racer &racer, RacerController &controller, Rotation command) override {};
+    void collision(Racer &racer, RacerController &controller, Rotation command) override;
 
     bool isElementDynamic() override;
 };
