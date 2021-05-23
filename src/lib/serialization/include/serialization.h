@@ -1,7 +1,7 @@
 //
 // Created by dark0ghost on 12.05.2021.
 //
-
+#pragma once
 #ifndef LIBSERVER_SERIALIZATION_H
 #define LIBSERVER_SERIALIZATION_H
 

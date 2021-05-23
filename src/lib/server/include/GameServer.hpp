@@ -2,7 +2,7 @@
 // Created by dark0ghost on 05.04.2021.
 //
 
-
+#pragma once
 #ifndef LIBSERVER_GAMESERVER_HPP
 #define LIBSERVER_GAMESERVER_HPP
 
@@ -10,7 +10,6 @@
 #include <Position.hpp>
 #include <iostream>
 #include <vector>
-
 
 class [[maybe_unused]] GameServer{
 

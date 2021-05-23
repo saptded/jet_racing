@@ -1,7 +1,7 @@
 //
 // Created by dark0ghost on 05.04.2021.
 //
-
+#pragma once
 #ifndef LIBSERVER_ABSTRACTCLIENT_H
 #define LIBSERVER_ABSTRACTCLIENT_H
 #include <cstring>
