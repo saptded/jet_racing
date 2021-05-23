@@ -6,12 +6,35 @@ set(CMAKE_CXX_FLAGS "-fpermissive --coverage  -v  -fPIE -fconcepts")
 
 add_compile_options(-fPIE)
 include(FetchContent)
+include(ExternalProject)
 FetchContent_Declare(
         restinio
         URL https://github.com/Stiffstream/restinio/releases/download/v.0.6.13/restinio-0.6.13-full.zip
 
 )
 FetchContent_MakeAvailable(restinio)
+
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG c8d33915dbd88ad6c92b258869b03aba06587ff9)
+FetchContent_MakeAvailable(cpr)
+
+ExternalProject_Add(
+        rapidjson
+        PREFIX "vendor/rapidjson"
+        GIT_REPOSITORY "https://github.com/Tencent/rapidjson.git"
+        GIT_TAG f54b0e47a08782a6131cc3d60f94d038fa6e0a51
+        TIMEOUT 10
+        CMAKE_ARGS
+        -DRAPIDJSON_BUILD_TESTS=OFF
+        -DRAPIDJSON_BUILD_DOC=OFF
+        -DRAPIDJSON_BUILD_EXAMPLES=OFF
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ""
+        UPDATE_COMMAND ""
+)
+
+ExternalProject_Get_Property(rapidjson source_dir)
+set(RAPIDJSON_INCLUDE_DIR ${source_dir}/include)
 
 add_subdirectory(${restinio_SOURCE_DIR}/dev/fmt ${restinio_BINARY_DIR}/fmt)
 add_subdirectory(${restinio_SOURCE_DIR}/dev/nodejs/http_parser ${restinio_BINARY_DIR}/http_parser)
