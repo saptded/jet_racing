@@ -5,7 +5,7 @@
 #include "model.hpp"
 
 Model::Model(int id)
-    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))), _racer(_map->getStartPointByID(0).first, id) {}
+    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))), _racer(_map->getStartPointByID(0), id) {}
 
 void Model::updateModel(Rotation &rotation) {
     _currentCommand = rotation;
