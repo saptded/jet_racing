@@ -34,9 +34,11 @@ private:
 
     std::unique_ptr<Map> _map;
     Racer _racer;
+    std::vector<Racer> enemies;
 
     RacerController _racerController;
     std::list<Observer *> _observes;
 
-    size_t currentStage;
+    uint8_t currentStage;
+    uint8_t finishedRacers;
 };

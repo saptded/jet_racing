@@ -5,7 +5,7 @@
 #include "model.hpp"
 
 Model::Model(int id)
-    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))), _racer(_map->getStartPointByID(0).first, id) {}
+    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml"))), _racer(_map->getStartPointByID(0).first, id), currentStage(0), finishedRacers(0) {}
 
 void Model::updateModel(Rotation &rotation) {
     _currentCommand = rotation;
@@ -31,13 +31,28 @@ Model::~Model() = default;
 
 void Model::updateMap() {
 
-    Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(0))};
+    Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
     notifyObserves(response);
 }
 
 void Model::updateRacers() {
     updateRacer();
     updateEnemies();
+
+    auto [isFinished, position] = _racer.finished;
+    if (isFinished) {
+        _racer.finished = std::make_tuple(true, ++finishedRacers);
+    }
+    for (auto &enemy : enemies) {
+        auto [isFinished, position] = enemy.finished;
+        if (isFinished) {
+            enemy.finished = std::make_tuple(true, ++finishedRacers);
+        }
+    }
+
+    if(finishedRacers == enemies.size() + 1) {
+
+    }
 }
 
 void Model::updateRacer() {
@@ -53,7 +68,6 @@ void Model::updateRacer() {
 
     _racerController.changeRotationSpeed(_currentCommand, _racer);
     _racerController.changeSpeed(_racer, false);
-//    std::cout << _racer._speed.speedY << std::endl;
 
     _racerController.updateRotation(_racer);
     _racerController.updatePosition(_racer);
@@ -63,54 +77,3 @@ void Model::updateRacer() {
 }
 
 void Model::updateEnemies() {}
-
-// double Model::lineCoefficient(const AbstractElement &line) {
-//     double k = 0;
-//     if (line.end.x == line.start.x) {
-//         k = 10000000;
-//     } else if (line.end.y == line.start.y) {
-//         k = 0.000001;
-//     } else {
-//         k = ((line.end.y - line.start.y) / (line.end.x - line.start.x));
-//     }
-//     return k;
-// }
-
-// void Model::onCollision(const AbstractElement &collisionElement) {
-//     switch (collisionElement.type) {
-//         case line:
-//             double k = lineCoefficient(collisionElement);
-//             double b = collisionElement.start.y - collisionElement.start.x * k;
-//             double lineX = (_racer._center.y - b) / k;
-//             double lineY = k * _racer._center.x + b;
-//
-//             std::function<bool(double, double)> compX;
-//             std::function<bool(double, double)> compY;
-//
-//             if (lineY > _racer._center.y + _racer._speed.speedY) {
-//                 compY = [](double x1, double x2) { return x1 < x2; };
-//             } else {
-//                 compY = [](double x1, double x2) { return x1 > x2; };
-//             }
-//
-//             if (lineX > _racer._center.x + _racer._speed.speedX) {
-//                 compX = [](double x1, double x2) { return x1 < x2; };
-//             } else {
-//                 compX = [](double x1, double x2) { return x1 > x2; };
-//             }
-//
-//             if (compY(lineY, _racer._position.first.y) || compX(lineX, _racer._position.first.x)) {  // back collision
-//                 _racerController.changeSpeed(_racer, 0.1 * _racer._speed.speedX / 10, 0.1 * _racer._speed.speedX / 10);
-//                 _racerController.changeRotationSpeed(_currentCommand, _racer, 0.3);
-//             }
-//
-//             if (compY(lineY, _racer._center.y) || compX(lineX, _racer._center.x)) {  // front collision
-//                 double extraAccelerateX = 2.6 * std::cos(90 * 180 / M_PI - std::atan(k)) * _racer._speed.speedX;
-//                 double extraAccelerateY = 2.6 * std::sin(90 * 180 / M_PI - std::atan(k)) * _racer._speed.speedY;
-//                 _racerController.changeSpeed(_racer, extraAccelerateX, extraAccelerateY);
-//             }
-//
-//             _racerController.changeSpeed(_racer);
-//             break;
-//     }
-// }

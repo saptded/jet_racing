@@ -4,8 +4,8 @@
 #include "racer.hpp"
 #include <optional>
 
-constexpr float DEFAULT_ROTATION_ACCELERATE = 0.1;
-constexpr float DEFAULT_SPEED_ACCELERATE = 0.04;
+constexpr float DEFAULT_ROTATION_ACCELERATE = 0.09;
+constexpr float DEFAULT_SPEED_ACCELERATE = 0.03;
 constexpr float DEFAULT_MAX_SPEED = 2.2;
 constexpr float DEFAULT_MAX_ROTATION_SPEED = 4;
 constexpr float DEFAULT_EXTRA_VALUE = 0;
