@@ -25,13 +25,13 @@ void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &race
 }
 
 void RacerController::changeSpeed(Racer &racer, bool stop, const float &extraAccelerateX, const float &extraAccelerateY) {
-    if (!stop) {
+        if (!stop) {
         float decel = _speedAccelerate / 9;
-        if (std::abs(racer._speed.speedX) > std::abs(_maxSpeed + std::copysignf(extraAccelerateX, _maxSpeed) * 7)) {
-            if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 7) {
+        if (std::abs(racer._speed.speedX) > std::abs(_maxSpeed + std::copysignf(extraAccelerateX, _maxSpeed) * 4)) {
+            if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 4) {
                 racer._speed.speedX -= decel;
             }
-            if (racer._speed.speedX < (-_maxSpeed - extraAccelerateX * 7)) {
+            if (racer._speed.speedX < (-_maxSpeed - extraAccelerateX * 4)) {
                 racer._speed.speedX += decel;
             }
         } else {
@@ -39,11 +39,11 @@ void RacerController::changeSpeed(Racer &racer, bool stop, const float &extraAcc
             racer._speed.speedX += extraAccelerateX;
         }
 
-        if (std::abs(racer._speed.speedY) > std::abs(_maxSpeed + std::copysignf(extraAccelerateY, _maxSpeed) * 7)) {
-            if (racer._speed.speedY > _maxSpeed + extraAccelerateY * 7) {
+        if (std::abs(racer._speed.speedY) > std::abs(_maxSpeed + std::copysignf(extraAccelerateY, _maxSpeed) * 4)) {
+            if (racer._speed.speedY > _maxSpeed + extraAccelerateY * 4) {
                 racer._speed.speedY -= decel;
             }
-            if (racer._speed.speedY < (-_maxSpeed - extraAccelerateY * 7)) {
+            if (racer._speed.speedY < (-_maxSpeed - extraAccelerateY * 4)) {
                 racer._speed.speedY += decel;
             }
         } else {
@@ -79,12 +79,8 @@ void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
     float cosAlfa = cosf(-addingRotation * (M_PI / 180));
     float sinAlfa = sinf(-addingRotation * (M_PI / 180));
 
-    auto rotatePointX = [&xCenter, &yCenter, &cosAlfa, sinAlfa](float x, float y) {
-        return ((x - xCenter) * cosAlfa - (y - yCenter) * sinAlfa) + xCenter;
-    };
-    auto rotatePointY = [&xCenter, &yCenter, &cosAlfa, sinAlfa](float x, float y) {
-        return ((x - xCenter) * sinAlfa + (y - yCenter) * cosAlfa) + yCenter;
-    };
+    auto rotatePointX = [&xCenter, &yCenter, &cosAlfa, sinAlfa](float x, float y) { return ((x - xCenter) * cosAlfa - (y - yCenter) * sinAlfa) + xCenter; };
+    auto rotatePointY = [&xCenter, &yCenter, &cosAlfa, sinAlfa](float x, float y) { return ((x - xCenter) * sinAlfa + (y - yCenter) * cosAlfa) + yCenter; };
 
     racer._position.first.x = rotatePointX(x1Old, y1Old);  // top left
     racer._position.first.y = rotatePointY(x1Old, y1Old);
@@ -114,8 +110,8 @@ void RacerController::updatePosition(Racer &racer, const Point &newCenterPositio
         racer._positionExtra.second.x += deltaX;
         racer._positionExtra.second.y += deltaY;
 
-//        racer._speed.speedX = -cosf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
-//        racer._speed.speedY = -sinf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
+        //        racer._speed.speedX = -cosf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
+        //        racer._speed.speedY = -sinf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
     } else {
         racer._position.first.x += racer._speed.speedX;
         racer._position.first.y += racer._speed.speedY;

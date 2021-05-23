@@ -8,7 +8,7 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 4;
+constexpr float eps = 3;
 constexpr float lambdaMin = 0.994444444;
 constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
@@ -95,25 +95,47 @@ void Line::collision(Racer &racer, RacerController &controller, Rotation command
 
     auto lineAngle = std::atan((_end.y - _start.y) / (_end.x - _start.x)) * toDegree;
     double pushAngle = getPushAngle(racer._center, _start, _end, lineAngle);
+    float kSpeedX = std::abs(racer._speed.speedX / 2);
+    float kSpeedY = std::abs(racer._speed.speedY / 2);
+    float kDistanceToCenter = (4 / distanceToCenter);
 
-    if (distanceToCenter <= 3) {  // critical
-        double newPushAngle = getPushAngle(racer._position.second, _start, _end, lineAngle);
-        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 1 * std::cos(newPushAngle * toRadian)),
-                                          static_cast<float>(racer._center.y + 1 * -std::sin(newPushAngle * toRadian))});
-        controller.changeSpeed(racer, false, 0.5 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
-                               0.5 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
-        controller.changeRotationSpeed(command, racer, 0.15);
-    } else if ((minDistance->first == 0 || minDistance->first == 2)) {  // bottom
-        controller.changeSpeed(racer, false, 0.25 * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX / 5),
-                               0.25 * -std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY / 5));
-        controller.changeRotationSpeed(command, racer, 0.15);
-    } else if ((minDistance->first == 1 || minDistance->first == 3)) {  // front
-        float extraAccelerateX = 1.4 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX);
-        float extraAccelerateY = 1.4 * -std::sin(pushAngle * toRadian) * std::abs(racer._speed.speedY);
-        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.1 * std::cos(pushAngle * toRadian)),
-                                          static_cast<float>(racer._center.y + 0.1 * -std::sin(pushAngle * toRadian))});
+    if ((minDistance->first == 1 || minDistance->first == 3)) {  // front
+        if ((isPointOnTheLeftSideFromLine(racer._position.second, _start, _end) != isPointOnTheLeftSideFromLine(racer._center, _start, _end)) ||
+            (isPointOnTheLeftSideFromLine(racer._positionExtra.second, _start, _end) != isPointOnTheLeftSideFromLine(racer._center, _start, _end))) {
+            pushAngle = getPushAngle(racer._position.first, _start, _end, lineAngle) - 180;
+        }
+        float extraAccelerateX = 1.2 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX);
+        float extraAccelerateY = 1.2 * -std::sin(pushAngle * toRadian) * std::abs(racer._speed.speedY);
+        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.2 * std::cos(pushAngle * toRadian)),
+                                          static_cast<float>(racer._center.y + 0.2 * -std::sin(pushAngle * toRadian))});
         controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
+    } else if ((minDistance->first == 0 || minDistance->first == 2) || (isPointOnTheLeftSideFromLine(racer._position.first, _start, _end) !=
+                                                                        isPointOnTheLeftSideFromLine(racer._position.second, _start, _end))) {  // bottom
+        controller.changeSpeed(racer, false, 0.32 * std::cos(racer._rotation * toRadian) * kSpeedX * kDistanceToCenter,
+                               0.32 * -std::sin(racer._rotation * toRadian) * kSpeedY * kDistanceToCenter);
+        controller.changeRotationSpeed(command, racer, 0.15);
     }
+
+    //    if (distanceToCenter < minDistance->second) {  // critical
+    //        double newPushAngle = getPushAngle(racer._position.first, _start, _end, lineAngle) - 180;
+    //        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 1 * std::cos(newPushAngle * toRadian)),
+    //                                          static_cast<float>(racer._center.y + 1 * -std::sin(newPushAngle * toRadian))});
+    //        controller.changeSpeed(racer, false, 2 * std::cos(racer._rotation * toRadian) * kSpeedX * kDistanceToCenter,
+    //                               2 * std::cos(racer._rotation * toRadian) * kSpeedY * kDistanceToCenter);
+    //        controller.changeRotationSpeed(command, racer, 0.15);
+    //    } else if ((minDistance->first == 0 || minDistance->first == 2) || (isPointOnTheLeftSideFromLine(racer._position.first, _start, _end) !=
+    //                                                                        isPointOnTheLeftSideFromLine(racer._position.second, _start, _end))) {  // bottom
+    //        controller.changeSpeed(racer, false, 0.3 * std::cos(racer._rotation * toRadian) * kSpeedX * kDistanceToCenter,
+    //                               0.3 * -std::sin(racer._rotation * toRadian) * kSpeedY * kDistanceToCenter);
+    //        controller.changeRotationSpeed(command, racer, 0.15);
+    //    } else if ((minDistance->first == 1 || minDistance->first == 3) || (isPointOnTheLeftSideFromLine(racer._position.first, _start, _end) ==
+    //                                                                        isPointOnTheLeftSideFromLine(racer._position.second, _start, _end))) {  // front
+    //        float extraAccelerateX = 1.2 * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX);
+    //        float extraAccelerateY = 1.2 * -std::sin(pushAngle * toRadian) * std::abs(racer._speed.speedY);
+    //        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.2 * std::cos(pushAngle * toRadian)),
+    //                                          static_cast<float>(racer._center.y + 0.2 * -std::sin(pushAngle * toRadian))});
+    //        controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
+    //    }
 }
 
 std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, Arc &arc) {
