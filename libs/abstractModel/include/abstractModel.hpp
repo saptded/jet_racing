@@ -5,7 +5,7 @@
 
 class AbstractModel : public Observable {
 public:
-    virtual void updateModel(Rotation &rotation){};
+    virtual void updateModel(Command &rotation){};
 
 private:
 };

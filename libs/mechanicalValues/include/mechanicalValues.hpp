@@ -16,4 +16,4 @@ struct Speed {
     float speedY;
 };
 
-enum Rotation { left, right, none, finish };
+enum Command { left, right, none, finish };

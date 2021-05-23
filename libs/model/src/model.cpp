@@ -10,7 +10,7 @@ Model::Model(int id)
     , currentStage(0)
     , finishedRacers(0) {}
 
-void Model::updateModel(Rotation &rotation) {
+void Model::updateModel(Command &rotation) {
     _currentCommand = rotation;
 
     updateMap();

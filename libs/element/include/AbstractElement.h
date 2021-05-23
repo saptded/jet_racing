@@ -19,7 +19,7 @@ public:
     virtual ~AbstractElement() = default;
 
     virtual bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) = 0;
-    void collision(Racer &racer, RacerController &controller, Rotation command) override = 0;
+    void collision(Racer &racer, RacerController &controller, Command command) override = 0;
     virtual bool isElementDynamic() = 0;
 
     Point _start;

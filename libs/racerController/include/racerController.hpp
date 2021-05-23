@@ -18,7 +18,7 @@ class RacerController {
 public:
     explicit RacerController(const float &rotAcc = DEFAULT_ROTATION_ACCELERATE, const float &speedAcc = DEFAULT_SPEED_ACCELERATE,
                              const float &maxSpeed = DEFAULT_MAX_SPEED, const float &maxRotationSpeed = DEFAULT_MAX_ROTATION_SPEED);
-    void changeRotationSpeed(const Rotation &rotation, Racer &racer, const float &extraAccelerate = DEFAULT_EXTRA_VALUE) const;
+    void changeRotationSpeed(const Command &rotation, Racer &racer, const float &extraAccelerate = DEFAULT_EXTRA_VALUE) const;
     void changeSpeed(Racer &racer, bool stop = false, const float &extraAccelerateX = DEFAULT_EXTRA_VALUE, const float &extraAccelerateY = DEFAULT_EXTRA_VALUE);
 
     void updateRotation(Racer &racer, const float &extraDegrees = 0);

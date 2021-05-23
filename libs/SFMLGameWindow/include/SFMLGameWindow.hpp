@@ -1,13 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "mechanicalValues.hpp"
 
 class SFMLGameWindow {
 public:
     SFMLGameWindow();
 
     sf::RenderWindow &getWindow();
-    Rotation handleButtonEvent();
+    Command handleButtonEvent();
     void timer(float want_fps = 60);
     void close();
 

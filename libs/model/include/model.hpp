@@ -16,10 +16,10 @@ public:
     explicit Model(int id);
     ~Model();
 
-    void updateModel(Rotation &rotation) override;
+    void updateModel(Command &rotation) override;
 
 private:
-    Rotation _currentCommand{};
+    Command _currentCommand{};
 
     void addObserver(Observer *observer) override;
     void removeObserver(Observer *observer) override;

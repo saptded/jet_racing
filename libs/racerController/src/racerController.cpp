@@ -3,7 +3,7 @@
 
 #include "racerController.hpp"
 
-void RacerController::changeRotationSpeed(const Rotation &_rotation, Racer &racer, const float &extraAccelerate) const {  // SpeedX - left; SpeedY - right
+void RacerController::changeRotationSpeed(const Command &_rotation, Racer &racer, const float &extraAccelerate) const {  // SpeedX - left; SpeedY - right
     switch (_rotation) {
         case left:
             if (racer._rotationSpeed.speedX < _maxRotationSpeed + extraAccelerate * 2) {

@@ -10,8 +10,8 @@ Presenter::Presenter(int id)
 void Presenter::run() {
 
     while (!_finishGame) {
-        Rotation command = _window->handleButtonEvent();
-        if (command == Rotation::finish) {
+        Command command = _window->handleButtonEvent();
+        if (command == Command::finish) {
             _finishGame = true;
         }
         _model->updateModel(command);

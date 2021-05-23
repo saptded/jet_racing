@@ -25,7 +25,7 @@ bool Propeller::isElementDynamic() { return isDynamic; }
 
 bool Accelerator::isElementDynamic() { return false; }
 
-void Accelerator::collision(Racer &racer, RacerController &controller, Rotation command) {
+void Accelerator::collision(Racer &racer, RacerController &controller, Command command) {
     float extraAccelerateX = static_cast<float>(0.06) * std::cos(racer._rotation * toRadian) * racer._speed.speedX;
     float extraAccelerateY = static_cast<float>(0.06) * -std::sin(racer._rotation * toRadian) * racer._speed.speedY;
 
@@ -34,7 +34,7 @@ void Accelerator::collision(Racer &racer, RacerController &controller, Rotation 
 
 bool Delayer::isElementDynamic() { return false; }
 
-void Delayer::collision(Racer &racer, RacerController &controller, Rotation command) {
+void Delayer::collision(Racer &racer, RacerController &controller, Command command) {
     float extraAccelerateX = static_cast<float>(0.15) * -std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX);
     float extraAccelerateY = static_cast<float>(0.15) * std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY);
 
@@ -44,7 +44,7 @@ void Delayer::collision(Racer &racer, RacerController &controller, Rotation comm
 bool Portal::isElementDynamic() { return false; }
 
 bool Finish::isElementDynamic() { return false; }
-void Finish::collision(Racer &racer, RacerController &controller, Rotation command) { racer.finished = std::make_tuple(true, 0); }
+void Finish::collision(Racer &racer, RacerController &controller, Command command) { racer.finished = std::make_tuple(true, 0); }
 
 bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
@@ -72,7 +72,7 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     return false;
 }
 
-void Line::collision(Racer &racer, RacerController &controller, Rotation command) {
+void Line::collision(Racer &racer, RacerController &controller, Command command) {
     std::vector<Point> points = {racer._position.first, racer._positionExtra.second, racer._positionExtra.first, racer._position.second};  // 0, 1, 2, 3
     std::map<uint8_t, float> distancesToLine;
     uint8_t k = 0;
@@ -191,7 +191,7 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
     return false;
 }
 
-void Arc::collision(Racer &racer, RacerController &controller, Rotation command) {
+void Arc::collision(Racer &racer, RacerController &controller, Command command) {
     std::vector<Point> points = {racer._position.first, racer._positionExtra.second, racer._positionExtra.first, racer._position.second};  // 0, 1, 2, 3
     std::map<uint8_t, float> distancesToArcCenter;
     uint8_t k = 0;
