@@ -5,7 +5,7 @@
 #include "viewer.hpp"
 
 Viewer::Viewer(sf::RenderWindow &dist) {
-    details = std::make_shared<sfViewerDetails>(dist);
+    details = std::make_shared<sfViewerDetails>();
 }
 
 Viewer::Viewer() {

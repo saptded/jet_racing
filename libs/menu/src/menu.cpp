@@ -99,10 +99,10 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
 //                    if(!buttons.at(buttonIterator).getIsActive()){
 //                        ready = true;
 //                    } // рабочий вариант такой
-                    if(racers.size() >= 2){ // можно начать игру с (2, 3 наверное логично) игроками по кнопке
-                        // оставила 1 если вам пригодится так
-                        ready = true;
-                    }
+//                    if(racers.size() >= ){ // можно начать игру с (2, 3 наверное логично) игроками по кнопке
+//                        // оставила 1 если вам пригодится так
+//                        ready = true;
+//                    }
                 }
             }
             if(waitingInput && !myName.empty()){
@@ -111,7 +111,7 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                 texts = newTexts;
                 addText("you:\t" + myName, color.menuBright);
                 addText("waiting others...", color.menuDark);
-                buttons.at(buttonIterator).setPassive();
+                buttons.at(buttonIterator).setActive();
                 addRacer(/**/);
             }
         }

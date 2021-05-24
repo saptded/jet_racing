@@ -84,15 +84,55 @@ void DrawableArc::change(int stage) {
 DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
     : DrawableObject(_start, _end, _center) {
     sf::Color color = chooseColor.getWall(1);
+//    // только для вертикальных и гозизонтальных линий
+//    if (end.y == start.y) {
+//        for (int j = -1; j <= 1; j++) {
+//            lines[j + 1] = sf::VertexArray(sf::Lines, 2);
+//            lines[j + 1][0].position = sf::Vector2f(start.x, start.y + j * weightK );
+//            lines[j + 1][0].color = color;
+//            lines[j + 1][1].position = sf::Vector2f(end.x, end.y + j * weightK );
+//            lines[j + 1][1].color = color;
+//        }
+//    } else if (end.x == start.x) {
+//        for (int j = -1; j <= 1; j++) {
+//            lines[j + 1] = sf::VertexArray(sf::Lines, 2);
+//            lines[j + 1][0].position = sf::Vector2f(start.x + j * weightK , start.y);
+//            lines[j + 1][0].color = color;
+//            lines[j + 1][1].position = sf::Vector2f(end.x + j * weightK , end.y);
+//            lines[j + 1][1].color = color;
+//        }
+//    } else {
+//        // для остальных - некрасиво
+//        for (int j = -1; j <= 1; j++) {
+//            lines[j + 1] = sf::VertexArray(sf::Lines, 2);
+//            lines[j + 1][0].position = sf::Vector2f(start.x + j * weightK , start.y);
+//            lines[j + 1][0].color = sf::Color::Magenta;
+//            lines[j + 1][1].position = sf::Vector2f(end.x + j * weightK , end.y);
+//            lines[j + 1][1].color = sf::Color::Magenta;
+//        }
+//    }
     // только для вертикальных и гозизонтальных линий
     if (end.y == start.y) {
-        for (int j = -1; j <= 1; j++) {
-            lines[j + 1] = sf::VertexArray(sf::Lines, 2);
-            lines[j + 1][0].position = sf::Vector2f(start.x, start.y + j * weightK );
-            lines[j + 1][0].color = color;
-            lines[j + 1][1].position = sf::Vector2f(end.x, end.y + j * weightK );
-            lines[j + 1][1].color = color;
+        for (int j = -1; j <= 1; j = j+2) {
+            lines[j + 1] = sf::VertexArray(sf::Quads, 4);
+            lines[j + 1][0].position = sf::Vector2f(start.x, start.y );
+            lines[j + 1][0].color = color + sf::Color::Transparent;
+            lines[j + 1][1].position = sf::Vector2f(start.x, start.y + j * weightK );
+            lines[j + 1][1].color = sf::Color::Transparent;
+            lines[j + 1][2].position = sf::Vector2f(end.x, end.y + j * weightK );
+            lines[j + 1][2].color = sf::Color::Transparent;
+            lines[j + 1][3].position = sf::Vector2f(end.x, end.y );
+            lines[j + 1][3].color = color;
         }
+        lines[0] = sf::VertexArray(sf::Quads, 4);
+        lines[0][0].position = sf::Vector2f(start.x, start.y + weightK/3);
+        lines[0][0].color = color;
+        lines[0][1].position = sf::Vector2f(start.x, start.y - weightK/3 );
+        lines[0][1].color = color;
+        lines[0][2].position = sf::Vector2f(end.x, end.y -weightK/3 );
+        lines[0][2].color = color;
+        lines[0][3].position = sf::Vector2f(end.x, end.y + weightK/3 );
+        lines[0][3].color = color;
     } else if (end.x == start.x) {
         for (int j = -1; j <= 1; j++) {
             lines[j + 1] = sf::VertexArray(sf::Lines, 2);
@@ -111,6 +151,7 @@ DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
             lines[j + 1][1].color = sf::Color::Magenta;
         }
     }
+
 }
 
 static sf::RectangleShape generateStdRect(Point start, Point end) {
