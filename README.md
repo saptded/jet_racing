@@ -46,26 +46,26 @@ int main() {
             R"(/data)",
             [&server](auto req, auto params) {
                 std::cout<< 2;
-                return (server.template setNewPosition(req));
+                return (server.template setNewPosition(req)).done();
             }
     );
     router->http_get(
             R"(/add)",
             [&server](auto req, auto params) {
-                return (server.template addUser(req));
+                return (server.template addUser(req)).done();
             }
     );
     router->http_get(
             R"(/update)",
             [&server](auto req, auto params) {
-                return (server.template sendNewPosition(req));
+                return (server.template sendNewPosition(req)).done();
             }
     );
     restinio::run(
             restinio::on_this_thread<my_server_traits>()
                     .address("localhost")
                     .port(2021)
-                    .request_handler(std::move(router)));
+                    .request_handler(std::move(router))).done();
     return 0;
 }
 ```

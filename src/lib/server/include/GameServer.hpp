@@ -13,6 +13,8 @@
 
 class [[maybe_unused]] GameServer{
 
+    std::string gameFlagStart = "false";
+
     std::vector<std::pair<std::string,Position>> userBuffer;
     std::vector<std::pair<std::string,std::string>> userName;
 
@@ -37,6 +39,16 @@ public:
     constexpr auto ping(auto req){
         return req->create_response()
                 .set_body(R"({"name":"jet_racing"})");
+    }
+
+    auto setStartFlag(auto req){
+        const auto qp = parse_query(req->header().query());
+        std::string flag = std::string(qp["flag"]);
+        return req->create_response().set_body(R"({"status": "ok"})");
+    }
+
+    auto sendStartFlag(auto req){
+        return req->create_response().set_body(R"({"flag":)" + gameFlagStart + R"(})");
     }
 
 
@@ -84,7 +96,7 @@ public:
         }
         const auto& endPositionRender = userBuffer[sizeUserBuffer - 1].second;
         response += R"({"username":")"+ endPositionRender.username +R"(","x":")" + endPositionRender.x + R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
-        return req->create_response().set_body(response).done();
+        return req->create_response().set_body(response);
     }
 
     [[maybe_unused]] void close();
