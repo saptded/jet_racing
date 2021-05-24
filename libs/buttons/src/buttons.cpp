@@ -3,19 +3,24 @@
 
 AbstractButton::AbstractButton(int num, sf::Text& _text, sf::RenderWindow& window):
 text(_text), id(_text.getString()) {
-    sfColor color;
-    rect.setOutlineColor(color.button);
     rect.setFillColor(sf::Color::Transparent);
     float width = (float)window.getSize().x;
     float height = (float)window.getSize().y;
     rect.setSize(sf::Vector2f (width/2, height/8));
     rect.setPosition(width/4, (4 + 2 * num)*height/8);
 
-    text.setFillColor(color.button);
     text.setOrigin(text.getLocalBounds().width/2, -text.getLocalBounds().height/2);
     text.setPosition(width/2, (4 + 2 * num)*height/8);
     num == 0 ? isActive = true : isActive = false;
-    isActive ? rect.setOutlineThickness(5) : rect.setOutlineThickness(2);
+    if(isActive){
+        rect.setOutlineThickness(5);
+        rect.setOutlineColor(color.menuBright);
+        text.setFillColor(color.menuBright);
+    } else {
+        rect.setOutlineThickness(2);
+        rect.setOutlineColor(color.menuDark);
+        text.setFillColor(color.menuDark);
+    }
 }
 
 bool AbstractButton::getIsActive() {
@@ -24,11 +29,15 @@ bool AbstractButton::getIsActive() {
 
 void AbstractButton::setActive() {
     rect.setOutlineThickness(5);
+    rect.setOutlineColor(color.menuBright);
+    text.setFillColor(color.menuBright);
     isActive = true;
 }
 
 void AbstractButton::setPassive() {
     rect.setOutlineThickness(2);
+    rect.setOutlineColor(color.menuDark);
+    text.setFillColor(color.menuDark);
     isActive = false;
 }
 

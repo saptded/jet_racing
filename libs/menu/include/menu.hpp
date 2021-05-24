@@ -15,7 +15,7 @@ private:
     void handleInput(sf::Keyboard::Key key, bool isPressed);
 
     std::vector<AbstractButton> buttons;
-    int buttonIterator;
+    int buttonIterator = 0;
     void showButtons();
 
     bool secondStep = false;
@@ -24,8 +24,11 @@ private:
     void changeStep();
 
     std::vector<sf::Text> texts;
-    void addText(std::string racerName);
+    void addText(std::string text_, sf::Color& color);
     void printText();
+
+    std::string myName;
+    bool waitingInput = false;
 
     std::vector<RacerInfo> racers;
     void addRacer(/**/);

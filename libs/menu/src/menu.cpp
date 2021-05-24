@@ -34,6 +34,16 @@ std::shared_ptr<MenuInfo> Menu::run() {
                 case sf::Event::KeyReleased:
                     handleInput(event.key.code, false);
                     break;
+                case sf::Event::TextEntered:
+                    if(waitingInput && (event.text.unicode < 128) && (event.text.unicode > 40)){
+                        if(!buttons.at(buttonIterator).getIsActive()){
+                            buttons.at(buttonIterator).setActive();
+                        }
+                        myName.push_back(static_cast<char>(event.text.unicode));
+                        texts.pop_back();
+                        addText(myName+ "_", color.menuBright);
+                    }
+                    break;
                 case sf::Event::Closed:
                     window.close();
                     return nullptr;
@@ -41,10 +51,11 @@ std::shared_ptr<MenuInfo> Menu::run() {
         }
         if(secondStep){
             // при получении инфы от сервера - добавить его
-            addRacer(/**/);
+            //addRacer(/**/);
             // addText("RacerName----"); // отобразить его имя
             if(racers.size() >= 4){
-                ready = true;
+                addText("ready?\tgood luck!", color.menuBright);
+                //ready = true; - плохо
             }// ограничение 4 игрока
         }
         if(ready){
@@ -85,11 +96,23 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                     joinGame();
                 } else if (but == "go") {
                     std::cout << "go" << std::endl;
-                    if(racers.size() >= 1){ // можно начать игру с (2, 3 наверное логично) игроками по кнопке
+//                    if(!buttons.at(buttonIterator).getIsActive()){
+//                        ready = true;
+//                    } // рабочий вариант такой
+                    if(racers.size() >= 2){ // можно начать игру с (2, 3 наверное логично) игроками по кнопке
                         // оставила 1 если вам пригодится так
                         ready = true;
                     }
                 }
+            }
+            if(waitingInput && !myName.empty()){
+                waitingInput = false;
+                std::vector<sf::Text> newTexts;
+                texts = newTexts;
+                addText("you:\t" + myName, color.menuBright);
+                addText("waiting others...", color.menuDark);
+                buttons.at(buttonIterator).setPassive();
+                addRacer(/**/);
             }
         }
     }
@@ -98,8 +121,9 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
 
 void Menu::changeStep(){
     sf::Text stGame ("go", font);
-    AbstractButton btn(1, stGame, window);
-    btn.setActive();
+    stGame.setCharacterSize(50);
+    AbstractButton btn(0, stGame, window);
+    btn.setPassive();
     std::vector<AbstractButton> newButtons = { btn };
     buttons = newButtons;
     buttonIterator = 0;
@@ -107,10 +131,9 @@ void Menu::changeStep(){
     // если в texts уже будут лежать результаты, надо обнулить ее. Можно наверно элегантнее
     std::vector<sf::Text> newTexts;
     texts = newTexts;
-    addText("waiting players...");
-    // тут надо создать своего игрока наверное. ввод текста не сделала пока, сделаю
-    // TODO
-    addRacer(/**/);
+    addText("enter your name", color.menuDark);
+    addText("_", color.menuBright);
+    waitingInput = true;
 }
 
 void Menu::startGame() {
@@ -128,13 +151,13 @@ void Menu::addRacer(/**/) {
 //    racers.push_back(racer);
 }
 
-void Menu::addText(std::string racerName) {
-    sf::Text text (racerName, font);
-    text.setFillColor(color.button);
-    text.setCharacterSize(30);
+void Menu::addText(std::string text_, sf::Color& color_) {
+    sf::Text text (text_, font);
+    text.setFillColor(color_);
+    text.setCharacterSize(50);
     text.setOrigin(text.getLocalBounds().width/2, -text.getLocalBounds().height/2);
-    int topMargin = text.getLocalBounds().height;
-    text.setPosition(window.getSize().x/2, texts.size()*window.getSize().y/6 + topMargin);
+    float topMargin = (float)window.getSize().y/12;
+    text.setPosition((float)window.getSize().x/2, (float)texts.size()*topMargin + topMargin);
     texts.push_back(text);
 }
 

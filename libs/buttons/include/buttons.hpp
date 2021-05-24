@@ -5,6 +5,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include "sfColor.hpp"
+
 class AbstractButton{
 public:
     AbstractButton() = delete;
@@ -20,4 +22,5 @@ private:
     //sf::Font   font;
     sf::RectangleShape rect;
     std::string id;
+    sfColor color;
 };
