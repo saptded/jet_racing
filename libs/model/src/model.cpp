@@ -5,12 +5,12 @@
 #include "model.hpp"
 
 Model::Model(int id)
-    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
-    , _racer(_map->getStartPointByID(0).first, id)
+    : _map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
+    , _racer(_map->getStartPointByID(0), id)
     , currentStage(0)
-    , finishedRacers(0) {}
+    , finishedRacers(0){}
 
-void Model::updateModel(Command &rotation) {
+std::shared_ptr<RacerInfo> Model::updateModel(Command &rotation) {
     _currentCommand = rotation;
 
     updateMap();
@@ -18,6 +18,8 @@ void Model::updateModel(Command &rotation) {
 
     Response response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
     notifyObserves(response);
+
+    return menuInfo;
 }
 
 void Model::addObserver(Observer *observer) { _observes.push_back(observer); }
@@ -53,7 +55,13 @@ void Model::updateRacers() {
         }
     }
     if (finishedRacers == enemies.size() + 1) {
-        std::cout << "game finished" << std::endl;
+        menuInfo = std::make_shared<RacerInfo>();
+        auto [isFinished, position] = _racer.finished;
+        menuInfo->results[_racer._id] = position;
+        for (auto &enemy : enemies) {
+            auto [isEnemyFinished, enemyPosition] = enemy.finished;
+            menuInfo->results.insert(std::make_pair(enemy._id, enemyPosition));
+        }
     }
 }
 
@@ -67,7 +75,6 @@ void Model::updateRacer() {
 
     _racerController.changeRotationSpeed(_currentCommand, _racer);
     _racerController.changeSpeed(_racer, false);
-//    std::cout << _racer._speed.speedY << std::endl;
 
     _racerController.updateRotation(_racer);
     _racerController.updatePosition(_racer);

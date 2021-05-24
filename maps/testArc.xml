@@ -1,6 +1,6 @@
 <map>
     <stage>
-        <element name="arc" startX="150" startY="775" endX="600" endY="775" centerX="375" centerY="775"/>
+        <element name="finish" startX="600" startY="0" endX="800" endY="200" centerX="1500" centerY="500"/>
 
 
     </stage>

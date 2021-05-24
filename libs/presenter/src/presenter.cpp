@@ -7,19 +7,24 @@ Presenter::Presenter(int id)
     , _model(new Model(id))
     , _window(new SFMLGameWindow) {}
 
-void Presenter::run() {
+std::shared_ptr<RacerInfo> Presenter::run() {
+    std::shared_ptr<RacerInfo> results;
 
     while (!_finishGame) {
         Command command = _window->handleButtonEvent();
         if (command == Command::finish) {
             _finishGame = true;
         }
-        _model->updateModel(command);
+        results = _model->updateModel(command);
+        if (results != nullptr) {
+            _finishGame = true;
+        }
         _window->timer();
     }
 
     _window->getWindow().clear();
     _window->getWindow().close();
+    return results;
 }
 
 void Presenter::handleEvent(Response &response) { viewer->render(response, _window->getWindow()); }

@@ -8,8 +8,8 @@
 
 class Menu{
 public:
-    Menu(std::shared_ptr<MenuInfo>);
-    std::shared_ptr<MenuInfo> run();
+    Menu(std::shared_ptr<RacerInfo>);
+    std::shared_ptr<RacerInfo> run();
 private:
     void display();
     void handleInput(sf::Keyboard::Key key, bool isPressed);

@@ -8,6 +8,7 @@
 #include "observer.hpp"
 #include "racer.hpp"
 #include "racerController.hpp"
+#include "menuInfo.hpp"
 
 struct AbstractElement;
 
@@ -16,7 +17,7 @@ public:
     explicit Model(int id);
     ~Model();
 
-    void updateModel(Command &rotation) override;
+    std::shared_ptr<RacerInfo> updateModel(Command &rotation) override;
 
 private:
     Command _currentCommand{};
@@ -41,4 +42,6 @@ private:
 
     uint8_t currentStage;
     uint8_t finishedRacers;
+
+    std::shared_ptr<RacerInfo> menuInfo;
 };

@@ -21,9 +21,11 @@ struct Racer {
     Point _center;
     Point _origin;
 
-    int _id;
+    uint8_t _id;
 
     std::tuple<bool, uint8_t> finished;
+
+    bool onCollision;
 
     std::shared_ptr<DrawableRacer> _drObj;
     template <typename M> void draw(M &target){};

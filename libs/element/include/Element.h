@@ -50,7 +50,7 @@ public:
 class Propeller : public Line {
 public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
-        : Rectangle(start, end, center), isDynamic(false) {
+        : Line(start, end, center), isDynamic(false) {
         _drObj = std::make_shared<DrawablePropeller>(start, end, center);
     }
 

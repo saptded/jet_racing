@@ -1,6 +1,6 @@
 #include "menu.hpp"
 
-Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
+Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
     if(info){
         // отобразить результаты в виде текста если они есть
     }
@@ -20,7 +20,7 @@ Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "Je
     };
 }
 
-std::shared_ptr<MenuInfo> Menu::run() {
+std::shared_ptr<RacerInfo> Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
         display();
@@ -59,7 +59,7 @@ std::shared_ptr<MenuInfo> Menu::run() {
             }// ограничение 4 игрока
         }
         if(ready){
-            return std::make_shared<MenuInfo>(racers);
+//            return std::make_shared<RacerInfo>(racers);
         }
     }
     return nullptr;
@@ -102,6 +102,7 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                     presenter->run();
 
                     delete presenter;
+
 
 //                    if(!buttons.at(buttonIterator).getIsActive()){
 //                        ready = true;
