@@ -31,7 +31,7 @@ public:
     Position getUpdates() {
      #ifndef test_jet_racing
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
-        auto response = Request::getRequest(Url(connection.host + ":" + std::string(connection.port) + "/get_updates"));
+        auto response = Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/get_updates"));
         Position res =  deserObject.getPositionFromJson(response.text);
         return res;
      #else
@@ -44,8 +44,8 @@ public:
          Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
     }
 
-    int join(const std::string& username) {
-        auto response = Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/add?username=" + username));
+    int join(const char*& username) {
+        auto response = Request::getRequest(Url(dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username));
         return response.status_code;
     }
 

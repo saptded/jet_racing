@@ -10,6 +10,7 @@
 #include <Position.hpp>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 class [[maybe_unused]] GameServer{
 
