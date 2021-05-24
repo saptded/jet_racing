@@ -1,7 +1,7 @@
 #pragma once
 
-#include <drawableObjects.hpp>
 #include <vector>
+#include <drawableObjects.hpp>
 
 #include "AbstractElement.h"
 
@@ -42,15 +42,15 @@ public:
         : AbstractElement(start, end, center) {}
     ~Rectangle() override = default;
 
+
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     void collision(Racer &racer, RacerController &, Command command) override{};
 };
 
-class Propeller : public Rectangle {
+class Propeller : public Line {
 public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
-        : Rectangle(start, end, center)
-        , isDynamic(false) {
+        : Rectangle(start, end, center), isDynamic(false) {
         _drObj = std::make_shared<DrawablePropeller>(start, end, center);
     }
 

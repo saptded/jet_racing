@@ -6,9 +6,8 @@ Map::Map(const std::string &filename) {
     stages = parser.parseFile(filename);
 
     for (int i = 0; i < 4; i++) {
-        Point positionTL = {50, 875 + static_cast<float>(i) * 25};
-        Point positionBR = {80, 887 + static_cast<float>(i) * 25};
-        racerStart.emplace_back(positionTL, positionBR);
+        Point positionTL = {20, 875 + static_cast<float>(i) * 25};
+        racerStart.emplace_back(positionTL);
     }
 }
 
@@ -27,4 +26,4 @@ std::shared_ptr<AbstractElement> Map::getCollisionElement(Point &playerTopLeft, 
 
 std::vector<std::shared_ptr<AbstractElement>> Map::getElementsInStage(int currentStage) { return stages[currentStage]->elements; }
 
-std::pair<Point, Point> Map::getStartPointByID(int id) { return racerStart[id]; }
+Point& Map::getStartPointByID(int id) { return racerStart[id]; }
