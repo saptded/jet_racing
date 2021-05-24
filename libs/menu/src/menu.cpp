@@ -96,10 +96,17 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                     joinGame();
                 } else if (but == "go") {
                     std::cout << "go" << std::endl;
+                    int id = 0;
+
+                    Presenter *presenter = Presenter::create(id);
+                    presenter->run();
+
+                    delete presenter;
+
 //                    if(!buttons.at(buttonIterator).getIsActive()){
 //                        ready = true;
 //                    } // рабочий вариант такой
-                    if(racers.size() >= 2){ // можно начать игру с (2, 3 наверное логично) игроками по кнопке
+                    if(racers.size() >= 1){ // можно начать игру с (2, 3 наверное логично) игроками по кнопке
                         // оставила 1 если вам пригодится так
                         ready = true;
                     }
@@ -111,7 +118,6 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                 texts = newTexts;
                 addText("you:\t" + myName, color.menuBright);
                 addText("waiting others...", color.menuDark);
-                buttons.at(buttonIterator).setPassive();
                 addRacer(/**/);
             }
         }
