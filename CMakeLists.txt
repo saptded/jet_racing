@@ -6,6 +6,6 @@ add_subdirectory(libs)
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(main myMain.cpp)
+add_executable(main mainMenu.cpp)
 #target_link_libraries(main PUBLIC presenter model response observer racer mechanicalValues sfml-graphics)
 target_link_libraries(main PUBLIC menu presenter model response observer racer mechanicalValues sfml-graphics)

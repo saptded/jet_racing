@@ -27,12 +27,12 @@ void sfViewerDetails::update(Racer& racer) {
     view.setCenter(prevPos);
 }
 
-void sfViewerDetails::display(sf::RenderWindow &window, int stage){
+void sfViewerDetails::display(sf::RenderWindow &window, int stage) {
     window.display();
-    window.clear(colors.black);
+    window.clear(colors.getBg(stage));
     window.setView(window.getDefaultView());
     //bg.setPosition(0,0);
-    window.draw(bg);
+    //window.draw(bg);
 //    sf::RectangleShape rect;
 //    rect.setSize(sf::Vector2f(10,10));
 //    rect.setPosition(10,10);

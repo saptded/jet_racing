@@ -1,19 +1,9 @@
-//<<<<<<< HEAD
 #pragma once
 
 #include "AbstractElement.h"
 #include "racer.hpp"
 #include <optional>
 
-//};
-
-// enum Event {
-//     updateRacer,
-// };
-//
-// struct Response {
-//     Event event;
-//     const std::optional<Racer *> _racer;
 enum ViewEvent {
     RACER,
     ENEMIES,

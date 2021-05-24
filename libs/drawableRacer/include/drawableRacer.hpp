@@ -1,9 +1,6 @@
-//
-// Created by Kseny
-//
-
 #pragma once
 
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -30,7 +27,6 @@ private:
     void setRot(const float &rotation);
 
     void drawWindow(sf::RenderWindow &window);
-
     sf::Sprite car;
     sf::Sprite fire;
     sf::Texture textureCar;

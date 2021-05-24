@@ -1,11 +1,10 @@
-//<<<<<<< HEAD
 #include "racer.hpp"
 #include "drawableRacer.hpp"
 
 Racer::Racer(Point point, int id)
 
-    : _width(60)
-    , _height(20)
+    : _width(34)   // 30
+    , _height(12)  // 12
 
     , _rotation(0)
     , _speed({0, 0})
@@ -15,6 +14,8 @@ Racer::Racer(Point point, int id)
     , _center({point.x + 5 * _width / 6, point.y + _height / 2})
     , _origin({5 * _width / 6, _height / 2})
     , _id(id)
+    , finished(false, 0)
+    , onCollision(false)
 
     , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation)) {}
 

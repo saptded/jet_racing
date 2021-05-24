@@ -5,7 +5,6 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 void DrawableRacer::loadSources() {
-
     imCar.loadFromFile("../media/fire.png");
     imCar.createMaskFromColor(sf::Color::Magenta);
     textureCar.loadFromImage(imCar);
@@ -75,6 +74,7 @@ void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
     changeFire(racer._speed);
     drawWindow(window);
 }
+
 void DrawableRacer::drawWindow(sf::RenderWindow &window) {
     window.draw(car);
     window.draw(fire);

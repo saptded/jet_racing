@@ -1,23 +1,23 @@
 #include "mechanicalValues.hpp"
 #include <SFMLGameWindow.hpp>
 
-Rotation SFMLGameWindow::handleButtonEvent() {
+Command SFMLGameWindow::handleButtonEvent() {
     sf::Event buttonEvent{};
 
     while (_window.pollEvent(buttonEvent)) {
         if (buttonEvent.type == sf::Event::Closed) {
-            return Rotation::finish;
+            return Command::finish;
         }
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        return Rotation::left;
+        return Command::left;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        return Rotation::right;
+        return Command::right;
     }
 
-    return Rotation::none;
+    return Command::none;
 }
 
 SFMLGameWindow::SFMLGameWindow()

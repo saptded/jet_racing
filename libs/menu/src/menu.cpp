@@ -1,8 +1,17 @@
 #include "menu.hpp"
+#include <stdint.h>
 
-Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
-    if(info){
+Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
+    if(info != nullptr){
         // отобразить результаты в виде текста если они есть
+        addText("results", color.menuDark);
+        for(auto it: info->results) {
+            std::string racer("racer_");
+            racer += std::to_string(it.first);
+            racer += "\t:\t";
+            racer += std::to_string(it.second);
+            addText(racer, color.menuBright);
+        }
     }
     sf::Text stGame ("start game", font);
     sf::Text joinGame ("join game", font);
@@ -20,9 +29,12 @@ Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "Je
     };
 }
 
-std::shared_ptr<MenuInfo> Menu::run() {
+void Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
+        if(ready){
+            return;
+        }
         display();
         while (window.pollEvent(event))
         {
@@ -46,23 +58,10 @@ std::shared_ptr<MenuInfo> Menu::run() {
                     break;
                 case sf::Event::Closed:
                     window.close();
-                    return nullptr;
+                    return;
             }
         }
-        if(secondStep){
-            // при получении инфы от сервера - добавить его
-            //addRacer(/**/);
-            // addText("RacerName----"); // отобразить его имя
-            if(racers.size() >= 4){
-                addText("ready?\tgood luck!", color.menuBright);
-                //ready = true; - плохо
-            }// ограничение 4 игрока
-        }
-        if(ready){
-            return std::make_shared<MenuInfo>(racers);
-        }
     }
-    return nullptr;
 }
 
 void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
@@ -88,21 +87,13 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                 auto but = buttons.at(buttonIterator).getId();
                 if(but == "start game") {
                     std::cout << "start game" << std::endl;
-                    secondStep = true;
                     startGame();
                 } else if (but == "join game") {
                     std::cout << "join game" << std::endl;
-                    secondStep = true;
                     joinGame();
                 } else if (but == "go") {
                     std::cout << "go" << std::endl;
-//                    if(!buttons.at(buttonIterator).getIsActive()){
-//                        ready = true;
-//                    } // рабочий вариант такой
-//                    if(racers.size() >= ){ // можно начать игру с (2, 3 наверное логично) игроками по кнопке
-//                        // оставила 1 если вам пригодится так
-//                        ready = true;
-//                    }
+                    ready = true; // по кнопке go завершается метод run
                 }
             }
             if(waitingInput && !myName.empty()){
@@ -112,7 +103,6 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                 addText("you:\t" + myName, color.menuBright);
                 addText("waiting others...", color.menuDark);
                 buttons.at(buttonIterator).setActive();
-                addRacer(/**/);
             }
         }
     }
@@ -138,18 +128,17 @@ void Menu::changeStep(){
 
 void Menu::startGame() {
     changeStep();
+    // start - значит это создатель, сервер у него, предположительно id 0 у него же
+    runServer();
     // TODO
 }
 
 void Menu::joinGame() {
     changeStep();
+    // присоединение к игре. Хорошо бы здесь именно присоединиться
     // TODO
 }
 
-void Menu::addRacer(/**/) {
-//    RacerInfo racer;
-//    racers.push_back(racer);
-}
 
 void Menu::addText(std::string text_, sf::Color& color_) {
     sf::Text text (text_, font);
@@ -178,5 +167,13 @@ void Menu::display() {
     showButtons();
     printText();
     window.display();
+}
+
+void Menu::stopServer() {
+
+}
+
+void Menu::runServer() {
+
 }
 
