@@ -5,10 +5,29 @@
 #define test_jet_racing
 #include "GameClient.hpp"
 #include "serialization.h"
+#include <GameServer.hpp>
+#include <string>
 
 class Response{
+    std::string testLocal;
+public:
+   Response set_body(std::string test){
+      testLocal = test;
+       return *this;
+  }
 
+  [[nodiscard]]  std::string getTestResult() const{
+      return testLocal;
+  }
 };
+
+class RequestForServer{
+public:
+    Response create_response(){
+        return Response();
+    }
+};
+
 class request{
 
     template<class name>
@@ -29,7 +48,12 @@ TEST(serialization_test, tests_input) {
     ASSERT_EQ(response, "{\"username\":\"racer\",\"x\":1,\"y\":2,\"z\":4}");
 }
 
-
+TEST(unit_test,ping_server_test) {
+    auto server = GameServer();
+    auto* req = new RequestForServer();
+    Response result = server.ping(req);
+    ASSERT_EQ(result.getTestResult(), "{\"name\":\"jet_racing\"}");
+}
 
 
 int main(int argc, char **argv){
