@@ -3,9 +3,7 @@ project(libserver)
 
 set(CMAKE_CXX_FLAGS "-fpermissive --coverage  -v  -fconcepts")
 
-
 link_libraries(gcov)
-
 
 add_subdirectory(src/lib)
 

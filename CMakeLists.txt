@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "-fpermissive --coverage  -v  -fPIE -fconcepts")
 
-add_compile_options(-fPIE)
+add_compile_options(-fPIE -fPIC)
 include(FetchContent)
 include(ExternalProject)
 FetchContent_Declare(
@@ -53,5 +53,5 @@ add_subdirectory(libs)
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(main myMain.cpp)
-target_link_libraries(main PUBLIC restiniofull presenter model response observer racer mechanicalValues sfml-graphics libserver libclient libdata_struct libserialization)
+add_executable(main myMain.cpp libs/serverStart/include/startServer.h libs/serverStart/src/startServer.cpp libs/customRequest/include/customRequest.h libs/customRequest/src/customRequest.cpp)
+target_link_libraries(main PUBLIC restiniofull presenter model response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libserialization)

@@ -1,6 +1,8 @@
 #include "menu.hpp"
 #include <stdint.h>
 
+using Url = cpr::Url;
+
 Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
     if(info != nullptr){
         // отобразить результаты в виде текста если они есть
@@ -27,6 +29,8 @@ Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "J
             AbstractButton(0, stGame, window),
             AbstractButton(1, joinGame, window),
     };
+    ConnectionData data = ConnectionData{2021, "localhost"};
+    gameClient = GameClient<CustomRequest>(data);
 }
 
 void Menu::run() {
@@ -137,6 +141,8 @@ void Menu::joinGame() {
     changeStep();
     // присоединение к игре. Хорошо бы здесь именно присоединиться
     // TODO
+    const char*  username = "id or username";
+    gameClient.join(username);
 }
 
 
@@ -170,10 +176,13 @@ void Menu::display() {
 }
 
 void Menu::stopServer() {
-
+  server->stop(); // очищение http-server
+  gameServer.close(); // очистка игрового сервера. не путать с low level http server
 }
 
 void Menu::runServer() {
-
+    gameServer = GameServer();
+    ConnectionData connectionData = {2021, "localhost"}; // сетевые данные на которых запуститься сервер
+    server = startServer(gameServer, connectionData);
 }
 
