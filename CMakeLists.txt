@@ -35,6 +35,13 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(rapidjson source_dir)
 set(RAPIDJSON_INCLUDE_DIR ${source_dir}/include)
+include_directories(${RAPIDJSON_INCLUDE_DIR})
+include_directories(
+        ${CMAKE_SOURCE_DIR}/include
+        ${GFLAGS_INCLUDE_DIR}
+        ${BENCHMARK_INCLUDE_DIR}
+        ${RAPIDJSON_INCLUDE_DIR}
+)
 
 add_subdirectory(${restinio_SOURCE_DIR}/dev/fmt ${restinio_BINARY_DIR}/fmt)
 add_subdirectory(${restinio_SOURCE_DIR}/dev/nodejs/http_parser ${restinio_BINARY_DIR}/http_parser)
@@ -53,5 +60,6 @@ add_subdirectory(libs)
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(main myMain.cpp libs/serverStart/include/startServer.h libs/serverStart/src/startServer.cpp libs/customRequest/include/customRequest.h libs/customRequest/src/customRequest.cpp)
+add_executable(main myMain.cpp)
+add_dependencies(main rapidjson)
 target_link_libraries(main PUBLIC restiniofull presenter model response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libserialization)
