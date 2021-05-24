@@ -16,6 +16,9 @@ public:
     sf::Color getBg(int stage);
     sf::Color getCar(int id);
 
+    sf::Color menuDark = {255, 56, 56, 180};
+    sf::Color menuBright = {255, 56, 56, };
+    sf::Color white = sf::Color::White;
 private:
     std::vector<sf::Color> walls = {
         sf::Color(80, 101, 50),
