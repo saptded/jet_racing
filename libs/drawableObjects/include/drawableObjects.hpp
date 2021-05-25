@@ -35,8 +35,7 @@ class DrawableAccelerator : public DrawableObject {
 public:
     DrawableAccelerator(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
-    void change(int stage) override{};
-
+    void init(int stage) override {};
 private:
     sf::RectangleShape rect;
 };
@@ -45,8 +44,7 @@ class DrawableDelayer : public DrawableObject {
 public:
     DrawableDelayer(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
-    void change(int stage) override{};
-
+    void init(int stage) override {};
 private:
     sf::RectangleShape rect;
 };
@@ -55,7 +53,7 @@ class DrawablePortal : public DrawableObject{
 public:
     DrawablePortal(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
-    void change(int stage) override{};
+    void init(int stage) override{};
 private:
     sf::RectangleShape rect;
 };
@@ -64,7 +62,7 @@ class DrawableFinish : public DrawableObject{
 public:
     DrawableFinish(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
-    void change(int stage) override{};
+    void init(int stage) override{};
 private:
     sf::RectangleShape rect;
 };
@@ -73,8 +71,8 @@ class DrawablePropeller : public DrawableObject {
 public:
     DrawablePropeller(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
-    void drawDynamic(sf::RenderWindow &window, Point _start, Point _end, Point _center);
-    void change(int stage) override{};
+    //void drawDynamic(sf::RenderWindow &window, Point _start, Point _end, Point _center);
+    void init(int stage) override{};
 
 private:
     sf::VertexArray lines[3];
