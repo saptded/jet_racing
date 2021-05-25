@@ -22,13 +22,13 @@ int main() {
             R"(/data)",
             [&server](auto req, auto params) {
                 std::cout<< 2;
-                return (server.template setNewPosition(req));
+                return (server.template setNewPosition(req)).done();
             }
     );
     router->http_get(
             R"(/update)",
             [&server](auto req, auto params) {
-                return (server.template sendNewPosition(req));
+                return (server.template sendNewPosition(req)).done();
             }
     );
     router->http_get(
