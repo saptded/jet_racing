@@ -1,4 +1,7 @@
 #include "menu.hpp"
+#include <customDeserialization.h>
+#include <deserialization.h>
+#include <serialization.h>
 #include <stdint.h>
 
 using Url = cpr::Url;
@@ -142,7 +145,7 @@ void Menu::joinGame() {
     // присоединение к игре. Хорошо бы здесь именно присоединиться
     // TODO
     std::string username = "id or username";
-    gameClient.join(username);
+    gameClient.join<CustomDeserialization>(username);
 }
 
 

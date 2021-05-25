@@ -30,11 +30,11 @@ public:
 
 
     template<typename Deserialization>
-    Position getUpdates() {
+    std::vector<Position> getUpdates() {
      #ifndef test_jet_racing
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
         auto response = Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/get_updates"));
-        Position res =  deserObject.getPositionFromJson(response.text);
+        auto res =  deserObject.getPositionFromJson(response.text);
         return res;
      #else
         return Position{"200"};
@@ -46,15 +46,22 @@ public:
          Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
     }
 
-    int join(std::string& username) {
+    template<typename Deserialization>
+    std::string join(std::string& username) {
         //std::string str = dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username;
 
         std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?username=" + username;
         auto response = Request::getRequest(Url(str));
-        return response.status_code;
+        DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
+        auto res = deserObject.getIdFromJson(response.text);
+        return res;
     }
 
-    static inline std::vector<std::string> searchOpenSession(std::vector<std::string>& ipList, std::string port){
+    void sendFlag(bool gameFlagStart){
+        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?flag=" + std::to_string(gameFlagStart);
+    }
+
+    static inline std::vector<std::string> searchOpenSession(std::vector<std::string>& ipList, std::string& port){
         auto result = std::vector<std::string>();
         for(const auto& i : ipList){
             auto response = Request::getRequest(Url(i + ":" + port + "/ping"));

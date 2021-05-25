@@ -38,6 +38,23 @@ std::unique_ptr<running_server_instance_t<http_server_t<ServerTraits>>> startSer
     );
 
     /*
+     * игровой флаг сигнализирующий о начале игре
+     */
+    router->http_get(
+        R"(/set_flag)",
+        [&server](auto req, auto params) {
+            return (server.template setStartFlag(req)).done();
+        }
+    );
+
+    router->http_get(
+        R"(/get_flag)",
+        [&server](auto req, auto params) {
+            return (server.template sendStartFlag(req)).done();
+        }
+    );
+
+    /*
      * для поиска сессий
      * возвращает json в котором сказано что запущен jst_racing
      */

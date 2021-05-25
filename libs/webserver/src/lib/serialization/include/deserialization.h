@@ -14,8 +14,12 @@ class DeserializationObject{
     T jsonTransformer = T();
 
 public:
-    std::vector<Position> getPositionFromJson(const std::string& json){
+    std::vector<Position> getPositionFromJson(std::string& json){
         return jsonTransformer.jsonToPosition(json);
+    }
+
+    std::string getIdFromJson(std::string& json){
+        return jsonTransformer.jsonToId(json.c_str());
     }
 };
 
@@ -28,8 +32,7 @@ inline Position twoDPointWithNameConvertToPosition(const Point& twoDPoint, const
     return pos;
 }
 
-template<typename Racer, typename Point>
-Position convertRacerToPosition(Racer& racer){
+template<typename Racer, typename Point> [[maybe_unused]] Position convertRacerToPosition(Racer& racer){
     const std::string name = std::to_string(racer._id);
     Point& point = racer.point;
     return twoDPointWithNameConvertToPosition(point, name);
