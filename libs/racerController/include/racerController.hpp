@@ -4,31 +4,33 @@
 #include "racer.hpp"
 #include <optional>
 
-#define DEFAULT_ROTATION_ACCELERATE 0.25
-#define DEFAULT_SPEED_ACCELERATE 0.1
-#define DEFAULT_MAX_SPEED 6
-#define DEFAULT_MAX_ROTATION_SPEED 7
-#define DEFAULT_EXTRA_VALUE 0
-#define DEFAULT_NEW_POSITION {-1, -1}
-#define HAVE_NEW_POSITION(point)(point.x != -1 && point.y != -1)
+constexpr float DEFAULT_ROTATION_ACCELERATE = 0.09;
+constexpr float DEFAULT_SPEED_ACCELERATE = 0.03;
+constexpr float DEFAULT_MAX_SPEED = 2.2;
+constexpr float DEFAULT_MAX_ROTATION_SPEED = 4;
+constexpr float DEFAULT_EXTRA_VALUE = 0;
+constexpr float CRITICAL_SPEED = 10;
+#define DEFAULT_NEW_POSITION                                                                                                                                   \
+    { -1, -1 }
+#define HAVE_NEW_POSITION(point) ((point).x != -1 && (point).y != -1)
 
 class RacerController {
 public:
-    explicit RacerController(const double &rotAcc = DEFAULT_ROTATION_ACCELERATE, const double &speedAcc = DEFAULT_SPEED_ACCELERATE,
-                             const double &maxSpeed = DEFAULT_MAX_SPEED, const double &maxRotationSpeed = DEFAULT_MAX_ROTATION_SPEED);
-    void changeRotationSpeed(const Rotation &rotation, Racer &racer, const double &extraAccelerate = DEFAULT_EXTRA_VALUE) const;
-    void changeSpeed(Racer &racer, const double &extraAccelerateX = DEFAULT_EXTRA_VALUE, const double &extraAccelerateY = DEFAULT_EXTRA_VALUE) const;
+    explicit RacerController(const float &rotAcc = DEFAULT_ROTATION_ACCELERATE, const float &speedAcc = DEFAULT_SPEED_ACCELERATE,
+                             const float &maxSpeed = DEFAULT_MAX_SPEED, const float &maxRotationSpeed = DEFAULT_MAX_ROTATION_SPEED);
+    void changeRotationSpeed(const Command &rotation, Racer &racer, const float &extraAccelerate = DEFAULT_EXTRA_VALUE) const;
+    void changeSpeed(Racer &racer, bool stop = false, const float &extraAccelerateX = DEFAULT_EXTRA_VALUE, const float &extraAccelerateY = DEFAULT_EXTRA_VALUE);
 
-    void updateRotation(Racer &racer, const double &extraDegrees = 0);
+    void updateRotation(Racer &racer, const float &extraDegrees = 0);
     void updatePosition(Racer &racer, const Point &newCenterPosition = DEFAULT_NEW_POSITION);
 
 private:
-    double _rotationAccelerate;
-    double _speedAccelerate;
-    double _maxSpeed;
-    double _maxRotationSpeed;
+    float _rotationAccelerate;
+    float _speedAccelerate;
+    float _maxSpeed;
+    float _maxRotationSpeed;
 
-    double _previousRotation;
+    float _previousRotation;
 
-    void deceleratingSpeed(double &speed, const double &speedDecelerator) const;
+    void deceleratingSpeed(float &speed, const float &speedDecelerator) const;
 };

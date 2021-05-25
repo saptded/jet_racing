@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SFMLGameWindow.hpp"
+#include "viewer.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <abstractModel.hpp>
 #include <memory>
@@ -7,21 +9,22 @@
 
 class Presenter : public Observer {
 public:
-    static Presenter *create();
+    static std::shared_ptr<Presenter> create(int id);
+
+    ~Presenter();
 
     Presenter(const Presenter &) = delete;
     Presenter &operator=(const Presenter &) = delete;
 
-    void run();
+    std::shared_ptr<RacerInfo> run();
     void handleEvent(Response &response) override;
 
 private:
-    Presenter();
+    explicit Presenter(int id);
 
     bool _finishGame;
-    std::shared_ptr<AbstractModel> _model;
 
-    sf::RenderWindow _window;
-
-    void handleButtonEvent();
+    std::unique_ptr<Viewer> viewer;
+    std::unique_ptr<AbstractModel> _model;
+    std::unique_ptr<SFMLGameWindow> _window;
 };
