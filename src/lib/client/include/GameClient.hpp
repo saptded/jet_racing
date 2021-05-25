@@ -12,7 +12,6 @@
 #include <deserialization.h>
 #include <Position.hpp>
 
-using namespace  cpr;
 
 template<typename Request>
 class GameClient{
@@ -37,7 +36,10 @@ public:
         auto res =  deserObject.getPositionFromJson(response.text);
         return res;
      #else
-        return Position{"200"};
+        auto pos = Position{"200"};
+        auto res = std::vector<Position>();
+        res.push_back(pos);
+        return res;
      #endif
     }
 
