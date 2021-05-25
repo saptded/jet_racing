@@ -29,9 +29,9 @@ std::shared_ptr<RacerInfo> Presenter::run() {
 
 void Presenter::handleEvent(Response &response) { viewer->render(response, _window->getWindow()); }
 
-Presenter *Presenter::create(int id) {
-    static auto presenter = new Presenter(id);
-    presenter->_model->addObserver(presenter);
+std::shared_ptr<Presenter> Presenter::create(int id) {
+    static auto presenter = std::shared_ptr<Presenter>(new Presenter(id));
+    presenter->_model->addObserver(presenter.get());
     presenter->viewer = std::make_unique<Viewer>();
     return presenter;
 }

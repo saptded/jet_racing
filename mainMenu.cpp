@@ -6,9 +6,8 @@ int main() {
         Menu menu(info);
         menu.run();
 
-        Presenter *presenter = Presenter::create(0);
+        auto presenter = Presenter::create(0);
         info = presenter->run();
-        delete presenter;
 
         menu.stopServer();
         if(!info){

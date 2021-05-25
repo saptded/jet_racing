@@ -9,7 +9,7 @@
 
 class Presenter : public Observer {
 public:
-    static Presenter *create(int id);
+    static std::shared_ptr<Presenter> create(int id);
 
     ~Presenter();
 
