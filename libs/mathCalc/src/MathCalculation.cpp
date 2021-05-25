@@ -57,3 +57,12 @@ double getPushAngle(Point &playerPoint, Point &start, Point &end, double lineAng
     }
     return pushAngle;
 }
+
+float getArcRadius(const Point &center, const Point &start) {
+    if (center.x != start.x) {
+        return std::abs(center.x - start.x);
+    } else {
+        return std::abs(center.y - start.y);
+    }
+}
+

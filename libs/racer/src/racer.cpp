@@ -3,7 +3,7 @@
 
 Racer::Racer(Point point, int id)
 
-    : _width(30) // 30
+    : _width(34) // 30
     , _height(12) // 12
 
     , _rotation(0)
@@ -14,6 +14,7 @@ Racer::Racer(Point point, int id)
     , _center({point.x + 5 * _width / 6, point.y + _height / 2})
     , _origin({5 * _width / 6, _height / 2})
     , _id(id)
+    , finished(false, 0)
 
     , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation)) {}
 
