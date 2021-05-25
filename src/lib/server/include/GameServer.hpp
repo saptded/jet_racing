@@ -101,6 +101,7 @@ public:
                         R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
             return req->create_response().set_body(response);
         }
+        return req->create_response().set_body(response + "]");
     }
 
     [[maybe_unused]] void close();
