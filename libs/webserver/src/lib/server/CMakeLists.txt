@@ -1,3 +1,0 @@
-add_library(libserver SHARED GameServer.cpp )
-target_include_directories(libserver PUBLIC include)
-target_link_libraries(libserver libdata_struct )
