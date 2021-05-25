@@ -95,9 +95,12 @@ public:
             const auto &i = userBuffer[j].second;
             response += R"({"username":")"+ i.username +R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","z":")" + i.z + "\"},";
         }
-        const auto& endPositionRender = userBuffer[sizeUserBuffer - 1].second;
-        response += R"({"username":")"+ endPositionRender.username +R"(","x":")" + endPositionRender.x + R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
-        return req->create_response().set_body(response);
+        if(sizeUserBuffer != 0) {
+            const auto &endPositionRender = userBuffer[sizeUserBuffer - 1].second;
+            response += R"({"username":")" + endPositionRender.username + R"(","x":")" + endPositionRender.x +
+                        R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
+            return req->create_response().set_body(response);
+        }
     }
 
     [[maybe_unused]] void close();
