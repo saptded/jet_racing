@@ -4,7 +4,7 @@
         <element name="line" startX="50" startY="850" endX="100" endY="850" centerX="0" centerY="0"/>
         <element name="line" startX="50" startY="1000" endX="100" endY="1000" centerX="0" centerY="0"/>
         <element name="arc" startX="150" startY="800" endX="100" endY="850" centerX="100" centerY="800"/>
-        <element name="arc" startX="300" startY="800" endX="100" endY="1000" centerX="100" centerY="800"/>
+        <element name="arc" startX="300" startY="800" endX="300" endY="800" centerX="100" centerY="800"/>
         <element name="line" startX="50" startY="1000" endX="100" endY="1000" centerX="0" centerY="0"/>
         <element name="line" startX="150" startY="800" endX="150" endY="775" centerX="0" centerY="0"/>
         <element name="line" startX="300" startY="800" endX="300" endY="775" centerX="0" centerY="0"/>

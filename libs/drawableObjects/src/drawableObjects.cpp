@@ -8,51 +8,11 @@
 
 static sfColor chooseColor;
 
-static float getAngle(Point &rad, Point &center);
-static float calcRadius(Point &one, Point &two);
+////static float getAngle(Point &rad, Point &center);
+////static float calcRadius(Point &one, Point &two);
+////static std::vector<sf::VertexArray> makeArc(Point start, Point end, Point center, sf::Color color, float weightK);
+//static
 
-DrawableArc::DrawableArc(Point _start, Point _end, Point _center)
-    : DrawableObject(_start, _end, _center) {
-    sf::Color color = chooseColor.getWall(1);
-    sf::Color colorTrans = color;
-    colorTrans.a -= 55;
-    float radius = calcRadius(start, center);
-    if (radius != calcRadius(end, center)) {
-        std::cout << "wrong arc radius = " << radius << " " << calcRadius(end, center) << std::endl;
-        return;
-    }
-    float angleStart = getAngle(center, end);  //поменято сознательно тк испраили направление
-    float angleEnd = getAngle(center, start);
-    if (angleStart < angleEnd) {
-        angleStart += 2 * M_PI;
-    }
-    int anglePartsCount = (int)(radius)/2;
-    int vertexCount = anglePartsCount*2 + 2;
-    float angleStep = (angleEnd - angleStart) / (float)anglePartsCount;
-    int counter = 0;
-    for (int j = -1; j <= 1; j = j+2) {
-        float angle = angleStart;
-        arcs[counter] = sf::VertexArray(sf::TriangleStrip, vertexCount);
-        for (int i = 0; i < vertexCount; i = i+2) {
-            arcs[counter][i].position = sf::Vector2f(center.x - radius * cosf(angle), center.y - radius * sinf(angle));
-            arcs[counter][i].color = colorTrans;
-            arcs[counter][i+1].position = sf::Vector2f(center.x - (radius + j * weightK) * cosf(angle), center.y - (radius + weightK * j) * sinf(angle));
-            arcs[counter][i+1].color = sf::Color::Transparent;
-            angle += angleStep;
-        }
-        counter++;
-    }
-    float angle = angleStart;
-    arcs[counter] = sf::VertexArray(sf::TriangleStrip, vertexCount);
-    for (int i = 0; i < vertexCount; i = i+2) {
-        arcs[counter][i].position = sf::Vector2f(center.x - (radius + weightK/8) * cosf(angle), center.y - (radius + weightK/8) * sinf(angle));
-        arcs[counter][i].color = color;
-        arcs[counter][i+1].position = sf::Vector2f(center.x - (radius - weightK/8) * cosf(angle), center.y - (radius - weightK/8) * sinf(angle));
-        arcs[counter][i+1].color = color;
-        angle += angleStep;
-    }
-
-}
 
 void DrawableArc::draw(sf::RenderWindow &window) {
     for (auto &arc : arcs) {
@@ -60,9 +20,9 @@ void DrawableArc::draw(sf::RenderWindow &window) {
     }
 }
 
-float DrawableArc::calcRadius(Point &one, Point &two) { return sqrtf(powf(one.x - two.x, 2) + powf(one.y - two.y, 2)); }
+static float calcRadius(Point &one, Point &two) { return sqrtf(powf(one.x - two.x, 2) + powf(one.y - two.y, 2)); }
 
-float DrawableArc::getAngle(Point &_center, Point &rad) {
+static float getAngle(Point &_center, Point &rad) {
     float angle;
     if (_center.y - rad.y == 0) {
         if (_center.x > rad.x) {
@@ -86,6 +46,53 @@ float DrawableArc::getAngle(Point &_center, Point &rad) {
     return angle;
 }
 
+static std::vector<sf::VertexArray> makeArc(Point start, Point end, Point center, sf::Color color, float weightK){
+    std::vector<sf::VertexArray> arcs;
+    sf::Color colorTrans = color;
+    colorTrans.a -= 55;
+    float radius = calcRadius(start, center);
+    if (radius != calcRadius(end, center)) {
+        std::cout << "wrong arc radius = " << radius << " " << calcRadius(end, center) << std::endl;
+    }
+    float angleStart = getAngle(center, end);  //поменято сознательно тк исправили направление
+    float angleEnd = getAngle(center, start);
+    if (angleStart <= angleEnd) {
+        angleStart += 2 * M_PI;
+    }
+    int anglePartsCount = (int)(radius)/2;
+    int vertexCount = anglePartsCount*2 + 2;
+    float angleStep = (angleEnd - angleStart) / (float)anglePartsCount;
+    arcs.resize(3);
+    int counter = 0;
+    for (int j = -1; j <= 1; j = j+2) {
+        float angle = angleStart;
+        arcs[counter] = sf::VertexArray(sf::TriangleStrip, vertexCount);
+        for (int i = 0; i < vertexCount; i = i+2) {
+            arcs[counter][i].position = sf::Vector2f(center.x - radius * cosf(angle), center.y - radius * sinf(angle));
+            arcs[counter][i].color = colorTrans;
+            arcs[counter][i+1].position = sf::Vector2f(center.x - (radius + j * weightK) * cosf(angle), center.y - (radius + weightK * j) * sinf(angle));
+            arcs[counter][i+1].color = sf::Color::Transparent;
+            angle += angleStep;
+        }
+        counter++;
+    }
+    float angle = angleStart;
+    arcs[counter] = sf::VertexArray(sf::TriangleStrip, vertexCount);
+    for (int i = 0; i < vertexCount; i = i+2) {
+        arcs[counter][i].position = sf::Vector2f(center.x - (radius + weightK/8) * cosf(angle), center.y - (radius + weightK/8) * sinf(angle));
+        arcs[counter][i].color = color;
+        arcs[counter][i+1].position = sf::Vector2f(center.x - (radius - weightK/8) * cosf(angle), center.y - (radius - weightK/8) * sinf(angle));
+        arcs[counter][i+1].color = color;
+        angle += angleStep;
+    }
+}
+
+DrawableArc::DrawableArc(Point _start, Point _end, Point _center)
+        : DrawableObject(_start, _end, _center) {
+    sf::Color color = chooseColor.getWall(1);
+    arcs = makeArc(_start, _end, _center, color, weightK);
+}
+
 void DrawableArc::change(int stage) {
     for (auto arc : arcs) {
         int linesAmount = arc.getVertexCount();
@@ -94,6 +101,7 @@ void DrawableArc::change(int stage) {
         }
     }
 }
+
 
 DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
     : DrawableObject(_start, _end, _center) {
@@ -182,33 +190,36 @@ void DrawableLine::change(int stage) {
 
 DrawablePropeller::DrawablePropeller(Point start, Point end, Point center)
     : DrawableObject(start, end, center) {
-    rect = generateStdRect(start, end);
+    //rect = generateStdRect(start, end);
 }
 
 void DrawablePropeller::draw(sf::RenderWindow &window) { window.draw(rect); }
 
 void DrawablePropeller::drawDynamic(sf::RenderWindow &window, Point _start, Point _end, Point _center) {
     //посчитать поворот от данных!
-    rect.rotate(0.1);  // rect.setRotation(angle);
-    window.draw(rect);
+    //rect.rotate(0.1);  // rect.setRotation(angle);
+    //window.draw(rect);
 }
 
 DrawableFinish::DrawableFinish(Point start, Point end, Point center)
     : DrawableObject(start, end, center) {
     //rect = generateStdRect(start, end);
-    rect.setSize(sf::Vector2f(start.x - end.x, start.y - end.y));
-    rect.setPosition(sf::Vector2f(end.x, end.y));
-    rect.setFillColor(chooseColor.door);
+//    rect.setSize(sf::Vector2f(start.x - end.x, start.y - end.y));
+//    rect.setPosition(sf::Vector2f(end.x, end.y));
+//    rect.setFillColor(chooseColor.door);
 
 }
 
 void DrawableFinish::draw(sf::RenderWindow &window) { window.draw(rect); }
 
 DrawablePortal::DrawablePortal(Point start, Point end, Point center)
-    : DrawableObject(start, end, center) {
-    rect.setSize(sf::Vector2f(start.x - end.x, start.y - end.y));
-    rect.setPosition(sf::Vector2f(end.x, end.y));
-    rect.setFillColor(chooseColor.door);
+    : DrawableObject(start, end, center){
+    rect = generateStdRect(start, end);
+    //    for(int i = 0; i < rect->getVertexCount(); i = i+4){
+//        rect[i].setPrimitiveType(sf::Lines);
+//        rect[i][0].position = sf::Vector2f(start.x, start.y);
+//        rect[i][0].position = sf::Vector2f(start.x, start.y);
+//    }
 }
 
 void DrawablePortal::draw(sf::RenderWindow &window) { window.draw(rect); }
@@ -230,3 +241,7 @@ DrawableAccelerator::DrawableAccelerator(Point start, Point end, Point center)
 }
 
 void DrawableAccelerator::draw(sf::RenderWindow &window) { window.draw(rect); }
+
+//ShinyRect::ShinyRect(Point start, Point end, sf::Color color, float weightK) {
+//
+//}
