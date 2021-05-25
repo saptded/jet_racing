@@ -19,6 +19,7 @@ public:
     }
 
     std::string getIdFromJson(std::string& json){
+        std::cout << json;
         return jsonTransformer.jsonToId(json.c_str());
     }
 };

@@ -31,14 +31,10 @@ public:
 
     template<typename Deserialization>
     std::vector<Position> getUpdates() {
-     #ifndef test_jet_racing
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
-        auto response = Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/get_updates"));
+        auto response = Request::getRequest(Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/get_updates"));
         auto res =  deserObject.getPositionFromJson(response.text);
         return res;
-     #else
-        return Position{"200"};
-     #endif
     }
 
 
@@ -53,6 +49,7 @@ public:
         std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?username=" + username;
         auto response = Request::getRequest(Url(str));
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
+        std::cout<< response.text;
         auto res = deserObject.getIdFromJson(response.text);
         return res;
     }

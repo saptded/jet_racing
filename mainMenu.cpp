@@ -3,21 +3,25 @@
 #include "presenter.hpp"
 int main() {
 
-    bool isServer;
-    std::cin >> isServer;
-    if(isServer){
-        GameServer gameServer = GameServer();
-        ConnectionData connectionData = {2021, "localhost"}; // сетевые данные на которых запуститься сервер
-        auto server = startServer(gameServer, connectionData);
-    }
+    bool isServer = true;
+    GameServer gameServer = GameServer();
+    ConnectionData connectionData = {2020, "localhost"}; // сетевые данные на которых запуститься сервер
+    std::cout << 2;
+    //auto server = startServer(gameServer, connectionData);
+    std::cout << 1;
 
-    ConnectionData data = ConnectionData{2021, "localhost"};
+    ConnectionData data = ConnectionData{2020, "localhost"};
     auto gameClient = GameClient<CustomRequest>(data);
     std::string name = "isServer_" + std::to_string(isServer);
-    gameClient.join<CustomDeserialization>(name);
+    auto res = gameClient.join<CustomDeserialization>(name);
+    std::cout << res;
+    rapidjson::Document genericDocument;
+    genericDocument.Parse(R"({"id": 2})");
+    std::cout << genericDocument["id"].GetInt();
 
-    int letsgo;
-    std::cin >> letsgo; // ждем
+    // ждем
+    //server->stop();
+
 
     //gameClient.getUpdates<CustomDeserialization>();
 
