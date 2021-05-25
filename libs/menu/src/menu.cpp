@@ -141,7 +141,7 @@ void Menu::joinGame() {
     changeStep();
     // присоединение к игре. Хорошо бы здесь именно присоединиться
     // TODO
-    const char*  username = "id or username";
+    char*  username = "id or username";
     gameClient.join(username);
 }
 

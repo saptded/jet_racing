@@ -8,6 +8,6 @@
 #include "cpr/cpr.h"
 
 struct CustomRequest{
-   static cpr::Response getRequest(const cpr::Url& url);
+   static cpr::Response getRequest(cpr::Url url);
 };
 #endif  // JET_RACING_CUSTOMREQUEST_H

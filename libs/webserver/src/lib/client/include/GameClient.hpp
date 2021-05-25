@@ -12,6 +12,8 @@
 #include <deserialization.h>
 #include <Position.hpp>
 
+using namespace  cpr;
+
 template<typename Request>
 class GameClient{
     ConnectionData dataConnection;
@@ -44,7 +46,7 @@ public:
          Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
     }
 
-    int join(const char*& username) {
+    int join(char*& username) {
         auto response = Request::getRequest(Url(dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username));
         return response.status_code;
     }
@@ -53,6 +55,7 @@ public:
         auto result = std::vector<std::string>();
         for(const auto& i : ipList){
             auto response = Request::getRequest(Url(i + ":" + port + "/ping"));
+            if(response){}
         }
         return std::vector<std::string>();
     }

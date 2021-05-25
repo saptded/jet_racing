@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 project(jet_racing)
 set(CMAKE_CXX_STANDARD 17)
 
@@ -60,6 +60,6 @@ add_subdirectory(libs)
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(main myMain.cpp)
+add_executable(main mainMenu.cpp)
 add_dependencies(main rapidjson)
-target_link_libraries(main PUBLIC restiniofull presenter model response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libserialization)
+target_link_libraries(main PUBLIC restiniofull presenter model response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libserialization menu)
