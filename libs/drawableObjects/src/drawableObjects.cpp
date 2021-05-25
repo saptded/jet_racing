@@ -6,7 +6,7 @@
 #include "sfColor.hpp"
 #include <cmath>
 
-static sfColor chooseColor;
+static sfColor colorChoose;
 
 ////static float getAngle(Point &rad, Point &center);
 ////static float calcRadius(Point &one, Point &two);
@@ -20,35 +20,8 @@ void DrawableArc::draw(sf::RenderWindow &window) {
     }
 }
 
-static float calcRadius(Point &one, Point &two) { return sqrtf(powf(one.x - two.x, 2) + powf(one.y - two.y, 2)); }
-
-static float getAngle(Point &_center, Point &rad) {
-    float angle;
-    if (_center.y - rad.y == 0) {
-        if (_center.x > rad.x) {
-            angle = 0;
-        } else {
-            angle = M_PI;
-        }
-        return angle;
-    } else if (_center.x - rad.x == 0) {
-        if (_center.y < rad.y) {
-            angle = 3 * M_PI / 2;
-        } else {
-            angle = M_PI / 2;
-        }
-        return angle;
-    }
-    angle = acosf((_center.x - rad.x) / calcRadius(_center, rad));
-    if (_center.y < rad.y) {
-        angle = 2 * M_PI - angle;
-    }
-    return angle;
-}
-
-static std::vector<sf::VertexArray> makeArc(Point start, Point end, Point center, sf::Color color, float weightK){
-    std::vector<sf::VertexArray> arcs;
-    sf::Color colorTrans = color;
+void DrawableArc::init(int stage) {
+    sf::Color colorTrans = color.getWall(stage);
     colorTrans.a -= 55;
     float radius = calcRadius(start, center);
     if (radius != calcRadius(end, center)) {
@@ -87,25 +60,59 @@ static std::vector<sf::VertexArray> makeArc(Point start, Point end, Point center
     }
 }
 
-DrawableArc::DrawableArc(Point _start, Point _end, Point _center)
-        : DrawableObject(_start, _end, _center) {
-    sf::Color color = chooseColor.getWall(1);
-    arcs = makeArc(_start, _end, _center, color, weightK);
+float DrawableArc::calcRadius(Point &one, Point &two) { return sqrtf(powf(one.x - two.x, 2) + powf(one.y - two.y, 2)); }
+
+float DrawableArc::getAngle(Point &_center, Point &rad) {
+    float angle;
+    if (_center.y - rad.y == 0) {
+        if (_center.x > rad.x) {
+            angle = 0;
+        } else {
+            angle = M_PI;
+        }
+        return angle;
+    } else if (_center.x - rad.x == 0) {
+        if (_center.y < rad.y) {
+            angle = 3 * M_PI / 2;
+        } else {
+            angle = M_PI / 2;
+        }
+        return angle;
+    }
+    angle = acosf((_center.x - rad.x) / calcRadius(_center, rad));
+    if (_center.y < rad.y) {
+        angle = 2 * M_PI - angle;
+    }
+    return angle;
 }
 
-void DrawableArc::change(int stage) {
-    for (auto arc : arcs) {
-        int linesAmount = arc.getVertexCount();
-        for (int i = 0; i < linesAmount; i++) {
-            arc[i].color = chooseColor.getWall(stage);
-        }
-    }
+static std::vector<sf::VertexArray> makeArc(Point start, Point end, Point center, float weightK, int stage){
+
 }
+
 
 
 DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
     : DrawableObject(_start, _end, _center) {
-    sf::Color color = chooseColor.getWall(1);
+
+}
+
+static sf::RectangleShape generateStdRect(Point start, Point end) {
+    sf::RectangleShape rect;
+    rect.setSize(sf::Vector2f(start.x - end.x, start.y - end.y));
+    rect.setPosition(sf::Vector2f(end.x, end.y));
+    rect.setFillColor(sf::Color::Yellow);
+    return rect;
+}
+
+void DrawableLine::draw(sf::RenderWindow &window) {
+    for (auto &line : lines) {
+        window.draw(line);
+    }
+}
+
+void DrawableLine::init(int stage) {
+    color = color.getWall(stage);
     sf::Color colorTrans = color;
     colorTrans.a -= 55;
     // только для вертикальных и гозизонтальных линий
@@ -164,20 +171,6 @@ DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
             lines[j + 1][1].position = sf::Vector2f(end.x + j * weightK, end.y);
             lines[j + 1][1].color = sf::Color::Magenta;
         }
-    }
-}
-
-static sf::RectangleShape generateStdRect(Point start, Point end) {
-    sf::RectangleShape rect;
-    rect.setSize(sf::Vector2f(start.x - end.x, start.y - end.y));
-    rect.setPosition(sf::Vector2f(end.x, end.y));
-    rect.setFillColor(sf::Color::Yellow);
-    return rect;
-}
-
-void DrawableLine::draw(sf::RenderWindow &window) {
-    for (auto &line : lines) {
-        window.draw(line);
     }
 }
 

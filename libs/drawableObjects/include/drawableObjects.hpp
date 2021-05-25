@@ -9,9 +9,9 @@ static const float WEIGHT_K = 5;
 
 class DrawableArc : public DrawableObject {
 public:
-    DrawableArc(Point start, Point end, Point center);
+    DrawableArc(Point start, Point end, Point center): DrawableObject(start, end, center) {};
     void draw(sf::RenderWindow &window) override;
-    void change(int stage) override;
+    void init(int stage) override;
 
 private:
     float getAngle(Point &centre, Point &rad);
@@ -23,10 +23,9 @@ private:
 
 class DrawableLine : public DrawableObject {
 public:
-    DrawableLine(Point start, Point end, Point center);
+    DrawableLine(Point start, Point end, Point center): DrawableObject(start, end, center) {};
     void draw(sf::RenderWindow &window) override;
-    void change(int stage) override;
-
+    void init(int stage) override;
 private:
     sf::VertexArray lines[3];
     float weightK = WEIGHT_K;
@@ -51,11 +50,6 @@ public:
 private:
     sf::RectangleShape rect;
 };
-
-//class ShinyRect {
-//public:
-//    ShinyRect(Point start, Point end, sf::Color color, float weightK = WEIGHT_K);
-//};
 
 class DrawablePortal : public DrawableObject{
 public:
