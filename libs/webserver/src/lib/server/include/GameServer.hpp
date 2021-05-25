@@ -22,7 +22,7 @@ class [[maybe_unused]] GameServer{
     size_t localId = -1;
 
     std::string getLocalId(){
-        return reinterpret_cast<const char *>(localId++);
+        return std::to_string(localId++);
     }
 
     std::string getNameWithId(const std::string& idNumber){
@@ -85,19 +85,26 @@ public:
     }
 
 
+
     [[maybe_unused]] auto sendNewPosition(auto req) {
         std::string response = "[";
         /*
          * использование replace_if не дает  реализовать  алгоритм за O(n);
          */
         auto sizeUserBuffer = userBuffer.size();
-        for (auto j = 0; j < sizeUserBuffer - 1; j++) {
-            const auto &i = userBuffer[j].second;
-            response += R"({"username":")"+ i.username +R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","z":")" + i.z + "\"},";
+        if(sizeUserBuffer != 0) {
+            for (auto j = 0; j < sizeUserBuffer - 1; j++) {
+                const auto &i = userBuffer[j].second;
+                response +=
+                    R"({"username":")" + i.username + R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","z":")" + i.z +
+                    "\"},";
+            }
+            const auto &endPositionRender = userBuffer[sizeUserBuffer - 1].second;
+            response += R"({"username":")" + endPositionRender.username + R"(","x":")" + endPositionRender.x +
+                        R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
+            return req->create_response().set_body(response);
         }
-        const auto& endPositionRender = userBuffer[sizeUserBuffer - 1].second;
-        response += R"({"username":")"+ endPositionRender.username +R"(","x":")" + endPositionRender.x + R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
-        return req->create_response().set_body(response);
+        return req->create_response().set_body(response + "]");
     }
 
     [[maybe_unused]] void close();
