@@ -21,7 +21,7 @@ Command SFMLGameWindow::handleButtonEvent() {
 }
 
 SFMLGameWindow::SFMLGameWindow()
-    : _window(sf::RenderWindow(sf::VideoMode(1920, 1080), "game")) {}
+    : _window(sf::RenderWindow(sf::VideoMode(1920, 1080), "gameClionClient")) {}
 
 sf::RenderWindow &SFMLGameWindow::getWindow() { return _window; }
 

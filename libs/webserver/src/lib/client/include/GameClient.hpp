@@ -46,8 +46,11 @@ public:
          Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
     }
 
-    int join(char*& username) {
-        auto response = Request::getRequest(Url(dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username));
+    int join(std::string& username) {
+        //std::string str = dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username;
+
+        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?username=" + username;
+        auto response = Request::getRequest(Url(str));
         return response.status_code;
     }
 

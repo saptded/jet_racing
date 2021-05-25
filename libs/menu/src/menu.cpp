@@ -141,7 +141,7 @@ void Menu::joinGame() {
     changeStep();
     // присоединение к игре. Хорошо бы здесь именно присоединиться
     // TODO
-    char*  username = "id or username";
+    std::string username = "id or username";
     gameClient.join(username);
 }
 
