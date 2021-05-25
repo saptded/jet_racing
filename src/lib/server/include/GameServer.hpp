@@ -91,7 +91,7 @@ public:
          * использование replace_if не дает  реализовать  алгоритм за O(n);
          */
         auto sizeUserBuffer = userBuffer.size();
-        if(sizeUserBuffer != 0) {
+        if (sizeUserBuffer != 0) {
             for (auto j = 0; j < sizeUserBuffer - 1; j++) {
                 const auto &i = userBuffer[j].second;
                 response +=
@@ -104,6 +104,7 @@ public:
             return req->create_response().set_body(response);
         }
         return req->create_response().set_body(response + "]");
+    }
 
     [[maybe_unused]] void close();
 };
