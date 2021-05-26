@@ -5,15 +5,10 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 void DrawableRacer::loadSources() {
-    imCar.loadFromFile("../media/fire.png");
-    imCar.createMaskFromColor(sf::Color::Magenta);
-    textureCar.loadFromImage(imCar);
-    textureCar.setSmooth(true);
-
-    imFire.loadFromFile("../media/fire.png");
-    imFire.createMaskFromColor(sf::Color::Magenta);
-    textureFire.loadFromImage(imFire);
-    textureFire.setSmooth(true);
+    image.loadFromFile("../media/firecar.png");
+    image.createMaskFromColor(sf::Color::Magenta);
+    texture.loadFromImage(image);
+    texture.setSmooth(true);
 }
 
 void DrawableRacer::setPos(const std::pair<Point, Point> &pos) {
@@ -45,17 +40,45 @@ void DrawableRacer::changeFire(const Speed &speed) {
 DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, float rotation) {
     loadSources();
 
-    car.setTexture(textureCar);
-    car.setTextureRect(sf::IntRect(0, 0, (int)width / 2, (int)height));
-    car.setOrigin(origin.x - width / 2, origin.y);
+    unsigned int widthT = texture.getSize().x;
+    unsigned int heightT = texture.getSize().y;
+
+    sf::Vector2f scale = sf::Vector2f(width/(float)widthT, height/(float)heightT);
+
+    car.setTexture(texture);
+    car.setTextureRect(sf::IntRect(int(widthT/2), 0, (int)widthT / 2, (int)heightT));
+
+    car.setScale(scale);
+    car.setOrigin(origin.x / scale.x - widthT / 2, origin.y / scale.y);
+
     sfColor chooseColor;
     car.setColor(chooseColor.getCar(id));
 
-    fire.setTexture(textureFire);
-    fire.setTextureRect(sf::IntRect(0, 0, (int)width / 2, (int)height));
-    fire.setOrigin(origin.x, origin.y);
+    fire.setTexture(texture);
+    fire.setTextureRect(sf::IntRect(0, 0, (int)widthT / 2, (int)heightT));
+    fire.setOrigin(origin.x / scale.x, origin.y / scale.y);
+    fire.setScale(scale);
 
-    setRot(rotation);
+//    float scale = height/(float)textureSize.y;
+//
+//    car.setTexture(texture);
+//    car.setTextureRect(sf::IntRect(textureSize.x / 2, 0, textureSize.x / 2, textureSize.y));
+//    car.setScale(width/(float)textureSize.x, height/(float)textureSize.y);
+//    car.setOrigin(origin.x - width / 2, origin.y);
+//    sfColor chooseColor;
+//    car.setColor(chooseColor.getCar(id));
+//
+//    fire.setTexture(texture);
+//    fire.setTextureRect(sf::IntRect(600, 100, (int)width / 2, (int)height));
+    //fire.setOrigin(origin.x, origin.y);
+
+   // fire.setColor()
+//    fire.setTexture(texture);
+//    fire.setTextureRect(sf::IntRect(0, 0, textureSize.x / 2, textureSize.y));
+//    car.setScale(width/textureSize.x, height/textureSize.y);
+//    fire.setOrigin(origin.x, origin.y);
+
+//    setRot(rotation);
 }
 
 void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
