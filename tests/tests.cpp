@@ -2,33 +2,56 @@
 
 #include "Element.h"
 
+struct playerPosition {
+    Point playerTL;
+    Point playerTR;
+    Point playerBL;
+    Point playerBR;
+};
+
+std::vector<playerPosition> getPlayerCoordinates() {
+    std::vector<playerPosition> playerCoordinates;
+
+    playerPosition playerOrthogonal = {Point(2, 2), Point(5, 2), Point(5, 6), Point(2, 6)};
+    playerPosition playerAtAngle = {Point(4, 2), Point(8, 5), Point(6,7), Point(2, 4)};
+
+    playerCoordinates.push_back(playerOrthogonal);
+    playerCoordinates.push_back(playerAtAngle);
+
+    return playerCoordinates;
+}
+
 TEST(TestIntersection, PlayerToLineNoIntersect) {
-    Line horizontalLine({1, 1}, {5, 1}, {0, 0});
-    Line verticalLine({1, 2}, {1, 3}, {0, 0});
-    Line diagonalLine({6, 5}, {2, 7}, {0, 0});
+    Line upLineHorizontal({1, 1}, {6, 1}, {0, 0});
+    Line bottomLineHorizontal({1, 8}, {9, 8}, {0, 0});
+    Line leftLineVertical({1, 2}, {1, 6}, {0, 0});
+    Line rightLineVertical({7, 1}, {7, 3}, {0, 0});
+    Line rightLineDiagonal({5, 1}, {8, 4}, {0, 0});
+    Line leftLineDiagonal({1, 4}, {2, 8}, {0, 0});
 
-    Point playerTL{2, 2};
-    Point playerTR{4, 2};
-    Point playerBL{4, 5};
-    Point playerBR{2, 5};
+    std::vector<Line> linesTest{upLineHorizontal, bottomLineHorizontal, leftLineVertical, rightLineVertical, rightLineDiagonal, leftLineDiagonal};
 
-    EXPECT_FALSE(horizontalLine.intersect(playerTL, playerTR, playerBL, playerBR));
-    EXPECT_FALSE(verticalLine.intersect(playerTL, playerTR, playerBL, playerBR));
-    EXPECT_FALSE(diagonalLine.intersect(playerTL, playerTR, playerBL, playerBR));
+    std::vector<playerPosition> playerCoordinates = getPlayerCoordinates();
+
+    for (auto &line : linesTest) {
+        EXPECT_FALSE(line.intersect(playerCoordinates[0].playerTL, playerCoordinates[0].playerTR, playerCoordinates[0].playerBL, playerCoordinates[0].playerBR));
+        EXPECT_FALSE(line.intersect(playerCoordinates[1].playerTL, playerCoordinates[1].playerTR, playerCoordinates[1].playerBL, playerCoordinates[1].playerBR));
+    }
 }
 
 TEST(TestIntersection, PlayerToLineIntersect) {
-    Line horizontalLine({1, 1}, {5, 1}, {0, 0});
-//    Line verticalLine({1, 2}, {1, 3}, {0, 0});
-    Line diagonalLine({6, 5}, {2, 7}, {0, 0});
+    Line upLineHorizontal({1, 2}, {7, 2}, {0, 0});
+    Line leftLineVertical({2, 0}, {2, 8}, {0, 0});
+    Line rightLineDiagonal({4, 1}, {9, 6}, {0, 0});
+    Line leftLineDiagonal({2, 6}, {10, 8}, {0, 0});
 
-    Point playerTL{1, 1};
-    Point playerTR{4, 1};
-    Point playerBL{4, 6};
-    Point playerBR{1, 6};
+    std::vector<Line> linesTest{upLineHorizontal, leftLineVertical, rightLineDiagonal, leftLineDiagonal};
 
-    EXPECT_TRUE(horizontalLine.intersect(playerTL, playerTR, playerBL, playerBR));
-//    EXPECT_TRUE(verticalLine.intersect(playerTL, playerTR, playerBL, playerBR));
-    EXPECT_TRUE(diagonalLine.intersect(playerTL, playerTR, playerBL, playerBR));
+    std::vector<playerPosition> playerCoordinates = getPlayerCoordinates();
+
+    for (auto &line : linesTest) {
+        EXPECT_TRUE(line.intersect(playerCoordinates[0].playerTL, playerCoordinates[0].playerTR, playerCoordinates[0].playerBL, playerCoordinates[0].playerBR));
+        EXPECT_TRUE(line.intersect(playerCoordinates[1].playerTL, playerCoordinates[1].playerTR, playerCoordinates[1].playerBL, playerCoordinates[1].playerBR));
+    }
 }
 
