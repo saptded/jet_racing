@@ -14,19 +14,19 @@ Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "Je
             addText(racer, color.menuBright);
         }
     }
-    sf::Text stGame ("start game", font);
-    sf::Text joinGame ("join game", font);
+    sf::Text stGame ("start", font);
+    //sf::Text joinGame ("join game", font);
     if(!font.loadFromFile("../media/lines.ttf")){
         //
     } else {
         stGame.setFont(font);
         stGame.setCharacterSize(50);
-        joinGame.setFont(font);
-        joinGame.setCharacterSize(50);
+//        joinGame.setFont(font);
+//        joinGame.setCharacterSize(50);
     }
     buttons = {
             AbstractButton(0, stGame, window),
-            AbstractButton(1, joinGame, window),
+            //AbstractButton(1, joinGame, window),
     };
 }
 
@@ -84,6 +84,7 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
         }
     } else if (key == sf::Keyboard::Enter){
         if(isPressed){
+            ready = true;
             if(waitingInput && !myName.empty()){
                 addText("you:\t" + myName, color.menuBright);
                 waitingInput = false;
