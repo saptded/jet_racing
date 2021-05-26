@@ -21,7 +21,7 @@ public:
     ~Arc() override = default;
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
-    std::vector<Line> getApproximatedArc(int iteration, float radius, const Arc &arc);
+    std::vector<Line> getVectorOfLinesForApproximation(int iteration, float radius, const Arc &arc);
 
     bool isElementDynamic() override;
 };

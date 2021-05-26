@@ -5,7 +5,7 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 1e-7;
+constexpr float kEps = 1e-7;
 constexpr float lambdaMin = 0.994444444;
 constexpr float lambdaMax = 1.005555556;
 constexpr float straightAngle = 180;
@@ -49,7 +49,7 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
             return true;
         }
 
-        if (1 - cosinePlayerFigure < eps) {
+        if (1 - cosinePlayerFigure < kEps) {
             if ((std::acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin &&
                  std::acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
                 (std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMax) &&
@@ -62,7 +62,7 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     return false;
 }
 
-std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, const Arc &arc) {
+std::vector<Line> Arc::getVectorOfLinesForApproximation(int iteration, float radius, const Arc &arc) {
     std::vector<Line> approximatedLines;
 
     for (int i = 1; i <= iteration; i++) {
@@ -124,7 +124,7 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
     int iteration = std::ceil(degree / approximationDegree);
 
     Arc initArc(_start, _end, _center);
-    std::vector<Line> approximatedLines = this->getApproximatedArc(iteration, radius, initArc);
+    std::vector<Line> approximatedLines = this->getVectorOfLinesForApproximation(iteration, radius, initArc);
 
     for (auto &line : approximatedLines) {
         if (line.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight)) {
