@@ -15,11 +15,10 @@ class DeserializationObject{
 
 public:
     std::vector<Position> getPositionFromJson(std::string& json){
-        return jsonTransformer.jsonToPosition(json);
+        return jsonTransformer.jsonToPosition(json.c_str());
     }
 
     std::string getIdFromJson(std::string& json){
-        std::cout << json;
         return jsonTransformer.jsonToId(json.c_str());
     }
 };

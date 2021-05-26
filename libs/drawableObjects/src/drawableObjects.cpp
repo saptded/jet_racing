@@ -8,37 +8,8 @@
 
 static sfColor chooseColor;
 
-static float getAngle(Point &rad, Point &center);
-static float calcRadius(Point &one, Point &two);
-
 DrawableArc::DrawableArc(Point _start, Point _end, Point _center)
-    : DrawableObject(_start, _end, _center) {
-    sf::Color color = chooseColor.getWall(1);
-    float radius = calcRadius(start, center);
-    if (radius != calcRadius(end, center)) {
-        std::cout << "wrong arc radius = " << radius << " " << calcRadius(end, center) << std::endl;
-        return;
-    }
-    float angleStart = getAngle(center, end);  //поменято сознательно тк испраили направление
-    float angleEnd = getAngle(center, start);
-    if (angleStart < angleEnd) {
-        angleStart += 2 * M_PI;
-    }
-    //    std::cout << "arc " << center.x << ", " << center.y << " : angles st, e : ";
-    //    std::cout << angleStart / M_PI * 180 << " " << angleEnd / M_PI * 180 << std::endl;
-    int vertexCount = (int)(radius);
-    float angleStep = (angleEnd - angleStart) / (float)(vertexCount - 1);
-    //    std::cout << " angleStep " << angleStep << std::endl;
-    for (int j = -1; j <= 1; j++) {
-        float angle = angleStart;
-        arcs[j + 1] = sf::VertexArray(sf::LineStrip, vertexCount);
-        for (int i = 0; i < vertexCount; i++) {
-            arcs[j + 1][i].position = sf::Vector2f(center.x - (radius + j * weightK) * cosf(angle), center.y - (radius + weightK * j) * sinf(angle));
-            arcs[j + 1][i].color = color;
-            angle += angleStep;
-        }
-    }
-}
+    : DrawableObject(_start, _end, _center) {}
 
 void DrawableArc::draw(sf::RenderWindow &window) {
     for (auto &arc : arcs) {
@@ -73,10 +44,28 @@ float DrawableArc::getAngle(Point &_center, Point &rad) {
 }
 
 void DrawableArc::change(int stage) {
-    for (auto arc : arcs) {
-        int linesAmount = arc.getVertexCount();
-        for (int i = 0; i < linesAmount; i++) {
-            arc[i].color = chooseColor.getWall(stage);
+    sf::Color color = chooseColor.getWall(stage);
+    sf::Color colorTrans = color;
+    colorTrans.a -= 55;
+    float radius = calcRadius(start, center);
+    if (radius != calcRadius(end, center)) {
+        std::cout << "wrong arc radius = " << radius << " " << calcRadius(end, center) << std::endl;
+        return;
+    }
+    float angleStart = getAngle(center, end);  //поменято сознательно тк испраили направление
+    float angleEnd = getAngle(center, start);
+    if (angleStart < angleEnd) {
+        angleStart += 2 * M_PI;
+    }
+    int vertexCount = (int)(radius);
+    float angleStep = (angleEnd - angleStart) / (float)(vertexCount - 1);
+    for (int j = -1; j <= 1; j++) {
+        float angle = angleStart;
+        arcs[j + 1] = sf::VertexArray(sf::LineStrip, vertexCount);
+        for (int i = 0; i < vertexCount; i++) {
+            arcs[j + 1][i].position = sf::Vector2f(center.x - (radius + j * weightK) * cosf(angle), center.y - (radius + weightK * j) * sinf(angle));
+            arcs[j + 1][i].color = color;
+            angle += angleStep;
         }
     }
 }
@@ -84,33 +73,7 @@ void DrawableArc::change(int stage) {
 DrawableLine::DrawableLine(Point _start, Point _end, Point _center)
     : DrawableObject(_start, _end, _center) {
     sf::Color color = chooseColor.getWall(1);
-//    // только для вертикальных и гозизонтальных линий
-//    if (end.y == start.y) {
-//        for (int j = -1; j <= 1; j++) {
-//            lines[j + 1] = sf::VertexArray(sf::Lines, 2);
-//            lines[j + 1][0].position = sf::Vector2f(start.x, start.y + j * weightK );
-//            lines[j + 1][0].color = color;
-//            lines[j + 1][1].position = sf::Vector2f(end.x, end.y + j * weightK );
-//            lines[j + 1][1].color = color;
-//        }
-//    } else if (end.x == start.x) {
-//        for (int j = -1; j <= 1; j++) {
-//            lines[j + 1] = sf::VertexArray(sf::Lines, 2);
-//            lines[j + 1][0].position = sf::Vector2f(start.x + j * weightK , start.y);
-//            lines[j + 1][0].color = color;
-//            lines[j + 1][1].position = sf::Vector2f(end.x + j * weightK , end.y);
-//            lines[j + 1][1].color = color;
-//        }
-//    } else {
-//        // для остальных - некрасиво
-//        for (int j = -1; j <= 1; j++) {
-//            lines[j + 1] = sf::VertexArray(sf::Lines, 2);
-//            lines[j + 1][0].position = sf::Vector2f(start.x + j * weightK , start.y);
-//            lines[j + 1][0].color = sf::Color::Magenta;
-//            lines[j + 1][1].position = sf::Vector2f(end.x + j * weightK , end.y);
-//            lines[j + 1][1].color = sf::Color::Magenta;
-//        }
-//    }
+
     // только для вертикальных и гозизонтальных линий
     if (end.y == start.y) {
         for (int j = -1; j <= 1; j = j+2) {

@@ -4,9 +4,8 @@
 #include <serialization.h>
 #include <stdint.h>
 
-using Url = cpr::Url;
 
-Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
+Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
     if(info != nullptr){
         // отобразить результаты в виде текста если они есть
         addText("results", color.menuDark);
@@ -32,15 +31,23 @@ Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "J
             AbstractButton(0, stGame, window),
             AbstractButton(1, joinGame, window),
     };
-    ConnectionData data = ConnectionData{2021, "localhost"};
-    gameClient = GameClient<CustomRequest>(data);
 }
 
-void Menu::run() {
+std::unique_ptr<MenuInfo> Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
+        if(waitingOthers){
+            auto upds = client->getUpdates();
+            if((upds.size() > 1)&&(!buttons.at(buttonIterator).getIsActive())){
+                buttons.at(buttonIterator).setActive();
+            };
+            if(upds.size() > racers){
+                addText("other: " + upds.at(upds.size()-1).first, color.menuBright);
+                racers++;
+            }
+        }
         if(ready){
-            return;
+            return std::make_unique<MenuInfo>(myName, client);
         }
         display();
         while (window.pollEvent(event))
@@ -54,7 +61,7 @@ void Menu::run() {
                     handleInput(event.key.code, false);
                     break;
                 case sf::Event::TextEntered:
-                    if(waitingInput && (event.text.unicode < 128) && (event.text.unicode > 40)){
+                    if(waitingInput && (event.text.unicode <= 122) && (event.text.unicode >= 97)){
                         if(!buttons.at(buttonIterator).getIsActive()){
                             buttons.at(buttonIterator).setActive();
                         }
@@ -65,7 +72,7 @@ void Menu::run() {
                     break;
                 case sf::Event::Closed:
                     window.close();
-                    return;
+                    return nullptr;
             }
         }
     }
@@ -90,7 +97,25 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
         }
     } else if (key == sf::Keyboard::Enter){
         if(isPressed){
-            if(buttons.at(buttonIterator).getIsActive()){
+            if(waitingInput && !myName.empty()){
+                client = std::make_shared<GameClient>(data);
+                client->join<CustomDeserialization>(myName);
+                waitingOthers = true;
+                waitingInput = false;
+                std::vector<sf::Text> newTexts;
+                texts = newTexts;
+                if(!server){
+                    auto gotRacers = client->getUpdates();
+                    addText("creator:\t" + std::string(gotRacers.at(0).first), color.menuBright);
+                    for(int i = 1; i <= gotRacers.size() - 2 ; i++){
+                        addText("other:\t" + std::string(gotRacers.at(i).first), color.menuBright);
+                    }
+                    racers++;
+                }
+                addText("you:\t" + myName, color.menuBright);
+                addText("waiting others...", color.menuDark);
+                buttons.at(buttonIterator).setPassive();
+            } else if(buttons.at(buttonIterator).getIsActive()){
                 auto but = buttons.at(buttonIterator).getId();
                 if(but == "start game") {
                     std::cout << "start game" << std::endl;
@@ -102,14 +127,6 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                     std::cout << "go" << std::endl;
                     ready = true; // по кнопке go завершается метод run
                 }
-            }
-            if(waitingInput && !myName.empty()){
-                waitingInput = false;
-                std::vector<sf::Text> newTexts;
-                texts = newTexts;
-                addText("you:\t" + myName, color.menuBright);
-                addText("waiting others...", color.menuDark);
-                buttons.at(buttonIterator).setActive();
             }
         }
     }
@@ -135,17 +152,11 @@ void Menu::changeStep(){
 
 void Menu::startGame() {
     changeStep();
-    // start - значит это создатель, сервер у него, предположительно id 0 у него же
     runServer();
-    // TODO
 }
 
 void Menu::joinGame() {
     changeStep();
-    // присоединение к игре. Хорошо бы здесь именно присоединиться
-    // TODO
-    std::string username = "id or username";
-    gameClient.join<CustomDeserialization>(username);
 }
 
 
@@ -179,13 +190,13 @@ void Menu::display() {
 }
 
 void Menu::stopServer() {
-  server->stop(); // очищение http-server
-  gameServer.close(); // очистка игрового сервера. не путать с low level http server
+    if(server){
+        server->stop(); // очищение http-server
+        gameServer.close(); // очистка игрового сервера. не путать с low level http server
+    }
 }
 
 void Menu::runServer() {
-    gameServer = GameServer();
-    ConnectionData connectionData = {2021, "localhost"}; // сетевые данные на которых запуститься сервер
-    server = startServer(gameServer, connectionData);
+    server = startServer(gameServer, data);
 }
 

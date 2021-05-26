@@ -4,11 +4,12 @@
 
 Presenter::Presenter(int id)
     : _finishGame(false)
-    , _model(new Model(id))
+    //, _model(new Model(id))
+    , _model(nullptr)
     , _window(new SFMLGameWindow) {}
 
-std::shared_ptr<RacerInfo> Presenter::run() {
-    std::shared_ptr<RacerInfo> results;
+std::shared_ptr<MenuInfo> Presenter::run() {
+    std::shared_ptr<MenuInfo> results;
 
     while (!_finishGame) {
         Command command = _window->handleButtonEvent();
@@ -29,10 +30,23 @@ std::shared_ptr<RacerInfo> Presenter::run() {
 
 void Presenter::handleEvent(Response &response) { viewer->render(response, _window->getWindow()); }
 
-Presenter *Presenter::create(int id) {
-    static auto presenter = new Presenter(id);
+//Presenter *Presenter::create(int id) {
+//    static auto presenter = new Presenter(id);
+//    presenter->_model->addObserver(presenter);
+//    presenter->viewer = std::make_unique<Viewer>();
+//    return presenter;
+//}
+Presenter::~Presenter() { _model->removeObserver(this); }
+
+Presenter *Presenter::create(std::shared_ptr<MenuInfo> menuInfo){
+    static auto presenter = new Presenter(menuInfo);
     presenter->_model->addObserver(presenter);
     presenter->viewer = std::make_unique<Viewer>();
     return presenter;
 }
-Presenter::~Presenter() { _model->removeObserver(this); }
+
+Presenter::Presenter(std::shared_ptr<MenuInfo> info)
+        : _finishGame(false)
+        , _model(std::make_unique<Model>(info))
+        , _window(new SFMLGameWindow){};
+

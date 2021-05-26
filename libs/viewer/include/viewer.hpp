@@ -11,11 +11,11 @@
 
 class Viewer {
 public:
-    Viewer();
+    Viewer() = delete;
+    Viewer(Response &data, sf::RenderWindow & dist);
     //explicit Viewer(sf::RenderWindow &dist);
     void render(Response &data, sf::RenderWindow &dist) {
         switch (data.eventType) {
-            // case INIT: initRender(data, dist); break;
             case RACER: renderRacer(data, dist); break;
             case ENEMIES: renderEnemies(data, dist); break;
             case STAGE: renderMap(data, dist); break;

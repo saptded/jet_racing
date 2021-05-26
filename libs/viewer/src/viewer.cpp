@@ -4,10 +4,14 @@
 
 #include "viewer.hpp"
 
+Viewer::Viewer(Response &data, sf::RenderWindow &dist) {
+    details = std::make_shared<sfViewerDetails>();
+
+}
 
 // Viewer::Viewer(sf::RenderWindow &dist) { details = std::make_shared<sfViewerDetails>(); }
 
-Viewer::Viewer() { details = std::make_shared<sfViewerDetails>(); }
+//Viewer::Viewer() {  }
 
 void Viewer::renderMap(Response &data, sf::RenderWindow &dist) {
     for (auto &elem : data.stage.value()) {
@@ -23,9 +27,9 @@ void Viewer::renderRacer(Response &data, sf::RenderWindow &dist) {
 void Viewer::displayWindow(sf::RenderWindow &dist) { details->display(dist, stage); }
 
 void Viewer::renderEnemies(Response &data, sf::RenderWindow &dist) {
-    for (auto racer : data.enemies.value()) {
-        racer.draw(dist);
-    }
+//    for (auto racer : data.enemies.value()) {
+//        racer.draw(dist);
+//    }
 }
 
 void Viewer::increaseStage(Response &data, sf::RenderWindow &dist) {

@@ -6,7 +6,7 @@
 
 class AbstractModel : public Observable {
 public:
-    virtual std::shared_ptr<RacerInfo> updateModel(Command &rotation) = 0;
+    virtual std::shared_ptr<MenuInfo> updateModel(Command &rotation) = 0;
 
 private:
 };

@@ -10,7 +10,7 @@ Model::Model(int id)
     , currentStage(0)
     , finishedRacers(0){}
 
-std::shared_ptr<RacerInfo> Model::updateModel(Command &rotation) {
+std::shared_ptr<MenuInfo> Model::updateModel(Command &rotation) {
     _currentCommand = rotation;
 
     updateMap();
@@ -55,7 +55,7 @@ void Model::updateRacers() {
         }
     }
     if (finishedRacers == enemies.size() + 1) {
-        menuInfo = std::make_shared<RacerInfo>();
+        menuInfo = std::make_shared<MenuInfo>();
         auto [isFinished, position] = _racer.finished;
         menuInfo->results[_racer._id] = position;
         for (auto &enemy : enemies) {
@@ -81,9 +81,32 @@ void Model::updateRacer() {
 
     Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
     notifyObserves(response);
+    Position pos = {menuInfo->myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
+    _client->sendData(pos);
 }
 
-void Model::updateEnemies() {}
+void Model::updateEnemies() {
+    _client->getUpdates();
+    //Response response{ViewEvent::ENEMIES, std::make_optional(), std::nullopt, std::nullopt};
+    //notifyObserves(response);
+}
+
+Model::Model(std::shared_ptr<MenuInfo> menuInfo):
+_map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
+        , currentStage(0)
+        , finishedRacers(0){
+    _client = std::move(menuInfo->client);
+    auto racers = _client->getUpdates();
+    int id = 0;
+    for(int i = 0; i < racers.size(); i++){
+        if(racers.at(i).first == menuInfo->myName){
+            id = i;
+        }
+    }
+    _racer = Racer(_map->getStartPointByID(id), id);
+    Position pos = {menuInfo->myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
+    _client->sendData(pos);
+}
 
 // double Model::lineCoefficient(const AbstractElement &line) {
 //     double k = 0;

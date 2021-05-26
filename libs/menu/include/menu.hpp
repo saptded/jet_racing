@@ -10,16 +10,26 @@
 #include <memory.h>
 #include <startServer.h>
 
-class Menu{
-    GameServer gameServer;
-    std::unique_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server;
-    GameClient<CustomRequest> gameClient;
+class AbstractMenu{
 public:
-    explicit Menu(std::shared_ptr<RacerInfo> info);
-    void run();
+    void show();
+protected:
+
+};
+
+class Menu{
+public:
+    explicit Menu(std::shared_ptr<MenuInfo> info);
+    std::unique_ptr<MenuInfo> run();
     void stopServer();
 private:
     void runServer();
+    GameServer gameServer;
+    std::unique_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server = nullptr;
+    std::shared_ptr<GameClient> client = nullptr;
+    ConnectionData data = ConnectionData{2021, "localhost"};
+    bool waitingOthers = false;
+    int racers = 1;
 
     void display();
     void handleInput(sf::Keyboard::Key key, bool isPressed);
@@ -44,5 +54,5 @@ private:
     sf::Font font;
     sfColor color;
 
-    std::shared_ptr<RacerInfo> info;
+    std::shared_ptr<MenuInfo> info;
 };
