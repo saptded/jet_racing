@@ -18,6 +18,8 @@ int main() {
     std::cout << gameClient.getFlag<CustomDeserialization>() << " res1" << endl;
     gameClient.sendFlag(true);
     std::cout << gameClient.getFlag<CustomDeserialization>() << " res2" << endl;
+    std::vector<Position> names = gameClient.getUpdates<CustomDeserialization>();
+    std::cout << names[0].username << endl;
     server->wait();
     //rapidjson::Document genericDocument;
    // genericDocument.Parse(R"({"id": 2})");
