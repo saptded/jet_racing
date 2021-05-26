@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(libs)
 find_package(SFML 2.5 COMPONENTS graphics REQUIRED)
 
-set(ALL_LIBS racer sfml-graphics response drawableObject drawableObjects drawableRacer viewer sfViewerDetails sfColor menu SFMLGameWindow)
+set(ALL_LIBS racer sfml-graphics response drawableObject drawableObjects drawableRacer viewer sfViewerDetails sfColor menu)
 
 add_executable(main mainMenu.cpp)
 target_link_libraries(main PUBLIC ${ALL_LIBS})

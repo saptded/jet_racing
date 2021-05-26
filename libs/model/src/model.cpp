@@ -90,7 +90,7 @@ void Model::updateRacer() {
 
 void Model::updateEnemies() {}
 
-Model::Model(std::shared_ptr<MenuInfo> menuInfo):
+Model::Model(const std::shared_ptr<MenuInfo>& menuInfo):
 _map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
         , currentStage(0)
         , finishedRacers(0){

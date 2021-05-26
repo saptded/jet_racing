@@ -16,7 +16,7 @@ class Model : public AbstractModel {
 public:
     Model() = delete;
     explicit Model(int id);
-    explicit Model(std::shared_ptr<MenuInfo> menuInfo);
+    explicit Model(const std::shared_ptr<MenuInfo>& menuInfo);
     ~Model();
 
     std::shared_ptr<MenuInfo> updateModel(Command &rotation) override;
