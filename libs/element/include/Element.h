@@ -94,7 +94,7 @@ class Portal : public Rectangle {
 public:
     explicit Portal(Point start, Point end, Point center)
         : Rectangle(start, end, center) {
-        _drObj = std::make_shared<DrawablePortal>(start, end, center);
+        _drObj = std::make_shared<DrawableDoor>(start, end, center);
     }
     ~Portal() override = default;
 
@@ -107,7 +107,7 @@ class Finish : public Rectangle {
 public:
     explicit Finish(Point start, Point end, Point center)
         : Rectangle(start, end, center) {
-        _drObj = std::make_shared<DrawableFinish>(start, end, center);
+        _drObj = std::make_shared<DrawableDoor>(start, end, center);
     }
     ~Finish() override = default;
     void collision(Racer &racer, RacerController &controller, Command command) override;

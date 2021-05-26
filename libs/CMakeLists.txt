@@ -25,8 +25,3 @@ add_subdirectory(interfaceCollisional)
 add_subdirectory(menu)
 add_subdirectory(menuInfo)
 add_subdirectory(buttons)
-
-add_subdirectory(webserver)
-add_subdirectory(serverStart)
-add_subdirectory(customRequest)
-add_subdirectory(customDeserialization)

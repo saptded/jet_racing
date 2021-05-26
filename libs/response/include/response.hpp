@@ -18,4 +18,5 @@ struct Response {
     std::optional<Racer> racer;
     std::optional<std::vector<Racer>> enemies;
     std::optional<std::vector<std::shared_ptr<AbstractElement>>> stage;
+    uint8_t curStage = 1;
 };

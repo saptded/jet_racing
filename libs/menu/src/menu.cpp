@@ -1,9 +1,8 @@
 #include "menu.hpp"
 #include <stdint.h>
 
-using Url = cpr::Url;
 
-Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
+Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "JetRacing") {
     if(info != nullptr){
         // отобразить результаты в виде текста если они есть
         addText("results", color.menuDark);
@@ -15,29 +14,27 @@ Menu::Menu(std::shared_ptr<RacerInfo> info): window(sf::VideoMode(1000, 800), "J
             addText(racer, color.menuBright);
         }
     }
-    sf::Text stGame ("start game", font);
-    sf::Text joinGame ("join game", font);
+    sf::Text stGame ("start", font);
+    //sf::Text joinGame ("join game", font);
     if(!font.loadFromFile("../media/lines.ttf")){
         //
     } else {
         stGame.setFont(font);
         stGame.setCharacterSize(50);
-        joinGame.setFont(font);
-        joinGame.setCharacterSize(50);
+//        joinGame.setFont(font);
+//        joinGame.setCharacterSize(50);
     }
     buttons = {
             AbstractButton(0, stGame, window),
-            AbstractButton(1, joinGame, window),
+            //AbstractButton(1, joinGame, window),
     };
-    ConnectionData data = ConnectionData{2021, "localhost"};
-    gameClient = GameClient<CustomRequest>(data);
 }
 
-void Menu::run() {
+std::unique_ptr<MenuInfo> Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
         if(ready){
-            return;
+            return std::make_unique<MenuInfo>(myName);
         }
         display();
         while (window.pollEvent(event))
@@ -51,7 +48,7 @@ void Menu::run() {
                     handleInput(event.key.code, false);
                     break;
                 case sf::Event::TextEntered:
-                    if(waitingInput && (event.text.unicode < 128) && (event.text.unicode > 40)){
+                    if(waitingInput && (event.text.unicode <= 122) && (event.text.unicode >= 97)){
                         if(!buttons.at(buttonIterator).getIsActive()){
                             buttons.at(buttonIterator).setActive();
                         }
@@ -62,7 +59,7 @@ void Menu::run() {
                     break;
                 case sf::Event::Closed:
                     window.close();
-                    return;
+                    return nullptr;
             }
         }
     }
@@ -87,7 +84,11 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
         }
     } else if (key == sf::Keyboard::Enter){
         if(isPressed){
-            if(buttons.at(buttonIterator).getIsActive()){
+            ready = true;
+            if(waitingInput && !myName.empty()){
+                addText("you:\t" + myName, color.menuBright);
+                waitingInput = false;
+            } else if(buttons.at(buttonIterator).getIsActive()){
                 auto but = buttons.at(buttonIterator).getId();
                 if(but == "start game") {
                     std::cout << "start game" << std::endl;
@@ -99,14 +100,6 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
                     std::cout << "go" << std::endl;
                     ready = true; // по кнопке go завершается метод run
                 }
-            }
-            if(waitingInput && !myName.empty()){
-                waitingInput = false;
-                std::vector<sf::Text> newTexts;
-                texts = newTexts;
-                addText("you:\t" + myName, color.menuBright);
-                addText("waiting others...", color.menuDark);
-                buttons.at(buttonIterator).setActive();
             }
         }
     }
@@ -132,17 +125,10 @@ void Menu::changeStep(){
 
 void Menu::startGame() {
     changeStep();
-    // start - значит это создатель, сервер у него, предположительно id 0 у него же
-    runServer();
-    // TODO
 }
 
 void Menu::joinGame() {
     changeStep();
-    // присоединение к игре. Хорошо бы здесь именно присоединиться
-    // TODO
-    std::string username = "id or username";
-    gameClient.join(username);
 }
 
 
@@ -175,14 +161,4 @@ void Menu::display() {
     window.display();
 }
 
-void Menu::stopServer() {
-  server->stop(); // очищение http-server
-  gameServer.close(); // очистка игрового сервера. не путать с low level http server
-}
-
-void Menu::runServer() {
-    gameServer = GameServer();
-    ConnectionData connectionData = {2021, "localhost"}; // сетевые данные на которых запуститься сервер
-    server = startServer(gameServer, connectionData);
-}
 

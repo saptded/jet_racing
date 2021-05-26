@@ -10,7 +10,7 @@ Model::Model(int id)
     , currentStage(0)
     , finishedRacers(0){}
 
-std::shared_ptr<RacerInfo> Model::updateModel(Command &rotation) {
+std::shared_ptr<MenuInfo> Model::updateModel(Command &rotation) {
     _currentCommand = rotation;
 
     updateMap();
@@ -35,6 +35,11 @@ void Model::notifyObserves(Response &response) {
 Model::~Model() = default;
 
 void Model::updateMap() {
+    if(justStarted){
+        Response response{ViewEvent::CHANGE_STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
+        notifyObserves(response);
+        justStarted = false;
+    }
 
     Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
     notifyObserves(response);
@@ -55,7 +60,7 @@ void Model::updateRacers() {
         }
     }
     if (finishedRacers == enemies.size() + 1) {
-        menuInfo = std::make_shared<RacerInfo>();
+        menuInfo = std::make_shared<MenuInfo>();
         auto [isFinished, position] = _racer.finished;
         menuInfo->results[_racer._id] = position;
         for (auto &enemy : enemies) {
@@ -84,6 +89,12 @@ void Model::updateRacer() {
 }
 
 void Model::updateEnemies() {}
+
+Model::Model(std::shared_ptr<MenuInfo> menuInfo):
+_map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
+        , currentStage(0)
+        , finishedRacers(0){
+}
 
 // double Model::lineCoefficient(const AbstractElement &line) {
 //     double k = 0;

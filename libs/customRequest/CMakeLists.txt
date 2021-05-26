@@ -1,3 +1,0 @@
-add_library(libcustomRequest SHARED  src/customRequest.cpp)
-target_include_directories(libcustomRequest PUBLIC include)
-target_link_libraries(libcustomRequest PUBLIC  libclient libdata_struct libserialization cpr::cpr)

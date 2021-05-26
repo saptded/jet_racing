@@ -3,23 +3,23 @@
 #include "buttons.hpp"
 #include "menuInfo.hpp"
 #include "presenter.hpp"
-#include <customRequest.h>
-#include <GameClient.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <memory.h>
-#include <startServer.h>
+
+class AbstractMenu{
+public:
+    void show();
+protected:
+
+};
 
 class Menu{
-    GameServer gameServer;
-    std::unique_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server;
-    GameClient<CustomRequest> gameClient;
 public:
-    explicit Menu(std::shared_ptr<RacerInfo> info);
-    void run();
-    void stopServer();
+    explicit Menu(std::shared_ptr<MenuInfo> info);
+    std::unique_ptr<MenuInfo> run();
 private:
-    void runServer();
+    int racers = 1;
 
     void display();
     void handleInput(sf::Keyboard::Key key, bool isPressed);
@@ -44,5 +44,5 @@ private:
     sf::Font font;
     sfColor color;
 
-    std::shared_ptr<RacerInfo> info;
+    std::shared_ptr<MenuInfo> info;
 };

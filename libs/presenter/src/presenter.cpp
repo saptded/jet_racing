@@ -7,8 +7,8 @@ Presenter::Presenter(int id)
     , _model(new Model(id))
     , _window(new SFMLGameWindow) {}
 
-std::shared_ptr<RacerInfo> Presenter::run() {
-    std::shared_ptr<RacerInfo> results;
+std::shared_ptr<MenuInfo> Presenter::run() {
+    std::shared_ptr<MenuInfo> results;
 
     while (!_finishGame) {
         Command command = _window->handleButtonEvent();

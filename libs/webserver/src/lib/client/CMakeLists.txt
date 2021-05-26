@@ -1,4 +1,0 @@
-add_library(libclient SHARED include/GameClient.hpp)
-target_include_directories(libclient PUBLIC include)
-target_link_libraries(libclient libdata_struct libserialization)
-set_target_properties(libclient PROPERTIES LINKER_LANGUAGE CXX)

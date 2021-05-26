@@ -1,17 +1,22 @@
 #include "menu.hpp"
 #include "presenter.hpp"
-int main() {
-    std::shared_ptr<RacerInfo> info = nullptr;
+
+int main(){
+
+    std::shared_ptr<MenuInfo> info = nullptr;
     while(true){
         Menu menu(info);
-        menu.run();
-
-        auto presenter = Presenter::create(0);
-        info = presenter->run();
-
-        menu.stopServer();
+        info = menu.run();
+        if(info){
+            Presenter *presenter = Presenter::create(info);
+            info = presenter->run();
+            delete presenter;
+        } else {
+            return 0;
+        }
         if(!info){
-            break;
+            return 0;
         }
     }
 }
+

@@ -16,7 +16,7 @@ public:
     Presenter(const Presenter &) = delete;
     Presenter &operator=(const Presenter &) = delete;
 
-    std::shared_ptr<RacerInfo> run();
+    std::shared_ptr<MenuInfo> run();
     void handleEvent(Response &response) override;
 
 private:

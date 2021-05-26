@@ -1,7 +1,3 @@
-//
-// Created by Kseny
-//
-
 #pragma once
 
 #include "response.hpp"
@@ -12,10 +8,9 @@
 class Viewer {
 public:
     Viewer();
-    //explicit Viewer(sf::RenderWindow &dist);
+    //explicit Viewer(Response &data);
     void render(Response &data, sf::RenderWindow &dist) {
         switch (data.eventType) {
-            // case INIT: initRender(data, dist); break;
             case RACER: renderRacer(data, dist); break;
             case ENEMIES: renderEnemies(data, dist); break;
             case STAGE: renderMap(data, dist); break;
@@ -32,6 +27,6 @@ private:
     void increaseStage(Response &data, sf::RenderWindow &dist);
     void displayWindow(sf::RenderWindow &dist);
 
-    std::shared_ptr<sfViewerDetails> details;
-    int stage = 1;
+    std::unique_ptr<sfViewerDetails> details;
+    int stage = 0;
 };
