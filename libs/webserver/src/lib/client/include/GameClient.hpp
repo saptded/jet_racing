@@ -43,19 +43,28 @@ public:
     }
 
     template<typename Deserialization>
-    std::string join(std::string& username) {
+    size_t join(std::string& username) {
         //std::string str = dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username;
 
         std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?username=" + username;
         auto response = Request::getRequest(Url(str));
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
-        std::cout<< response.text;
         auto res = deserObject.getIdFromJson(response.text);
         return res;
     }
 
     void sendFlag(bool gameFlagStart){
-        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?flag=" + std::to_string(gameFlagStart);
+        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_flag?flag=" + std::to_string(gameFlagStart);
+        Request::getRequest(Url(str));
+    }
+
+    template<typename Deserialization>
+    bool getFlag(){
+        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/get_flag";
+        auto response = Request::getRequest(Url(str));
+        DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
+        auto res = deserObject.getFlagFromJson(response.text);
+        return res;
     }
 
     static inline std::vector<std::string> searchOpenSession(std::vector<std::string>& ipList, std::string& port){

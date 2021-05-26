@@ -79,7 +79,7 @@ std::unique_ptr<running_server_instance_t<http_server_t<ServerTraits>>> startSer
             // HTTP-server will use own Asio's io_context object.
             restinio::own_io_context(),
             // The settings for the HTTP-server.
-            restinio::server_settings_t<ServerTraits>{}.address("127.0.0.1").port(8080).request_handler(std::move(router)),
+            restinio::server_settings_t<ServerTraits>{}.address(connectionData.host).port(connectionData.port).request_handler(std::move(router)),
             //.request_handler(std::move(router)),
             // The size of thread-pool for the HTTP-server.
             poolSize);

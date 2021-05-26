@@ -1,23 +1,27 @@
 #include <customDeserialization.h>
 #include "menu.hpp"
 #include "presenter.hpp"
+#define endl "\n"
 int main() {
 
     bool isServer = true;
     GameServer gameServer = GameServer();
     ConnectionData connectionData = {2020, "localhost"}; // сетевые данные на которых запуститься сервер
-    std::cout << 2;
-    //auto server = startServer(gameServer, connectionData);
-    std::cout << 1;
+    auto server = startServer(gameServer, connectionData);
 
     ConnectionData data = ConnectionData{2020, "localhost"};
     auto gameClient = GameClient<CustomRequest>(data);
     std::string name = "isServer_" + std::to_string(isServer);
     auto res = gameClient.join<CustomDeserialization>(name);
-    std::cout << res;
-    rapidjson::Document genericDocument;
-    genericDocument.Parse(R"({"id": 2})");
-    std::cout << genericDocument["id"].GetInt();
+    std::cout << res << " res" << endl;
+
+    std::cout << gameClient.getFlag<CustomDeserialization>() << " res1" << endl;
+    gameClient.sendFlag(true);
+    std::cout << gameClient.getFlag<CustomDeserialization>() << " res2" << endl;
+    server->wait();
+    //rapidjson::Document genericDocument;
+   // genericDocument.Parse(R"({"id": 2})");
+    //std::cout << genericDocument["id"].GetInt();
 
     // ждем
     //server->stop();

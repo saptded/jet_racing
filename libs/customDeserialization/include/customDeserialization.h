@@ -25,14 +25,25 @@ public:
        return response;
    }
 
-    std::string jsonToId(const char *id) {
+    size_t  jsonToId(const char *id) {
         rapidjson::Document genericDocument;
         genericDocument.Parse(id);
         if(genericDocument.IsObject()) {
             rapidjson::Value &idFromJson = genericDocument["id"];
-            return idFromJson.GetString();
+            return idFromJson.GetInt();
         }
-        return "error";
+        return 0;
+    }
+
+
+    bool jsonToFlag(const char *id){
+        rapidjson::Document genericDocument;
+        genericDocument.Parse(id);
+        if(genericDocument.IsObject()) {
+            rapidjson::Value &idFromJson = genericDocument["flag"];
+            return bool(idFromJson.GetInt());
+        }
+        return false;
     }
 
 };
