@@ -28,6 +28,7 @@ bool Finish::isElementDynamic() { return false; }
 
 bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
+    bool isIntesects = false;
 
     for (auto playerPoint : points) {
         if (isPointInZone(playerPoint, _start, _end)) {
@@ -38,17 +39,18 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
             float dividendForDistance = std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);
 
             if (dividendForDistance == 0) {
-                return true;
+                isIntesects = true;
             }
 
             auto distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
 
             if (distanceFromPointToLine < kEps) {
-                return true;
+                isIntesects = true;
             }
         }
     }
-    return false;
+
+    return isIntesects;
 }
 
 std::vector<Line> Arc::getVectorOfLinesForApproximation(int iteration, float radius, Arc &arc) {
@@ -115,13 +117,14 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
     Arc initArc(_start, _end, _center);
     std::vector<Line> approximatedLines = this->getVectorOfLinesForApproximation(iteration, radius, initArc);
 
+    bool isIntersects = false;
     for (auto &line : approximatedLines) {
         if (line.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight)) {
-            return true;
+            isIntersects = true;
         }
     }
 
-    return false;
+    return isIntersects;
 }
 
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
