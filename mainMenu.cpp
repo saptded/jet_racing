@@ -8,9 +8,8 @@ int main(){
         Menu menu(info);
         info = menu.run();
         if(info){
-            Presenter *presenter = Presenter::create(info);
+            auto presenter = Presenter::create(0);
             info = presenter->run();
-            delete presenter;
         } else {
             return 0;
         }
