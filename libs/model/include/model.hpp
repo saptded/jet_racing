@@ -9,15 +9,18 @@
 #include "racer.hpp"
 #include "racerController.hpp"
 #include "menuInfo.hpp"
+#include "../../webserver/src/lib/client/include/GameClient.hpp"
 
 struct AbstractElement;
 
 class Model : public AbstractModel {
 public:
+    Model() = delete;
     explicit Model(int id);
+    explicit Model(std::shared_ptr<MenuInfo> menuInfo);
     ~Model();
 
-    std::shared_ptr<RacerInfo> updateModel(Command &rotation) override;
+    std::shared_ptr<MenuInfo> updateModel(Command &rotation) override;
 
 private:
     Command _currentCommand{};
@@ -43,5 +46,6 @@ private:
     uint8_t currentStage;
     uint8_t finishedRacers;
 
-    std::shared_ptr<RacerInfo> menuInfo;
+    std::shared_ptr<MenuInfo> menuInfo;
+    std::shared_ptr<GameClient> _client;
 };

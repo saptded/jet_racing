@@ -52,6 +52,7 @@ void DrawableArc::init(int stage) {
         arcs[counter][i+1].position = sf::Vector2f(center.x - (radius - weightK/8) * cosf(angle), center.y - (radius - weightK/8) * sinf(angle));
         arcs[counter][i+1].color = color;
         angle += angleStep;
+
     }
 }
 

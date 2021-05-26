@@ -9,18 +9,20 @@
 
 class Presenter : public Observer {
 public:
-    static Presenter *create(int id);
+    //static Presenter *create(int id);
+    static Presenter *create(std::shared_ptr<MenuInfo>);
 
     ~Presenter();
 
     Presenter(const Presenter &) = delete;
     Presenter &operator=(const Presenter &) = delete;
 
-    std::shared_ptr<RacerInfo> run();
+    std::shared_ptr<MenuInfo> run();
     void handleEvent(Response &response) override;
 
 private:
     explicit Presenter(int id);
+    explicit Presenter(std::shared_ptr<MenuInfo> info);
 
     bool _finishGame;
 

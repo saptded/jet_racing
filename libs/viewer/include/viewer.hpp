@@ -7,9 +7,8 @@
 
 class Viewer {
 public:
-    Viewer() = delete;
-    Viewer(Response &data, sf::RenderWindow & dist);
-    //explicit Viewer(sf::RenderWindow &dist);
+    Viewer();
+    //explicit Viewer(Response &data);
     void render(Response &data, sf::RenderWindow &dist) {
         switch (data.eventType) {
             case RACER: renderRacer(data, dist); break;
@@ -29,5 +28,5 @@ private:
     void displayWindow(sf::RenderWindow &dist);
 
     std::unique_ptr<sfViewerDetails> details;
-    int stage = 1;
+    int stage = 0;
 };

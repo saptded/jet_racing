@@ -4,13 +4,8 @@
 
 #include "viewer.hpp"
 
-Viewer::Viewer(Response &data, sf::RenderWindow &dist):
-details(std::make_unique<sfViewerDetails>())
-{
-    for (auto &elem : data.stage.value()) {
-        elem->init(data.curStage);
-    }
-}
+Viewer::Viewer():
+details(std::make_unique<sfViewerDetails>()){}
 
 // Viewer::Viewer(sf::RenderWindow &dist) { details = std::make_shared<sfViewerDetails>(); }
 
