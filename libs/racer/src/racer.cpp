@@ -1,29 +1,22 @@
-//
-// Created by saptded on 15.04.2021.
-//
-
 #include "racer.hpp"
 #include "drawableRacer.hpp"
 
-Racer::Racer(Point point, int id) {
+Racer::Racer(Point point, int id)
 
-    _position = {point, point};
-    _width = 120;
-    _height = 40;
-    _rotation = 0;
-    _rotationSpeed = {0, 0};
-    _speed = {45, 150};
-    _center = {_width/4, _height/2};
-    _origin;
-    _id = id;
-}
+    : _width(34)   // 30
+    , _height(12)  // 12
 
-template<>
-void Racer::draw<sf::RenderWindow>(sf::RenderWindow& target){
-    drObj->draw(*this, target);
-};
+    , _rotation(0)
+    , _speed({0, 0})
+    , _rotationSpeed({0, 0})
+    , _position(std::pair<Point, Point>{point, {point.x + _width, point.y + _height}})
+    , _positionExtra(std::pair<Point, Point>{{point.x, point.y + _height}, {point.x + _width, point.y}})
+    , _center({point.x + 5 * _width / 6, point.y + _height / 2})
+    , _origin({5 * _width / 6, _height / 2})
+    , _id(id)
+    , finished(false, 0)
+    , onCollision(false)
 
-void Racer::createDrawable(){
-    drObj = std::make_shared<DrawableRacer>();
-    drObj->create(*this);
-};
+    , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation)) {}
+
+template <> void Racer::draw<sf::RenderWindow>(sf::RenderWindow &target) { _drObj->draw(*this, target); };

@@ -1,0 +1,4 @@
+add_library(interfaceCollisional STATIC src/interfaceCollisional.cpp)
+
+target_include_directories(interfaceCollisional PUBLIC include)
+target_link_libraries(interfaceCollisional PUBLIC racer racerController)

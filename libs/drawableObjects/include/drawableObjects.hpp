@@ -1,68 +1,70 @@
-//
-// Created by Kseny
-//
-
 #pragma once
 
 #include "drawableObject.hpp"
-#include "utils.hpp"
+#include "mechanicalValues.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 
-class DrawableArc: public DrawableObject {
+static const float WEIGHT_K = 5;
+
+class DrawableArc : public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
-    void draw(sf::RenderWindow& window) override;
-    float getAngle(Point&centre, Point&rad); // сделаны public для тестирования(
-    float calcRadius(Point& one, Point& two); //
+    DrawableArc(Point start, Point end, Point center): DrawableObject(start, end, center) {};
+    void draw(sf::RenderWindow &window) override;
+    void init(int stage) override;
+
 private:
-    sf::VertexArray arcs[3];
+    float getAngle(Point &centre, Point &rad);
+    float calcRadius(Point &one, Point &two);
+    //sf::VertexArray arcs[3];
+    std::vector<sf::VertexArray> arcs;
+    float weightK = WEIGHT_K;
 };
 
-class DrawableLine: public DrawableObject {
+class DrawableLine : public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
-    void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    DrawableLine(Point start, Point end, Point center): DrawableObject(start, end, center) {};
+    void draw(sf::RenderWindow &window) override;
+    void init(int stage) override;
 private:
     sf::VertexArray lines[3];
+    float weightK = WEIGHT_K;
 };
 
-// дальше реализаций пока нет
-
-class DrawableAccelerator: public DrawableObject {
+class DrawableAccelerator : public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
-    void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    DrawableAccelerator(Point start, Point end, Point center);
+    void draw(sf::RenderWindow &window) override;
+    void init(int stage) override {};
 private:
     sf::RectangleShape rect;
 };
 
-class DrawableDelayer: public DrawableObject {
+class DrawableDelayer : public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
-    void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    DrawableDelayer(Point start, Point end, Point center);
+    void draw(sf::RenderWindow &window) override;
+    void init(int stage) override {};
 private:
     sf::RectangleShape rect;
 };
 
-class DrawablePortal: public DrawableObject {
+class DrawableDoor : public DrawableObject{
 public:
-    void create(abstractElement& element, int stage) override;
-    void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    DrawableDoor(Point start, Point end, Point center);
+    void draw(sf::RenderWindow &window) override;
+    void init(int stage) override;
 private:
-    sf::RectangleShape rect;
+    std::vector<DrawableLine> lineRect;
 };
 
-class DrawableFinish: public DrawableObject {
+class DrawablePropeller : public DrawableObject {
 public:
-    void create(abstractElement& element, int stage) override;
-    void draw(sf::RenderWindow& window) override;
-    void draw(abstractElement& element, sf::RenderWindow& window) override {};
+    DrawablePropeller(Point start, Point end, Point center);
+    void draw(sf::RenderWindow &window) override;
+    //void drawDynamic(sf::RenderWindow &window, Point _start, Point _end, Point _center);
+    void init(int stage) override;
 private:
-    sf::RectangleShape rect;
+    DrawableLine line;
+    DrawableArc arc;
 };

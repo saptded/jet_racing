@@ -1,10 +1,7 @@
-//
-// Created by saptded on 15.04.2021.
-//
-
 #pragma once
 
-#include "utils.hpp"
+#include "mechanicalValues.hpp"
+#include <memory>
 
 class DrawableRacer;
 struct Racer {
@@ -19,13 +16,18 @@ struct Racer {
     float _rotation;
     Speed _speed;
     Speed _rotationSpeed;
-    std::pair<Point, Point> _position;
+
+    std::pair<Point, Point> _position;       // top left / bottom right
+    std::pair<Point, Point> _positionExtra;  // bottom left / top right
     Point _center;
     Point _origin;
 
-    int _id;
+    uint8_t _id;
 
-    std::shared_ptr<DrawableRacer> drObj;
-    void createDrawable();
-    template<typename M> void draw(M& target){};
+    std::tuple<bool, uint8_t> finished;
+
+    bool onCollision;
+
+    std::shared_ptr<DrawableRacer> _drObj;
+    template <typename M> void draw(M &target){};
 };
