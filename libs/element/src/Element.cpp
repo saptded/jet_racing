@@ -6,9 +6,6 @@
 #include "MathCalculation.h"
 
 constexpr float kEps = 1e-7;
-constexpr float lambdaMin = 0.994444444;
-constexpr float lambdaMax = 1.005555556;
-constexpr float straightAngle = 180;
 constexpr float toRadian = M_PI / 180;
 constexpr float toDegree = 180 / M_PI;
 constexpr float approximationDegree = 1;
@@ -54,7 +51,7 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     return false;
 }
 
-std::vector<Line> Arc::getVectorOfLinesForApproximation(int iteration, float radius, const Arc &arc) {
+std::vector<Line> Arc::getVectorOfLinesForApproximation(int iteration, float radius, Arc &arc) {
     std::vector<Line> approximatedLines;
 
     for (int i = 1; i <= iteration; ++i) {
