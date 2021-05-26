@@ -6,13 +6,6 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include <sfColor.hpp>
 
-//sfViewerDetails::sfViewerDetails(sf::RenderWindow& window){  // не используется
-//    viewWidth = float(window.getSize().x/(float)5); // float(window.getSize().x*1.2);
-//    viewWidth = float(window.getSize().y/(float)5); // float(window.getSize().y*1.2);
-//    view.setSize(viewWidth, viewHeight);
-//    window.setView(view);
-//}
-
 sfViewerDetails::sfViewerDetails()
         : viewWidth(float(1920)  /3)
         , viewHeight(float(1080) /3){

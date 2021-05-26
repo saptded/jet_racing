@@ -8,12 +8,6 @@
 
 static sfColor colorChoose;
 
-////static float getAngle(Point &rad, Point &center);
-////static float calcRadius(Point &one, Point &two);
-////static std::vector<sf::VertexArray> makeArc(Point start, Point end, Point center, sf::Color color, float weightK);
-//static
-
-
 void DrawableArc::draw(sf::RenderWindow &window) {
     for (auto &arc : arcs) {
         window.draw(arc);
@@ -87,14 +81,6 @@ float DrawableArc::getAngle(Point &_center, Point &rad) {
     return angle;
 }
 
-static sf::RectangleShape generateStdRect(Point start, Point end) {
-    sf::RectangleShape rect;
-    rect.setSize(sf::Vector2f(start.x - end.x, start.y - end.y));
-    rect.setPosition(sf::Vector2f(end.x, end.y));
-    rect.setFillColor(sf::Color::Yellow);
-    return rect;
-}
-
 void DrawableLine::draw(sf::RenderWindow &window) {
     for (auto &line : lines) {
         window.draw(line);
@@ -164,37 +150,42 @@ void DrawableLine::init(int stage) {
     }
 }
 
+DrawablePropeller::DrawablePropeller(Point start, Point end, Point center) // пропеллер начинается в горизонтальном положении начало слева
+: DrawableObject(start, end, center)
+, line(start, end, center)
+, arc({center.x, center.y + (end.x - start.x)/6}, {start.x - (end.x - start.x)/6, center.y}, center)
+{}
 
-DrawablePropeller::DrawablePropeller(Point start, Point end, Point center)
-    : DrawableObject(start, end, center) {
-    //rect = generateStdRect(start, end);
+void DrawablePropeller::init(int stage) {
+    arc.init(stage);
+    line.init(stage);
 }
 
-void DrawablePropeller::draw(sf::RenderWindow &window) { window.draw(rect); }
-
-
-DrawableFinish::DrawableFinish(Point start, Point end, Point center)
-    : DrawableObject(start, end, center) {
-    //rect = generateStdRect(start, end);
-//    rect.setSize(sf::Vector2f(start.x - end.x, start.y - end.y));
-//    rect.setPosition(sf::Vector2f(end.x, end.y));
-//    rect.setFillColor(chooseColor.door);
-
+void DrawablePropeller::draw(sf::RenderWindow &window) {
+    arc.draw(window);
+    line.draw(window);
 }
 
-void DrawableFinish::draw(sf::RenderWindow &window) { window.draw(rect); }
-
-DrawablePortal::DrawablePortal(Point start, Point end, Point center)
-    : DrawableObject(start, end, center){
-    rect = generateStdRect(start, end);
-    //    for(int i = 0; i < rect->getVertexCount(); i = i+4){
-//        rect[i].setPrimitiveType(sf::Lines);
-//        rect[i][0].position = sf::Vector2f(start.x, start.y);
-//        rect[i][0].position = sf::Vector2f(start.x, start.y);
-//    }
+void DrawableDoor::init(int stage) {
+for(auto line: lineRect){
+    line.init(stage);
+}
 }
 
-void DrawablePortal::draw(sf::RenderWindow &window) { window.draw(rect); }
+void DrawableDoor::draw(sf::RenderWindow &window) {
+    for(auto &line: lineRect){
+        line.draw(window);
+    }
+}
+
+DrawableDoor::DrawableDoor(Point start, Point end, Point center) : DrawableObject(start, end, center) {
+lineRect = {
+        DrawableLine(start, {start.x, end.y}, center),
+        DrawableLine({start.x, end.y}, end, center),
+        DrawableLine({start.x, end.y}, end, center),
+        DrawableLine({start.x, end.y}, end, center),
+};
+}
 
 DrawableDelayer::DrawableDelayer(Point start, Point end, Point center)
     : DrawableObject(start, end, center) {
@@ -214,6 +205,3 @@ DrawableAccelerator::DrawableAccelerator(Point start, Point end, Point center)
 
 void DrawableAccelerator::draw(sf::RenderWindow &window) { window.draw(rect); }
 
-//ShinyRect::ShinyRect(Point start, Point end, sf::Color color, float weightK) {
-//
-//}

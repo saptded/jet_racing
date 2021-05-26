@@ -32,6 +32,7 @@ void Presenter::handleEvent(Response &response) { viewer->render(response, _wind
 Presenter *Presenter::create(int id) {
     static auto presenter = new Presenter(id);
     presenter->_model->addObserver(presenter);
+    Response response{ViewEvent::INIT, std::make_optional(_enemies), std::nullopt, std::nullopt};
     presenter->viewer = std::make_unique<Viewer>();
     return presenter;
 }

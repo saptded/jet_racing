@@ -265,4 +265,4 @@ void AbstractElement::draw(sf::RenderWindow &window) {
     }
 }
 
-void AbstractElement::changeDrawableObject(int stage) { /*_drObj->change(stage);*/ }
+void AbstractElement::init(int stage) { _drObj->init(stage); }
