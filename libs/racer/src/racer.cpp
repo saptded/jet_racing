@@ -3,8 +3,8 @@
 
 Racer::Racer(Point point, int id)
 
-    : _width(34)   // 30
-    , _height(12)  // 12
+    : _width(40)   // 30
+    , _height(18)  // 12
 
     , _rotation(0)
     , _speed({0, 0})
