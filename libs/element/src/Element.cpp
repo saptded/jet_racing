@@ -33,72 +33,64 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
     for (auto playerPoint : points) {
-        if ((playerPoint.x == _start.x && playerPoint.y == _start.y) || (playerPoint.x == _end.x && playerPoint.y == _end.y)) {
-            return true;
-        }
+        if (isPointInZone(playerPoint, _start, _end)) {
+            float factorForLineEquationA = _end.y - _start.y;
+            float factorForLineEquationB = _start.x - _end.x;
+            float factorForLineEquationC = (_start.y * (_end.x - _start.x)) - (_start.x * (_end.y - _start.y));
 
-        float projectionPlayerFigureStartX = _start.x - playerPoint.x;
-        float projectionPlayerFigureEndX = _end.x - playerPoint.x;
-        float projectionPlayerFigureStartY = _start.y - playerPoint.y;
-        float projectionPlayerFigureEndY = _end.y - playerPoint.y;
+            float dividendForDistance = std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);
 
-        float cosinePlayerFigure =
-            findCosine(projectionPlayerFigureStartX, projectionPlayerFigureEndX, projectionPlayerFigureStartY, projectionPlayerFigureEndY);
+            if (dividendForDistance == 0) {
+                return true;
+            }
 
-        if (cosinePlayerFigure == 1 || cosinePlayerFigure == -1) {
-            return true;
-        }
+            auto distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
 
-        if (1 - cosinePlayerFigure < kEps) {
-            if ((std::acos(cosinePlayerFigure) * toDegree > straightAngle * lambdaMin &&
-                 std::acos(cosinePlayerFigure) * toDegree < straightAngle * lambdaMax) ||
-                (std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMax) &&
-                 std::acos(cosinePlayerFigure) * toDegree > -(straightAngle * lambdaMin))) {
+            if (distanceFromPointToLine < kEps) {
                 return true;
             }
         }
     }
-
     return false;
 }
 
 std::vector<Line> Arc::getVectorOfLinesForApproximation(int iteration, float radius, const Arc &arc) {
     std::vector<Line> approximatedLines;
 
-    for (int i = 1; i <= iteration; i++) {
+    for (int i = 1; i <= iteration; ++i) {
         float projectionOfAdjacentAngle = radius * std::cos(static_cast<float>(i) * approximationDegree * toRadian);
         float projectionOfOppositeAngle = radius * std::sin(static_cast<float>(i) * approximationDegree * toRadian);
 
-        float newPointX;
-        float newPointY;
+        float newPointX = 0;
+        float newPointY = 0;
 
-        if (arc._center.x > arc._start.x) {
+        if (_center.x > _start.x) {
             newPointX = _center.x - projectionOfAdjacentAngle;
             newPointY = _center.y - projectionOfOppositeAngle;
-        } else if (arc._center.x < arc._start.x) {
+        } else if (_center.x < _start.x) {
             newPointX = _center.x + projectionOfAdjacentAngle;
             newPointY = _center.y + projectionOfOppositeAngle;
-        } else if (arc._center.y > arc._start.y) {
+        } else if (_center.y > _start.y) {
             newPointX = _center.x + projectionOfOppositeAngle;
             newPointY = _center.y - projectionOfAdjacentAngle;
-        } else if (arc._center.y < arc._start.y) {
+        } else if (_center.y < _start.y) {
             newPointX = _center.x - projectionOfOppositeAngle;
             newPointY = _center.y + projectionOfAdjacentAngle;
         }
 
         if (i == iteration) {
-            newPointX = _end.x;
-            newPointY = _end.y;
+            newPointX = arc._end.x;
+            newPointY = arc._end.y;
         }
 
         Point newEnd = {newPointX, newPointY};
         Point center = {defaultCenterX, defaultCenterY};
 
-        Line line(_start, newEnd, center);
+        Line line(arc._start, newEnd, center);
 
         approximatedLines.push_back(line);
 
-        std::swap(_start, newEnd);
+        std::swap(arc._start, newEnd);
     }
 
     return approximatedLines;
@@ -152,8 +144,8 @@ bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &pl
     float figureRightPoint = std::max(_start.x, _end.x);
     float figureLeftPoint = std::min(_start.x, _end.x);
 
-    if ((playerTopPoint <= figureTopPoint || playerBottomPoint >= figureBottomPoint) &&
-        (playerRightPoint <= figureRightPoint || playerLeftPoint >= figureLeftPoint)) {
+    if ((playerTopPoint <= figureTopPoint && playerBottomPoint >= figureBottomPoint) &&
+        (playerRightPoint <= figureRightPoint && playerLeftPoint >= figureLeftPoint)) {
         return true;
     }
 
