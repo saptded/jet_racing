@@ -2,5 +2,5 @@
 
 #include <string>
 
-void init_logger(const std::string &file_name);
+void init_logger();
 void write_info(const std::string &log);

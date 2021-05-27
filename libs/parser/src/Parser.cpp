@@ -1,11 +1,9 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include "Logger.h"
 #include "Parser.h"
 
 std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filename) {
-    init_logger("parsing.log");
     write_info("Start parsing map");
 
     boost::property_tree::ptree tree;
