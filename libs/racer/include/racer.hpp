@@ -24,8 +24,6 @@ struct Racer {
 
     uint8_t _id;
 
-    std::tuple<bool, uint8_t> finished;
-
     bool onCollision;
 
     std::tuple<bool, uint8_t> finished;
