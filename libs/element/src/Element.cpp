@@ -15,8 +15,8 @@ constexpr size_t defaultCenterX = 0;
 constexpr size_t defaultCenterY = 0;
 
 void Accelerator::collision(Racer &racer, RacerController &controller, Command command) {
-    float extraAccelerateX = static_cast<float>(0.05) * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX);
-    float extraAccelerateY = static_cast<float>(0.05) * -std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY);
+    float extraAccelerateX = static_cast<float>(0.1) * std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX);
+    float extraAccelerateY = static_cast<float>(0.1) * -std::sin(racer._rotation * toRadian) * std::abs(racer._speed.speedY);
 
     controller.changeSpeed(racer, false, std::copysignf(extraAccelerateX, racer._speed.speedX), std::copysignf(extraAccelerateY, racer._speed.speedY));
 }
@@ -83,7 +83,7 @@ void Line::collision(Racer &racer, RacerController &controller, Command command)
     float pushAngle = getPushAngle(racer._center, _start, _end, lineAngle);
     auto kSpeedX = static_cast<float>(std::abs(racer._speed.speedX / 2));
     auto kSpeedY = static_cast<float>(std::abs(racer._speed.speedY / 2));
-    auto kDistanceToCenter = static_cast<float>((1aa / distanceToCenter));
+    auto kDistanceToCenter = static_cast<float>((1 / distanceToCenter));
 
     if ((minDistance->first == 1 || minDistance->first == 3)) {  // front
         if ((isPointOnTheLeftSideFromLine(racer._position.second, _start, _end) != isPointOnTheLeftSideFromLine(racer._center, _start, _end)) ||
@@ -97,8 +97,8 @@ void Line::collision(Racer &racer, RacerController &controller, Command command)
         controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
     } else if ((minDistance->first == 0 || minDistance->first == 2) || (isPointOnTheLeftSideFromLine(racer._position.first, _start, _end) !=
                                                                         isPointOnTheLeftSideFromLine(racer._position.second, _start, _end))) {  // bottom
-        controller.changeSpeed(racer, false, static_cast<float>(3.5) * std::cos(racer._rotation * toRadian) * kDistanceToCenter,
-                               static_cast<float>(3.5) * -std::sin(racer._rotation * toRadian) * kDistanceToCenter);
+        controller.changeSpeed(racer, false, static_cast<float>(4) * std::cos(racer._rotation * toRadian) * kDistanceToCenter,
+                               static_cast<float>(4) * -std::sin(racer._rotation * toRadian) * kDistanceToCenter);
         controller.changeRotationSpeed(command, racer, 0.1);
     }
 }
@@ -212,8 +212,8 @@ void Arc::collision(Racer &racer, RacerController &controller, Command command) 
         auto kSpeedX = static_cast<float>(std::abs(racer._speed.speedX / 2));
         auto kSpeedY = static_cast<float>(std::abs(racer._speed.speedY / 2));
         auto kDistanceToCenter = static_cast<float>((2 / std::abs(distanceFromCenterToArcCenter - radius)));
-        controller.changeSpeed(racer, false, static_cast<float>(0.31) * std::cos(racer._rotation * toRadian) * kDistanceToCenter,
-                               static_cast<float>(0.31) * -std::sin(racer._rotation * toRadian) * kDistanceToCenter);
+        controller.changeSpeed(racer, false, static_cast<float>(0.4) * std::cos(racer._rotation * toRadian) * kDistanceToCenter,
+                               static_cast<float>(0.4) * -std::sin(racer._rotation * toRadian) * kDistanceToCenter);
         controller.changeRotationSpeed(command, racer, 0.1);
     }
 }

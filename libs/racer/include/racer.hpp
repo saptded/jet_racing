@@ -24,11 +24,9 @@ struct Racer {
 
     uint8_t _id;
 
-    std::tuple<bool, uint8_t> finished;
-
     bool onCollision;
 
-//    std::tuple<bool, uint8_t> finished;
+    std::tuple<bool, uint8_t> finished;
 
     std::shared_ptr<DrawableRacer> _drObj;
     template <typename M> void draw(M &target){};

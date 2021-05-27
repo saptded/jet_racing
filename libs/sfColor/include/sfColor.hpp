@@ -10,7 +10,7 @@
 class sfColor {
 public:
     //sf::Color door = {61, 90, 254};
-    sf::Color accelerator = {0, 255, 0, 55};
+    sf::Color accelerator = {145, 236, 141, 55};
     sf::Color delayer = {255, 0, 0, 55};
     sf::Color getWall(int stage);
     //sf::Color getBg(int stage);
@@ -18,14 +18,18 @@ public:
 
     sf::Color menuDark = {255, 56, 56, 180};
     sf::Color menuBright = {255, 56, 56, };
+
+    sf::Color fire = {185, 247, 255, };
     sf::Color white = sf::Color::White;
     sf::Color black = sf::Color::Black;
 private:
     std::vector<sf::Color> walls = {
-        sf::Color(255, 255, 109),
-        sf::Color(253, 224, 107),
-        sf::Color(100, 93, 80),
+            sf::Color(108,93,228), //152
+            sf::Color(184, 208, 210), //белые
+        sf::Color(255, 255, 109), //желтые?
         sf::Color(61, 90, 254),
+        sf::Color(100, 93, 80),
+
     };
     std::vector<sf::Color> bg = {
         sf::Color(195, 203, 145),
