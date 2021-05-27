@@ -7,7 +7,7 @@
 #include "Element.h"
 #include "MathCalculation.h"
 
-constexpr float eps = 3;
+constexpr float kEps = 3;
 constexpr float toRadian = M_PI / 180;
 constexpr float toDegree = 180 / M_PI;
 constexpr float approximationDegree = 8;
@@ -29,10 +29,10 @@ void Finish::collision(Racer &racer, RacerController &controller, Command comman
 
 bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
+    bool isIntesects = false;
 
     for (auto playerPoint : points) {
         if (isPointInZone(playerPoint, _start, _end)) {
-
             float factorForLineEquationA = _end.y - _start.y;
             float factorForLineEquationB = _start.x - _end.x;
             float factorForLineEquationC = (_start.y * (_end.x - _start.x)) - (_start.x * (_end.y - _start.y));
@@ -40,17 +40,18 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
             float dividendForDistance = std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);
 
             if (dividendForDistance == 0) {
-                return true;
+                isIntesects = true;
             }
 
             auto distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
 
-            if (distanceFromPointToLine < eps) {
-                return true;
+            if (distanceFromPointToLine < kEps) {
+                isIntesects = true;
             }
         }
     }
-    return false;
+
+    return isIntesects;
 }
 
 void Line::collision(Racer &racer, RacerController &controller, Command command) {
@@ -99,7 +100,7 @@ void Line::collision(Racer &racer, RacerController &controller, Command command)
     }
 }
 
-std::vector<Line> Arc::getApproximatedArc(int iteration, float radius, Arc &arc) {
+std::vector<Line> Arc::getVectorOfLinesForApproximation(int iteration, float radius, Arc &arc) {
     std::vector<Line> approximatedLines;
 
     for (int i = 1; i <= iteration; ++i) {
@@ -161,15 +162,16 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
     int iteration = std::ceil(degree / approximationDegree);
 
     Arc initArc(_start, _end, _center);
-    std::vector<Line> approximatedLines = this->getApproximatedArc(iteration, radius, initArc);
+    std::vector<Line> approximatedLines = this->getVectorOfLinesForApproximation(iteration, radius, initArc);
 
+    bool isIntersects = false;
     for (auto &line : approximatedLines) {
         if (line.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight)) {
-            return true;
+            isIntersects = true;
         }
     }
 
-    return false;
+    return isIntersects;
 }
 
 void Arc::collision(Racer &racer, RacerController &controller, Command command) {

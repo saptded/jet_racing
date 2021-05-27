@@ -29,10 +29,10 @@ public:
     ~Arc() override = default;
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
+    std::vector<Line> getVectorOfLinesForApproximation(int iteration, float radius, Arc &arc);
 
     void collision(Racer &racer, RacerController &controller, Command command) override;
 
-    std::vector<Line> getApproximatedArc(int iteration, float radius, Arc &arc);
     bool isElementDynamic() override { return false; }
 };
 
@@ -41,7 +41,6 @@ public:
     Rectangle(Point start, Point end, Point center)
         : AbstractElement(start, end, center) {}
     ~Rectangle() override = default;
-
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     void collision(Racer &racer, RacerController &, Command command) override{};
