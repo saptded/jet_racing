@@ -12,20 +12,6 @@ constexpr float approximationDegree = 1;
 constexpr size_t defaultCenterX = 0;
 constexpr size_t defaultCenterY = 0;
 
-bool Line::isElementDynamic() { return false; }
-
-bool Arc::isElementDynamic() { return false; }
-
-bool Propeller::isElementDynamic() { return isDynamic; }
-
-bool Accelerator::isElementDynamic() { return false; }
-
-bool Delayer::isElementDynamic() { return false; }
-
-bool Portal::isElementDynamic() { return false; }
-
-bool Finish::isElementDynamic() { return false; }
-
 bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
     bool isIntesects = false;
@@ -130,22 +116,20 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
-    auto minmaxHeight = std::minmax_element(points.begin(), points.end(), [](Point const &lhs, Point const &rhs) { return lhs.y < rhs.y; });
-
-    auto minmaxWidth = std::minmax_element(points.begin(), points.end(), [](Point const &lhs, Point const &rhs) { return lhs.x < rhs.x; });
-
-    float playerTopPoint = minmaxHeight.second->y;
-    float playerBottomPoint = minmaxHeight.first->y;
-    float playerRightPoint = minmaxWidth.second->x;
-    float playerLeftPoint = minmaxWidth.first->x;
-
     float figureTopPoint = std::max(_start.y, _end.y);
     float figureBottomPoint = std::min(_start.y, _end.y);
     float figureRightPoint = std::max(_start.x, _end.x);
     float figureLeftPoint = std::min(_start.x, _end.x);
 
-    if ((playerTopPoint <= figureTopPoint && playerBottomPoint >= figureBottomPoint) &&
-        (playerRightPoint <= figureRightPoint && playerLeftPoint >= figureLeftPoint)) {
+    size_t playersAnglesInsideRectangle = 0;
+
+    for (auto &playerPoint : points) {
+        if (playerPoint.x >= figureLeftPoint && playerPoint.x <= figureRightPoint && playerPoint.y >= figureBottomPoint && playerPoint.y <= figureTopPoint) {
+            playersAnglesInsideRectangle++;
+        }
+    }
+
+    if (playersAnglesInsideRectangle > 1) {
         return true;
     }
 

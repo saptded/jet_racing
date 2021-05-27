@@ -127,3 +127,38 @@ TEST(TestIntersection, PlayerToArcIntersect) {
         EXPECT_TRUE(arc.intersect(playerCoordinates[1].playerTL, playerCoordinates[1].playerTR, playerCoordinates[1].playerBL, playerCoordinates[1].playerBR));
     }
 }
+
+TEST(TestIntersection, PlayerToRectangleNoIntersect) {
+    Rectangle upLeftRect({1, 4}, {3, 1}, {2, 2.5});
+    Rectangle upRightRect({3, 3}, {9, 1}, {6, 2});
+    Rectangle rightRect({7, 8}, {11, 4}, {9, 6});
+    Rectangle bottomRect({4, 11}, {8, 7}, {6, 9});
+    Rectangle bottomLeftRect({1, 9}, {3, 5}, {2, 7});
+
+    std::vector<Rectangle> rectanglesTest{upLeftRect, upRightRect, rightRect, bottomRect, bottomLeftRect};
+
+    std::vector<playerPosition> playerCoordinates = getPlayerCoordinates();
+
+    for (auto &rect : rectanglesTest) {
+        EXPECT_FALSE(rect.intersect(playerCoordinates[0].playerTL, playerCoordinates[0].playerTR, playerCoordinates[0].playerBL, playerCoordinates[0].playerBR));
+        EXPECT_FALSE(rect.intersect(playerCoordinates[1].playerTL, playerCoordinates[1].playerTR, playerCoordinates[1].playerBL, playerCoordinates[1].playerBR));
+
+    }
+}
+
+TEST(TestIntersection, PlayerToRectangleIntersect) {
+    Rectangle upRect({1, 5}, {7, 1}, {4, 3});
+    Rectangle rightRect({3, 9}, {9, 1}, {6, 5});
+    Rectangle bottomRect({1, 9}, {9, 5}, {5, 7});
+    Rectangle leftRect({1, 9}, {5, 1}, {3, 5});
+
+    std::vector<Rectangle> rectanglesTest{upRect, rightRect, bottomRect, leftRect};
+
+    std::vector<playerPosition> playerCoordinates = getPlayerCoordinates();
+
+    for (auto &rect : rectanglesTest) {
+        EXPECT_TRUE(rect.intersect(playerCoordinates[0].playerTL, playerCoordinates[0].playerTR, playerCoordinates[0].playerBL, playerCoordinates[0].playerBR));
+        EXPECT_TRUE(rect.intersect(playerCoordinates[1].playerTL, playerCoordinates[1].playerTR, playerCoordinates[1].playerBL, playerCoordinates[1].playerBR));
+
+    }
+}

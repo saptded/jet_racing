@@ -11,7 +11,7 @@ public:
     ~Line() override = default;
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
-    bool isElementDynamic() override;
+    bool isElementDynamic() override { return false; }
 };
 
 class Arc : public AbstractElement {
@@ -23,7 +23,7 @@ public:
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     std::vector<Line> getVectorOfLinesForApproximation(int iteration, float radius, Arc &arc);
 
-    bool isElementDynamic() override;
+    bool isElementDynamic() override { return false; }
 };
 
 class Rectangle : public AbstractElement {
@@ -33,16 +33,18 @@ public:
     ~Rectangle() override = default;
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
+
+    bool isElementDynamic() override { return false; }
 };
 
-class Propeller : public Rectangle {
+class Propeller : public Line {
 public:
     explicit Propeller(Point start, Point end, Point center, bool isDynamic)
-        : Rectangle(start, end, center)
+        : Line(start, end, center)
         , isDynamic(false) {}
     ~Propeller() override = default;
 
-    bool isElementDynamic() override;
+    bool isElementDynamic() override { return isDynamic; }
 
 private:
     bool isDynamic;
@@ -53,8 +55,6 @@ public:
     explicit Accelerator(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Accelerator() override = default;
-
-    bool isElementDynamic() override;
 };
 
 class Delayer : public Rectangle {
@@ -62,8 +62,6 @@ public:
     explicit Delayer(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Delayer() override = default;
-
-    bool isElementDynamic() override;
 };
 
 class Portal : public Rectangle {
@@ -71,8 +69,6 @@ public:
     explicit Portal(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Portal() override = default;
-
-    bool isElementDynamic() override;
 };
 
 class Finish : public Rectangle {
@@ -80,6 +76,4 @@ public:
     explicit Finish(Point start, Point end, Point center)
         : Rectangle(start, end, center) {}
     ~Finish() override = default;
-
-    bool isElementDynamic() override;
 };
