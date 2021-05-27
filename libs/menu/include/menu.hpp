@@ -16,7 +16,7 @@ protected:
 
 class Menu{
 public:
-    explicit Menu(std::shared_ptr<MenuInfo> info);
+    explicit Menu(std::shared_ptr<MenuInfo> _info);
     std::unique_ptr<MenuInfo> run();
 private:
     int racers = 1;

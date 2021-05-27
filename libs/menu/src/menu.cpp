@@ -1,19 +1,9 @@
 #include "menu.hpp"
 #include <stdint.h>
 
-Menu::Menu(std::shared_ptr<MenuInfo> info)
-    : window(sf::VideoMode(1000, 800), "JetRacing") {
-    if (info != nullptr) {
-        // отобразить результаты в виде текста если они есть
-        addText("results", color.menuDark);
-        for (auto it : info->results) {
-            std::string racer("racer_");
-            racer += std::to_string(it.first);
-            racer += "\t:\t";
-            racer += std::to_string(it.second);
-            addText(racer, color.menuBright);
-        }
-    }
+Menu::Menu(std::shared_ptr<MenuInfo> _info)
+    : window(sf::VideoMode(1000, 800), "JetRacing"),
+    info(std::move(_info)){
     sf::Text stGame("start", font);
     // sf::Text joinGame ("join game", font);
     if (!font.loadFromFile("../media/lines.ttf")) {
@@ -31,6 +21,17 @@ Menu::Menu(std::shared_ptr<MenuInfo> info)
 }
 
 std::unique_ptr<MenuInfo> Menu::run() {
+    if (info != nullptr) {
+        // отобразить результаты в виде текста если они есть
+        addText("results", color.white);
+        for (auto it : info->results) {
+            std::string racer("racer_");
+            racer += std::to_string(it.first);
+            racer += "\t:\t";
+            racer += std::to_string(it.second);
+            addText(racer, color.white);
+        }
+    }
     sf::Event event{};
     while (window.isOpen()) {
         if (ready) {
