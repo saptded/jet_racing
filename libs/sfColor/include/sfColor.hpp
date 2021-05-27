@@ -24,9 +24,9 @@ public:
     sf::Color black = sf::Color::Black;
 private:
     std::vector<sf::Color> walls = {
-        sf::Color(184, 208, 210), //белые
+            sf::Color(108,93,228), //152
+            sf::Color(184, 208, 210), //белые
         sf::Color(255, 255, 109), //желтые?
-        sf::Color(253, 224, 107),
         sf::Color(61, 90, 254),
         sf::Color(100, 93, 80),
 
