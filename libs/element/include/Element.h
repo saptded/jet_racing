@@ -17,7 +17,7 @@ public:
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
 
-    bool isElementDynamic() override;
+    bool isElementDynamic() override { return false; }
 };
 
 class Arc : public AbstractElement {
@@ -33,7 +33,7 @@ public:
     void collision(Racer &racer, RacerController &controller, Command command) override;
 
     std::vector<Line> getApproximatedArc(int iteration, float radius, Arc &arc);
-    bool isElementDynamic() override;
+    bool isElementDynamic() override { return false; }
 };
 
 class Rectangle : public AbstractElement {
@@ -45,6 +45,7 @@ public:
 
     bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
     void collision(Racer &racer, RacerController &, Command command) override{};
+    bool isElementDynamic() override { return false; }
 };
 
 class Propeller : public Line {
@@ -58,7 +59,7 @@ public:
 
     void collision(Racer &racer, RacerController &controller, Command command) override{};
 
-    bool isElementDynamic() override;
+    bool isElementDynamic() override { return isDynamic; }
 
 private:
     bool isDynamic;
@@ -73,8 +74,6 @@ public:
     ~Accelerator() override = default;
 
     void collision(Racer &racer, RacerController &controller, Command command) override;
-
-    bool isElementDynamic() override;
 };
 
 class Delayer : public Rectangle {
@@ -86,8 +85,6 @@ public:
     ~Delayer() override = default;
 
     void collision(Racer &racer, RacerController &controller, Command command) override;
-
-    bool isElementDynamic() override;
 };
 
 class Portal : public Rectangle {
@@ -99,8 +96,6 @@ public:
     ~Portal() override = default;
 
     void collision(Racer &racer, RacerController &controller, Command command) override{};
-
-    bool isElementDynamic() override;
 };
 
 class Finish : public Rectangle {
@@ -111,6 +106,4 @@ public:
     }
     ~Finish() override = default;
     void collision(Racer &racer, RacerController &controller, Command command) override;
-
-    bool isElementDynamic() override;
 };

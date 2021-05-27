@@ -14,19 +14,9 @@ constexpr float approximationDegree = 8;
 constexpr size_t defaultCenterX = 0;
 constexpr size_t defaultCenterY = 0;
 
-bool Line::isElementDynamic() { return false; }
-
-bool Arc::isElementDynamic() { return false; }
-
-bool Propeller::isElementDynamic() { return isDynamic; }
-
-bool Accelerator::isElementDynamic() { return false; }
-
 void Accelerator::collision(Racer &racer, RacerController &controller, Command command) {
     controller.changeSpeed(racer, true);
 }
-
-bool Delayer::isElementDynamic() { return false; }
 
 void Delayer::collision(Racer &racer, RacerController &controller, Command command) {
     float extraAccelerateX = static_cast<float>(0.15) * -std::cos(racer._rotation * toRadian) * std::abs(racer._speed.speedX);
@@ -35,9 +25,6 @@ void Delayer::collision(Racer &racer, RacerController &controller, Command comma
     controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
 }
 
-bool Portal::isElementDynamic() { return false; }
-
-bool Finish::isElementDynamic() { return false; }
 void Finish::collision(Racer &racer, RacerController &controller, Command command) { racer.finished = std::make_tuple(true, 0); }
 
 bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
@@ -229,22 +216,20 @@ void Arc::collision(Racer &racer, RacerController &controller, Command command) 
 bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
     std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
 
-    auto minmaxHeight = std::minmax_element(points.begin(), points.end(), [](Point const &lhs, Point const &rhs) { return lhs.y < rhs.y; });
-
-    auto minmaxWidth = std::minmax_element(points.begin(), points.end(), [](Point const &lhs, Point const &rhs) { return lhs.x < rhs.x; });
-
-    float playerTopPoint = minmaxHeight.second->y;
-    float playerBottomPoint = minmaxHeight.first->y;
-    float playerRightPoint = minmaxWidth.second->x;
-    float playerLeftPoint = minmaxWidth.first->x;
-
     float figureTopPoint = std::max(_start.y, _end.y);
     float figureBottomPoint = std::min(_start.y, _end.y);
     float figureRightPoint = std::max(_start.x, _end.x);
     float figureLeftPoint = std::min(_start.x, _end.x);
 
-    if (playerTopPoint <= figureTopPoint && playerBottomPoint >= figureBottomPoint && playerRightPoint <= figureRightPoint &&
-        playerLeftPoint >= figureLeftPoint) {
+    size_t playersAnglesInsideRectangle = 0;
+
+    for (auto &playerPoint : points) {
+        if (playerPoint.x >= figureLeftPoint && playerPoint.x <= figureRightPoint && playerPoint.y >= figureBottomPoint && playerPoint.y <= figureTopPoint) {
+            playersAnglesInsideRectangle++;
+        }
+    }
+
+    if (playersAnglesInsideRectangle > 1) {
         return true;
     }
 
