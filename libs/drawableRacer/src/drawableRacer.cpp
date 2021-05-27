@@ -5,12 +5,12 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 void DrawableRacer::loadSources() {
-    imCar.loadFromFile("../media/fire.png");
+    imCar.loadFromFile("/home/kseny/tp/JET/media/fire2.png");
     imCar.createMaskFromColor(sf::Color::Magenta);
     textureCar.loadFromImage(imCar);
     textureCar.setSmooth(true);
 
-    imFire.loadFromFile("../media/fire.png");
+    imFire.loadFromFile("/home/kseny/tp/JET/media/car2.png");
     imFire.createMaskFromColor(sf::Color::Magenta);
     textureFire.loadFromImage(imFire);
     textureFire.setSmooth(true);

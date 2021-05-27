@@ -2,14 +2,13 @@
 
 #include <list>
 #include <memory>
-
 #include "Map.h"
 #include "abstractModel.hpp"
 #include "observer.hpp"
 #include "racer.hpp"
 #include "racerController.hpp"
 #include "menuInfo.hpp"
-#include "../../webserver/src/lib/client/include/GameClient.hpp"
+//#include "GameClient.hpp"
 
 struct AbstractElement;
 
@@ -47,5 +46,8 @@ private:
     uint8_t finishedRacers;
 
     std::shared_ptr<MenuInfo> menuInfo;
-    std::shared_ptr<GameClient> _client;
+    std::shared_ptr<GameClient<CustomRequest>> _client;
+
+    std::string myName;
+    int myId;
 };

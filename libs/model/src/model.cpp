@@ -1,8 +1,11 @@
 #include <cmath>
 #include <functional>
-
+#include <customDeserialization.h>
+#include <deserialization.h>
+#include <GameServer.hpp>
 #include "AbstractElement.h"
 #include "model.hpp"
+#include "GameClient.hpp"
 
 Model::Model(int id)
     : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
@@ -81,17 +84,17 @@ void Model::updateRacer() {
 
     Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
     notifyObserves(response);
-    Position pos = {menuInfo->myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
+    Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
     _client->sendData(pos);
 }
 
 void Model::updateEnemies() {
-    auto webInfo = _client->getUpdates();
+    auto webInfo = _client->getUpdates<CustomDeserialization>();
     auto enemy = enemies.begin();
     for(auto &webEnemy: webInfo){
-        if(webEnemy.first != menuInfo->myName){
-            enemy->_center = { webEnemy.second.at(0) , webEnemy.second.at(1)};
-            enemy->_rotation = webEnemy.second.at(2);
+        if(webEnemy.username != myName){
+            enemy->_center = { std::stof(webEnemy.x) , std::stof(webEnemy.y)};
+            enemy->_rotation = std::stof(webEnemy.z);
         }
     }
     Response response{ViewEvent::ENEMIES, std::nullopt, std::make_optional(enemies), std::nullopt};
@@ -101,19 +104,15 @@ void Model::updateEnemies() {
 Model::Model(std::shared_ptr<MenuInfo> menuInfo):
 _map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
         , currentStage(0)
-        , finishedRacers(0){
-    _client = std::move(menuInfo->client);
-    auto racers = _client->getUpdates();
-    int id = 0;
+        , finishedRacers(0)
+        ,_client(std::move(menuInfo->client))
+        ,myName(menuInfo->myName){
+    _racer = Racer(_map->getStartPointByID(menuInfo->myId), menuInfo->myId);
+    Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
+    _client->sendData(pos);
+    auto racers = _client->getUpdates<CustomDeserialization>();
     for(int i = 0; i < racers.size(); i++){
-        if(racers.at(i).first == menuInfo->myName){
-            id = i;
-        }
-    }
-    _racer = Racer(_map->getStartPointByID(id), id);
-    racers = _client->getUpdates();
-    for(int i = 0; i < racers.size(); i++){
-        if(racers.at(i).first != menuInfo->myName){
+        if(racers.at(i).username != myName){
             Racer enemy(_map->getStartPointByID(i), i);
             enemies.push_back(enemy);
         }
@@ -121,6 +120,8 @@ _map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
     Response response{ViewEvent::CHANGE_STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
     notifyObserves(response);
 }
+
+
 
 // double Model::lineCoefficient(const AbstractElement &line) {
 //     double k = 0;

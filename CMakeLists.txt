@@ -62,4 +62,4 @@ find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_executable(main2 mainMenu.cpp)
 add_dependencies(main2 rapidjson)
-target_link_libraries(main2 PUBLIC restiniofull presenter model response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libcustomDeserialization libserialization libcustomRequest libstartServer menu)
+target_link_libraries(main2 PUBLIC restiniofull response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libcustomDeserialization libserialization libcustomRequest libstartServer menu)

@@ -26,7 +26,7 @@ private:
     void runServer();
     GameServer gameServer;
     std::unique_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server = nullptr;
-    std::shared_ptr<GameClient> client = nullptr;
+    std::shared_ptr<GameClient<CustomRequest>> client = nullptr;
     ConnectionData data = ConnectionData{2021, "localhost"};
     bool waitingOthers = false;
     int racers = 1;
@@ -55,4 +55,5 @@ private:
     sfColor color;
 
     std::shared_ptr<MenuInfo> info;
+    int myId;
 };

@@ -25,9 +25,9 @@ void Viewer::renderRacer(Response &data, sf::RenderWindow &dist) {
 void Viewer::displayWindow(sf::RenderWindow &dist) { details->display(dist, stage); }
 
 void Viewer::renderEnemies(Response &data, sf::RenderWindow &dist) {
-//    for (auto racer : data.enemies.value()) {
-//        racer.draw(dist);
-//    }
+    for (auto racer : data.enemies.value()) {
+        racer.draw(dist);
+    }
 }
 
 void Viewer::increaseStage(Response &data, sf::RenderWindow &dist) {

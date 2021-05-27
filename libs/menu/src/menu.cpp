@@ -9,9 +9,9 @@ Menu::Menu(std::shared_ptr<MenuInfo> info): window(sf::VideoMode(1000, 800), "Je
     if(info != nullptr){
         // отобразить результаты в виде текста если они есть
         addText("results", color.menuDark);
+        auto racerNames = client->getUpdates<CustomDeserialization>();
         for(auto it: info->results) {
-            std::string racer("racer_");
-            racer += std::to_string(it.first);
+            std::string racer = racerNames.at(it.first).username;
             racer += "\t:\t";
             racer += std::to_string(it.second);
             addText(racer, color.menuBright);
@@ -37,17 +37,19 @@ std::unique_ptr<MenuInfo> Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
         if(waitingOthers){
-            auto upds = client->getUpdates();
-            if((upds.size() > 1)&&(!buttons.at(buttonIterator).getIsActive())){
+            if(client->getFlag<CustomDeserialization>()) return std::make_unique<MenuInfo>(myName, myId, client);
+            auto upds = client->getUpdates<CustomDeserialization>();
+            if/*((upds.size() > 1)&&*/(!buttons.at(buttonIterator).getIsActive()){
                 buttons.at(buttonIterator).setActive();
             };
             if(upds.size() > racers){
-                addText("other: " + upds.at(upds.size()-1).first, color.menuBright);
+                addText("other: " + upds.at(upds.size()-1).username, color.menuBright);
                 racers++;
             }
         }
         if(ready){
-            return std::make_unique<MenuInfo>(myName, client);
+            client->sendFlag(true);
+            return std::make_unique<MenuInfo>(myName, myId, client);
         }
         display();
         while (window.pollEvent(event))
@@ -98,17 +100,17 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
     } else if (key == sf::Keyboard::Enter){
         if(isPressed){
             if(waitingInput && !myName.empty()){
-                client = std::make_shared<GameClient>(data);
-                client->join<CustomDeserialization>(myName);
+                client = std::make_shared<GameClient<CustomRequest>>(data);
+                myId = client->join<CustomDeserialization>(myName);
                 waitingOthers = true;
                 waitingInput = false;
                 std::vector<sf::Text> newTexts;
                 texts = newTexts;
                 if(!server){
-                    auto gotRacers = client->getUpdates();
-                    addText("creator:\t" + std::string(gotRacers.at(0).first), color.menuBright);
+                    auto gotRacers = client->getUpdates<CustomDeserialization>();
+                    addText("creator:\t" + std::string(gotRacers.at(0).username), color.menuBright);
                     for(int i = 1; i <= gotRacers.size() - 2 ; i++){
-                        addText("other:\t" + std::string(gotRacers.at(i).first), color.menuBright);
+                        addText("other:\t" + std::string(gotRacers.at(i).username), color.menuBright);
                     }
                     racers++;
                 }
@@ -130,7 +132,6 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed){
             }
         }
     }
-
 }
 
 void Menu::changeStep(){

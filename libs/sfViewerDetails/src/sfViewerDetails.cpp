@@ -9,7 +9,7 @@
 sfViewerDetails::sfViewerDetails()
         : viewWidth(float(1920)  /3)
         , viewHeight(float(1080) /3){
-    bgImage.loadFromFile("../media/ogonkiDark.jpg");
+    bgImage.loadFromFile("/home/kseny/tp/JET/media/ogonkiDark.jpg");
     bg.setTexture(&bgImage);
     bg.setSize(sf::Vector2f(1920*1.2, 1080*1.2));
 }
