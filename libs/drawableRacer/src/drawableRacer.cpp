@@ -5,7 +5,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 void DrawableRacer::loadSources() {
-    image.loadFromFile("../media/firecar.png");
+    image.loadFromFile("../media/carfire2.png");
     image.createMaskFromColor(sf::Color::Magenta);
     texture.loadFromImage(image);
     texture.setSmooth(true);
@@ -58,6 +58,7 @@ DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, fl
     fire.setTextureRect(sf::IntRect(0, 0, (int)widthT / 2, (int)heightT));
     fire.setOrigin(origin.x / scale.x, origin.y / scale.y);
     fire.setScale(scale);
+    fire.setColor(chooseColor.fire);
 
 //    float scale = height/(float)textureSize.y;
 //
