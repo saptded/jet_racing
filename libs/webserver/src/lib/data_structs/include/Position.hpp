@@ -9,6 +9,10 @@ struct Position{
     std::string username{};
     std::string x{};
     std::string y{};
-    std::string z{};
+    std::string rotation{};
+    float speed{};
+    int stage{};
+    bool isFinished = false;
+
 };
 #endif //LIBSERVER_POSITION_HPP

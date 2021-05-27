@@ -59,7 +59,7 @@ public:
         std::string username = std::string(qp["username"]);
         std::string local_id = getLocalId();
         userName.push_back(std::pair(local_id, username));
-        userBuffer.push_back(std::pair(local_id,Position{username,"0","0", "0"}));
+        userBuffer.push_back(std::pair(local_id,Position{username,"0","0", "0",0.00,0,false}));
         return req->create_response().set_body(R"({"id":)" + local_id + R"(})");
     }
 
@@ -72,13 +72,17 @@ public:
         }
         std::string x = std::string(qp["x"]);
         std::string y = std::string(qp["x"]);
-        std::string z = std::string(qp["z"]);
+        std::string rotation = std::string(qp["rotation"]);
+        float speed  = std::stof(std::string(qp["rotation"]));
+        int stage = atoi((std::string(qp["stage"]).c_str()));
+        bool isFineshed = (std::string(qp["isFineshed"]) != "0");
+
         bool res = false;
         std::replace_if(userBuffer.begin(),userBuffer.end(),[username,&res](const std::pair<std::string,Position>& pos){
             auto response = pos.first == username;
             res |= response;
             return response;
-        },std::pair(id,Position{username, x,y, z}));
+        },std::pair(id,Position{username, x,y, rotation,speed,stage,isFineshed}));
         if(res){
             return req->create_response().set_body(R"({"status": "ok"})");
         }
@@ -97,12 +101,13 @@ public:
             for (auto j = 0; j < sizeUserBuffer - 1; j++) {
                 const auto &i = userBuffer[j].second;
                 response +=
-                    R"({"username":")" + i.username + R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","z":")" + i.z +
-                    "\"},";
+                    R"({"username":")" + i.username + R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","rotation":")" + i.rotation + R"(","speed":)" + std::to_string(i.speed) + R"(,"stage":)" + std::to_string(i.stage) +  R"(,"isFinished":)" + std::to_string(i.isFinished) + "},";
             }
+
             const auto &endPositionRender = userBuffer[sizeUserBuffer - 1].second;
             response += R"({"username":")" + endPositionRender.username + R"(","x":")" + endPositionRender.x +
-                        R"(","y":")" + endPositionRender.y + R"(","z":")" + endPositionRender.z + "\"}]";
+                        R"(","y":")" + endPositionRender.y  + R"(","rotation":")" + endPositionRender.rotation + R"(","speed":)" + std::to_string(endPositionRender.speed) + R"(,"stage":)" + std::to_string(endPositionRender.stage) + R"(,"isFinished":)" + std::string(
+                   std::to_string(endPositionRender.isFinished)) + "}]";
             return req->create_response().set_body(response);
         }
         return req->create_response().set_body(response + "]");

@@ -14,12 +14,17 @@ int main() {
     std::string name = "isServer_" + std::to_string(isServer);
     auto res = gameClient.join<CustomDeserialization>(name);
     std::cout << res << " res" << endl;
+    std::string test2 = "test";
+    auto res2 = gameClient.join<CustomDeserialization>(test2);
 
     std::cout << gameClient.getFlag<CustomDeserialization>() << " res1" << endl;
     gameClient.sendFlag(true);
     std::cout << gameClient.getFlag<CustomDeserialization>() << " res2" << endl;
     std::vector<Position> names = gameClient.getUpdates<CustomDeserialization>();
-    std::cout << names[0].username << endl;
+    for(auto& i: names){
+        std::cout << (R"(Position{"username":")" + i.username + R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","rotation":")" + i.rotation + R"(","speed":)" + std::to_string(i.speed) + R"(,"stage":)" + std::to_string(i.stage) +  R"(,"isFinished":)" + std::to_string(i.isFinished) + "},") << endl;
+    }
+    std::cout << names.size() << endl;
     server->wait();
     //rapidjson::Document genericDocument;
    // genericDocument.Parse(R"({"id": 2})");
