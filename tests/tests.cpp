@@ -1,6 +1,8 @@
+#include <cmath>
 #include <gtest/gtest.h>
 
 #include "Element.h"
+#include "MathCalculation.h"
 
 struct playerPosition {
     Point playerTL;
@@ -160,5 +162,46 @@ TEST(TestIntersection, PlayerToRectangleIntersect) {
         EXPECT_TRUE(rect.intersect(playerCoordinates[0].playerTL, playerCoordinates[0].playerTR, playerCoordinates[0].playerBL, playerCoordinates[0].playerBR));
         EXPECT_TRUE(rect.intersect(playerCoordinates[1].playerTL, playerCoordinates[1].playerTR, playerCoordinates[1].playerBL, playerCoordinates[1].playerBR));
 
+    }
+}
+
+TEST(TestMath, CosineCalculation) {
+    float cosineOfRightAngle = findCosine(3, 0, 0, -3);
+    float cosineOfStraightAngle = findCosine(3, -3, 0, 0);
+    float cosineOfZeroAngle = findCosine(3, 3, 0, 0);
+    float cosineOfSixtyDegreeAngle = findCosine(-4, -4, 0, 6.9);
+
+    EXPECT_EQ(cosineOfRightAngle, 0);
+    EXPECT_EQ(cosineOfStraightAngle, -1);
+    EXPECT_EQ(cosineOfZeroAngle, 1);
+    EXPECT_EQ(std::round(cosineOfSixtyDegreeAngle * 10) / 10, 0.5);
+}
+
+TEST(TestMath, PointInZoneOfLine) {
+    Line lineHorizontal({200, 200}, {400, 200}, {0, 0});
+    Line lineVertical({300, 500}, {300, 100}, {0, 0});
+    Line lineDiagonal({400, 100}, {200, 500}, {0, 0});
+    std::vector<Line> lines{lineHorizontal, lineVertical, lineDiagonal};
+
+    Point inZoneOne(350, 300);
+    Point inZoneTwo(300, 101);
+    Point inZoneThree(200, 300);
+    std::vector<Point> pointsInZone{inZoneOne, inZoneTwo, inZoneThree};
+
+    Point outZoneOne(1000, 950);
+    Point outZoneTwo(450, 300);
+    Point outZoneThree(199, 199);
+    std::vector<Point> pointsOutZone{outZoneOne, outZoneTwo, outZoneThree};
+
+    for (auto &in : pointsInZone) {
+        for (auto &line : lines) {
+            EXPECT_TRUE(isPointInZone(in, line._start, line._end));
+        }
+    }
+
+    for (auto &out : pointsOutZone) {
+        for (auto &line : lines) {
+            EXPECT_FALSE(isPointInZone(out, line._start, line._end));
+        }
     }
 }
