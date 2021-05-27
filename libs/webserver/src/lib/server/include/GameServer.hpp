@@ -14,12 +14,12 @@
 
 class [[maybe_unused]] GameServer{
 
-    std::string gameFlagStart = "false";
+    std::string gameFlagStart = "0";
 
     std::vector<std::pair<std::string,Position>> userBuffer;
     std::vector<std::pair<std::string,std::string>> userName;
 
-    size_t localId = -1;
+    size_t localId = 0;
 
     std::string getLocalId(){
         return std::to_string(localId++);
@@ -45,6 +45,7 @@ public:
     auto setStartFlag(auto req){
         const auto qp = parse_query(req->header().query());
         std::string flag = std::string(qp["flag"]);
+        gameFlagStart = (flag);
         return req->create_response().set_body(R"({"status": "ok"})");
     }
 

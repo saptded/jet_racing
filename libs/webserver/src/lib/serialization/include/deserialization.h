@@ -18,8 +18,12 @@ public:
         return jsonTransformer.jsonToPosition(json.c_str());
     }
 
-    std::string getIdFromJson(std::string& json){
+    size_t getIdFromJson(std::string& json){
         return jsonTransformer.jsonToId(json.c_str());
+    }
+
+    bool getFlagFromJson(std::string& json){
+        return jsonTransformer.jsonToFlag(json.c_str());
     }
 };
 
