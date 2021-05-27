@@ -7,7 +7,7 @@ constexpr float initPlayerPointY = 875;
 constexpr float kDistance = 25;
 
 Map::Map(const std::string &filename) {
-    stages = parser.parseFile(filename);
+    stages = parser.parseFileXML(filename);
 
     for (int i = 0; i < 4; i++) {
         Point positionTL = {initPlayerPointX, initPlayerPointY + static_cast<float>(i) * kDistance};

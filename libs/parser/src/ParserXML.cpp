@@ -1,9 +1,9 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include "Parser.h"
+#include "ParserXML.h"
 
-std::vector<std::shared_ptr<Stage>> Parser::parseFile(const std::string &filename) {
+std::vector<std::shared_ptr<Stage>> ParserXML::parseFileXML(const std::string &filename) {
     write_info("Start parsing map");
 
     boost::property_tree::ptree tree;

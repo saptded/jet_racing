@@ -1,4 +1,4 @@
-add_library(parser STATIC src/Parser.cpp)
+add_library(parser STATIC src/ParserXML.cpp)
 
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})

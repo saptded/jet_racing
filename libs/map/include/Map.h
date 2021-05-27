@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Element.h"
-#include "Parser.h"
+#include "ParserXML.h"
 #include "StageStruct.h"
 
 class Map {
@@ -19,7 +19,7 @@ public:
     Point& getStartPointByID(int id);
 
 private:
-    Parser parser;
+    ParserXML parser;
     std::vector<std::shared_ptr<Stage>> stages;
     std::vector<Point> racerStart;
 };
