@@ -8,6 +8,6 @@
 #include <Position.hpp>
 
 std::string writeToJson(const Position& pos) {
-    return "{\"username\":" "\"" + pos.username + '"' + ",\"x\":" + pos.x + ",\"y\":" + pos.y + ",\"z\":" + pos.z + "}";
+    return   R"({"username":")" + pos.username + R"(","x":")" + pos.x + R"(","y":")" +  pos.y + R"(","rotation":")" +  pos.rotation + R"(","speed":)" + std::to_string(pos.speed) + R"(,"stage":)" + std::to_string(pos.stage) +  R"(,"isFinished":)" + std::to_string(pos.isFinished) + "}";
 }
 #endif //LIBSERVER_SERIALIZATION_H

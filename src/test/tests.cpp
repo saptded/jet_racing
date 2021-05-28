@@ -45,7 +45,7 @@ TEST(stress_test, tests_input) {
 TEST(serialization_test, tests_input) {
     Position user = Position{"racer", "1", "2", "4"};
     std::string response = writeToJson(user);
-    ASSERT_EQ(response, "{\"username\":\"racer\",\"x\":1,\"y\":2,\"z\":4}");
+    ASSERT_EQ(response, R"({"username":"racer","x":"1","y":"2","rotation":"4","speed":0.000000,"stage":0,"isFinished":0})");
 }
 
 TEST(unit_test,ping_server_test) {

@@ -45,13 +45,11 @@ public:
 
 
     void sendData(Position &userPosition) {
-         Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
+        Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
     }
 
     template<typename Deserialization>
-    std::string join(std::string& username) {
-        //std::string str = dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username;
-
+    size_t join(std::string& username) {
         std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?username=" + username;
         auto response = Request::getRequest(Url(str));
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
@@ -60,17 +58,8 @@ public:
     }
 
     void sendFlag(bool gameFlagStart){
-        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?flag=" + std::to_string(gameFlagStart);
+        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_flag?flag=" + std::to_string(gameFlagStart);
+        Request::getRequest(Url(str));
     }
-
-    static inline std::vector<std::string> searchOpenSession(std::vector<std::string>& ipList, std::string& port){
-        auto result = std::vector<std::string>();
-        for(const auto& i : ipList){
-            auto response = Request::getRequest(Url(i + ":" + port + "/ping"));
-            if(response){}
-        }
-        return std::vector<std::string>();
-    }
-
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H

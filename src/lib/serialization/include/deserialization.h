@@ -7,7 +7,6 @@
 #include <Position.hpp>
 #include <string>
 
-
 template<typename T>
 class DeserializationObject{
 
@@ -15,27 +14,15 @@ class DeserializationObject{
 
 public:
     std::vector<Position> getPositionFromJson(std::string& json){
-        return jsonTransformer.jsonToPosition(json);
+        return jsonTransformer.jsonToPosition(json.c_str());
     }
 
-    std::string getIdFromJson(std::string& json){
+    size_t getIdFromJson(std::string& json){
         return jsonTransformer.jsonToId(json.c_str());
     }
+
+    bool getFlagFromJson(std::string& json){
+        return jsonTransformer.jsonToFlag(json.c_str());
+    }
 };
-
-
-template<typename Point>
-inline Position twoDPointWithNameConvertToPosition(const Point& twoDPoint, const std::string& name){
-    std::string xPos = std::to_string(twoDPoint.x);
-    std::string yPos = std::to_string(twoDPoint.y);
-    Position pos = Position{name,xPos ,yPos, ""};
-    return pos;
-}
-
-template<typename Racer, typename Point> [[maybe_unused]] Position convertRacerToPosition(Racer& racer){
-    const std::string name = std::to_string(racer._id);
-    Point& point = racer.point;
-    return twoDPointWithNameConvertToPosition(point, name);
-}
-
 #endif //LIBSERVER_DESERIALIZATION_H
