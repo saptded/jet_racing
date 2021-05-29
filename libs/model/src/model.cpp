@@ -65,6 +65,7 @@ void Model::updateRacers() {
             auto [isEnemyFinished, enemyPosition] = enemy.finished;
             menuInfo->results.insert(std::make_pair(enemy._id, enemyPosition));
         }
+        menuInfo->client = _client;
     }
 }
 
@@ -84,7 +85,7 @@ void Model::updateRacer() {
 
     Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
     notifyObserves(response);
-    Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
+    Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.y), std::to_string(_racer._rotation) };
     _client->sendData(pos);
 }
 
@@ -93,8 +94,10 @@ void Model::updateEnemies() {
     auto enemy = enemies.begin();
     for(auto &webEnemy: webInfo){
         if(webEnemy.username != myName){
-            enemy->_center = { std::stof(webEnemy.x) , std::stof(webEnemy.y)};
+            _racerController.updatePosition(*enemy, Point{ std::stof(webEnemy.x) , std::stof(webEnemy.y)});
+//            enemy->_center = { std::stof(webEnemy.x) , std::stof(webEnemy.y)};
             enemy->_rotation = std::stof(webEnemy.z);
+//            _racerController.updateRotation(*enemy);
         }
     }
     Response response{ViewEvent::ENEMIES, std::nullopt, std::make_optional(enemies), std::nullopt};
@@ -102,7 +105,7 @@ void Model::updateEnemies() {
 }
 
 Model::Model(std::shared_ptr<MenuInfo> menuInfo):
-_map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
+_map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
         , currentStage(0)
         , finishedRacers(0)
         ,_client(std::move(menuInfo->client))
