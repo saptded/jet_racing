@@ -27,19 +27,4 @@ public:
     }
 };
 
-
-template<typename Point>
-inline Position twoDPointWithNameConvertToPosition(const Point& twoDPoint, const std::string& name){
-    std::string xPos = std::to_string(twoDPoint.x);
-    std::string yPos = std::to_string(twoDPoint.y);
-    Position pos = Position{name,xPos ,yPos, ""};
-    return pos;
-}
-
-template<typename Racer, typename Point> [[maybe_unused]] Position convertRacerToPosition(Racer& racer){
-    const std::string name = std::to_string(racer._id);
-    Point& point = racer.point;
-    return twoDPointWithNameConvertToPosition(point, name);
-}
-
 #endif //LIBSERVER_DESERIALIZATION_H

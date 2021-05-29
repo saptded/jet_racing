@@ -13,7 +13,7 @@
 #include <Position.hpp>
 #include "customRequest.h"
 
-//using namespace cpr;
+using namespace cpr;
 
 template<typename Request>
 class GameClient{
@@ -40,7 +40,7 @@ public:
 
 
     void sendData(Position &userPosition) {
-         Request::getRequest(cpr::Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&z=" + userPosition.z ));
+         Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
     }
 
     template<typename Deserialization>

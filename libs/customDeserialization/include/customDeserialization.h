@@ -8,6 +8,7 @@
 #include <rapidjson/document.h>
 #include <string>
 #include <vector>
+#include <iostream>
 
 class [[maybe_unused]] CustomDeserialization{
 
@@ -18,9 +19,8 @@ public:
        genericDocument.Parse(json);
        if(genericDocument.IsArray()) {
            for (const auto &itr2 : genericDocument.GetArray()) {
-               Position pos = Position{itr2["username"].GetString(), itr2["x"].GetString(), itr2["y"].GetString(),
-                                       itr2["z"].GetString()};
-               response.push_back(pos);
+                Position pos = Position{itr2["username"].GetString(), itr2["x"].GetString(), itr2["y"].GetString(),itr2["rotation"].GetString(),itr2["speed"].GetFloat(),itr2["stage"].GetInt(),(itr2["isFinished"].GetInt() != 0) };
+                response.push_back(pos);
            }
        }
        return response;
