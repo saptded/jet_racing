@@ -5,7 +5,9 @@
 #include <stdint.h>
 
 
-Menu::Menu(std::shared_ptr<MenuInfo> info) : window(sf::VideoMode(1000, 800), "JetRacing") {
+Menu::Menu(std::shared_ptr<MenuInfo> info) : 
+      window(sf::VideoMode(1000, 800), "JetRacing")
+    , client(info->client){
     if (info != nullptr) {
         // отобразить результаты в виде текста если они есть
         addText("results", color.menuDark);
@@ -16,6 +18,7 @@ Menu::Menu(std::shared_ptr<MenuInfo> info) : window(sf::VideoMode(1000, 800), "J
             racer += std::to_string(it.second);
             addText(racer, color.menuBright);
         }
+        waitingOthersAfter = true;
     }
     sf::Text stGame("start game", font);
     sf::Text joinGame("join game", font);
@@ -36,7 +39,17 @@ Menu::Menu(std::shared_ptr<MenuInfo> info) : window(sf::VideoMode(1000, 800), "J
 std::unique_ptr<MenuInfo> Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
-        if (waitingOthers) {
+        if(waitingOthersAfter){
+            auto upds = client->getUpdates<CustomDeserialization>();
+            if (upds.size() > racers) {
+                std::string racer = ups.at(it.first).username;
+                racer += "\t:\t";
+                racer += std::to_string(it.second);
+                addText(racer, color.menuBright);
+                racers++;
+            }
+        }
+        if (waitingOthersBefore) {
             if (client->getFlag<CustomDeserialization>()) return std::make_unique<MenuInfo>(myName, myId, client);
             auto upds = client->getUpdates<CustomDeserialization>();
             if/*((upds.size() > 1)&&*/(!buttons.at(buttonIterator).getIsActive()) {
@@ -101,7 +114,7 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
             if (waitingInput && !myName.empty()) {
                 client = std::make_shared<GameClient<CustomRequest>>(data);
                 myId = client->join<CustomDeserialization>(myName);
-                waitingOthers = true;
+                waitingOthersBefore = true;
                 waitingInput = false;
                 std::vector<sf::Text> newTexts;
                 texts = newTexts;

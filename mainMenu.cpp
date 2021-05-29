@@ -48,8 +48,7 @@ int main() {
         Presenter *presenter = Presenter::create(info);
         info = presenter->run();
         delete presenter;
-
-        menu.stopServer();
+        //menu.stopServer();
         if(!info){
             break;
         }
