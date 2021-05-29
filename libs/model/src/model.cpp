@@ -50,6 +50,12 @@ void Model::updateRacers() {
     auto [isFinished, position] = _racer.finished;
     if (isFinished && position == 0) {
         _racer.finished = std::make_tuple(true, ++finishedRacers);
+        menuInfo->client = _client;
+        Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.y)
+                , std::to_string(_racer._rotation)
+                , sqrtf(powf(_racer._speed.speedX, 2)+powf(_racer._speed.speedY, 2))
+                , position, true}; // поместили в stage место
+        _client->sendData(pos);
     }
     for (auto &enemy : enemies) {
         auto [isFinished, position] = enemy.finished;
@@ -57,16 +63,17 @@ void Model::updateRacers() {
             enemy.finished = std::make_tuple(true, ++finishedRacers);
         }
     }
-    if (finishedRacers == enemies.size() + 1) {
-        menuInfo = std::make_shared<MenuInfo>();
-        auto [isFinished, position] = _racer.finished;
-        menuInfo->results[_racer._id] = position;
-        for (auto &enemy : enemies) {
-            auto [isEnemyFinished, enemyPosition] = enemy.finished;
-            menuInfo->results.insert(std::make_pair(enemy._id, enemyPosition));
-        }
-        menuInfo->client = _client;
-    }
+//    if (finishedRacers == enemies.size() + 1) {
+//        menuInfo = std::make_shared<MenuInfo>();
+//        auto [isFinished, position] = _racer.finished;
+//        menuInfo->results[_racer._id] = position;
+//        for (auto &enemy : enemies) {
+//            auto [isEnemyFinished, enemyPosition] = enemy.finished;
+//            menuInfo->results.insert(std::make_pair(enemy._id, enemyPosition));
+//        }
+//
+//        menuInfo->client = _client;
+//    }
 }
 
 void Model::updateRacer() {
@@ -85,7 +92,10 @@ void Model::updateRacer() {
 
     Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
     notifyObserves(response);
-    Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.y), std::to_string(_racer._rotation) };
+    Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.y)
+                    , std::to_string(_racer._rotation)
+                    , sqrtf(powf(_racer._speed.speedX, 2)+powf(_racer._speed.speedY, 2))
+                    , currentStage};
     _client->sendData(pos);
 }
 
@@ -96,8 +106,10 @@ void Model::updateEnemies() {
         if(webEnemy.username != myName){
             _racerController.updatePosition(*enemy, Point{ std::stof(webEnemy.x) , std::stof(webEnemy.y)});
 //            enemy->_center = { std::stof(webEnemy.x) , std::stof(webEnemy.y)};
-            enemy->_rotation = std::stof(webEnemy.z);
+            enemy->_rotation = std::stof(webEnemy.rotation);
+            enemy->_speed.speedX = webEnemy.speed;
 //            _racerController.updateRotation(*enemy);
+            enemy->finished = std::make_tuple(true, webEnemy.stage);
         }
     }
     Response response{ViewEvent::ENEMIES, std::nullopt, std::make_optional(enemies), std::nullopt};

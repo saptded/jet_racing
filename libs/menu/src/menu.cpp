@@ -4,35 +4,30 @@
 #include <stdint.h>
 
 
-Menu::Menu(std::shared_ptr<MenuInfo> info) : 
-      window(sf::VideoMode(1000, 800), "JetRacing")
-    , client(info->client){
+Menu::Menu(std::shared_ptr<MenuInfo> info, std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> _server) :
+      window(sf::VideoMode(1000, 800), "JetRacing"){
+    if(_server != nullptr){
+        server = _server;
+    }
     if (info != nullptr) {
-        // отобразить результаты в виде текста если они есть
-        addText("results", color.menuDark);
-        auto racerNames = client->getUpdates<CustomDeserialization>();
-        for (auto it: info->results) {
-            std::string racer = racerNames.at(it.first).username;
-            racer += "\t:\t";
-            racer += std::to_string(it.second);
-            addText(racer, color.menuBright);
-        }
+        client = info->client;
+        addText("results", color.menuBright);
         waitingOthersAfter = true;
-    }
-    sf::Text stGame("start game", font);
-    sf::Text joinGame("join game", font);
-    if (!font.loadFromFile("../media/lines.ttf")) {
-        //
+        sf::Text gotIt("got it", font);
+        if (!font.loadFromFile("../media/lines.ttf")) {
+            //
+        } else {
+            gotIt.setFont(font);
+            gotIt.setCharacterSize(50);
+        }
+        buttons = {
+                AbstractButton(0, gotIt, window),
+        };
+        buttonIterator = 0;
+        buttons.at(0).setPassive();
     } else {
-        stGame.setFont(font);
-        stGame.setCharacterSize(50);
-        joinGame.setFont(font);
-        joinGame.setCharacterSize(50);
+        makeStartButtons();
     }
-    buttons = {
-            AbstractButton(0, stGame, window),
-            AbstractButton(1, joinGame, window),
-    };
 }
 
 std::unique_ptr<MenuInfo> Menu::run() {
@@ -40,12 +35,29 @@ std::unique_ptr<MenuInfo> Menu::run() {
     while (window.isOpen()) {
         if(waitingOthersAfter){
             auto upds = client->getUpdates<CustomDeserialization>();
-            if (upds.size() > racers) {
-                std::string racer = ups.at(it.first).username;
-                racer += "\t:\t";
-                racer += std::to_string(it.second);
-                addText(racer, color.menuBright);
-                racers++;
+            int counterOfEnded = 0;
+            for(auto got: upds){
+                if(got.isFinished){
+                    counterOfEnded++;
+                    bool alreadyShown = false;
+                    for(auto old: endedRacers){
+                        if(old == got.username) {
+                            alreadyShown = true;
+                            break;
+                        }
+                        if(!alreadyShown){
+                            std::string racer = got.username;
+                            racer += "\t:\t";
+                            racer += std::to_string(got.stage);
+                            addText(racer, color.menuBright);
+                            endedRacers.emplace_back(got.username);
+                        }
+                    }
+                }
+            }
+            if(counterOfEnded == upds.size()){
+                waitingOthersAfter = false;
+                buttons.at(0).setActive();
             }
         }
         if (waitingOthersBefore) {
@@ -89,6 +101,10 @@ std::unique_ptr<MenuInfo> Menu::run() {
             }
         }
     }
+}
+
+void makeResults(){
+
 }
 
 void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
@@ -139,6 +155,11 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
                 } else if (but == "go") {
                     std::cout << "go" << std::endl;
                     ready = true; // по кнопке go завершается метод run
+                } else if (but == "got it") {
+                    std::cout << "got it" << std::endl;
+                    stopServer();
+                    client = nullptr;
+                    makeStartButtons();
                 }
             }
         }
@@ -210,5 +231,22 @@ void Menu::stopServer() {
 
 void Menu::runServer() {
     server = startServer(gameServer, data);
+}
+
+void Menu::makeStartButtons() {
+    sf::Text stGame("start game", font);
+    sf::Text joinGame("join game", font);
+    if (!font.loadFromFile("../media/lines.ttf")) {
+        //
+    } else {
+        stGame.setFont(font);
+        stGame.setCharacterSize(50);
+        joinGame.setFont(font);
+        joinGame.setCharacterSize(50);
+    }
+    buttons = {
+            AbstractButton(0, stGame, window),
+            AbstractButton(1, joinGame, window),
+    };
 }
 

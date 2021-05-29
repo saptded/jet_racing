@@ -32,16 +32,17 @@ int main() {
 //    }
 //    std::cout << names.size() << endl;
 //    server->wait();
-
+    std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server= nullptr;
     std::shared_ptr<MenuInfo> info = nullptr;
     while(true){
-        Menu menu(info);
+        Menu menu(info, server);
         info = menu.run();
 
         Presenter *presenter = Presenter::create(info);
         info = presenter->run();
         delete presenter;
         //menu.stopServer();
+        server = menu.getServer();
         if(!info){
             break;
         }

@@ -6,12 +6,14 @@
 #define LIBSERVER_POSITION_HPP
 #include <string>
 struct Position{
+
+
     std::string username{};
     std::string x{};
     std::string y{};
     std::string rotation{};
     float speed{};
-    int stage{};
+    int stage{}; // в конце в этом поле отправляем место в рейтинге(why not)
     bool isFinished = false;
 
 };

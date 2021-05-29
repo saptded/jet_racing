@@ -19,18 +19,23 @@ protected:
 
 class Menu{
 public:
-    explicit Menu(std::shared_ptr<MenuInfo> info);
+    explicit Menu(std::shared_ptr<MenuInfo> info, std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server);
     std::unique_ptr<MenuInfo> run();
+    std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> getServer(){
+        return server;
+    };
     void stopServer();
 private:
     void runServer();
     GameServer gameServer;
-    std::unique_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server = nullptr;
+    std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server = nullptr;
     std::shared_ptr<GameClient<CustomRequest>> client = nullptr;
     ConnectionData data = ConnectionData{2021, "localhost"};
     bool waitingOthersBefore = false;
     bool waitingOthersAfter = false;
+    std::vector<std::string> endedRacers;
     int racers = 1;
+    void makeStartButtons();
 
     void display();
     void handleInput(sf::Keyboard::Key key, bool isPressed);

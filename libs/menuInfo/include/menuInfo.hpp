@@ -16,5 +16,5 @@ struct MenuInfo {
     std::string myName;
     uint8_t myId;
     std::shared_ptr<GameClient<CustomRequest>> client;
-    std::map<uint8_t, uint8_t> results;
+    //std::map<uint8_t, uint8_t> results;
 };

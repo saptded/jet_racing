@@ -7,7 +7,7 @@ Racer::Racer(Point point, int id)
     , _height(12)  // 12
 
     , _rotation(0)
-    , _speed({0, 0})
+    , _speed({0, -0.01})
     , _rotationSpeed({0, 0})
     , _position(std::pair<Point, Point>{point, {point.x + _width, point.y + _height}})
     , _positionExtra(std::pair<Point, Point>{{point.x, point.y + _height}, {point.x + _width, point.y}})
