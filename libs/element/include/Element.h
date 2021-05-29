@@ -15,7 +15,7 @@ public:
 
     void collision(Racer &racer, RacerController &controller, Command command) override;
 
-    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerBottomCenter) override;
 
     bool isElementDynamic() override { return false; }
 };
@@ -28,7 +28,7 @@ public:
     };
     ~Arc() override = default;
 
-    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerBottomCenter) override;
     std::vector<Line> getVectorOfLinesForApproximation(int iteration, float radius, Arc &arc);
 
     void collision(Racer &racer, RacerController &controller, Command command) override;
@@ -42,7 +42,7 @@ public:
         : AbstractElement(start, end, center) {}
     ~Rectangle() override = default;
 
-    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) override;
+    bool intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerBottomCenter) override;
     void collision(Racer &racer, RacerController &, Command command) override{};
     bool isElementDynamic() override { return false; }
 };

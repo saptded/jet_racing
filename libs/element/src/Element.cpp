@@ -30,9 +30,9 @@ void Delayer::collision(Racer &racer, RacerController &controller, Command comma
 
 void Finish::collision(Racer &racer, RacerController &controller, Command command) { racer.finished = std::make_tuple(true, 0); }
 
-bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
-    std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
-    bool isIntesects = false;
+bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerBottomCenter) {
+    std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight, playerBottomCenter};
+    bool isIntersects = false;
 
     for (auto playerPoint : points) {
         if (isPointInZone(playerPoint, _start, _end)) {
@@ -43,63 +43,59 @@ bool Line::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerB
             float dividendForDistance = std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);
 
             if (dividendForDistance == 0) {
-                isIntesects = true;
+                isIntersects = true;
             }
 
             auto distanceFromPointToLine = dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2));
 
             if (distanceFromPointToLine < kEps) {
-                isIntesects = true;
+                isIntersects = true;
             }
         }
     }
 
-    return isIntesects;
+    return isIntersects;
 }
 
 void Line::collision(Racer &racer, RacerController &controller, Command command) {
-    std::vector<Point> points = {racer._position.first, racer._positionExtra.second, racer._positionExtra.first, racer._position.second};  // 0, 1, 2, 3
-    std::map<uint8_t, float> distancesToLine;
+    std::vector<Point> points = {racer._position.first, racer._positionExtra.second, racer._positionExtra.first, racer._position.second,
+                                 racer._bottomCenter};  // 0, 1, 2, 3, 4 // вектор для удобства работы
+    std::map<uint8_t, float> distancesToLine;           // мапа со значениями перпендикуляров до линии
     uint8_t k = 0;
 
-    float factorForLineEquationA = _end.y - _start.y;
+    float factorForLineEquationA = _end.y - _start.y;  // math calculations
     float factorForLineEquationB = _start.x - _end.x;
     float factorForLineEquationC = (_start.y * (_end.x - _start.x)) - (_start.x * (_end.y - _start.y));
     for (auto playerPoint : points) {
-
-        float dividendForDistance = std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);
+        float dividendForDistance =
+            std::abs(factorForLineEquationA * playerPoint.x + factorForLineEquationB * playerPoint.y + factorForLineEquationC);  // math calculations
         auto distanceFromPointToLine =
             static_cast<float>(dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2)));
         distancesToLine.insert(std::make_pair(k++, distanceFromPointToLine));
     }
-    auto dividendForDistance =
-        static_cast<float>(std::abs(factorForLineEquationA * racer._center.x + factorForLineEquationB * racer._center.y + factorForLineEquationC));
-    auto distanceToCenter = static_cast<float>(dividendForDistance / std::sqrt(std::pow(factorForLineEquationA, 2) + std::pow(factorForLineEquationB, 2)));
-
     std::function comp = [](const std::pair<uint8_t, float> &rhs, const std::pair<uint8_t, float> &lhs) { return rhs.second < lhs.second; };
     auto minDistance = std::min_element(distancesToLine.begin(), distancesToLine.end(), comp);
 
     auto lineAngle = std::atan((_end.y - _start.y) / (_end.x - _start.x)) * toDegree;
     float pushAngle = getPushAngle(racer._center, _start, _end, lineAngle);
-    auto kSpeedX = static_cast<float>(std::abs(racer._speed.speedX / 2));
-    auto kSpeedY = static_cast<float>(std::abs(racer._speed.speedY / 2));
-    auto kDistanceToCenter = static_cast<float>((1 / distanceToCenter));
+    auto kDistanceToCenter = static_cast<float>((1 / distancesToLine.at(4)));
 
-    if ((minDistance->first == 1 || minDistance->first == 3)) {  // front
-        if ((isPointOnTheLeftSideFromLine(racer._position.second, _start, _end) != isPointOnTheLeftSideFromLine(racer._center, _start, _end)) ||
-            (isPointOnTheLeftSideFromLine(racer._positionExtra.second, _start, _end) != isPointOnTheLeftSideFromLine(racer._center, _start, _end))) {
+    if (minDistance->first == 1 || minDistance->first == 3 || minDistance->first == 4) {  // front
+        if ((isPointOnTheLeftSideFromLine(racer._position.second, _start, _end) != isPointOnTheLeftSideFromLine(racer._bottomCenter, _start, _end)) ||
+            (isPointOnTheLeftSideFromLine(racer._positionExtra.second, _start, _end) != isPointOnTheLeftSideFromLine(racer._bottomCenter, _start, _end))) {
             pushAngle = getPushAngle(racer._position.first, _start, _end, lineAngle) - 180;
         }
+
         float extraAccelerateX = static_cast<float>(1.5) * std::cos(pushAngle * toRadian) * std::abs(racer._speed.speedX);
         float extraAccelerateY = static_cast<float>(1.5) * -std::sin(pushAngle * toRadian) * std::abs(racer._speed.speedY);
-        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.5 * std::cos(pushAngle * toRadian)),
-                                          static_cast<float>(racer._center.y + 0.5 * -std::sin(pushAngle * toRadian))});
+        controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.4* std::cos(pushAngle * toRadian)),
+                                          static_cast<float>(racer._center.y + 0.4 * -std::sin(pushAngle * toRadian))});
         controller.changeSpeed(racer, false, extraAccelerateX, extraAccelerateY);
     } else if ((minDistance->first == 0 || minDistance->first == 2) || (isPointOnTheLeftSideFromLine(racer._position.first, _start, _end) !=
                                                                         isPointOnTheLeftSideFromLine(racer._position.second, _start, _end))) {  // bottom
-        controller.changeSpeed(racer, false, static_cast<float>(4) * std::cos(racer._rotation * toRadian) * kDistanceToCenter,
-                               static_cast<float>(4) * -std::sin(racer._rotation * toRadian) * kDistanceToCenter);
-        controller.changeRotationSpeed(command, racer, 0.1);
+                controller.changeSpeed(racer, false, static_cast<float>(3.5) * std::cos(racer._rotation * toRadian) * kDistanceToCenter,
+                                       static_cast<float>(3.5) * -std::sin(racer._rotation * toRadian) * kDistanceToCenter);
+                controller.changeRotationSpeed(command, racer, 0.1);
     }
 }
 
@@ -145,7 +141,7 @@ std::vector<Line> Arc::getVectorOfLinesForApproximation(int iteration, float rad
     return approximatedLines;
 }
 
-bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
+bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerBottomCenter) {
     float xProjectionCenterStart = _center.x - _start.x;
     float yProjectionCenterStart = _center.y - _start.y;
     float xProjectionCenterEnd = _center.x - _end.x;
@@ -169,7 +165,7 @@ bool Arc::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBo
 
     bool isIntersects = false;
     for (auto &line : approximatedLines) {
-        if (line.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight)) {
+        if (line.intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight, playerBottomCenter)) {
             isIntersects = true;
         }
     }
@@ -202,7 +198,7 @@ void Arc::collision(Racer &racer, RacerController &controller, Command command) 
         maxDistance = std::max_element(distancesToArcCenter.begin(), distancesToArcCenter.end(), comp);
     }
 
-    if ((maxDistance->first == 1 || maxDistance->first == 3)) {                                   // front
+    if ((maxDistance->first == 1 || maxDistance->first == 3)) {  // front
         float extraAccelerateX = static_cast<float>(1.3) * std::cos(pushAngle.first * toRadian) * std::abs(racer._speed.speedX);
         float extraAccelerateY = static_cast<float>(1.3) * -std::sin(pushAngle.first * toRadian) * std::abs(racer._speed.speedY);
         controller.updatePosition(racer, {static_cast<float>(racer._center.x + 0.6 * std::cos(pushAngle.first * toRadian)),
@@ -218,8 +214,8 @@ void Arc::collision(Racer &racer, RacerController &controller, Command command) 
     }
 }
 
-bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
-    std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight};
+bool Rectangle::intersect(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerBottomCenter) {
+    std::vector<Point> points = {playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight, playerBottomCenter};
 
     float figureTopPoint = std::max(_start.y, _end.y);
     float figureBottomPoint = std::min(_start.y, _end.y);

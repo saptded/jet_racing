@@ -31,5 +31,10 @@ private:
     sf::Sprite fire;
     sf::Texture texture;
     sf::Image image;
+
+    sf::CircleShape pointBottom;
+    sf::CircleShape pointCenter;
+    sf::CircleShape point1;
+    sf::CircleShape point2;
 };
 

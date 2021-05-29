@@ -73,6 +73,9 @@ void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
     float x4Old = racer._positionExtra.second.x;  // top right
     float y4Old = racer._positionExtra.second.y;
 
+    float x5Old = racer._bottomCenter.x;
+    float y5Old = racer._bottomCenter.y;
+
     float xCenter = racer._center.x;
     float yCenter = racer._center.y;
 
@@ -90,6 +93,9 @@ void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
     racer._positionExtra.first.y = rotatePointY(x3Old, y3Old);
     racer._positionExtra.second.x = rotatePointX(x4Old, y4Old);  // top right
     racer._positionExtra.second.y = rotatePointY(x4Old, y4Old);
+
+    racer._bottomCenter.x = rotatePointX(x5Old, y5Old);
+    racer._bottomCenter.y = rotatePointY(x5Old, y5Old);
 
     _previousRotation = racer._rotation;
 }
@@ -110,6 +116,9 @@ void RacerController::updatePosition(Racer &racer, const Point &newCenterPositio
         racer._positionExtra.second.x += deltaX;
         racer._positionExtra.second.y += deltaY;
 
+        racer._bottomCenter.x += deltaX;
+        racer._bottomCenter.y += deltaY;
+
     } else {
         racer._position.first.x += racer._speed.speedX;
         racer._position.first.y += racer._speed.speedY;
@@ -121,6 +130,9 @@ void RacerController::updatePosition(Racer &racer, const Point &newCenterPositio
         racer._positionExtra.second.y += racer._speed.speedY;
         racer._center.x += racer._speed.speedX;
         racer._center.y += racer._speed.speedY;
+
+        racer._bottomCenter.x += racer._speed.speedX;
+        racer._bottomCenter.y += racer._speed.speedY;
     }
 }
 

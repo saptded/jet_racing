@@ -19,6 +19,7 @@ struct Racer {
 
     std::pair<Point, Point> _position;       // top left / bottom right
     std::pair<Point, Point> _positionExtra;  // bottom left / top right
+    Point _bottomCenter;
     Point _center;
     Point _origin;
 
