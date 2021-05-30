@@ -6,7 +6,7 @@ Presenter::Presenter(int id)
     : _finishGame(false)
     //, _model(new Model(id))
     , _model(nullptr)
-    , _window(new SFMLGameWindow) {}
+    , _window(new SFMLGameWindow("no")) {}
 
 std::shared_ptr<MenuInfo> Presenter::run() {
     std::shared_ptr<MenuInfo> results;
@@ -49,5 +49,5 @@ Presenter *Presenter::create(std::shared_ptr<MenuInfo> menuInfo){
 Presenter::Presenter(std::shared_ptr<MenuInfo> info)
         : _finishGame(false)
         , _model(std::make_unique<Model>(info))
-        , _window(new SFMLGameWindow){};
+        , _window(new SFMLGameWindow("JetRacing: " + info->myName)){};
 

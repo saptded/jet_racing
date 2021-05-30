@@ -69,6 +69,9 @@ DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, fl
 }
 
 void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
+    if(std::get<bool>(racer.finished)){
+
+    }
     setPos(racer._center);
     setRot(racer._rotation);
     changeFire(racer._speed);

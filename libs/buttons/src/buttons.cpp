@@ -7,10 +7,10 @@ text(_text), id(_text.getString()) {
     float width = (float)window.getSize().x;
     float height = (float)window.getSize().y;
     rect.setSize(sf::Vector2f (width/2, height/8));
-    rect.setPosition(width/4, (4 + 2 * num)*height/8);
+    rect.setPosition(width/4, (6 - num*2)*height/8);
 
     text.setOrigin(text.getLocalBounds().width/2, -text.getLocalBounds().height/2);
-    text.setPosition(width/2, (4 + 2 * num)*height/8);
+    text.setPosition(width/2, (6 - num*2)*height/8);
     num == 0 ? isActive = true : isActive = false;
     if(isActive){
         rect.setOutlineThickness(5);

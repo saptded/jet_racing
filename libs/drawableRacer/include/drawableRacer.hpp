@@ -8,6 +8,12 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include <racer.hpp>
 
+enum textureType{
+    RACER_T,
+    ENEMY_T,
+    FINISHED_T
+};
+
 class DrawableRacer {
 public:
     DrawableRacer() = delete;
@@ -17,6 +23,8 @@ public:
     void draw(const Racer &racer, sf::RenderWindow &window);
 
 private:
+
+
     void loadSources();
 
     void changeFire(const Speed &speed);

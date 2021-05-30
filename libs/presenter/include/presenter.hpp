@@ -24,7 +24,7 @@ private:
     explicit Presenter(int id);
     explicit Presenter(std::shared_ptr<MenuInfo> info);
 
-    bool _finishGame;
+    bool _finishGame = false;
 
     std::unique_ptr<Viewer> viewer;
     std::unique_ptr<AbstractModel> _model;

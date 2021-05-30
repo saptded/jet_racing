@@ -4,10 +4,11 @@
 #include <stdint.h>
 
 
-Menu::Menu(std::shared_ptr<MenuInfo> info, std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> _server) :
+Menu::Menu(std::shared_ptr<MenuInfo> info, servs _servers) :
       window(sf::VideoMode(1000, 800), "JetRacing"){
-    if(_server != nullptr){
-        server = std::move(_server);
+    if(_servers.first != nullptr){
+        server = std::move(_servers.first);
+        gameServer = std::move(_servers.second);
     }
     if (info != nullptr) {
         client = std::move(info->client);
@@ -20,7 +21,7 @@ Menu::Menu(std::shared_ptr<MenuInfo> info, std::shared_ptr<running_server_instan
 std::unique_ptr<MenuInfo> Menu::run() {
     int counterOfEnded = 0;
     if(waitingOthersAfter){
-        sf::Text gotIt("got it", font);
+        sf::Text gotIt("got\tit", font);
         if (!font.loadFromFile("../media/lines.ttf")) {
             //
         } else {
@@ -33,41 +34,43 @@ std::unique_ptr<MenuInfo> Menu::run() {
         };
         buttonIterator = 0;
         buttons.at(0).setPassive();
-        justStarted = false;
     }
     sf::Event event{};
     while (window.isOpen()) {
 
         if(waitingOthersAfter){
+            client->sendFlag(true);
             auto upds = client->getUpdates<CustomDeserialization>();
             auto test = client->getFlag<CustomDeserialization>();
             for(auto got: upds){
-                if(got.isFinished){
+                if(got.x == "42"){
                     counterOfEnded++;
                     bool alreadyShown = false;
-                    for(auto old: endedRacers){
-                        if(old == got.username) {
+                    for(auto &old: endedRacers) {
+                        if (old == got.username) {
                             alreadyShown = true;
                             break;
                         }
-                        if(!alreadyShown){
-                            std::string racer = got.username;
-                            racer += "\t:\t";
-                            racer += std::to_string(got.stage);
-                            addText(racer, color.menuBright);
-                            endedRacers.emplace_back(got.username);
-                        }
+                    }
+                    if(!alreadyShown){
+                        std::string racer = got.username;
+                        racer += "\t:\t";
+                        racer += std::to_string(got.stage+1);
+                        addText(racer, color.menuBright);
+                        endedRacers.emplace_back(got.username);
                     }
                 }
             }
             if(counterOfEnded == upds.size()){
                 waitingOthersAfter = false;
-                buttons.at(0).setActive();
+                buttons.at(buttonIterator).setActive();
+                stopServer();
+                client = nullptr;
             }
         }
         if (waitingOthersBefore) {
             if (client->getFlag<CustomDeserialization>()) {
-                return std::make_unique<MenuInfo>(myName, myId, client);
+                ready = true;
             }
             auto upds = client->getUpdates<CustomDeserialization>();
             if/*((upds.size() > 1)&&*/(!buttons.at(buttonIterator).getIsActive()) {
@@ -117,17 +120,17 @@ void makeResults(){
 void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
     if (key == sf::Keyboard::Up) {
         if (isPressed) {
-            if (buttonIterator > 0) {
+            if (buttonIterator + 1 < buttons.size()) {
                 buttons.at(buttonIterator).setPassive();
-                --buttonIterator;
+                ++buttonIterator;
                 buttons.at(buttonIterator).setActive();
             }
         }
     } else if (key == sf::Keyboard::Down) {
         if (isPressed) {
-            if (buttonIterator + 1 < buttons.size()) {
+            if (buttonIterator > 0) {
                 buttons.at(buttonIterator).setPassive();
-                ++buttonIterator;
+                --buttonIterator;
                 buttons.at(buttonIterator).setActive();
             }
         }
@@ -136,6 +139,7 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
             if (waitingInput && !myName.empty()) {
                 client = std::make_shared<GameClient<CustomRequest>>(data);
                 myId = client->join<CustomDeserialization>(myName);
+                racers = 1;
                 waitingOthersBefore = true;
                 waitingInput = false;
                 std::vector<sf::Text> newTexts;
@@ -143,10 +147,13 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
                 if (!server) {
                     auto gotRacers = client->getUpdates<CustomDeserialization>();
                     addText("creator:\t" + std::string(gotRacers.at(0).username), color.menuBright);
-                    for (int i = 1; i <= gotRacers.size() - 2; i++) {
-                        addText("other:\t" + std::string(gotRacers.at(i).username), color.menuBright);
-                    }
                     racers++;
+                    for (int i = 1; i <= gotRacers.size() - 2; i++) {
+                        if(gotRacers.at(i).username != myName){
+                            addText("other:\t" + std::string(gotRacers.at(i).username), color.menuBright);
+                            racers++;
+                        }
+                    }
                 }
                 addText("you:\t" + myName, color.menuBright);
                 addText("waiting others...", color.menuDark);
@@ -162,10 +169,8 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
                 } else if (but == "go") {
                     std::cout << "go" << std::endl;
                     ready = true; // по кнопке go завершается метод run
-                } else if (but == "got it") {
+                } else if (but == "got\tit") {
                     std::cout << "got it" << std::endl;
-                    stopServer();
-                    client = nullptr;
                     makeStartButtons();
                 }
             }
@@ -232,12 +237,14 @@ void Menu::display() {
 void Menu::stopServer() {
     if (server) {
         server->stop(); // очищение http-server
-        gameServer.close(); // очистка игрового сервера. не путать с low level http server
+        gameServer->close(); // очистка игрового сервера. не путать с low level http server
     }
+    server = nullptr;
+    gameServer = std::make_shared<GameServer>();
 }
 
 void Menu::runServer() {
-    server = startServer(gameServer, data);
+    server = startServer(*gameServer, data);
 }
 
 void Menu::makeStartButtons() {
@@ -252,8 +259,10 @@ void Menu::makeStartButtons() {
         joinGame.setCharacterSize(50);
     }
     buttons = {
-            AbstractButton(0, stGame, window),
-            AbstractButton(1, joinGame, window),
+            AbstractButton(0, joinGame, window),
+            AbstractButton(1, stGame, window),
     };
+    buttonIterator = 0;
+    buttons.at(buttonIterator).setActive();
 }
 

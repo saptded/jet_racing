@@ -49,5 +49,6 @@ private:
     std::shared_ptr<GameClient<CustomRequest>> _client;
 
     std::string myName;
+    uint8_t myId;
     bool justStarted = true;
 };

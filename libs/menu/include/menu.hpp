@@ -10,24 +10,20 @@
 #include <memory.h>
 #include <startServer.h>
 
-class AbstractMenu{
-public:
-    void show();
-protected:
-
-};
+typedef std::pair<std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>>,std::shared_ptr<GameServer>> servs;
 
 class Menu{
 public:
-    explicit Menu(std::shared_ptr<MenuInfo> info, std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server);
+    explicit Menu(std::shared_ptr<MenuInfo> info, servs servers);
     std::unique_ptr<MenuInfo> run();
-    std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> getServer(){
-        return server;
+    servs getServer(){
+        return std::make_pair(server, gameServer);
     };
     void stopServer();
+
 private:
     void runServer();
-    GameServer gameServer;
+    std::shared_ptr<GameServer> gameServer = std::make_shared<GameServer>();
     std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server = nullptr;
     std::shared_ptr<GameClient<CustomRequest>> client = nullptr;
     ConnectionData data = ConnectionData{2021, "localhost"};
@@ -61,6 +57,6 @@ private:
     sfColor color;
 
     std::shared_ptr<MenuInfo> info;
-    int myId;
+    uint8_t myId;
     bool justStarted = true;
 };

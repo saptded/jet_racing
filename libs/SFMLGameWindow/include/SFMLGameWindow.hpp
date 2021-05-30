@@ -5,7 +5,7 @@
 
 class SFMLGameWindow {
 public:
-    SFMLGameWindow();
+    SFMLGameWindow(std::string name);
 
     sf::RenderWindow &getWindow();
     Command handleButtonEvent();

@@ -54,13 +54,14 @@ void Model::updateRacers() {
     auto [isFinished, position] = _racer.finished;
     if (isFinished && position == 0) {
         _racer.finished = std::make_tuple(true, ++finishedRacers);
-        menuInfo = std::make_shared<MenuInfo>();
-        menuInfo->client = std::move(_client);
-        Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.y)
+        Position pos = {std::to_string(myId), std::to_string(42), std::to_string(_racer._center.y)
                 , std::to_string(_racer._rotation)
-                , sqrtf(powf(_racer._speed.speedX, 2)+powf(_racer._speed.speedY, 2))
+                , 42
                 , position, true}; // поместили в stage место
-        menuInfo->client->sendData(pos);
+        _client->sendData(pos);
+        menuInfo = std::make_shared<MenuInfo>();
+        menuInfo->myName = myName;
+        menuInfo->client = std::move(_client);
     }
 
     for (auto &enemy : enemies) {
@@ -98,7 +99,7 @@ void Model::updateRacer() {
 
     Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
     notifyObserves(response);
-    Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.y)
+    Position pos = {std::to_string(myId), std::to_string(_racer._center.x), std::to_string(_racer._center.y)
                     , std::to_string(_racer._rotation)
                     , sqrtf(powf(_racer._speed.speedX, 2)+powf(_racer._speed.speedY, 2))
                     , currentStage};
@@ -110,10 +111,12 @@ void Model::updateEnemies() {
     auto enemy = enemies.begin();
     for(auto &webEnemy: webInfo){
         if(webEnemy.username != myName){
-            _racerController.updatePosition(*enemy, Point{ std::stof(webEnemy.x)+48 , std::stof(webEnemy.y)+880});
+            _racerController.updatePosition(*enemy, Point{ std::stof(webEnemy.x) , std::stof(webEnemy.y)});
             enemy->_rotation = std::stof(webEnemy.rotation);
             enemy->_speed.speedX = webEnemy.speed;
-            enemy->finished = std::make_tuple(true, webEnemy.stage);
+            if(webEnemy.isFinished){
+                enemy->finished = std::make_tuple(true, webEnemy.stage);
+            }
         }
     }
     Response response{ViewEvent::ENEMIES, std::nullopt, std::make_optional(enemies), std::nullopt};
@@ -125,7 +128,8 @@ _map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
         , currentStage(0)
         , finishedRacers(0)
         ,_client(std::move(menuInfo->client))
-        ,myName(menuInfo->myName){
+        ,myName(menuInfo->myName)
+        ,myId(menuInfo->myId){
     _racer = Racer(_map->getStartPointByID(menuInfo->myId), menuInfo->myId);
     Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
     _client->sendData(pos);
