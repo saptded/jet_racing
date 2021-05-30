@@ -47,8 +47,6 @@ public:
 
     template<typename Deserialization>
     size_t join(std::string& username) {
-        //std::string str = dataConnection.host + ":" + reinterpret_cast<const char *>(dataConnection.port) + "/add?username=" + username;
-
         std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?username=" + username;
         auto response = Request::getRequest(Url(str));
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
