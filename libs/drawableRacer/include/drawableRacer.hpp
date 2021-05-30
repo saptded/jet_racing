@@ -32,9 +32,9 @@ private:
     sf::Texture texture;
     sf::Image image;
 
-    sf::CircleShape pointBottom;
-    sf::CircleShape pointCenter;
-    sf::CircleShape point1;
-    sf::CircleShape point2;
+//    sf::CircleShape pointBottom;
+//    sf::CircleShape pointCenter;
+//    sf::CircleShape point1;
+//    sf::CircleShape point2;
 };
 

@@ -6,7 +6,7 @@
 
 void DrawableRacer::loadSources() {
     image.loadFromFile("../media/carfire2.png");
-//    image.createMaskFromColor(sf::Color::Magenta);
+    image.createMaskFromColor(sf::Color::Magenta);
     texture.loadFromImage(image);
     texture.setSmooth(true);
 }
@@ -43,14 +43,14 @@ DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, fl
     unsigned int widthT = texture.getSize().x;
     unsigned int heightT = texture.getSize().y;
 
-    pointBottom = sf::CircleShape(2);
-    pointCenter = sf::CircleShape(2);
-    point1 = sf::CircleShape(2);
-    point2 = sf::CircleShape(2);
-    pointBottom.setFillColor(sf::Color::Blue);
-    pointCenter.setFillColor(sf::Color::Blue);
-    point1.setFillColor(sf::Color::Blue);
-    point2.setFillColor(sf::Color::Blue);
+//    pointBottom = sf::CircleShape(2);
+//    pointCenter = sf::CircleShape(2);
+//    point1 = sf::CircleShape(2);
+//    point2 = sf::CircleShape(2);
+//    pointBottom.setFillColor(sf::Color::Blue);
+//    pointCenter.setFillColor(sf::Color::Blue);
+//    point1.setFillColor(sf::Color::Blue);
+//    point2.setFillColor(sf::Color::Blue);
 
     sf::Vector2f scale = sf::Vector2f(width/(float)widthT, height/(float)heightT);
 
@@ -96,10 +96,10 @@ void DrawableRacer::draw(const Racer &racer, sf::RenderWindow &window) {
     setRot(racer._rotation);
     changeFire(racer._speed);
 
-    pointBottom.setPosition(racer._bottomCenter.x, racer._bottomCenter.y);
-    pointCenter.setPosition(racer._center.x, racer._center.y);
-    point1.setPosition(racer._position.first.x, racer._position.first.y);
-    point2.setPosition(racer._position.second.x, racer._position.second.y);
+//    pointBottom.setPosition(racer._bottomCenter.x, racer._bottomCenter.y);
+//    pointCenter.setPosition(racer._center.x, racer._center.y);
+//    point1.setPosition(racer._position.first.x, racer._position.first.y);
+//    point2.setPosition(racer._position.second.x, racer._position.second.y);
 
     drawWindow(window);
 }
@@ -108,8 +108,8 @@ void DrawableRacer::drawWindow(sf::RenderWindow &window) {
     window.draw(car);
     window.draw(fire);
 
-    window.draw(pointBottom);
-    window.draw(pointCenter);
-    window.draw(point1);
-    window.draw(point2);
+//    window.draw(pointBottom);
+//    window.draw(pointCenter);
+//    window.draw(point1);
+//    window.draw(point2);
 }
