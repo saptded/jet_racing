@@ -8,7 +8,10 @@
 
 class Presenter : public Observer {
 public:
+    Presenter(std::shared_ptr<MenuInfo> info);
+
     static std::shared_ptr<Presenter> create(int id);
+    static std::shared_ptr<Presenter> create(std::shared_ptr<MenuInfo> info);
 
     ~Presenter();
 

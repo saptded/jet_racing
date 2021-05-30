@@ -45,6 +45,13 @@ std::shared_ptr<Presenter> Presenter::create(int id) {
     return presenter;
 }
 
+std::shared_ptr<Presenter> Presenter::create(std::shared_ptr<MenuInfo> info) {
+    static auto presenter = std::make_shared<Presenter>(info);
+    presenter->_model->addObserver(presenter.get());
+    presenter->viewer = std::make_unique<Viewer>();
+    return presenter;
+}
+
 Presenter::Presenter(std::shared_ptr<MenuInfo> info)
         : _finishGame(false)
         , _model(std::make_unique<Model>(info)){};

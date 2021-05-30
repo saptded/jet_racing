@@ -2,7 +2,6 @@
 #include <functional>
 #include <customDeserialization.h>
 #include <deserialization.h>
-#include <GameServer.hpp>
 #include "AbstractElement.h"
 #include "model.hpp"
 #include "GameClient.hpp"

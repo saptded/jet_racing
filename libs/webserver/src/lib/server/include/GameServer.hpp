@@ -72,7 +72,7 @@ public:
         std::string x = std::string(qp["x"]);
         std::string y = std::string(qp["y"]);
         std::string rotation = std::string(qp["rotation"]);
-        float speed  = std::stof(std::string(qp["rotation"]));
+        float speed  = std::stof(std::string(qp["speed"]));
         int stage = atoi((std::string(qp["stage"]).c_str()));
         bool isFinished = (std::string(qp["isFinished"]) == std::string("0"));
         auto set = std::pair(id,Position{username, x,y, rotation,speed,stage,isFinished});

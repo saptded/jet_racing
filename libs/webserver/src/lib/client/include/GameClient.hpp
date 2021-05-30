@@ -1,6 +1,3 @@
-//
-// Created by dark0ghost on 05.04.2021.
-//
 #pragma once
 #ifndef LIBSERVER_ABSTRACTCLIENT_H
 #define LIBSERVER_ABSTRACTCLIENT_H
@@ -40,13 +37,7 @@ public:
 
 
     void sendData(Position &userPosition) {
-//<<<<<<< HEAD
-//         Request::getRequest(cpr::Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
-//=======
-         auto res = Request::getRequest(cpr::Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
-        #ifdef DEBUG
-         std::cout << res.text << " response\n";
-        #endif
+        Request::getRequest(cpr::Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
     }
 
     template<typename Deserialization>

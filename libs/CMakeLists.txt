@@ -25,3 +25,8 @@ add_subdirectory(gameTimer)
 add_subdirectory(menu)
 add_subdirectory(menuInfo)
 add_subdirectory(buttons)
+
+add_subdirectory(webserver)
+add_subdirectory(customDeserialization)
+add_subdirectory(serverStart)
+add_subdirectory(customRequest)

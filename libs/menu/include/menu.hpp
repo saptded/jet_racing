@@ -8,6 +8,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <memory.h>
+#include <GameServer.hpp>
 #include <startServer.h>
 
 typedef std::pair<std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>>,std::shared_ptr<GameServer>> servs;

@@ -2,7 +2,8 @@
 #include <customDeserialization.h>
 #include <deserialization.h>
 #include <stdint.h>
-
+//#include <GameServer.hpp>
+//#include <startServer.h>
 
 Menu::Menu(std::shared_ptr<MenuInfo> info, servs _servers) :
       window(sf::VideoMode(1000, 800), "JetRacing"){
@@ -39,12 +40,9 @@ std::unique_ptr<MenuInfo> Menu::run() {
     while (window.isOpen()) {
 
         if(waitingOthersAfter){
-            client->sendFlag(true);
             auto upds = client->getUpdates<CustomDeserialization>();
-            auto test = client->getFlag<CustomDeserialization>();
             for(auto got: upds){
                 if(got.x == "42"){
-                    counterOfEnded++;
                     bool alreadyShown = false;
                     for(auto &old: endedRacers) {
                         if (old == got.username) {
@@ -58,6 +56,7 @@ std::unique_ptr<MenuInfo> Menu::run() {
                         racer += std::to_string(got.stage+1);
                         addText(racer, color.menuBright);
                         endedRacers.emplace_back(got.username);
+                        counterOfEnded++;
                     }
                 }
             }
