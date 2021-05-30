@@ -45,7 +45,10 @@ public:
 
 
     void sendData(Position &userPosition) {
-        Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
+        auto res = Request::getRequest(Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
+        #ifdef DEBUG
+         std::cout << res.text << " response\n";
+        #endif
     }
 
     template<typename Deserialization>
@@ -60,6 +63,15 @@ public:
     void sendFlag(bool gameFlagStart){
         std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_flag?flag=" + std::to_string(gameFlagStart);
         Request::getRequest(Url(str));
+    }
+
+    template<typename Deserialization>
+    bool getFlag(){
+        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/get_flag";
+        auto response = Request::getRequest(Url(str));
+        DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
+        auto res = deserObject.getFlagFromJson(response.text);
+        return res;
     }
 };
 #endif //LIBSERVER_ABSTRACTCLIENT_H

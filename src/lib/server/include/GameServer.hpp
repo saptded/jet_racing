@@ -19,7 +19,7 @@ class [[maybe_unused]] GameServer{
     std::vector<std::pair<std::string,Position>> userBuffer;
     std::vector<std::pair<std::string,std::string>> userName;
 
-    size_t localId = -1;
+    size_t localId = 0;
 
     std::string getLocalId(){
         return std::to_string(localId++);
@@ -27,13 +27,12 @@ class [[maybe_unused]] GameServer{
 
     std::string getNameWithId(const std::string& idNumber){
         for(const auto& user: userName){
-            if (idNumber == user.second){
+            if (idNumber == user.first){
                 return user.second;
             }
         }
         return "error";
     }
-
 
 public:
 
@@ -45,6 +44,7 @@ public:
     auto setStartFlag(auto req){
         const auto qp = parse_query(req->header().query());
         std::string flag = std::string(qp["flag"]);
+        gameFlagStart = flag;
         return req->create_response().set_body(R"({"status": "ok"})");
     }
 
@@ -54,7 +54,7 @@ public:
 
 
     [[maybe_unused]] auto addUser(auto req) {
-        const auto qp = parse_query(req->header().query());
+        auto qp = parse_query(req->header().query());
         std::string username = std::string(qp["username"]);
         std::string local_id = getLocalId();
         userName.push_back(std::pair(local_id, username));
@@ -63,32 +63,44 @@ public:
     }
 
     [[maybe_unused]] auto setNewPosition(auto req) {
-        const auto qp = parse_query(req->header().query());
-        std::string id = std::string(qp["username"]);
+        auto qp = parse_query(req->header().query());
+        std::string id = std::string(qp["id"]);
         std::string username = getNameWithId(id);
         if(username == "error"){
-            return req->create_response().set_body(R"({"status": "fail"})");
+            return req->create_response().set_body(R"({"status": "fail: name error"})");
         }
-        std::string x = std::string(qp["x"]);
-        std::string y = std::string(qp["x"]);
-        std::string rotation = std::string(qp["rotation"]);
-        float speed  = std::stof(std::string(qp["rotation"]));
-        int stage = atoi((std::string(qp["stage"]).c_str()));
-        bool isFineshed = (std::string(qp["isFineshed"]) != "0");
 
+        std::string x = std::string(qp["x"]);
+        std::string y = std::string(qp["y"]);
+        std::string rotation = std::string(qp["rotation"]);
+        float speed  = std::stof(std::string(qp["speed"]));
+        int stage = atoi((std::string(qp["stage"]).c_str()));
+        bool isFinished = (std::string(qp["isFinished"]) == std::string("0"));
+        auto set = std::pair(id,Position{username, x,y, rotation,speed,stage,isFinished});
+
+        #ifdef DEBUG
+          std::cout << "username " << username << "\n";
+        #endif
         bool res = false;
-        std::replace_if(userBuffer.begin(),userBuffer.end(),[username,&res](const std::pair<std::string,Position>& pos){
-            auto response = pos.first == username;
+        std::replace_if(userBuffer.begin(),userBuffer.end(),[&username,&res](std::pair<std::string,Position>& pos){
+        #ifdef DEBUG
+            std::cout << "replace if check " << pos.second.username << "\n";
+        #endif
+            auto response = pos.second.username == username;
             res |= response;
+        #ifdef DEBUG
+            std::cout << "res check " << res << "\n";
+        #endif
             return response;
-        },std::pair(id,Position{username, x,y, rotation,speed,stage,isFineshed}));
-        if(res){
+        },set);
+        #ifdef DEBUG
+           std::cout << "server res " << res << "\n";
+        #endif
+        if(res) {
             return req->create_response().set_body(R"({"status": "ok"})");
         }
-        return req->create_response().set_body(R"({"status": "fail"})");
+        return req->create_response().set_body(R"({"status": "fail: not found"})");
     }
-
-
 
     [[maybe_unused]] auto sendNewPosition(auto req) {
         std::string response = "[";
@@ -97,7 +109,7 @@ public:
          */
         auto sizeUserBuffer = userBuffer.size();
         if(sizeUserBuffer != 0) {
-            for (auto j = 0; j < sizeUserBuffer - 1; j++) {
+            for (size_t j = 0; j < sizeUserBuffer - 1; j++) {
                 const auto &i = userBuffer[j].second;
                 response +=
                         R"({"username":")" + i.username + R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","rotation":")" + i.rotation + R"(","speed":)" + std::to_string(i.speed) + R"(,"stage":)" + std::to_string(i.stage) +  R"(,"isFinished":)" + std::to_string(i.isFinished) + "},";
