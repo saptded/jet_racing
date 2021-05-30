@@ -5,7 +5,7 @@
 #include "model.hpp"
 
 Model::Model(int id)
-    : _map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
+    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
     , _racer(_map->getStartPointByID(0), id)
     , currentStage(0)
     , finishedRacers(0){}

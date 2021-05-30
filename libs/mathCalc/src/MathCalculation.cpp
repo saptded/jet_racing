@@ -16,11 +16,11 @@ float findCosine(float xFirstProjection, float xSecondProjection, float yFirstPr
     return angleCosine;
 }
 
-bool isPointOnTheLeftSideFromLine(const Point &center, const Point &start, const Point &end) {
+bool isPointOnTheLeftSideFromLine(const Point &point, const Point &start, const Point &end) {
     if (start.y == end.y) {
-        return center.y <= start.y;
+        return point.y <= start.y;
     }
-    float d = (center.x - start.x) * (end.y - start.y) - (center.y - start.y) * (end.x - start.x);
+    float d = (point.x - start.x) * (end.y - start.y) - (point.y - start.y) * (end.x - start.x);
     return (d <= 0);
 }
 
