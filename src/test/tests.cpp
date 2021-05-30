@@ -105,6 +105,7 @@ TEST(unit_test, ping_server_test) {
     auto server = GameServer();
     auto* req = new RequestForServer();
     Response result = server.ping(req);
+    delete req;
     ASSERT_EQ(result.getTestResult(), "{\"name\":\"jet_racing\"}");
 }
 
@@ -112,6 +113,7 @@ TEST(unit_test, add_server_test) {
     auto server = GameServer();
     auto* req = new RequestForServer();
     Response id = server.addUser(req);
+    delete req;
     ASSERT_EQ(id.getTestResult(),R"({"id":0})");
 }
 
@@ -120,6 +122,7 @@ TEST(unit_test, set_server_test) {
     auto* req = new RequestForServer();
     Response id = server.addUser(req);
     Response res = server.setNewPosition(req);
+    delete req;
     ASSERT_EQ(res.getTestResult(),R"({"status": "ok"})");
 }
 
@@ -129,6 +132,7 @@ TEST(unit_test, render_and_get_server_test) {
     Response id = server.addUser(req);
     Response res = server.setNewPosition(req);
     Response t = server.sendNewPosition(req);
+    delete req;
     ASSERT_EQ(t.getTestResult(),R"([{"username":"test","x":"1","y":"1","rotation":"1","speed":1.000000,"stage":1,"isFinished":0}])");
 }
 
