@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SFMLGameWindow.hpp"
 #include "viewer.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <abstractModel.hpp>
@@ -9,8 +8,7 @@
 
 class Presenter : public Observer {
 public:
-    //static Presenter *create(int id);
-    static Presenter *create(std::shared_ptr<MenuInfo>);
+    static std::shared_ptr<Presenter> create(int id);
 
     ~Presenter();
 
@@ -22,11 +20,9 @@ public:
 
 private:
     explicit Presenter(int id);
-    explicit Presenter(std::shared_ptr<MenuInfo> info);
 
     bool _finishGame = false;
 
     std::unique_ptr<Viewer> viewer;
     std::unique_ptr<AbstractModel> _model;
-    std::unique_ptr<SFMLGameWindow> _window;
 };

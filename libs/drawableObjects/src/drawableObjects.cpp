@@ -3,6 +3,7 @@
 //
 
 #include "drawableObjects.hpp"
+
 #include "sfColor.hpp"
 #include <cmath>
 
@@ -168,7 +169,7 @@ void DrawablePropeller::draw(sf::RenderWindow &window) {
 }
 
 void DrawableDoor::init(int stage) {
-for(auto line: lineRect){
+for(auto &line: lineRect){
     line.init(4);
 }
 }
@@ -183,8 +184,8 @@ DrawableDoor::DrawableDoor(Point start, Point end, Point center) : DrawableObjec
 lineRect = {
         DrawableLine(start, {start.x, end.y}, center),
         DrawableLine({start.x, end.y}, end, center),
-        DrawableLine({start.x, end.y}, end, center),
-        DrawableLine({start.x, end.y}, end, center),
+        DrawableLine({end.x, start.y}, end, center),
+        DrawableLine(start, {end.x, start.y}, center),
 };
 }
 

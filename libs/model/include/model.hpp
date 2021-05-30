@@ -2,20 +2,20 @@
 
 #include <list>
 #include <memory>
+
 #include "Map.h"
 #include "abstractModel.hpp"
 #include "observer.hpp"
 #include "racer.hpp"
 #include "racerController.hpp"
 #include "menuInfo.hpp"
-//#include "GameClient.hpp"
 
 struct AbstractElement;
 
 class Model : public AbstractModel {
 public:
     Model() = delete;
-    //explicit Model(int id);
+    explicit Model(int id);
     explicit Model(std::shared_ptr<MenuInfo> menuInfo);
     ~Model();
 

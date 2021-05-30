@@ -1,18 +1,19 @@
+#include <complex>
+
 #include "presenter.hpp"
 #include "model.hpp"
-#include <complex>
+#include "gameTimer.hpp"
 
 Presenter::Presenter(int id)
     : _finishGame(false)
-    //, _model(new Model(id))
-    , _model(nullptr)
-    , _window(new SFMLGameWindow("no")) {}
+    , _model(new Model(id)) {}
 
 std::shared_ptr<MenuInfo> Presenter::run() {
     std::shared_ptr<MenuInfo> results;
+    GameTimer gameTimer;
 
     while (!_finishGame) {
-        Command command = _window->handleButtonEvent();
+        Command command = viewer->handleButtonEvent();
         if (command == Command::finish) {
             _finishGame = true;
         }
@@ -20,15 +21,14 @@ std::shared_ptr<MenuInfo> Presenter::run() {
         if (results != nullptr) {
             _finishGame = true;
         }
-        _window->timer();
+        gameTimer.timer();
     }
 
-    _window->getWindow().clear();
-    _window->getWindow().close();
+    viewer->close();
     return results;
 }
 
-void Presenter::handleEvent(Response &response) { viewer->render(response, _window->getWindow()); }
+void Presenter::handleEvent(Response &response) { viewer->render(response); }
 
 //Presenter *Presenter::create(int id) {
 //    static auto presenter = new Presenter(id);
@@ -38,16 +38,14 @@ void Presenter::handleEvent(Response &response) { viewer->render(response, _wind
 //}
 Presenter::~Presenter() { _model->removeObserver(this); }
 
-Presenter *Presenter::create(std::shared_ptr<MenuInfo> menuInfo){
-    static auto presenter = new Presenter(
-            std::move(menuInfo));
-    presenter->_model->addObserver(presenter);
+std::shared_ptr<Presenter> Presenter::create(int id) {
+    static auto presenter = std::shared_ptr<Presenter>(new Presenter(id));
+    presenter->_model->addObserver(presenter.get());
     presenter->viewer = std::make_unique<Viewer>();
     return presenter;
 }
 
 Presenter::Presenter(std::shared_ptr<MenuInfo> info)
         : _finishGame(false)
-        , _model(std::make_unique<Model>(info))
-        , _window(new SFMLGameWindow("JetRacing: " + info->myName)){};
+        , _model(std::make_unique<Model>(info)){};
 

@@ -11,10 +11,10 @@ Map::Map(const std::string &filename) {
     }
 }
 
-std::shared_ptr<AbstractElement> Map::getCollisionElement(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight) {
+std::shared_ptr<AbstractElement> Map::getCollisionElement(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerCenter) {
     for (auto &stage : stages) {
         for (auto &element : stage->elements) {
-            bool isCollision = element->intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight);
+            bool isCollision = element->intersect(playerTopLeft, playerTopRight, playerBottomLeft, playerBottomRight, playerCenter);
             if (isCollision) {
                 return element;
             }

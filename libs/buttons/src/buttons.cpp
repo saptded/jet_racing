@@ -14,8 +14,8 @@ text(_text), id(_text.getString()) {
     num == 0 ? isActive = true : isActive = false;
     if(isActive){
         rect.setOutlineThickness(5);
-        rect.setOutlineColor(color.menuBright);
-        text.setFillColor(color.menuBright);
+        rect.setOutlineColor(color.white);
+        text.setFillColor(color.white);
     } else {
         rect.setOutlineThickness(2);
         rect.setOutlineColor(color.menuDark);

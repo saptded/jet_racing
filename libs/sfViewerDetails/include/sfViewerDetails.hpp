@@ -25,6 +25,7 @@ private:
     float viewHeight = 0;
     float viewWidth = 0;
     sf::Vector2f prevPos;
-
-    //std::vector<DrawableRacer> drawableEnemies;
+    sf::Font font;
+    sf::Text text;
+    int counter = 0;
 };

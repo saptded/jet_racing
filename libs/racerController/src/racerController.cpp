@@ -26,7 +26,7 @@ void RacerController::changeRotationSpeed(const Command &_rotation, Racer &racer
 
 void RacerController::changeSpeed(Racer &racer, bool stop, const float &extraAccelerateX, const float &extraAccelerateY) {
     if (!stop) {
-        float decel = _speedAccelerate / 9;
+        float decel = _speedAccelerate / 5;
         if (std::abs(racer._speed.speedX) > std::abs(_maxSpeed + std::copysignf(extraAccelerateX, _maxSpeed) * 4)) {
             if (racer._speed.speedX > _maxSpeed + extraAccelerateX * 4) {
                 racer._speed.speedX -= decel;
@@ -51,11 +51,11 @@ void RacerController::changeSpeed(Racer &racer, bool stop, const float &extraAcc
             racer._speed.speedY += extraAccelerateY;
         }
 
-        deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 15));
-        deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 15));
+        deceleratingSpeed(racer._speed.speedX, std::abs(_speedAccelerate * racer._speed.speedX / 14));
+        deceleratingSpeed(racer._speed.speedY, std::abs(_speedAccelerate * racer._speed.speedY / 14));
     } else {
-        racer._speed.speedX = -cosf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
-        racer._speed.speedY = -sinf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
+        racer._speed.speedX = 0;
+        racer._speed.speedY = 0;
     }
 }
 
@@ -72,6 +72,9 @@ void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
     float y3Old = racer._positionExtra.first.y;
     float x4Old = racer._positionExtra.second.x;  // top right
     float y4Old = racer._positionExtra.second.y;
+
+    float x5Old = racer._bottomCenter.x;
+    float y5Old = racer._bottomCenter.y;
 
     float xCenter = racer._center.x;
     float yCenter = racer._center.y;
@@ -90,6 +93,9 @@ void RacerController::updateRotation(Racer &racer, const float &extraDegrees) {
     racer._positionExtra.first.y = rotatePointY(x3Old, y3Old);
     racer._positionExtra.second.x = rotatePointX(x4Old, y4Old);  // top right
     racer._positionExtra.second.y = rotatePointY(x4Old, y4Old);
+
+    racer._bottomCenter.x = rotatePointX(x5Old, y5Old);
+    racer._bottomCenter.y = rotatePointY(x5Old, y5Old);
 
     _previousRotation = racer._rotation;
 }
@@ -110,8 +116,9 @@ void RacerController::updatePosition(Racer &racer, const Point &newCenterPositio
         racer._positionExtra.second.x += deltaX;
         racer._positionExtra.second.y += deltaY;
 
-        //        racer._speed.speedX = -cosf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
-        //        racer._speed.speedY = -sinf((racer._rotation * M_PI) / 180) * _speedAccelerate * 10;
+        racer._bottomCenter.x += deltaX;
+        racer._bottomCenter.y += deltaY;
+
     } else {
         racer._position.first.x += racer._speed.speedX;
         racer._position.first.y += racer._speed.speedY;
@@ -123,6 +130,9 @@ void RacerController::updatePosition(Racer &racer, const Point &newCenterPositio
         racer._positionExtra.second.y += racer._speed.speedY;
         racer._center.x += racer._speed.speedX;
         racer._center.y += racer._speed.speedY;
+
+        racer._bottomCenter.x += racer._speed.speedX;
+        racer._bottomCenter.y += racer._speed.speedY;
     }
 }
 

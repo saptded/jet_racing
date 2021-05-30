@@ -37,8 +37,12 @@ private:
     void drawWindow(sf::RenderWindow &window);
     sf::Sprite car;
     sf::Sprite fire;
-    sf::Texture textureCar;
-    sf::Texture textureFire;
-    sf::Image imCar;
-    sf::Image imFire;
+    sf::Texture texture;
+    sf::Image image;
+
+//    sf::CircleShape pointBottom;
+//    sf::CircleShape pointCenter;
+//    sf::CircleShape point1;
+//    sf::CircleShape point2;
 };
+
