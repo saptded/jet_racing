@@ -1,7 +1,9 @@
+#define DEBUG
 #include <customDeserialization.h>
 #include "menu.hpp"
 #include "presenter.hpp"
 #define endl "\n"
+
 int main() {
 
     bool isServer = true;
@@ -25,7 +27,6 @@ int main() {
     for(auto& i: names){
         std::cout << (R"(Position{"username":")" + i.username + R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","rotation":")" + i.rotation + R"(","speed":)" + std::to_string(i.speed) + R"(,"stage":)" + std::to_string(i.stage) +  R"(,"isFinished":)" + std::to_string(i.isFinished) + "},") << endl;
     }
-    std::cout << names.size() << endl;
     server->wait();
     //rapidjson::Document genericDocument;
    // genericDocument.Parse(R"({"id": 2})");

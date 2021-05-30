@@ -34,18 +34,6 @@ class [[maybe_unused]] GameServer{
         return "error";
     }
 
-    std::string setPos(auto newPos, std::string key){
-        std::cout << "username " << key << "\n";
-        for(auto & user : userBuffer){
-            if (key == user.first) {
-                user = newPos;
-                return R"({"status": "ok"})";
-            }
-        }
-        return R"({"status": "fail: name not found"})";
-    }
-
-
 public:
 
     constexpr auto ping(auto req){
@@ -75,7 +63,7 @@ public:
     }
 
     [[maybe_unused]] auto setNewPosition(auto req) {
-        const auto qp = parse_query(req->header().query());
+       const auto qp = parse_query(req->header().query());
         std::string id = std::string(qp["username"]);
         std::string username = getNameWithId(id);
         if(username == "error"){
@@ -84,30 +72,32 @@ public:
         std::string x = std::string(qp["x"]);
         std::string y = std::string(qp["y"]);
         std::string rotation = std::string(qp["rotation"]);
-        float speed  = 1.0; //std::stof(std::string(qp["rotation"]));
-        int stage = 0; // atoi((std::string(qp["stage"]).c_str()));
-        bool isFineshed = false; (std::string(qp["isFineshed"]) != "0");
-        auto set = std::pair(id,Position{username, x,y, rotation,speed,stage,isFineshed});
+        float speed  = std::stof(std::string(qp["rotation"]));
+        int stage = atoi((std::string(qp["stage"]).c_str()));
+        bool isFinished = (std::string(qp["isFinished"]) == std::string("0"));
+        auto set = std::pair(id,Position{username, x,y, rotation,speed,stage,isFinished});
+        #ifdef DEBUG
         std::cout << "username " << username << "\n";
-
-        /*for(auto  i = 0 ; i <  userBuffer.size(); i++){
-            auto user = userBuffer[i];
-            if(username == user.first){
-                userBuffer[i] = set;
-                return req->create_response().set_body(R"({"status": "ok"})");
-            }
-        }*/
-
-        /*bool res = false;
+        #endif
+        bool res = false;
         std::replace_if(userBuffer.begin(),userBuffer.end(),[&username,&res](std::pair<std::string,Position>& pos){
-            auto response = pos.first == username;
+            #ifdef DEBUG
+            std::cout << "replace if check " << pos.second.username << "\n";
+            #endif
+            auto response = pos.second.username == username;
             res |= response;
+            #ifdef DEBUG
+            std::cout << "res check " << res << "\n";
+            #endif
             return response;
-        },std::pair(id,Position{username, x,y, rotation,speed,stage,isFineshed}));
-        if(res){
+        },set);
+        #ifdef DEBUG
+        std::cout << "server res " << res << "\n";
+        #endif
+        if(res) {
             return req->create_response().set_body(R"({"status": "ok"})");
-        }*/
-        return req->create_response().set_body(setPos(set, username));
+        }
+        return req->create_response().set_body(R"({"status": "fail: not found"})");
     }
 
 

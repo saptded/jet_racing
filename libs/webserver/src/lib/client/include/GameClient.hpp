@@ -40,7 +40,9 @@ public:
 
     void sendData(Position &userPosition) {
          auto res = Request::getRequest(Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
-          std::cout << res.text << " response\n";
+        #ifdef DEBUG
+         std::cout << res.text << " response\n";
+        #endif
     }
 
     template<typename Deserialization>
