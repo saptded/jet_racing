@@ -76,24 +76,24 @@ public:
         int stage = atoi((std::string(qp["stage"]).c_str()));
         bool isFinished = (std::string(qp["isFinished"]) == std::string("0"));
         auto set = std::pair(id,Position{username, x,y, rotation,speed,stage,isFinished});
-        #ifdef DEBUG
+#ifdef DEBUG
         std::cout << "username " << username << "\n";
-        #endif
+#endif
         bool res = false;
         std::replace_if(userBuffer.begin(),userBuffer.end(),[&username,&res](std::pair<std::string,Position>& pos){
-            #ifdef DEBUG
+#ifdef DEBUG
             std::cout << "replace if check " << pos.second.username << "\n";
-            #endif
+#endif
             auto response = pos.second.username == username;
             res |= response;
-            #ifdef DEBUG
+#ifdef DEBUG
             std::cout << "res check " << res << "\n";
-            #endif
+#endif
             return response;
         },set);
-        #ifdef DEBUG
+#ifdef DEBUG
         std::cout << "server res " << res << "\n";
-        #endif
+#endif
         if(res) {
             return req->create_response().set_body(R"({"status": "ok"})");
         }

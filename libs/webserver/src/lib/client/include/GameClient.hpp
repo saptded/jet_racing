@@ -33,16 +33,16 @@ public:
     std::vector<Position> getUpdates() {
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
         auto response = Request::getRequest(Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/get_updates"));
-        auto res =  deserObject.getPositionFromJson(response.text);
+        auto res =  deserObject.getVectorPositionsFromJson(response.text);
         return res;
     }
 
 
     void sendData(Position &userPosition) {
          auto res = Request::getRequest(Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
-        #ifdef DEBUG
+#ifdef DEBUG
          std::cout << res.text << " response\n";
-        #endif
+#endif
     }
 
     template<typename Deserialization>

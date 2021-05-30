@@ -14,7 +14,7 @@ class DeserializationObject{
     T jsonTransformer = T();
 
 public:
-    std::vector<Position> getPositionFromJson(std::string& json){
+    std::vector<Position> getVectorPositionsFromJson(std::string& json){
         return jsonTransformer.jsonToPosition(json.c_str());
     }
 
