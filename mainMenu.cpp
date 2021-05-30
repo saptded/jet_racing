@@ -16,10 +16,11 @@ int main() {
     std::cout << res << " res" << endl;
     std::string test2 = "test";
     auto res2 = gameClient.join<CustomDeserialization>(test2);
-
-    std::cout << gameClient.getFlag<CustomDeserialization>() << " res1" << endl;
+    Position pos = Position{std::to_string(res),"1","2", "3",0.01,1,true };
+    gameClient.sendData(pos);
+    std::cout << gameClient.getFlag<CustomDeserialization>() << " res flag send" << endl;
     gameClient.sendFlag(true);
-    std::cout << gameClient.getFlag<CustomDeserialization>() << " res2" << endl;
+    std::cout << gameClient.getFlag<CustomDeserialization>() << " res flag get" << endl;
     std::vector<Position> names = gameClient.getUpdates<CustomDeserialization>();
     for(auto& i: names){
         std::cout << (R"(Position{"username":")" + i.username + R"(","x":")" + i.x + R"(","y":")" + i.y + R"(","rotation":")" + i.rotation + R"(","speed":)" + std::to_string(i.speed) + R"(,"stage":)" + std::to_string(i.stage) +  R"(,"isFinished":)" + std::to_string(i.isFinished) + "},") << endl;
