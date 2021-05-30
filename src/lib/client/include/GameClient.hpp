@@ -13,25 +13,20 @@
 #include <Position.hpp>
 
 
-template<typename Request>
+template<typename Request, typename UrlBuilder>
 class GameClient{
-    ConnectionData dataConnection;
+    UrlBuilder urlBuilder;
 
 
 public:
-    explicit GameClient(ConnectionData connection1){
-        dataConnection = connection1;
-    }
-    explicit GameClient() = default;
-
-
-
     template<typename Deserialization>
     std::vector<Position> getUpdates() {
 #ifndef test_jet_racing
-        auto deserObject =  DeserializationObject<Deserialization>();
-        auto response = Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/get_updates"));
-        auto res =  deserObject.getPositionFromJson(response.text);
+        DeserializationObject<Deserialization> deserObject =
+        DeserializationObject<Deserialization>();
+        auto url = urlBuilder.createGetUpdateUrl(dataConnection.host, dataConnection.port) + "/get_updates");
+        auto response = Request::getRequest(Url(url));
+        auto res = deserObject.getPositionFromJson(response.text);
         return res;
 #else
         auto pos = Position{"200"};
@@ -43,30 +38,27 @@ public:
 
 
     void sendData(Position &userPosition) {
-        auto res = Request::getRequest(Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
+        auto res = Request::getRequest(Url(urlBuilder.createSendDataUrl(userPosition.username, userPosition.x, userPosition.y, userPosition.rotation, userPosition.stage, userPosition.isFinished, userPosition.speed)));
 #ifdef DEBUG
-         std::cout << res.text << " response\n";
+        std::cout << res.text << " response\n";
 #endif
     }
 
     template<typename Deserialization>
     size_t join(std::string& username) {
-        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/add?username=" + username;
-        auto response = Request::getRequest(Url(str));
+        auto response = Request::getRequest(Url(urlBuilder.createJoinUrl(username)));
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
         auto res = deserObject.getIdFromJson(response.text);
         return res;
     }
 
     void sendFlag(bool gameFlagStart){
-        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_flag?flag=" + std::to_string(gameFlagStart);
-        Request::getRequest(Url(str));
+        Request::getRequest(Url(urlBuilder.createSendFlagUrl(gameFlagStart)));
     }
 
     template<typename Deserialization>
     bool getFlag(){
-        std::string str = dataConnection.host + ":" + std::to_string(dataConnection.port) + "/get_flag";
-        auto response = Request::getRequest(Url(str));
+        auto response = Request::getRequest(Url(urlBuilder.createGetFlagUrl()));
         DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
         auto res = deserObject.getFlagFromJson(response.text);
         return res;

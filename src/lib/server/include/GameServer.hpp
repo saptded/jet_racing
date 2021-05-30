@@ -36,9 +36,8 @@ class [[maybe_unused]] GameServer{
 
 public:
 
-    constexpr auto ping(auto req){
-        return req->create_response()
-                .set_body(R"({"name":"jet_racing"})");
+    constexpr auto ping(){
+        return R"({"name":"jet_racing"})";
     }
 
     auto setStartFlag(auto req){
@@ -53,29 +52,19 @@ public:
     }
 
 
-    [[maybe_unused]] auto addUser(auto req) {
-        auto qp = parse_query(req->header().query());
-        std::string username = std::string(qp["username"]);
+    [[maybe_unused]] auto addUser(const std::string& username) {
         std::string local_id = getLocalId();
         userName.push_back(std::pair(local_id, username));
         userBuffer.push_back(std::pair(local_id,Position{username,"0","0", "0",0.00,0,false}));
-        return req->create_response().set_body(R"({"id":)" + local_id + R"(})");
+        return R"({"id":)" + local_id + R"(})";
     }
 
-    [[maybe_unused]] auto setNewPosition(auto req) {
-        auto qp = parse_query(req->header().query());
-        std::string id = std::string(qp["id"]);
+    [[maybe_unused]] auto setNewPosition(const std::string& id,std::string x, std::string y, std::string rotation, float speed, int stage, bool isFinished ) {
         std::string username = getNameWithId(id);
         if(username == "error"){
-            return req->create_response().set_body(R"({"status": "fail: name error"})");
+            return R"({"status": "fail: name error"})";
         }
 
-        std::string x = std::string(qp["x"]);
-        std::string y = std::string(qp["y"]);
-        std::string rotation = std::string(qp["rotation"]);
-        float speed  = std::stof(std::string(qp["speed"]));
-        int stage = atoi((std::string(qp["stage"]).c_str()));
-        bool isFinished = (std::string(qp["isFinished"]) == std::string("0"));
         auto set = std::pair(id,Position{username, x,y, rotation,speed,stage,isFinished});
 
         #ifdef DEBUG
@@ -97,12 +86,12 @@ public:
            std::cout << "server res " << res << "\n";
         #endif
         if(res) {
-            return req->create_response().set_body(R"({"status": "ok"})");
+            return R"({"status": "ok"})";
         }
-        return req->create_response().set_body(R"({"status": "fail: not found"})");
+        return R"({"status": "fail: not found"})";
     }
 
-    [[maybe_unused]] auto sendNewPosition(auto req) {
+    [[maybe_unused]] auto sendNewPosition() {
         std::string response = "[";
         /*
          * использование replace_if не дает  реализовать  алгоритм за O(n);
@@ -119,9 +108,9 @@ public:
             response += R"({"username":")" + endPositionRender.username + R"(","x":")" + endPositionRender.x +
                         R"(","y":")" + endPositionRender.y  + R"(","rotation":")" + endPositionRender.rotation + R"(","speed":)" + std::to_string(endPositionRender.speed) + R"(,"stage":)" + std::to_string(endPositionRender.stage) + R"(,"isFinished":)" + std::string(
                     std::to_string(endPositionRender.isFinished)) + "}]";
-            return req->create_response().set_body(response);
+            return response;
         }
-        return req->create_response().set_body(response + "]");
+        return response + "]";
     }
 
     [[maybe_unused]] void close();
