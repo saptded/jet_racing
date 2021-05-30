@@ -169,13 +169,13 @@ void DrawablePropeller::draw(sf::RenderWindow &window) {
 
 void DrawableDoor::init(int stage) {
 for(auto line: lineRect){
-    line.init(stage);
+    line.init(4);
 }
 }
 
 void DrawableDoor::draw(sf::RenderWindow &window) {
-    for(auto &line: lineRect){
-        line.draw(window);
+    for(auto &lines: lineRect){
+        lines.draw(window);
     }
 }
 

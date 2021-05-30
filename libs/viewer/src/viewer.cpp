@@ -37,6 +37,7 @@ void Viewer::increaseStage(Response &data, sf::RenderWindow &dist) {
     }
 }
 
+
 // void Viewer::initRender(Response &data, sf::RenderWindow &dist) {
 //     details->init(data.racer.value(), dist);
 // }

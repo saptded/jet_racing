@@ -62,4 +62,5 @@ private:
 
     std::shared_ptr<MenuInfo> info;
     int myId;
+    bool justStarted = true;
 };

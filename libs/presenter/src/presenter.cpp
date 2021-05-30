@@ -39,7 +39,8 @@ void Presenter::handleEvent(Response &response) { viewer->render(response, _wind
 Presenter::~Presenter() { _model->removeObserver(this); }
 
 Presenter *Presenter::create(std::shared_ptr<MenuInfo> menuInfo){
-    static auto presenter = new Presenter(std::move(menuInfo));
+    static auto presenter = new Presenter(
+            std::move(menuInfo));
     presenter->_model->addObserver(presenter);
     presenter->viewer = std::make_unique<Viewer>();
     return presenter;

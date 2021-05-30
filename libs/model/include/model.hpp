@@ -15,7 +15,7 @@ struct AbstractElement;
 class Model : public AbstractModel {
 public:
     Model() = delete;
-    explicit Model(int id);
+    //explicit Model(int id);
     explicit Model(std::shared_ptr<MenuInfo> menuInfo);
     ~Model();
 
@@ -49,5 +49,5 @@ private:
     std::shared_ptr<GameClient<CustomRequest>> _client;
 
     std::string myName;
-    int myId;
+    bool justStarted = true;
 };

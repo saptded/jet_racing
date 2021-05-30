@@ -7,16 +7,24 @@
 Menu::Menu(std::shared_ptr<MenuInfo> info, std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> _server) :
       window(sf::VideoMode(1000, 800), "JetRacing"){
     if(_server != nullptr){
-        server = _server;
+        server = std::move(_server);
     }
     if (info != nullptr) {
-        client = info->client;
-        addText("results", color.menuBright);
+        client = std::move(info->client);
         waitingOthersAfter = true;
+    } else {
+        makeStartButtons();
+    }
+}
+
+std::unique_ptr<MenuInfo> Menu::run() {
+    int counterOfEnded = 0;
+    if(waitingOthersAfter){
         sf::Text gotIt("got it", font);
         if (!font.loadFromFile("../media/lines.ttf")) {
             //
         } else {
+            addText("results", color.menuBright);
             gotIt.setFont(font);
             gotIt.setCharacterSize(50);
         }
@@ -25,17 +33,14 @@ Menu::Menu(std::shared_ptr<MenuInfo> info, std::shared_ptr<running_server_instan
         };
         buttonIterator = 0;
         buttons.at(0).setPassive();
-    } else {
-        makeStartButtons();
+        justStarted = false;
     }
-}
-
-std::unique_ptr<MenuInfo> Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
+
         if(waitingOthersAfter){
             auto upds = client->getUpdates<CustomDeserialization>();
-            int counterOfEnded = 0;
+            auto test = client->getFlag<CustomDeserialization>();
             for(auto got: upds){
                 if(got.isFinished){
                     counterOfEnded++;
@@ -61,7 +66,9 @@ std::unique_ptr<MenuInfo> Menu::run() {
             }
         }
         if (waitingOthersBefore) {
-            if (client->getFlag<CustomDeserialization>()) return std::make_unique<MenuInfo>(myName, myId, client);
+            if (client->getFlag<CustomDeserialization>()) {
+                return std::make_unique<MenuInfo>(myName, myId, client);
+            }
             auto upds = client->getUpdates<CustomDeserialization>();
             if/*((upds.size() > 1)&&*/(!buttons.at(buttonIterator).getIsActive()) {
                 buttons.at(buttonIterator).setActive();
