@@ -82,7 +82,7 @@ public:
             return req->create_response().set_body(R"({"status": "fail: name error"})");
         }
         std::string x = std::string(qp["x"]);
-        std::string y = std::string(qp["x"]);
+        std::string y = std::string(qp["y"]);
         std::string rotation = std::string(qp["rotation"]);
         float speed  = 1.0; //std::stof(std::string(qp["rotation"]));
         int stage = 0; // atoi((std::string(qp["stage"]).c_str()));
