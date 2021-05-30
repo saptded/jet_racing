@@ -25,7 +25,7 @@ struct Racer {
 
     uint8_t _id;
 
-    bool onCollision;
+    bool _teleport;
 
     std::tuple<bool, uint8_t> finished;
 

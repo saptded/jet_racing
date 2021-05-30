@@ -94,7 +94,7 @@ public:
     }
     ~Portal() override = default;
 
-    void collision(Racer &racer, RacerController &controller, Command command) override{};
+    void collision(Racer &racer, RacerController &controller, Command command) override;
 };
 
 class Finish : public Rectangle {

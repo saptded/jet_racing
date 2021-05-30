@@ -16,7 +16,7 @@ Racer::Racer(Point point, int id)
     , _origin({5 * _width / 6, _height / 2})
     , _id(id)
     , finished(false, 0)
-    , onCollision(false)
+    , _teleport(false)
 
     , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation)) {}
 
