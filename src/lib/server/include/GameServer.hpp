@@ -14,7 +14,7 @@
 
 class [[maybe_unused]] GameServer{
 
-    std::string gameFlagStart = "0";
+    bool gameFlagStart = false;
 
     std::vector<std::pair<std::string,Position>> userBuffer;
     std::vector<std::pair<std::string,std::string>> userName;
@@ -40,15 +40,13 @@ public:
         return R"({"name":"jet_racing"})";
     }
 
-    auto setStartFlag(auto req){
-        const auto qp = parse_query(req->header().query());
-        std::string flag = std::string(qp["flag"]);
+    auto setStartFlag(bool flag){
         gameFlagStart = flag;
-        return req->create_response().set_body(R"({"status": "ok"})");
+        return R"({"status": "ok"})";
     }
 
-    auto sendStartFlag(auto req){
-        return req->create_response().set_body(R"({"flag":)" + gameFlagStart + R"(})");
+    auto sendStartFlag(){
+        return R"({"flag":)" + std::to_string(gameFlagStart) + R"(})";
     }
 
 

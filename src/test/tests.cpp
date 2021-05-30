@@ -83,8 +83,12 @@ TEST(unit_test, error_set_server_test) {
 }
 
 
-
-
+TEST(unit_test, server_test_flag) {
+    auto server = GameServer();
+    server.setStartFlag(true);
+    auto flag = server.sendStartFlag();
+    ASSERT_EQ(flag,R"({"flag":1})");
+}
 
 int main(int argc, char **argv){
     ::testing::GTEST_FLAG(catch_exceptions) = true;
