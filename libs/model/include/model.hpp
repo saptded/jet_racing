@@ -1,38 +1,55 @@
+#pragma once
 
-//
-// Created by saptded on 15.04.2021.
-//
+#include <list>
+#include <memory>
 
-#ifndef JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_
-#define JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_
-
-#include "racer.hpp"
+#include "abstractModel.hpp"
 #include "observer.hpp"
+#include "racer.hpp"
+#include "racerController.hpp"
 
-class Model : Observable {
- public:
-    Model(/*Server *server*/);
+struct AbstractElement;
+
+class Model : public AbstractModel {
+public:
+    Model() = delete;
+    explicit Model(int id);
     ~Model();
 
-    void updateModel();
+    std::shared_ptr<MenuInfo> updateModel(Command &rotation) override;
 
- private:
+private:
+    Command _currentCommand{};
+
+    void addObserver(Observer *observer) override;
+    void removeObserver(Observer *observer) override;
+
+    void notifyObserves(Response &response) override;
+
     void updateMap();
     void updateRacers();
 
     void updateRacer();
     void updateEnemies();
 
-    void notifyObserves(ModelResponse *response) override;
-    void addObserver(Observer observer) override; // ?
-    void removeObserver(Observer observer) override; // ?
+    void checkFinishedRacers();
 
+    /*
+        std::unique_ptr<Map> _map;
+    */
+    Racer _racer;
+    std::vector<Racer> enemies;
 
-    Racer *racer;
-//    Map *map;
-//    Server *server
+    RacerController _racerController;
+    std::list<Observer *> _observes;
 
-    Observer *observes;
+    uint8_t currentStage;
+    uint8_t finishedRacers;
+
+    std::shared_ptr<MenuInfo> menuInfo;
+    /*
+        std::shared_ptr<GameClient> _client;
+    */
+
+    bool justStarted = true;  //извини Алексей, надо как-то лучше придумать наверное
 };
-
-#endif //JET_RACING_LIBS_MODEL_INCLUDE_MODEL_HPP_

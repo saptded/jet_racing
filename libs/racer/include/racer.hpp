@@ -1,22 +1,32 @@
-//
-// Created by saptded on 15.04.2021.
-//
+#pragma once
 
-#ifndef JET_RACING_LIBS_RACER_INCLUDE_RACER_HPP_
-#define JET_RACING_LIBS_RACER_INCLUDE_RACER_HPP_
+#include "mechanicalValues.hpp"
+#include <memory>
 
-#include "utils.hpp"
+class DrawableRacer;
+struct Racer {
+    Racer(Point point = {0, 0}, int id = 0);
+    Racer(const Racer &racer) = default;
+    Racer &operator=(const Racer &racer) = default;
+    ~Racer() = default;
 
-class Racer {
- public:
-    void updateRacerPosition();
-    void updateRacerRotation(RotationDirection addingRotation = RotationDirection::none);
-    void updateRacerSpeed(Speed addingSpeed = Speed{0, 0});
+    float _width;
+    float _height;
 
- private:
-    int rotation;
-    Speed speed;
-    Point position[3];
+    float _rotation;
+    Speed _speed;
+    Speed _rotationSpeed;
+
+    std::pair<Point, Point> _position;       // top left / bottom right
+    std::pair<Point, Point> _positionExtra;  // bottom left / top right
+    Point _center;
+    Point _origin;
+
+    uint8_t _id;
+
+    std::tuple<bool, uint8_t> finished;
+
+    bool onCollision;
+
+    std::shared_ptr<DrawableRacer> _drObj;
 };
-
-#endif //JET_RACING_LIBS_RACER_INCLUDE_RACER_HPP_
