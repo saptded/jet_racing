@@ -1,6 +1,6 @@
 <map>
     <stage>
-        <element name="arc" startX="150" startY="775" endX="600" endY="775" centerX="375" centerY="775"/>
+        <element name="delayer" startX="825" startY="175" endX="1075" endY="75" centerX="950" centerY="125"/>
 <!--        <element name="line" startX="0" startY="850" endX="1000" endY="850" centerX="0" centerY="0"/>-->
 
     </stage>
