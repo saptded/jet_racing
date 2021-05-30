@@ -20,35 +20,33 @@ class GameClient{
 
 public:
     explicit GameClient(ConnectionData connection1){
-        dataConnection = std::move(connection1);
+        dataConnection = connection1;
     }
-    explicit GameClient(){
-        dataConnection = ConnectionData();
-    }
+    explicit GameClient() = default;
 
 
 
     template<typename Deserialization>
     std::vector<Position> getUpdates() {
-     #ifndef test_jet_racing
-        DeserializationObject<Deserialization> deserObject =  DeserializationObject<Deserialization>();
+#ifndef test_jet_racing
+        auto deserObject =  DeserializationObject<Deserialization>();
         auto response = Request::getRequest(Url(dataConnection.host + ":" + std::string(dataConnection.port) + "/get_updates"));
         auto res =  deserObject.getPositionFromJson(response.text);
         return res;
-     #else
+#else
         auto pos = Position{"200"};
         auto res = std::vector<Position>();
         res.push_back(pos);
         return res;
-     #endif
+#endif
     }
 
 
     void sendData(Position &userPosition) {
         auto res = Request::getRequest(Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
-        #ifdef DEBUG
+#ifdef DEBUG
          std::cout << res.text << " response\n";
-        #endif
+#endif
     }
 
     template<typename Deserialization>
