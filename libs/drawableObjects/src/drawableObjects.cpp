@@ -91,6 +91,10 @@ void DrawableLine::draw(sf::RenderWindow &window) {
 
 void DrawableLine::init(int stage) {
     sf::Color color = colorChoose.getWall(stage);
+    initFromColor(color);
+}
+
+void DrawableLine::initFromColor(sf::Color color) {
     sf::Color colorTrans = color;
     colorTrans.a -= 55;
     // только для вертикальных и гозизонтальных линий
@@ -189,15 +193,23 @@ lineRect = {
 };
 }
 
-void DrawableFinish::init(int stage) {
+void DrawableLineRect::initFromColor(sf::Color color) {
     for(auto &line: lineRect){
-        line.init(3);
+        line.initFromColor(color);
+    }
+}
+
+void DrawableFinish::init(int stage) {
+    sf::Color color = colorChoose.finish;
+    for(auto &line: lineRect){
+        line.initFromColor(color);
     }
 }
 
 void DrawablePortal::init(int stage) {
+    sf::Color color = colorChoose.finish;
     for(auto &line: lineRect){
-        line.init(4);
+        line.initFromColor(color);
     }
 }
 
@@ -218,3 +230,29 @@ DrawableAccelerator::DrawableAccelerator(Point start, Point end, Point center)
 }
 
 void DrawableAccelerator::draw(sf::RenderWindow &window) { window.draw(rect); }
+
+DrawableButton::DrawableButton(Point start, Point end, std::string& text, sf::Font& font):
+        active(start, end, {0,0}),
+        passive(start, end, {0,0}),
+        textAct(text, font),
+        textPass(text, font) {
+    int width = textAct.getLocalBounds().width;
+    int height = textAct.getLocalBounds().height;
+    textAct.setOrigin(width/2, -textAct.getLocalBounds().height/2);
+    textPass.setPosition(start.x + width/2, start.y+height/2);
+}
+
+void DrawableButton::init() {
+    active.initFromColor(colorChoose.menuBright);
+    passive.initFromColor(colorChoose.menuDark);
+}
+
+void DrawableButton::draw(bool isActive, sf::RenderWindow &window) {
+    if(isActive){
+        active.draw(window);
+        window.draw(textAct);
+    } else {
+        passive.draw(window);
+        window.draw(textPass);
+    }
+}

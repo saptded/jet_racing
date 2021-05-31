@@ -4,6 +4,10 @@
 #include "mechanicalValues.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
+#include <sfColor.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
+
 
 static const float WEIGHT_K = 5;
 
@@ -26,6 +30,7 @@ public:
     DrawableLine(Point start, Point end, Point center): DrawableObject(start, end, center) {};
     void draw(sf::RenderWindow &window) override;
     void init(int stage) override;
+    void initFromColor(sf::Color color);
 private:
     sf::VertexArray lines[3];
     float weightK = WEIGHT_K;
@@ -54,6 +59,7 @@ public:
     DrawableLineRect(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
     void init(int stage) override;
+    void initFromColor(sf::Color color);
 protected:
     std::vector<DrawableLine> lineRect;
 };
@@ -79,4 +85,16 @@ public:
 private:
     DrawableLine line;
     DrawableArc arc;
+};
+
+class DrawableButton {
+public:
+    DrawableButton(Point start, Point end, std::string& text, sf::Font& font);
+    void init();
+    void draw(bool isActive, sf::RenderWindow &window);
+private:
+    DrawableLineRect active;
+    DrawableLineRect passive;
+    sf::Text textAct;
+    sf::Text textPass;
 };

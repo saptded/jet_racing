@@ -20,16 +20,14 @@ public:
     sf::Color fire = {185, 247, 255, };
     sf::Color white = sf::Color::White;
     sf::Color black = sf::Color::Black;
-
-    sf::Color finish = {106, 234, 90}; // цвет финиша - зеленоватый
-    sf::Color portal = {255, 255, 109}; // цвет портала - желтый
-
 private:
     std::vector<sf::Color> walls = {
         sf::Color(108,93,228), // фиолетовые
         sf::Color(223, 94, 228), // розовые
         sf::Color(184, 208, 210), //белые
         sf::Color(100, 93, 80),
+        sf::Color(106, 234, 90), // цвет финиша - зеленоватый
+        sf::Color(255, 255, 109),// цвет портала - желтый
 
     };
     std::vector<sf::Color> bg = {
