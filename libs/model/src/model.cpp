@@ -8,7 +8,7 @@
 #include "response.hpp"
 
 Model::Model(int id)
-    : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
+    : _map(std::make_unique<Map>(std::string("../maps/stages.xml")))
     , _racer(_map->getStartPointByID(0), id)
     , currentStage(0)
     , finishedRacers(0){}
@@ -85,10 +85,17 @@ void Model::updateRacers() {
 
 void Model::updateRacer() {
 
-    auto element = _map->getCollisionElement(_racer._position.first, _racer._positionExtra.second, _racer._positionExtra.first, _racer._position.second, _racer._bottomCenter);
+    auto element = _map->getCollisionElement(_racer._position.first, _racer._positionExtra.second, _racer._positionExtra.first, _racer._position.second, _racer._bottomCenter, currentStage);
 
     if (element != nullptr) {
         element->collision(_racer, _racerController, _currentCommand);
+        if (_racer._teleport) {
+            currentStage++;
+            _racerController.updatePosition(_racer, _map->getStartPointByID(_racer._id));
+            _racer._teleport = false;
+            justStarted = true;
+            _racerController.changeSpeed(_racer, true);
+        }
     }
 
     _racerController.changeRotationSpeed(_currentCommand, _racer);

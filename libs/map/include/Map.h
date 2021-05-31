@@ -15,7 +15,7 @@ public:
     ~Map() = default;
 
     std::vector<std::shared_ptr<AbstractElement>> getElementsInStage(int currentStage);
-    std::shared_ptr<AbstractElement> getCollisionElement(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerCenter);
+    std::shared_ptr<AbstractElement> getCollisionElement(Point &playerTopLeft, Point &playerTopRight, Point &playerBottomLeft, Point &playerBottomRight, Point &playerCenter, int currentStage);
     Point& getStartPointByID(int id);
 
 private:
