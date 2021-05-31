@@ -27,6 +27,7 @@ struct Racer {
 
     bool onCollision;
     uint16_t curStage;
+    bool _teleport;
 
     std::tuple<bool, uint8_t> finished;
 

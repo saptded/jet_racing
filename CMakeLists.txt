@@ -53,9 +53,6 @@ target_link_libraries(restiniofull INTERFACE restinio::restinio)
 target_include_directories(restiniofull INTERFACE ${restinio_SOURCE_DIR}/dev/asio/include)
 target_compile_options(restiniofull INTERFACE -fPIE -fPIC)
 
-
-
-
 add_subdirectory(libs)
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
@@ -63,3 +60,7 @@ find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 add_executable(main mainMenu.cpp)
 add_dependencies(main rapidjson)
 target_link_libraries(main PUBLIC restiniofull sfGameViewer presenter model response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libcustomDeserialization libserialization libcustomRequest libstartServer menu)
+
+add_executable(main1 mainMenu.cpp)
+add_dependencies(main1 rapidjson)
+target_link_libraries(main1 PUBLIC restiniofull sfGameViewer presenter model response observer racer mechanicalValues sfml-graphics cpr::cpr libserver libclient libdata_struct libcustomDeserialization libserialization libcustomRequest libstartServer menu)
