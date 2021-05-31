@@ -1,5 +1,8 @@
 <map>
     <stage>
-        <element name="finish" startX="150" startY="850" endX="350" endY="1000" centerX="0" centerY="0"/>
+        <element name="portal" startX="150" startY="950" endX="350" endY="1000" centerX="0" centerY="0"/>
+    </stage>
+    <stage>
+        <element name="finish" startX="150" startY="950" endX="350" endY="1000" centerX="0" centerY="0"/>
     </stage>
 </map>

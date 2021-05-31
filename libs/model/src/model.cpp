@@ -54,8 +54,8 @@ void Model::updateRacers() {
         Position pos = {std::to_string(myId), std::to_string(42), std::to_string(position)
                 , std::to_string(_racer._rotation)
                 , 42
-                , position
-                , true}; // поместили в stage место
+                , position // поместили в stage место
+                , true};
         _client->sendData(pos);
         menuInfo = std::make_shared<MenuInfo>();
         menuInfo->myName = myName;
@@ -68,19 +68,6 @@ void Model::updateRacers() {
             enemy.finished = std::make_tuple(true, ++finishedRacers);
         }
     }
-//    if (finishedRacers == enemies.size() + 1) {
-//        menuInfo = std::make_shared<MenuInfo>();
-//        auto [isFinished, position] = _racer.finished;
-//        menuInfo->results[_racer._id] = position;
-//        for (auto &enemy : enemies) {
-//            auto [isEnemyFinished, enemyPosition] = enemy.finished;
-//        GameResponse response{currentStage, ViewEvent::CHANGE_STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
-//
-//            menuInfo->results.insert(std::make_pair(enemy._id, enemyPosition));
-//        }
-//
-//        menuInfo->client = _client;
-//    }
 }
 
 void Model::updateRacer() {

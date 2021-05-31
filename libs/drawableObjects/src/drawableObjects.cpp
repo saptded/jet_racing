@@ -217,7 +217,7 @@ void DrawableFinish::init(int stage) {
 }
 
 void DrawablePortal::init(int stage) {
-    sf::Color color = colorChoose.finish;
+    sf::Color color = colorChoose.portal;
     for(auto &line: lineRect){
         line.initFromColor(color);
     }

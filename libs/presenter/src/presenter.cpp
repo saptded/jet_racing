@@ -31,12 +31,6 @@ std::shared_ptr<MenuInfo> Presenter::run() {
 
 void Presenter::handleEvent(std::shared_ptr<Response> response) { viewer->render(response); }
 
-//Presenter *Presenter::create(int id) {
-//    static auto presenter = new Presenter(id);
-//    presenter->_model->addObserver(presenter);
-//    presenter->viewer = std::make_unique<Viewer>();
-//    return presenter;
-//}
 Presenter::~Presenter() { _model->removeObserver(this); }
 
 std::shared_ptr<Presenter> Presenter::create(int id) {
