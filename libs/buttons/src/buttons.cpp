@@ -2,24 +2,17 @@
 #include "sfColor.hpp"
 
 AbstractButton::AbstractButton(int num, sf::Text& _text, sf::RenderWindow& window):
-text(_text), id(_text.getString()) {
-    rect.setFillColor(sf::Color::Transparent);
+                id(_text.getString())
+{
     float width = (float)window.getSize().x;
     float height = (float)window.getSize().y;
-    rect.setSize(sf::Vector2f (width/2, height/8));
-    rect.setPosition(width/4, (6 - num*2)*height/8);
-
-    text.setOrigin(text.getLocalBounds().width/2, -text.getLocalBounds().height/2);
-    text.setPosition(width/2, (6 - num*2)*height/8);
-    num == 0 ? isActive = true : isActive = false;
-    if(isActive){
-        rect.setOutlineThickness(5);
-        rect.setOutlineColor(color.white);
-        text.setFillColor(color.white);
-    } else {
-        rect.setOutlineThickness(2);
-        rect.setOutlineColor(color.menuDark);
-        text.setFillColor(color.menuDark);
+    Point start = {width/4, (float)(6 - num*2)*height/8};
+    Point finish = {3*width/4, (float)(6 - num*2 + 1)*height/8};
+    drBtn = std::make_shared<DrawableButton>(start, finish, _text);
+    if(num){
+        isActive = true;
+    } else{
+        isActive = false;
     }
 }
 
@@ -28,22 +21,17 @@ bool AbstractButton::getIsActive() {
 }
 
 void AbstractButton::setActive() {
-    rect.setOutlineThickness(5);
-    rect.setOutlineColor(color.menuBright);
-    text.setFillColor(color.menuBright);
+    //drBtn->setActive();
     isActive = true;
 }
 
 void AbstractButton::setPassive() {
-    rect.setOutlineThickness(2);
-    rect.setOutlineColor(color.menuDark);
-    text.setFillColor(color.menuDark);
+    //drBtn->setPassive();
     isActive = false;
 }
 
 void AbstractButton::draw(sf::RenderWindow& window) {
-    window.draw(rect);
-    window.draw(text);
+    drBtn->draw(isActive, window);
 }
 
 std::string AbstractButton::getId() {

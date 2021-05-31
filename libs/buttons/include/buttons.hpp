@@ -19,8 +19,9 @@ public:
     void draw(sf::RenderWindow& window);
 private:
     bool isActive;
-    sf::Text text;
-    sf::RectangleShape rect;
+    std::shared_ptr<DrawableButton> drBtn = nullptr;
+    //sf::Text text;
+    //sf::RectangleShape rect;
     std::string id;
     sfColor color;
 };

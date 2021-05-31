@@ -231,28 +231,47 @@ DrawableAccelerator::DrawableAccelerator(Point start, Point end, Point center)
 
 void DrawableAccelerator::draw(sf::RenderWindow &window) { window.draw(rect); }
 
-DrawableButton::DrawableButton(Point start, Point end, std::string& text, sf::Font& font):
+DrawableButton::DrawableButton(Point start, Point end, sf::Text& text):
         active(start, end, {0,0}),
         passive(start, end, {0,0}),
-        textAct(text, font),
-        textPass(text, font) {
-    int width = textAct.getLocalBounds().width;
-    int height = textAct.getLocalBounds().height;
+        textAct(text),
+        textPass(text) {
+
+    float width = textAct.getLocalBounds().width;
+    float height = textAct.getLocalBounds().height;
+
     textAct.setOrigin(width/2, -textAct.getLocalBounds().height/2);
-    textPass.setPosition(start.x + width/2, start.y+height/2);
+    textAct.setPosition(start.x + (start.x-end.x)/2, start.y+(start.y-end.y)/2);
+    textPass.setFillColor(colorChoose.menuDark);
+
+    textPass.setOrigin(width/2, -textAct.getLocalBounds().height/2);
+    textPass.setPosition(start.x + (start.x-end.x)/2, (start.x-end.x)/2);
+    textPass.setFillColor(colorChoose.menuBright);
 }
 
 void DrawableButton::init() {
     active.initFromColor(colorChoose.menuBright);
     passive.initFromColor(colorChoose.menuDark);
+    //setPassive();
 }
 
 void DrawableButton::draw(bool isActive, sf::RenderWindow &window) {
     if(isActive){
-        active.draw(window);
         window.draw(textAct);
-    } else {
-        passive.draw(window);
+        active.draw(window);
+    }else{
         window.draw(textPass);
+        passive.draw(window);
     }
+
 }
+
+//void DrawableButton::setActive() {
+//    current = &active;
+//    curText = &textAct;
+//}
+//
+//void DrawableButton::setPassive() {
+//    current = &passive;
+//    curText = &textPass;
+//}

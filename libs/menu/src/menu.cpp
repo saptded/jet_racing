@@ -13,7 +13,7 @@ Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
         client = std::move(info->client);
         waitingOthersAfter = true;
     } else {
-        makeStartButtons();
+        //makeStartButtons();
     }
 }
 
@@ -33,6 +33,8 @@ std::unique_ptr<MenuInfo> Menu::run() {
         };
         buttonIterator = 0;
         buttons.at(0).setPassive();
+    } else {
+        makeStartButtons();
     }
     sf::Event event{};
     while (window.isOpen()) {
@@ -83,6 +85,7 @@ std::unique_ptr<MenuInfo> Menu::run() {
             window.close();
             return std::make_unique<MenuInfo>(myName, myId, client);
         }
+
         display();
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -264,6 +267,6 @@ void Menu::makeStartButtons() {
             AbstractButton(1, stGame, window),
     };
     buttonIterator = 0;
-    buttons.at(buttonIterator).setActive();
+    buttons.at(buttonIterator).setPassive();
 }
 

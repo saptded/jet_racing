@@ -80,7 +80,7 @@ class DrawablePropeller : public DrawableObject {
 public:
     DrawablePropeller(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
-    void drawDynamic(sf::RenderWindow &window, Point _start, Point _end, Point _center){};
+    void drawDynamic(sf::RenderWindow window, Point _start, Point _end, Point _center){};
     void init(int stage) override;
 private:
     DrawableLine line;
@@ -89,12 +89,16 @@ private:
 
 class DrawableButton {
 public:
-    DrawableButton(Point start, Point end, std::string& text, sf::Font& font);
+    DrawableButton(Point start, Point end, sf::Text& text);
     void init();
     void draw(bool isActive, sf::RenderWindow &window);
+//    void setActive();
+//    void setPassive();
 private:
     DrawableLineRect active;
     DrawableLineRect passive;
+    //DrawableLineRect* current;
     sf::Text textAct;
     sf::Text textPass;
+    //sf::Text* curText;
 };
