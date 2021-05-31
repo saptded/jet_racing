@@ -156,6 +156,10 @@ void DrawableLine::initFromColor(sf::Color color) {
     }
 }
 
+void DrawableLine::setWeightK(float k) {
+    weightK = k;
+}
+
 DrawablePropeller::DrawablePropeller(Point start, Point end, Point center) // пропеллер начинается в горизонтальном положении начало слева
 : DrawableObject(start, end, center)
 , line(start, end, center)
@@ -178,6 +182,12 @@ for(auto &line: lineRect){
 }
 }
 
+void DrawableLineRect::initFromColor(sf::Color color) {
+    for(auto &line: lineRect){
+        line.initFromColor(color);
+    }
+}
+
 void DrawableLineRect::draw(sf::RenderWindow &window) {
     for(auto &lines: lineRect){
         lines.draw(window);
@@ -185,17 +195,17 @@ void DrawableLineRect::draw(sf::RenderWindow &window) {
 }
 
 DrawableLineRect::DrawableLineRect(Point start, Point end, Point center) : DrawableObject(start, end, center) {
-lineRect = {
-        DrawableLine(start, {start.x, end.y}, center),
-        DrawableLine({start.x, end.y}, end, center),
-        DrawableLine({end.x, start.y}, end, center),
-        DrawableLine(start, {end.x, start.y}, center),
-};
+    lineRect = {
+            DrawableLine(start, {start.x, end.y}, center),
+            DrawableLine({start.x, end.y}, end, center),
+            DrawableLine({end.x, start.y}, end, center),
+            DrawableLine(start, {end.x, start.y}, center),
+    };
 }
 
-void DrawableLineRect::initFromColor(sf::Color color) {
+void DrawableLineRect::setWeightK(float k) {
     for(auto &line: lineRect){
-        line.initFromColor(color);
+        line.setWeightK(k);
     }
 }
 
@@ -240,19 +250,23 @@ DrawableButton::DrawableButton(Point start, Point end, sf::Text& text):
     float width = textAct.getLocalBounds().width;
     float height = textAct.getLocalBounds().height;
 
-    textAct.setOrigin(width/2, -textAct.getLocalBounds().height/2);
-    textAct.setPosition(start.x + (start.x-end.x)/2, start.y+(start.y-end.y)/2);
+    textAct.setOrigin(width/2, height-10);
+    textAct.setPosition((end.x+start.x)/2, (end.y+start.y)/2);
+    textAct.setFillColor(colorChoose.menuBright);
+
+    textPass.setOrigin(width/2, height-10);
+    textPass.setPosition((end.x+start.x)/2, (end.y+start.y)/2);
     textPass.setFillColor(colorChoose.menuDark);
 
-    textPass.setOrigin(width/2, -textAct.getLocalBounds().height/2);
-    textPass.setPosition(start.x + (start.x-end.x)/2, (start.x-end.x)/2);
-    textPass.setFillColor(colorChoose.menuBright);
+    init();
 }
 
 void DrawableButton::init() {
+    active.setWeightK(10.0f);
     active.initFromColor(colorChoose.menuBright);
+
+    passive.setWeightK(10.0f);
     passive.initFromColor(colorChoose.menuDark);
-    //setPassive();
 }
 
 void DrawableButton::draw(bool isActive, sf::RenderWindow &window) {
@@ -263,15 +277,4 @@ void DrawableButton::draw(bool isActive, sf::RenderWindow &window) {
         window.draw(textPass);
         passive.draw(window);
     }
-
 }
-
-//void DrawableButton::setActive() {
-//    current = &active;
-//    curText = &textAct;
-//}
-//
-//void DrawableButton::setPassive() {
-//    current = &passive;
-//    curText = &textPass;
-//}

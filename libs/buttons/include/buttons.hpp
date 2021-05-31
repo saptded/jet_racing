@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -8,20 +9,25 @@
 
 #include "sfColor.hpp"
 
-class AbstractButton{
+class AbstractButton {
 public:
     AbstractButton() = delete;
-    AbstractButton(int num, sf::Text& _text, sf::RenderWindow& window);
+
+    AbstractButton(int num, sf::Text &_text, sf::RenderWindow &window);
+
     std::string getId();
+
     bool getIsActive();
+
     void setActive();
+
     void setPassive();
-    void draw(sf::RenderWindow& window);
+
+    void draw(sf::RenderWindow &window);
+
 private:
     bool isActive;
     std::shared_ptr<DrawableButton> drBtn = nullptr;
-    //sf::Text text;
-    //sf::RectangleShape rect;
     std::string id;
     sfColor color;
 };

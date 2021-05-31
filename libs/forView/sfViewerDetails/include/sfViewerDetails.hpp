@@ -13,8 +13,11 @@ class sfViewerDetails {
 public:
     //explicit sfViewerDetails(sf::RenderWindow &window);
     sfViewerDetails();
+
     sfViewerDetails(std::vector<std::vector<float>>);
+
     void update(Racer &racer);
+
     void display(sf::RenderWindow &window, int stage);
 
 private:

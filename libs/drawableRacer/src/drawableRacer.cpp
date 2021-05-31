@@ -4,13 +4,13 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 
-void DrawableRacer::loadSources(bool isOwn) {
+void DrawableRacer::loadSources(bool isOwn) { // разные текстуры для противников и себя
     if(isOwn){
         image.loadFromFile("../media/carfire2.png");
     } else {
         image.loadFromFile("../media/firecar.png");
     }
-    //image.createMaskFromColor(sf::Color::Magenta);
+    image.createMaskFromColor(sf::Color::Magenta);
     texture.loadFromImage(image);
     texture.setSmooth(true);
 }

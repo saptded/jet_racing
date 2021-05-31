@@ -20,7 +20,6 @@ public:
 private:
     float getAngle(Point &centre, Point &rad);
     float calcRadius(Point &one, Point &two);
-    //sf::VertexArray arcs[3];
     std::vector<sf::VertexArray> arcs;
     float weightK = WEIGHT_K;
 };
@@ -31,6 +30,7 @@ public:
     void draw(sf::RenderWindow &window) override;
     void init(int stage) override;
     void initFromColor(sf::Color color);
+    void setWeightK(float k);
 private:
     sf::VertexArray lines[3];
     float weightK = WEIGHT_K;
@@ -60,6 +60,7 @@ public:
     void draw(sf::RenderWindow &window) override;
     void init(int stage) override;
     void initFromColor(sf::Color color);
+    void setWeightK(float k);
 protected:
     std::vector<DrawableLine> lineRect;
 };
@@ -92,13 +93,9 @@ public:
     DrawableButton(Point start, Point end, sf::Text& text);
     void init();
     void draw(bool isActive, sf::RenderWindow &window);
-//    void setActive();
-//    void setPassive();
 private:
     DrawableLineRect active;
     DrawableLineRect passive;
-    //DrawableLineRect* current;
     sf::Text textAct;
     sf::Text textPass;
-    //sf::Text* curText;
 };

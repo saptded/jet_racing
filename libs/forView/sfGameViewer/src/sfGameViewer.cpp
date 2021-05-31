@@ -9,21 +9,31 @@
 void sfGameViewer::render(std::shared_ptr<Response> data) {
     {
         switch (data->eventType) {
-            case RACER: renderRacer(data); break;
-            case ENEMIES: renderEnemies(data); break;
-            case STAGE: renderMap(data); break;
-            case CHANGE_STAGE: increaseStage(data); break;
-            case RENDER: displayWindow(); break;
-            case RESULTS: break;
+            case RACER:
+                renderRacer(data);
+                break;
+            case ENEMIES:
+                renderEnemies(data);
+                break;
+            case STAGE:
+                renderMap(data);
+                break;
+            case CHANGE_STAGE:
+                increaseStage(data);
+                break;
+            case RENDER:
+                displayWindow();
+                break;
+            case RESULTS:
+                break;
         }
 
     }
 }
 
 sfGameViewer::sfGameViewer()
-    : details(std::make_unique<sfViewerDetails>())
-    , dist(sf::RenderWindow(sf::VideoMode(1920, 1080), "jet_racing"))
-    {}
+        : details(std::make_unique<sfViewerDetails>()),
+          dist(sf::RenderWindow(sf::VideoMode(1920, 1080), "jet_racing")) {}
 
 void sfGameViewer::renderMap(std::shared_ptr<Response> data) {
     for (auto &elem : data.get()->stage.value()) {
@@ -39,11 +49,11 @@ void sfGameViewer::renderRacer(std::shared_ptr<Response> data) {
 void sfGameViewer::displayWindow() { details->display(dist, stage); }
 
 void sfGameViewer::renderEnemies(std::shared_ptr<Response> data) {
-        for (auto racer : data->enemies.value()) {
-            if(racer.curStage == stage){
-                racer.draw(dist);
-            }
+    for (auto racer : data->enemies.value()) {
+        if (racer.curStage == stage) {
+            racer.draw(dist);
         }
+    }
 }
 
 void sfGameViewer::increaseStage(std::shared_ptr<Response> data) {
@@ -52,6 +62,7 @@ void sfGameViewer::increaseStage(std::shared_ptr<Response> data) {
         elem->init(stage);
     }
 }
+
 Command sfGameViewer::handleButtonEvent() {
     sf::Event buttonEvent{};
 
@@ -70,6 +81,7 @@ Command sfGameViewer::handleButtonEvent() {
 
     return Command::none;
 }
+
 void sfGameViewer::close() {
     dist.clear();
     dist.close();
