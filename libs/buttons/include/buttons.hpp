@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <drawableObjects.hpp>
 
 #include "sfColor.hpp"
 
@@ -19,7 +20,6 @@ public:
 private:
     bool isActive;
     sf::Text text;
-    //sf::Font   font;
     sf::RectangleShape rect;
     std::string id;
     sfColor color;

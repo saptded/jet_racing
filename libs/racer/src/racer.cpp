@@ -18,6 +18,6 @@ Racer::Racer(Point point, int id)
     , finished(false, 0)
     , onCollision(false)
 
-    , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation)) {}
+    , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation, (bool)_position.second.x)) {}
 
 template <> void Racer::draw<sf::RenderWindow>(sf::RenderWindow &target) { _drObj->draw(*this, target); };

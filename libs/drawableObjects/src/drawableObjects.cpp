@@ -168,25 +168,37 @@ void DrawablePropeller::draw(sf::RenderWindow &window) {
     line.draw(window);
 }
 
-void DrawableDoor::init(int stage) {
+void DrawableLineRect::init(int stage) {
 for(auto &line: lineRect){
-    line.init(4);
+    line.init(stage);
 }
 }
 
-void DrawableDoor::draw(sf::RenderWindow &window) {
+void DrawableLineRect::draw(sf::RenderWindow &window) {
     for(auto &lines: lineRect){
         lines.draw(window);
     }
 }
 
-DrawableDoor::DrawableDoor(Point start, Point end, Point center) : DrawableObject(start, end, center) {
+DrawableLineRect::DrawableLineRect(Point start, Point end, Point center) : DrawableObject(start, end, center) {
 lineRect = {
         DrawableLine(start, {start.x, end.y}, center),
         DrawableLine({start.x, end.y}, end, center),
         DrawableLine({end.x, start.y}, end, center),
         DrawableLine(start, {end.x, start.y}, center),
 };
+}
+
+void DrawableFinish::init(int stage) {
+    for(auto &line: lineRect){
+        line.init(3);
+    }
+}
+
+void DrawablePortal::init(int stage) {
+    for(auto &line: lineRect){
+        line.init(4);
+    }
 }
 
 DrawableDelayer::DrawableDelayer(Point start, Point end, Point center)
@@ -206,4 +218,3 @@ DrawableAccelerator::DrawableAccelerator(Point start, Point end, Point center)
 }
 
 void DrawableAccelerator::draw(sf::RenderWindow &window) { window.draw(rect); }
-

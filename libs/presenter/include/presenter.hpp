@@ -1,6 +1,6 @@
 #pragma once
 
-#include "viewer.hpp"
+#include "gameViewer.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <abstractModel.hpp>
 #include <memory>
@@ -8,8 +8,6 @@
 
 class Presenter : public Observer {
 public:
-    Presenter(std::shared_ptr<MenuInfo> info);
-
     static std::shared_ptr<Presenter> create(int id);
     static std::shared_ptr<Presenter> create(std::shared_ptr<MenuInfo> info);
 
@@ -19,13 +17,15 @@ public:
     Presenter &operator=(const Presenter &) = delete;
 
     std::shared_ptr<MenuInfo> run();
-    void handleEvent(Response &response) override;
+    void handleEvent(std::shared_ptr<Response> response) override;
+
+    explicit Presenter(std::shared_ptr<MenuInfo> info);
 
 private:
     explicit Presenter(int id);
 
     bool _finishGame = false;
 
-    std::unique_ptr<Viewer> viewer;
+    std::unique_ptr<GameViewer> viewer;
     std::unique_ptr<AbstractModel> _model;
 };

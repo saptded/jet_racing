@@ -1,4 +1,4 @@
 add_library(response STATIC src/response.cpp)
 
 target_include_directories(response PUBLIC include)
-target_link_libraries(response PUBLIC racer element)
+target_link_libraries(response PUBLIC element mechanicalValues)

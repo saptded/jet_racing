@@ -3,6 +3,7 @@
 #include "presenter.hpp"
 #include "model.hpp"
 #include "gameTimer.hpp"
+#include "sfGameViewer.hpp"
 
 Presenter::Presenter(int id)
     : _finishGame(false)
@@ -28,7 +29,7 @@ std::shared_ptr<MenuInfo> Presenter::run() {
     return results;
 }
 
-void Presenter::handleEvent(Response &response) { viewer->render(response); }
+void Presenter::handleEvent(std::shared_ptr<Response> response) { viewer->render(response); }
 
 //Presenter *Presenter::create(int id) {
 //    static auto presenter = new Presenter(id);
@@ -41,18 +42,19 @@ Presenter::~Presenter() { _model->removeObserver(this); }
 std::shared_ptr<Presenter> Presenter::create(int id) {
     static auto presenter = std::shared_ptr<Presenter>(new Presenter(id));
     presenter->_model->addObserver(presenter.get());
-    presenter->viewer = std::make_unique<Viewer>();
+    presenter->viewer = std::make_unique<sfGameViewer>();
     return presenter;
 }
 
 std::shared_ptr<Presenter> Presenter::create(std::shared_ptr<MenuInfo> info) {
     static auto presenter = std::make_shared<Presenter>(info);
     presenter->_model->addObserver(presenter.get());
-    presenter->viewer = std::make_unique<Viewer>();
+    presenter->viewer = std::make_unique<sfGameViewer>();
     return presenter;
 }
 
 Presenter::Presenter(std::shared_ptr<MenuInfo> info)
         : _finishGame(false)
-        , _model(std::make_unique<Model>(info)){};
+        , _model(std::make_unique<Model>(info))
+        {};
 

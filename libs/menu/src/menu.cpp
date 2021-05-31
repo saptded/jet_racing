@@ -1,13 +1,11 @@
 #include "menu.hpp"
 #include <customDeserialization.h>
 #include <deserialization.h>
-#include <stdint.h>
-//#include <GameServer.hpp>
-//#include <startServer.h>
+#include <SFML/Window/Event.hpp>
 
-Menu::Menu(std::shared_ptr<MenuInfo> info, servs _servers) :
-      window(sf::VideoMode(1000, 800), "JetRacing"){
-    if(_servers.first != nullptr){
+Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
+        window(sf::VideoMode(1000, 800), "JetRacing") {
+    if (_servers.first != nullptr) {
         server = std::move(_servers.first);
         gameServer = std::move(_servers.second);
     }
@@ -21,7 +19,7 @@ Menu::Menu(std::shared_ptr<MenuInfo> info, servs _servers) :
 
 std::unique_ptr<MenuInfo> Menu::run() {
     int counterOfEnded = 0;
-    if(waitingOthersAfter){
+    if (waitingOthersAfter) {
         sf::Text gotIt("got\tit", font);
         if (!font.loadFromFile("../media/lines.ttf")) {
             //
@@ -39,28 +37,28 @@ std::unique_ptr<MenuInfo> Menu::run() {
     sf::Event event{};
     while (window.isOpen()) {
 
-        if(waitingOthersAfter){
+        if (waitingOthersAfter) {
             auto upds = client->getUpdates<CustomDeserialization>();
-            for(auto got: upds){
-                if(got.x == "42"){
+            for (auto got: upds) {
+                if (got.x == "42") {
                     bool alreadyShown = false;
-                    for(auto &old: endedRacers) {
+                    for (auto &old: endedRacers) {
                         if (old == got.username) {
                             alreadyShown = true;
                             break;
                         }
                     }
-                    if(!alreadyShown){
+                    if (!alreadyShown) {
                         std::string racer = got.username;
                         racer += "\t:\t";
-                        racer += std::to_string(got.stage+1);
+                        racer += std::to_string(got.stage + 1);
                         addText(racer, color.menuBright);
                         endedRacers.emplace_back(got.username);
                         counterOfEnded++;
                     }
                 }
             }
-            if(counterOfEnded == upds.size()){
+            if (counterOfEnded == upds.size()) {
                 waitingOthersAfter = false;
                 buttons.at(buttonIterator).setActive();
                 stopServer();
@@ -74,7 +72,7 @@ std::unique_ptr<MenuInfo> Menu::run() {
             auto upds = client->getUpdates<CustomDeserialization>();
             if/*((upds.size() > 1)&&*/(!buttons.at(buttonIterator).getIsActive()) {
                 buttons.at(buttonIterator).setActive();
-            };
+            }
             if (upds.size() > racers) {
                 addText("other: " + upds.at(upds.size() - 1).username, color.menuBright);
                 racers++;
@@ -110,9 +108,10 @@ std::unique_ptr<MenuInfo> Menu::run() {
             }
         }
     }
+    return nullptr;
 }
 
-void makeResults(){
+void makeResults() {
 
 }
 
@@ -148,7 +147,7 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
                     addText("creator:\t" + std::string(gotRacers.at(0).username), color.menuBright);
                     racers++;
                     for (int i = 1; i <= gotRacers.size() - 2; i++) {
-                        if(gotRacers.at(i).username != myName){
+                        if (gotRacers.at(i).username != myName) {
                             addText("other:\t" + std::string(gotRacers.at(i).username), color.menuBright);
                             racers++;
                         }
@@ -170,7 +169,10 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
                     ready = true; // по кнопке go завершается метод run
                 } else if (but == "got\tit") {
                     std::cout << "got it" << std::endl;
-                    makeStartButtons();
+                    // прощальная надпись.
+                    // закругляемся
+                    //texts = std::vector<sf::Text>();
+                    //makeStartButtons();
                 }
             }
         }

@@ -10,20 +10,21 @@
 #include <memory.h>
 #include <GameServer.hpp>
 #include <startServer.h>
+#include <SFML/Window/Keyboard.hpp>
 
-typedef std::pair<std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>>,std::shared_ptr<GameServer>> servs;
+typedef std::pair<std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>>, std::shared_ptr<GameServer>> servs;
 
-class Menu{
+class Menu {
 public:
-    explicit Menu(std::shared_ptr<MenuInfo> info, servs servers);
+    Menu(std::shared_ptr<MenuInfo>& info, servs servers);
     std::unique_ptr<MenuInfo> run();
-    servs getServer(){
+    servs getServer() {
         return std::make_pair(server, gameServer);
     };
-    void stopServer();
-
 private:
+    // необходимое для подключения сервера
     void runServer();
+    void stopServer();
     std::shared_ptr<GameServer> gameServer = std::make_shared<GameServer>();
     std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server = nullptr;
     std::shared_ptr<GameClient<CustomRequest>> client = nullptr;
@@ -32,21 +33,28 @@ private:
     bool waitingOthersAfter = false;
     std::vector<std::string> endedRacers;
     int racers = 1;
+
     void makeStartButtons();
 
     void display();
+
     void handleInput(sf::Keyboard::Key key, bool isPressed);
 
     std::vector<AbstractButton> buttons;
     int buttonIterator = 0;
+
     void showButtons();
 
     void startGame();
+
     void joinGame();
+
     void changeStep();
 
     std::vector<sf::Text> texts;
-    void addText(std::string text_, sf::Color& color);
+
+    void addText(std::string text_, sf::Color &color);
+
     void printText();
 
     std::string myName;

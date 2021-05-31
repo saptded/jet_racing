@@ -27,7 +27,7 @@ private:
     void addObserver(Observer *observer) override;
     void removeObserver(Observer *observer) override;
 
-    void notifyObserves(Response &response) override;
+    void notifyObserves(std::shared_ptr<Response> response) override;
 
     void updateMap();
     void updateRacers();

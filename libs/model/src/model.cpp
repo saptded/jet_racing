@@ -5,6 +5,7 @@
 #include "AbstractElement.h"
 #include "model.hpp"
 #include "GameClient.hpp"
+#include "response.hpp"
 
 Model::Model(int id)
     : _map(std::make_unique<Map>(std::string("../maps/mapTest.xml")))
@@ -18,8 +19,7 @@ std::shared_ptr<MenuInfo> Model::updateModel(Command &rotation) {
     updateMap();
     updateRacers();
 
-    Response response = {ViewEvent::RENDER, std::nullopt, std::nullopt, std::nullopt};
-    notifyObserves(response);
+    notifyObserves(std::make_shared<Response>());
 
     return menuInfo;
 }
@@ -28,7 +28,7 @@ void Model::addObserver(Observer *observer) { _observes.push_back(observer); }
 
 void Model::removeObserver(Observer *observer) { _observes.remove(observer); }
 
-void Model::notifyObserves(Response &response) {
+void Model::notifyObserves(std::shared_ptr<Response> response) {
     for (const auto &observer : _observes) {
         observer->handleEvent(response);
     }
@@ -38,12 +38,10 @@ Model::~Model() = default;
 
 void Model::updateMap() {
     if(justStarted){
-        Response response{ViewEvent::CHANGE_STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
-        notifyObserves(response);
+        notifyObserves(std::make_shared<Response>(_map->getElementsInStage(currentStage), currentStage, true));
         justStarted = false;
     }
-    Response response{ViewEvent::STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
-    notifyObserves(response);
+    notifyObserves(std::make_shared<Response>(_map->getElementsInStage(currentStage), currentStage));
 }
 
 void Model::updateRacers() {
@@ -53,10 +51,11 @@ void Model::updateRacers() {
     auto [isFinished, position] = _racer.finished;
     if (isFinished && position == 0) {
         _racer.finished = std::make_tuple(true, ++finishedRacers);
-        Position pos = {std::to_string(myId), std::to_string(42), std::to_string(_racer._center.y)
+        Position pos = {std::to_string(myId), std::to_string(42), std::to_string(position)
                 , std::to_string(_racer._rotation)
                 , 42
-                , position, true}; // поместили в stage место
+                , position
+                , true}; // поместили в stage место
         _client->sendData(pos);
         menuInfo = std::make_shared<MenuInfo>();
         menuInfo->myName = myName;
@@ -75,6 +74,8 @@ void Model::updateRacers() {
 //        menuInfo->results[_racer._id] = position;
 //        for (auto &enemy : enemies) {
 //            auto [isEnemyFinished, enemyPosition] = enemy.finished;
+//        GameResponse response{currentStage, ViewEvent::CHANGE_STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
+//
 //            menuInfo->results.insert(std::make_pair(enemy._id, enemyPosition));
 //        }
 //
@@ -96,8 +97,7 @@ void Model::updateRacer() {
     _racerController.updateRotation(_racer);
     _racerController.updatePosition(_racer);
 
-    Response response{ViewEvent::RACER, std::make_optional(_racer), std::nullopt, std::nullopt};
-    notifyObserves(response);
+    notifyObserves(std::make_shared<Response>(_racer, currentStage));
     Position pos = {std::to_string(myId), std::to_string(_racer._center.x), std::to_string(_racer._center.y)
                     , std::to_string(_racer._rotation)
                     , sqrtf(powf(_racer._speed.speedX, 2)+powf(_racer._speed.speedY, 2))
@@ -113,13 +113,13 @@ void Model::updateEnemies() {
             _racerController.updatePosition(*enemy, Point{ std::stof(webEnemy.x) , std::stof(webEnemy.y)});
             enemy->_rotation = std::stof(webEnemy.rotation);
             enemy->_speed.speedX = webEnemy.speed;
+            enemy->curStage = webEnemy.stage;
             if(webEnemy.isFinished){
                 enemy->finished = std::make_tuple(true, webEnemy.stage);
             }
         }
     }
-    Response response{ViewEvent::ENEMIES, std::nullopt, std::make_optional(enemies), std::nullopt};
-    notifyObserves(response);
+    notifyObserves(std::make_shared<Response>(enemies, currentStage));
 }
 
 Model::Model(std::shared_ptr<MenuInfo> menuInfo):
@@ -139,6 +139,4 @@ _map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
             enemies.push_back(enemy);
         }
     }
-    Response response{ViewEvent::CHANGE_STAGE, std::nullopt, std::nullopt, std::make_optional(_map->getElementsInStage(currentStage))};
-    notifyObserves(response);
 }

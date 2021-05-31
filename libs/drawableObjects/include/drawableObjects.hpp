@@ -49,20 +49,32 @@ private:
     sf::RectangleShape rect;
 };
 
-class DrawableDoor : public DrawableObject{
+class DrawableLineRect : public DrawableObject{
 public:
-    DrawableDoor(Point start, Point end, Point center);
+    DrawableLineRect(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
     void init(int stage) override;
-private:
+protected:
     std::vector<DrawableLine> lineRect;
+};
+
+class DrawableFinish: public DrawableLineRect {
+public:
+    DrawableFinish(Point start, Point end, Point center): DrawableLineRect(start, end, center){};
+    void init(int stage) override;
+};
+
+class DrawablePortal: public DrawableLineRect {
+public:
+    DrawablePortal(Point start, Point end, Point center): DrawableLineRect(start, end, center){};
+    void init(int stage) override;
 };
 
 class DrawablePropeller : public DrawableObject {
 public:
     DrawablePropeller(Point start, Point end, Point center);
     void draw(sf::RenderWindow &window) override;
-    //void drawDynamic(sf::RenderWindow &window, Point _start, Point _end, Point _center);
+    void drawDynamic(sf::RenderWindow &window, Point _start, Point _end, Point _center){};
     void init(int stage) override;
 private:
     DrawableLine line;
