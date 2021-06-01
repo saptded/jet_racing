@@ -5,12 +5,12 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 void DrawableRacer::loadSources(bool isOwn) { // разные текстуры для противников и себя
-    if(isOwn){
-        image.loadFromFile("../media/carfire2.png");
+    if (isOwn) {
+        image.loadFromFile("../media/racer.png");
     } else {
-        image.loadFromFile("../media/firecar.png");
+        image.loadFromFile("../media/enemy.png");
+        image.createMaskFromColor(sf::Color::Black);
     }
-    image.createMaskFromColor(sf::Color::Magenta);
     texture.loadFromImage(image);
     texture.setSmooth(true);
 }
@@ -30,20 +30,20 @@ DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, fl
     unsigned int widthT = texture.getSize().x;
     unsigned int heightT = texture.getSize().y;
 
-    sf::Vector2f scale = sf::Vector2f(width/(float)widthT, 1.1f*(height/(float)heightT));
+    sf::Vector2f scale = sf::Vector2f(width / (float) widthT, 1.1f * (height / (float) heightT));
     // здесь увеличивается ширина отображения
 
     car.setTexture(texture);
-    car.setTextureRect(sf::IntRect(int(widthT/2), 0, (int)widthT / 2, (int)heightT));
+    car.setTextureRect(sf::IntRect(int(widthT / 2), 0, (int) widthT / 2, (int) heightT));
 
     car.setScale(scale);
-    car.setOrigin(origin.x / scale.x - (float)widthT / 2, origin.y / scale.y);
+    car.setOrigin(origin.x / scale.x - (float) widthT / 2, origin.y / scale.y);
     sfColor chooseColor;
-    if(!isOwn){
+    if (!isOwn) {
         car.setColor(chooseColor.getCar(id));
     }
     fire.setTexture(texture);
-    fire.setTextureRect(sf::IntRect(0, 0, (int)widthT / 2, (int)heightT));
+    fire.setTextureRect(sf::IntRect(0, 0, (int) widthT / 2, (int) heightT));
     fire.setOrigin(origin.x / scale.x, origin.y / scale.y);
     fire.setScale(scale);
     fire.setColor(chooseColor.fire);

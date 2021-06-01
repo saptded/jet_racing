@@ -2,9 +2,10 @@
 #include <customDeserialization.h>
 #include <deserialization.h>
 #include <SFML/Window/Event.hpp>
+#include <gameTimer.hpp>
 
 Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
-        window(sf::VideoMode(1000, 800), "JetRacing") {
+        window(sf::VideoMode(1920, 1080), "JetRacing") {
     if (_servers.first != nullptr) {
         server = std::move(_servers.first);
         gameServer = std::move(_servers.second);
@@ -33,6 +34,9 @@ std::unique_ptr<MenuInfo> Menu::run() {
             // Здесь изменить, чтобы нельзя было стартовать одному
         }
         if (ready) {
+            buttons.clear();
+            texts.clear();
+            showCounter();
             client->sendFlag(true);
             window.close();
             return std::make_unique<MenuInfo>(myName, myId, client);
@@ -71,14 +75,10 @@ std::unique_ptr<MenuInfo> Menu::run() {
 }
 
 void Menu::makeResults() {
+    font.loadFromFile("../media/lines.ttf");
     sf::Text gotIt("got\tit", font);
-    if (!font.loadFromFile("../media/lines.ttf")) {
-        //
-    } else {
-        addText("results", color.menuBright);
-        gotIt.setFont(font);
-        gotIt.setCharacterSize(50);
-    }
+    addText("results", color.menuBright);
+    gotIt.setCharacterSize(50);
     buttons = {
             AbstractButton(0, gotIt, window),
     };
@@ -136,33 +136,26 @@ void Menu::absButtonPressed() {
     } else if (buttons.at(buttonIterator).getIsActive()) {
         auto but = buttons.at(buttonIterator).getId();
         if (but == "start game") {
-            std::cout << "start game" << std::endl;
             startGame();
         } else if (but == "join game") {
-            std::cout << "join game" << std::endl;
             joinGame();
         } else if (but == "go") {
-            std::cout << "go" << std::endl;
-            ready = true; // по кнопке go завершается метод run
+            ready = true;
         } else if (but == "got\tit") {
             std::cout << "got it" << std::endl;
-            // + прощальная надпись!
+            texts.clear();
+            showMoved("come\tback\t!", 2.5f);
             window.close();
         }
     }
 }
 
 void Menu::makeStartButtons() {
+    font.loadFromFile("../media/lines.ttf");
     sf::Text stGame("start game", font);
     sf::Text joinGame("join game", font);
-    if (!font.loadFromFile("../media/lines.ttf")) {
-        //
-    } else {
-        stGame.setFont(font);
-        stGame.setCharacterSize(50);
-        joinGame.setFont(font);
-        joinGame.setCharacterSize(50);
-    }
+    stGame.setCharacterSize(50);
+    joinGame.setCharacterSize(50);
     buttons = {
             AbstractButton(0, joinGame, window),
             AbstractButton(1, stGame, window),
@@ -180,11 +173,9 @@ void Menu::changeStep() {
     buttons = newButtons;
     buttonIterator = 0;
 
-    // если в texts уже будут лежать результаты, надо обнулить ее. Можно наверно элегантнее
-    std::vector<sf::Text> newTexts;
-    texts = newTexts;
+    texts.clear();
     addText("enter your name", color.menuDark);
-    addText("_", color.menuBright);
+    addText("", color.menuDark); // нужно чтобы в цикле с ьуквами всегла удалять последний текст, не проверяя
     waitingInput = true;
 }
 
@@ -205,7 +196,7 @@ void Menu::addNewPlayers() {
 void Menu::addNewEnded() {
     auto upds = client->getUpdates<CustomDeserialization>();
     for (auto got: upds) {
-        if (got.x == "42") {
+        if (got.stage == -1) {
             bool alreadyShown = false;
             for (auto &old: endedRacers) {
                 if (old == got.username) {
@@ -216,8 +207,8 @@ void Menu::addNewEnded() {
             if (!alreadyShown) {
                 std::string racer = got.username;
                 racer += "\t:\t";
-                racer += std::to_string(got.stage + 1);
-                addText(racer, color.menuBright);
+                racer += std::to_string((int)got.speed);
+                addTextRightOriented(racer, color.menuBright);
                 endedRacers.emplace_back(got.username);
                 counterOfEnded++;
             }
@@ -245,8 +236,18 @@ void Menu::addText(std::string text_, sf::Color &color_) {
     text.setFillColor(color_);
     text.setCharacterSize(50);
     text.setOrigin(text.getLocalBounds().width / 2, -text.getLocalBounds().height / 2);
+    float topMargin = (float) text.getLocalBounds().height*2;
+    text.setPosition((float) window.getSize().x / 2, (float) texts.size() * topMargin + topMargin/2);
+    texts.push_back(text);
+}
+
+void Menu::addTextRightOriented(std::string text_, sf::Color &color_) {
+    sf::Text text(text_, font);
+    text.setFillColor(color_);
+    text.setCharacterSize(50);
+    text.setOrigin(text.getLocalBounds().width, -text.getLocalBounds().height / 2);
     float topMargin = (float) window.getSize().y / 12;
-    text.setPosition((float) window.getSize().x / 2, (float) texts.size() * topMargin + topMargin);
+    text.setPosition((float) window.getSize().x / 2 + texts.at(0).getLocalBounds().width / 2, (float) texts.size() * topMargin + topMargin);
     texts.push_back(text);
 }
 
@@ -280,6 +281,48 @@ void Menu::stopServer() {
 
 void Menu::runServer() {
     server = startServer(*gameServer, data);
+}
+
+void Menu::showCounter() {
+    texts.clear();
+    addText("a\t-\trotate\tleft", color.white);
+    for(int i = 0; i < 10; i++){
+        addText("", color.white);
+    }
+    addText("d\t-\trotate\tright", color.white);
+    showMoved("3", 5.f);
+    showMoved("2", 5.f);
+    showMoved("1", 5.f);
+}
+
+void Menu::showMoved(std::string str, float speed){
+    sf::Text text = sf::Text(str, font);
+    text.setCharacterSize(80);
+    float margin = window.getSize().y/4;
+    text.setPosition(window.getSize().x/2, margin);
+    sf::Color colorHere = sf::Color::White;
+    GameTimer gameTimer;
+    int height = window.getSize().y - text.getLocalBounds().height - 2*margin;
+    int timeToStop = 20;
+    int time = 0;
+    float centralPos = (height+2*margin)/2 - text.getLocalBounds().height/2;
+    while(text.getPosition().y < (float)height+margin-4){
+        text.move(0,speed);
+        double sinus = sin((text.getPosition().y - margin)*M_PI/(height));
+        colorHere.a = 225 * sinus;
+        text.setCharacterSize(80 + 20 * sinus);
+        text.setOrigin(text.getLocalBounds().width/2, 0);
+        text.setFillColor(colorHere);
+        if (text.getPosition().y > centralPos && time < timeToStop){
+            text.move(0, -speed);
+            time++;
+        }
+        window.clear();
+        printText();
+        window.draw(text);
+        window.display();
+        gameTimer.timer();
+    }
 }
 
 

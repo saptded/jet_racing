@@ -37,7 +37,7 @@ public:
 
 
     void sendData(Position &userPosition) {
-        Request::getRequest(cpr::Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed)));
+        Request::getRequest(cpr::Url(dataConnection.host + ":" + std::to_string(dataConnection.port) + "/set_position?username=" + userPosition.username + "&x=" + userPosition.x + "&y=" + userPosition.y + "&rotation=" + userPosition.rotation + "&stage=" + std::to_string(userPosition.stage) + "&isFinished=" + std::to_string(userPosition.isFinished) + "&speed=" + std::to_string(userPosition.speed))); // + "isFinished=" + std::to_string(userPosition.isFinished)));
     }
 
     template<typename Deserialization>

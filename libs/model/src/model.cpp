@@ -9,7 +9,7 @@
 
 Model::Model(int id)
     : _map(std::make_unique<Map>(std::string("../maps/stages.xml")))
-    , _racer(_map->getStartPointByID(0), id)
+    , _racer(_map->getStartPointByID(0), id, true)
     , currentStage(0)
     , finishedRacers(0){}
 
@@ -50,11 +50,12 @@ void Model::updateRacers() {
 
     auto [isFinished, position] = _racer.finished;
     if (isFinished && position == 0) {
-        _racer.finished = std::make_tuple(true, ++finishedRacers);
-        Position pos = {std::to_string(myId), std::to_string(42), std::to_string(position)
+        int place = ++finishedRacers;
+        _racer.finished = std::make_tuple(true, place);
+        Position pos = {std::to_string(myId), std::to_string(_racer._center.x), std::to_string(_racer._center.y)
                 , std::to_string(_racer._rotation)
-                , 42
-                , position // поместили в stage место
+                , (float)place // поместили в speed место
+                , -1 // поместили -1, тк isFinished не передается, заодно сделав его неотображаемым для остальных игроков
                 , true};
         _client->sendData(pos);
         menuInfo = std::make_shared<MenuInfo>();
@@ -65,7 +66,8 @@ void Model::updateRacers() {
     for (auto &enemy : enemies) {
         auto [isFinished, position] = enemy.finished;
         if (isFinished && position == 0) {
-            enemy.finished = std::make_tuple(true, ++finishedRacers);
+            uint8_t place = ++finishedRacers;
+            enemy.finished = std::make_tuple(true, place);
         }
     }
 }
@@ -94,7 +96,7 @@ void Model::updateRacer() {
     notifyObserves(std::make_shared<Response>(_racer, currentStage));
     Position pos = {std::to_string(myId), std::to_string(_racer._center.x), std::to_string(_racer._center.y)
                     , std::to_string(_racer._rotation)
-                    , sqrtf(powf(_racer._speed.speedX, 2)+powf(_racer._speed.speedY, 2))
+                    , 0 // не используется
                     , currentStage};
     _client->sendData(pos);
 }
@@ -123,13 +125,13 @@ _map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
         ,_client(std::move(menuInfo->client))
         ,myName(menuInfo->myName)
         ,myId(menuInfo->myId){
-    _racer = Racer(_map->getStartPointByID(menuInfo->myId), menuInfo->myId);
+    _racer = Racer(_map->getStartPointByID(menuInfo->myId), menuInfo->myId, true);
     Position pos = {myName, std::to_string(_racer._center.x), std::to_string(_racer._center.x), std::to_string(_racer._rotation) };
     _client->sendData(pos);
     auto racers = _client->getUpdates<CustomDeserialization>();
     for(int i = 0; i < racers.size(); i++){
         if(racers.at(i).username != myName){
-            Racer enemy(_map->getStartPointByID(i), i);
+            Racer enemy(_map->getStartPointByID(i), i, false);
             enemies.push_back(enemy);
         }
     }

@@ -21,9 +21,11 @@ private:
     void loadSources(bool isOwn);
 
     void setPos(const Point &center);
+
     void setRot(const float &rotation);
 
     void drawWindow(sf::RenderWindow &window);
+
     sf::Sprite car;
     sf::Sprite fire;
     sf::Texture texture;

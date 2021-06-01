@@ -40,10 +40,9 @@ private:
             sf::Color(242, 222, 213),
     };
     std::vector<sf::Color> cars = {
-            sf::Color::White,
             sf::Color(255, 56, 56),   //красный
-            sf::Color(52, 212, 250),  //голубой
             sf::Color(122, 192, 63),  //зеленый
             sf::Color(238, 148, 47),  //рыжий
+            //sf::Color(52, 212, 250),  //голубой
     };
 };

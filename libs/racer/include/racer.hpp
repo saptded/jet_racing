@@ -5,7 +5,8 @@
 
 class DrawableRacer;
 struct Racer {
-    explicit Racer(Point point = {0, 0}, int id = 0);
+    //Racer(Point point = {0, 0}, int id = 0);
+    Racer(Point point = {0, 0}, int id = 0, bool isOwn = true);
     Racer(const Racer &racer) = default;
     Racer &operator=(const Racer &racer) = default;
     ~Racer() = default;

@@ -11,10 +11,7 @@
 
 class sfViewerDetails {
 public:
-    //explicit sfViewerDetails(sf::RenderWindow &window);
-    sfViewerDetails();
-
-    sfViewerDetails(std::vector<std::vector<float>>);
+    explicit sfViewerDetails(float _windowWidth, float _windowHeight);
 
     void update(Racer &racer);
 
@@ -27,8 +24,12 @@ private:
     sfColor colors;
     float viewHeight = 0;
     float viewWidth = 0;
+    float windowWidth;
+    float windowHeight;
+    int viewK = 3;
     sf::Vector2f prevPos;
     sf::Font font;
     sf::Text text;
     int counter = 0;
+
 };

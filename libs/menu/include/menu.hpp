@@ -66,7 +66,12 @@ private:
 
     std::vector<sf::Text> texts;
     void addText(std::string text_, sf::Color &color);
+    void addTextRightOriented(std::string text_, sf::Color &color);
     void printText();
+
+    //обратный отсчет(попытка анимации)
+    void showCounter();
+    void showMoved(std::string str, float speed);
 
     sf::RenderWindow window;
     sf::Font font;

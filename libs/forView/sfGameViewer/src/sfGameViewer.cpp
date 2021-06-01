@@ -32,8 +32,9 @@ void sfGameViewer::render(std::shared_ptr<Response> data) {
 }
 
 sfGameViewer::sfGameViewer()
-        : details(std::make_unique<sfViewerDetails>()),
-          dist(sf::RenderWindow(sf::VideoMode(1920, 1080), "jet_racing")) {}
+        : dist(sf::RenderWindow(sf::VideoMode(1920, 1080), "jet_racing")) {
+    details = std::make_unique<sfViewerDetails>(1920, 1080);
+}
 
 void sfGameViewer::renderMap(std::shared_ptr<Response> data) {
     for (auto &elem : data.get()->stage.value()) {

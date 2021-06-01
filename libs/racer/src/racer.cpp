@@ -1,7 +1,7 @@
 #include "racer.hpp"
 #include "drawableRacer.hpp"
 
-Racer::Racer(Point point, int id)
+Racer::Racer(Point point, int id, bool isOwn)
 
     : _width(78)   // 30
     , _height(20)  // 12
@@ -18,6 +18,6 @@ Racer::Racer(Point point, int id)
     , finished(false, 0)
     , _teleport(false)
 
-    , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation, (bool)_position.second.x)) {}
+    , _drObj(std::make_shared<DrawableRacer>(_width, _height, _origin, _id, _rotation, isOwn)) {}
 
 template <> void Racer::draw<sf::RenderWindow>(sf::RenderWindow &target) { _drObj->draw(*this, target); };

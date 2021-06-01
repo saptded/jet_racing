@@ -12,7 +12,7 @@ struct Position{
     std::string rotation{};
     float speed{};
     int stage{};
-    bool isFinished = false;
+    bool isFinished = true;
 
 };
 #endif //LIBSERVER_POSITION_HPP
