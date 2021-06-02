@@ -16,6 +16,7 @@ Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
         waitingOthersAfter = true;
     }
     sound.openFromFile("../media/vhoh.ogg");//загружаем файл для обратного отсчета
+    sound.setVolume(15);
     bgImage.loadFromFile("../media/helmet_dark_right.jpg");
     bg.setTexture(&bgImage);
     float scale = 1080/(float)bgImage.getSize().y;
@@ -44,8 +45,8 @@ std::unique_ptr<MenuInfo> Menu::run() {
         if (ready) {
             buttons.clear();
             texts.clear();
-            showCounter();
             client->sendFlag(true);
+            showCounter();
             window.close();
             return std::make_unique<MenuInfo>(myName, myId, client);
         }
@@ -351,6 +352,7 @@ void Menu::soundVhoh() {
     window.draw(bg);
     window.display();
     hit.openFromFile("../media/hit.ogg");
+    hit.setVolume(15);
     hit.play();
     GameTimer gameTimer;
     for(int i = 0; i < 60; i++){

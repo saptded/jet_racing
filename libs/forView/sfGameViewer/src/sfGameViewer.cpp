@@ -51,9 +51,9 @@ void sfGameViewer::displayWindow() { details->display(dist, stage); }
 
 void sfGameViewer::renderEnemies(std::shared_ptr<Response> data) {
     for (auto racer : data->enemies.value()) {
-        if (racer.curStage == stage) {
+        //if (racer.curStage == stage) {
             racer.draw(dist);
-        }
+        //}
     }
 }
 

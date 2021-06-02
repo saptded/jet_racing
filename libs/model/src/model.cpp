@@ -120,7 +120,7 @@ void Model::updateEnemies() {
 }
 
 Model::Model(std::shared_ptr<MenuInfo> menuInfo):
-_map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
+_map(std::make_unique<Map>(std::string("../maps/stages.xml")))
         , currentStage(0)
         , finishedRacers(0)
         ,_client(std::move(menuInfo->client))
