@@ -3,6 +3,7 @@
 #include <deserialization.h>
 #include <SFML/Window/Event.hpp>
 #include <gameTimer.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 
 Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
         window(sf::VideoMode(1920, 1080), "JetRacing") {
@@ -14,6 +15,7 @@ Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
         client = std::move(info->client);
         waitingOthersAfter = true;
     }
+    sound.openFromFile("../media/vhoh.ogg");//загружаем файл для обратного отсчета
 }
 
 std::unique_ptr<MenuInfo> Menu::run() {
@@ -111,6 +113,7 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
 }
 
 void Menu::absButtonPressed() {
+    soundVhoh();
     if (waitingInput && !myName.empty()) {
         client = std::make_shared<GameClient<CustomRequest>>(data);
         myId = client->join<CustomDeserialization>(myName);
@@ -306,6 +309,7 @@ void Menu::showMoved(std::string str, float speed){
     int timeToStop = 20;
     int time = 0;
     float centralPos = (height+2*margin)/2 - text.getLocalBounds().height/2;
+    sound.play();
     while(text.getPosition().y < (float)height+margin-4){
         text.move(0,speed);
         double sinus = sin((text.getPosition().y - margin)*M_PI/(height));
@@ -321,6 +325,17 @@ void Menu::showMoved(std::string str, float speed){
         printText();
         window.draw(text);
         window.display();
+        gameTimer.timer();
+    }
+}
+
+void Menu::soundVhoh() {
+    window.clear();
+    window.display();
+    hit.openFromFile("../media/hit.ogg");
+    hit.play();
+    GameTimer gameTimer;
+    for(int i = 0; i < 60; i++){
         gameTimer.timer();
     }
 }

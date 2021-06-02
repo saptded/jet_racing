@@ -7,6 +7,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <racer.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 class DrawableRacer {
 public:
@@ -14,7 +15,7 @@ public:
 
     DrawableRacer(float width, float height, Point origin, int id, float rotation, bool isOwn);
 
-    void draw(const Racer &racer, sf::RenderWindow &window);
+    void draw(Racer &racer, sf::RenderWindow &window);
 
 private:
 
@@ -30,5 +31,9 @@ private:
     sf::Sprite fire;
     sf::Texture texture;
     sf::Image image;
+
+//    std::shared_ptr<sf::Sound> hit = nullptr;
+//    bool alreadyPlayed = false;
+//    int counter = 20;
 };
 

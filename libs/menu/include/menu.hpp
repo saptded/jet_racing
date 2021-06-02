@@ -11,6 +11,8 @@
 #include <GameServer.hpp>
 #include <startServer.h>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/Music.hpp>
 
 typedef std::pair<std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>>, std::shared_ptr<GameServer>> servs;
 
@@ -69,6 +71,8 @@ private:
     void addTextRightOriented(std::string text_, sf::Color &color);
     void printText();
 
+    void soundVhoh();
+
     //обратный отсчет(попытка анимации)
     void showCounter();
     void showMoved(std::string str, float speed);
@@ -76,4 +80,7 @@ private:
     sf::RenderWindow window;
     sf::Font font;
     sfColor color;
+
+    sf::Music sound;
+    sf::Music hit;
 };

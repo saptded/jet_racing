@@ -6,6 +6,7 @@
 
 #include "racer.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <iostream>
 #include <sfColor.hpp>
 
@@ -31,5 +32,5 @@ private:
     sf::Font font;
     sf::Text text;
     int counter = 0;
-
+    sf::Music music;//создаем объект музыки
 };

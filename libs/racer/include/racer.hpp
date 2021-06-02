@@ -26,7 +26,7 @@ struct Racer {
 
     uint8_t _id;
 
-    bool onCollision;
+    bool onCollision = false;
     uint16_t curStage;
     bool _teleport;
 

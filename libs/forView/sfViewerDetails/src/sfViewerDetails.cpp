@@ -4,12 +4,16 @@
 
 #include "sfViewerDetails.hpp"
 #include <SFML/Graphics/VertexArray.hpp>
+#include <SFML/Graphics.hpp>
 #include <complex>
-#include <sfColor.hpp>
+#include <SFML/Audio/Music.hpp>
 
 sfViewerDetails::sfViewerDetails(float _windowWidth, float _windowHeight)
         : windowWidth(_windowWidth), windowHeight(_windowHeight),
           viewWidth(_windowWidth / 3), viewHeight(_windowHeight / 3) {
+    music.openFromFile("../media/cyberpunk_music_crop.ogg");//загружаем файл
+    music.setLoop(true);
+    music.play();//воспроизводим музыку
     bgImage.loadFromFile("../media/ogonkiDark.jpg");
     bg.setTexture(&bgImage);
     bg.setSize(sf::Vector2f(windowWidth * 1.2, windowHeight * 1.2));
