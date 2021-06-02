@@ -8,9 +8,6 @@
 void DrawableRacer::loadSources(bool isOwn) { // разные текстуры для противников и себя
     if (isOwn) {
         image.loadFromFile("../media/racer.png");
-//        sf::SoundBuffer soundBuffer;//создаём буфер для звука
-//        soundBuffer.loadFromFile("../media/hit.ogg");//загружаем в него звук
-//        hit = std::make_shared<sf::Sound>(soundBuffer);//создаем звук и загружаем в него звук из буфера
     } else {
         image.loadFromFile("../media/enemy.png");
         image.createMaskFromColor(sf::Color::Black);
@@ -58,18 +55,6 @@ DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, fl
 void DrawableRacer::draw(Racer &racer, sf::RenderWindow &window) {
     setPos(racer._center);
     setRot(racer._rotation);
-//    if(racer.onCollision && hit && counter > 15){
-//        racer.onCollision = false;
-//        alreadyPlayed = true;
-//        hit->play();
-//        fire.setColor(sf::Color::Green);
-//        counter = 0;
-//    }
-//    if(alreadyPlayed && counter > 5/*&& (counter > 15)*/){
-//        alreadyPlayed = false;
-//        fire.setColor(sf::Color::Magenta);
-//    }
-//    counter++;
     drawWindow(window);
 }
 

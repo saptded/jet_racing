@@ -31,9 +31,5 @@ private:
     sf::Sprite fire;
     sf::Texture texture;
     sf::Image image;
-
-//    std::shared_ptr<sf::Sound> hit = nullptr;
-//    bool alreadyPlayed = false;
-//    int counter = 20;
 };
 
