@@ -219,7 +219,8 @@ void Menu::addNewEnded() {
             if (!alreadyShown) {
                 std::string racer = got.username;
                 racer += "\t:\t";
-                racer += std::to_string((int)got.speed);
+                //racer += std::to_string((int)got.speed);
+                racer += std::to_string(counterOfEnded+1);
                 addTextRightOriented(racer, color.menuBright);
                 endedRacers.emplace_back(got.username);
                 counterOfEnded++;
