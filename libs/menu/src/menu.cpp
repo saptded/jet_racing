@@ -16,6 +16,12 @@ Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
         waitingOthersAfter = true;
     }
     sound.openFromFile("../media/vhoh.ogg");//загружаем файл для обратного отсчета
+    bgImage.loadFromFile("../media/helmet_dark_right.jpg");
+    bg.setTexture(&bgImage);
+    float scale = 1080/(float)bgImage.getSize().y;
+    bg.setSize(sf::Vector2f((float)bgImage.getSize().x/scale, 1080));
+    bg.setPosition(0,0);
+    soundVhoh();
 }
 
 std::unique_ptr<MenuInfo> Menu::run() {
@@ -43,7 +49,6 @@ std::unique_ptr<MenuInfo> Menu::run() {
             window.close();
             return std::make_unique<MenuInfo>(myName, myId, client);
         }
-
         display();
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -113,8 +118,8 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
 }
 
 void Menu::absButtonPressed() {
-    soundVhoh();
     if (waitingInput && !myName.empty()) {
+        soundVhoh();
         client = std::make_shared<GameClient<CustomRequest>>(data);
         myId = client->join<CustomDeserialization>(myName);
         racers = 1;
@@ -139,14 +144,17 @@ void Menu::absButtonPressed() {
     } else if (buttons.at(buttonIterator).getIsActive()) {
         auto but = buttons.at(buttonIterator).getId();
         if (but == "start game") {
+            soundVhoh();
             startGame();
         } else if (but == "join game") {
+            soundVhoh();
             joinGame();
         } else if (but == "go") {
             ready = true;
         } else if (but == "got\tit") {
             std::cout << "got it" << std::endl;
             texts.clear();
+            stopServer();
             showMoved("come\tback\t!", 2.5f);
             window.close();
         }
@@ -178,7 +186,7 @@ void Menu::changeStep() {
 
     texts.clear();
     addText("enter your name", color.menuDark);
-    addText("", color.menuDark); // нужно чтобы в цикле с ьуквами всегла удалять последний текст, не проверяя
+    addText("", color.menuDark); // нужно чтобы в цикле с буквами всегла удалять последний текст, не проверяя
     waitingInput = true;
 }
 
@@ -268,9 +276,11 @@ void Menu::showButtons() {
 
 void Menu::display() {
     window.clear();
+    window.draw(bg);
     showButtons();
     printText();
     window.display();
+    timer.timer();
 }
 
 void Menu::stopServer() {
@@ -293,6 +303,12 @@ void Menu::showCounter() {
         addText("", color.white);
     }
     addText("d\t-\trotate\tright", color.white);
+    bgImage.loadFromFile("../media/ogonki.jpg");
+    bg.setTexture(&bgImage);
+    float scale = 1080/(float)bgImage.getSize().y;
+    bg.setSize(sf::Vector2f(1920,1080));
+    //bg.setScale(sf::Vector2f((float)bgImage.getSize().x*scale, (float)bgImage.getSize().y*scale));
+    bg.setPosition(0,0);
     showMoved("3", 5.f);
     showMoved("2", 5.f);
     showMoved("1", 5.f);
@@ -322,6 +338,7 @@ void Menu::showMoved(std::string str, float speed){
             time++;
         }
         window.clear();
+        window.draw(bg);
         printText();
         window.draw(text);
         window.display();
@@ -331,6 +348,7 @@ void Menu::showMoved(std::string str, float speed){
 
 void Menu::soundVhoh() {
     window.clear();
+    window.draw(bg);
     window.display();
     hit.openFromFile("../media/hit.ogg");
     hit.play();

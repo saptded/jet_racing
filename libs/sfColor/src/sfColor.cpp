@@ -6,7 +6,7 @@
 
 sf::Color sfColor::getWall(int stage) {
     if ((stage >= 0) && (stage <= walls.size())) {
-        return walls[stage - 1];
+        return walls[stage];
     } else {
         return sf::Color::White;
     }

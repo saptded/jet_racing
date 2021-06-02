@@ -13,6 +13,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/Music.hpp>
+#include <gameTimer.hpp>
 
 typedef std::pair<std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>>, std::shared_ptr<GameServer>> servs;
 
@@ -83,4 +84,9 @@ private:
 
     sf::Music sound;
     sf::Music hit;
+
+    sf::Texture bgImage;
+    sf::RectangleShape bg;
+
+    GameTimer timer;
 };

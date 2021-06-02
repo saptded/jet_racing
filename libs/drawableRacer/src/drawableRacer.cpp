@@ -50,7 +50,9 @@ DrawableRacer::DrawableRacer(float width, float height, Point origin, int id, fl
     fire.setTextureRect(sf::IntRect(0, 0, (int) widthT / 2, (int) heightT));
     fire.setOrigin(origin.x / scale.x, origin.y / scale.y);
     fire.setScale(scale);
-    fire.setColor(chooseColor.fire);
+    sf::Color color = chooseColor.fire;
+    color.a -= 80;
+    fire.setColor(color);
 }
 
 void DrawableRacer::draw(Racer &racer, sf::RenderWindow &window) {

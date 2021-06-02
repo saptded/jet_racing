@@ -50,8 +50,12 @@ void sfViewerDetails::display(sf::RenderWindow &window, int stage) {
 
     window.setView(window.getDefaultView());
     window.draw(bg);
-    //window.draw(text);
+    window.draw(text);
 
     view.setSize(viewWidth, viewHeight);
     window.setView(view);
+}
+
+void sfViewerDetails::stop() {
+    music.stop();
 }

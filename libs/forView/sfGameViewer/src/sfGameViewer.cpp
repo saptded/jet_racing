@@ -58,8 +58,11 @@ void sfGameViewer::renderEnemies(std::shared_ptr<Response> data) {
 }
 
 void sfGameViewer::increaseStage(std::shared_ptr<Response> data) {
+    if(data->curStage == 42){
+        details->stop();
+    }
     stage = data->curStage;
-    for (auto &elem : data->stage.value()) {
+    for (auto elem : data->stage.value()) {
         elem->init(stage);
     }
 }

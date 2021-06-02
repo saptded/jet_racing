@@ -18,6 +18,7 @@ public:
 
     void display(sf::RenderWindow &window, int stage);
 
+    void stop();
 private:
     sf::Texture bgImage;
     sf::RectangleShape bg;

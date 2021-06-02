@@ -61,6 +61,7 @@ void Model::updateRacers() {
         menuInfo = std::make_shared<MenuInfo>();
         menuInfo->myName = myName;
         menuInfo->client = std::move(_client);
+        notifyObserves(std::make_shared<Response>(_map->getElementsInStage(currentStage), 42, true)); // сообщаем что закончил игрок (для выключения музыки)
     }
 
     for (auto &enemy : enemies) {
@@ -119,7 +120,7 @@ void Model::updateEnemies() {
 }
 
 Model::Model(std::shared_ptr<MenuInfo> menuInfo):
-_map(std::make_unique<Map>(std::string("../maps/stages.xml")))
+_map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
         , currentStage(0)
         , finishedRacers(0)
         ,_client(std::move(menuInfo->client))
