@@ -16,9 +16,9 @@ public:
     DrawableArc(Point start, Point end, Point center): DrawableObject(start, end, center) {};
     void draw(sf::RenderWindow &window) override;
     void init(int stage) override;
-
+    float getAngle(Point &centre, Point &rad); // из-за тестов
 private:
-    float getAngle(Point &centre, Point &rad);
+
     float calcRadius(Point &one, Point &two);
     std::vector<sf::VertexArray> arcs;
     float weightK = WEIGHT_K;

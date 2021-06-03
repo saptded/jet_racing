@@ -64,6 +64,11 @@ add_executable(main mainMenu.cpp)
 add_dependencies(main rapidjson)
 target_link_libraries(main PUBLIC restiniofull sfGameViewer presenter model response observer racer mechanicalValues sfml-graphics sfml-audio cpr::cpr libserver libclient libdata_struct libcustomDeserialization libserialization libcustomRequest libstartServer menu)
 
+enable_testing()
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS} ${GTEST_LIBRARY} ${GTEST_INCLUDE_DIR} ${GTEST_MAIN_LIBRARY})
+
 add_executable(tests test_view.cpp)
-target_link_libraries(tests PUBLIC mechanicalValues sfml-graphics drawableObjects)
+target_link_libraries(tests ${GTEST_LIBRARIES} -lpthread)
+target_link_libraries(tests mechanicalValues drawableObjects sfml-graphics)
 
