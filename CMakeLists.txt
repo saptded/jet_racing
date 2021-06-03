@@ -78,7 +78,7 @@ enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS} ${GTEST_LIBRARY} ${GTEST_INCLUDE_DIR} ${GTEST_MAIN_LIBRARY})
 
-add_executable(tests test_view.cpp)
-target_link_libraries(tests ${GTEST_LIBRARIES} -lpthread)
-target_link_libraries(tests mechanicalValues drawableObjects sfml-graphics)
+add_executable(test_view test_view.cpp)
+target_link_libraries(test_view ${GTEST_LIBRARIES} -lpthread)
+target_link_libraries(test_view mechanicalValues drawableObjects sfml-graphics)
 

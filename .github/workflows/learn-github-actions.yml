@@ -38,6 +38,6 @@ jobs:
           name: builted
       - run: sudo apt-get install -y valgrind
       - run: sudo apt-get install -y gcovr
-      - run: chmod +x ./main
-      - run: valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --child-silent-after-fork=yes ./tests
+      - run: chmod +x ./test_view
+      - run: valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --child-silent-after-fork=yes ./test_view
       - run: gcovr -r . 2> /dev/null
