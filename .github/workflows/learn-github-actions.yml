@@ -18,7 +18,7 @@ jobs:
       - run: sudo apt-get install -y cmake
       - run: sudo apt-get install -y libgtest-dev
       - run: sudo apt-get install -y libsfml-dev
-      - run: sudo apt-get install -y libboost-dev
+      - run: sudo apt-get install -y libboost-all-dev
       - run: ls -la
       - run: mkdir ../builddir
       - run: cd ../builddir
