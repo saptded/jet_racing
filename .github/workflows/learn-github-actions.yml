@@ -1,0 +1,45 @@
+name: jet-racing
+on: [push]
+jobs:
+  cppcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - run: sudo apt-get update -y
+      - run: sudo apt-get install -y cppcheck
+      - run: cppcheck libs/
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - run: sudo apt-get update -y
+      - run: sudo apt-get install -y cppcheck
+      - run: cppcheck main.c parallel.c consistent.c
+      - run: sudo apt-get install -y cmake
+      - run: sudo apt-get install -y libgtest-dev
+      - run: sudo apt-get install -y libsfml-dev
+      - run: sudo apt-get install -y libboost-dev
+      - run: ls -la
+      - run: mkdir ../builddir
+      - run: cd ../builddir
+      - run: ls -la
+      - run: cmake .
+      - run: cmake --build .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: builted
+          path: .
+  unit_tests_valgrind_gcovr:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: builted
+      - run: sudo apt-get install -y valgrind
+      - run: sudo apt-get install -y gcovr
+      - run: chmod +x ./main
+      - run: valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --child-silent-after-fork=yes ./main
+      - run: gcovr -r . 2> /dev/null
