@@ -60,6 +60,16 @@ add_subdirectory(libs)
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
+find_package(Boost
+        1.54.0
+        COMPONENTS thread
+        system
+        log
+        log_setup
+        program_options
+        REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 add_executable(main mainMenu.cpp)
 add_dependencies(main rapidjson)
 target_link_libraries(main PUBLIC restiniofull sfGameViewer presenter model response observer racer mechanicalValues sfml-graphics sfml-audio cpr::cpr libserver libclient libdata_struct libcustomDeserialization libserialization libcustomRequest libstartServer menu)
