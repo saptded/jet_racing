@@ -1,0 +1,9 @@
+<map>
+    <stage>
+        <element name="line" startX="-150" startY="850" endX="1600" endY="850" centerX="0" centerY="0"/>
+        <element name="line" startX="1600" startY="850" endX="1600" endY="1850" centerX="0" centerY="0"/>
+        <element name="line" startX="1600" startY="1850" endX="-150" endY="1850" centerX="0" centerY="0"/>
+        <element name="line" startX="-150" startY="1850" endX="-150" endY="1850" centerX="0" centerY="0"/>
+        <element name="portal" startX="150" startY="950" endX="350" endY="1000" centerX="0" centerY="0"/>
+    </stage>
+</map>

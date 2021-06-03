@@ -15,8 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - run: sudo apt-get update -y
-      - run: sudo apt-get install -y cppcheck
-      - run: cppcheck main.c parallel.c consistent.c
       - run: sudo apt-get install -y cmake
       - run: sudo apt-get install -y libgtest-dev
       - run: sudo apt-get install -y libsfml-dev

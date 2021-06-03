@@ -63,3 +63,7 @@ find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 add_executable(main mainMenu.cpp)
 add_dependencies(main rapidjson)
 target_link_libraries(main PUBLIC restiniofull sfGameViewer presenter model response observer racer mechanicalValues sfml-graphics sfml-audio cpr::cpr libserver libclient libdata_struct libcustomDeserialization libserialization libcustomRequest libstartServer menu)
+
+add_executable(tests test_view.cpp)
+target_link_libraries(tests PUBLIC mechanicalValues sfml-graphics drawableObjects)
+
