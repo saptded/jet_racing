@@ -13,6 +13,7 @@ sfViewerDetails::sfViewerDetails(float _windowWidth, float _windowHeight)
           viewWidth(_windowWidth / 3), viewHeight(_windowHeight / 3) {
     music.openFromFile("../media/cyberpunk_music_crop.ogg");//загружаем файл
     music.setLoop(true);
+    music.setVolume(1);
     music.play();//воспроизводим музыку
     bgImage.loadFromFile("../media/ogonkiDark.jpg");
     bg.setTexture(&bgImage);

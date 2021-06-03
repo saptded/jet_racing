@@ -16,7 +16,7 @@ Menu::Menu(std::shared_ptr<MenuInfo>& info, servs _servers) :
         waitingOthersAfter = true;
     }
     sound.openFromFile("../media/vhoh.ogg");//загружаем файл для обратного отсчета
-    sound.setVolume(15);
+    sound.setVolume(1);
     bgImage.loadFromFile("../media/helmet_dark_right.jpg");
     bg.setTexture(&bgImage);
     float scale = 1080/(float)bgImage.getSize().y;
@@ -121,7 +121,8 @@ void Menu::handleInput(sf::Keyboard::Key key, bool isPressed) {
 void Menu::absButtonPressed() {
     if (waitingInput && !myName.empty()) {
         soundVhoh();
-        client = std::make_shared<GameClient<CustomRequest>>(data);
+        ConnectionData data_sl = {8080,"192.168.0.103"};
+        client = std::make_shared<GameClient<CustomRequest>>(data_sl);
         myId = client->join<CustomDeserialization>(myName);
         racers = 1;
         waitingOthersBefore = true;
@@ -353,13 +354,10 @@ void Menu::soundVhoh() {
     window.draw(bg);
     window.display();
     hit.openFromFile("../media/hit.ogg");
-    hit.setVolume(15);
+    hit.setVolume(1);
     hit.play();
     GameTimer gameTimer;
     for(int i = 0; i < 60; i++){
         gameTimer.timer();
     }
 }
-
-
-

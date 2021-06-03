@@ -114,13 +114,14 @@ void Model::updateEnemies() {
             if(webEnemy.isFinished){
                 enemy->finished = std::make_tuple(true, webEnemy.stage);
             }
+            enemy++;
         }
     }
     notifyObserves(std::make_shared<Response>(enemies, currentStage));
 }
 
 Model::Model(std::shared_ptr<MenuInfo> menuInfo):
-_map(std::make_unique<Map>(std::string("../maps/testArc.xml")))
+_map(std::make_unique<Map>(std::string("../maps/stages.xml")))
         , currentStage(0)
         , finishedRacers(0)
         ,_client(std::move(menuInfo->client))

@@ -48,7 +48,7 @@ private:
     std::shared_ptr<GameServer> gameServer = std::make_shared<GameServer>();
     std::shared_ptr<running_server_instance_t<http_server_t<ServerTraits>>> server = nullptr;
     std::shared_ptr<GameClient<CustomRequest>> client = nullptr;
-    ConnectionData data = ConnectionData{2021, "localhost"};
+    ConnectionData data = ConnectionData{8080, "localhost"};
 
     // подготовка возвращаемого значения
     std::string myName; // вводится пользователем
