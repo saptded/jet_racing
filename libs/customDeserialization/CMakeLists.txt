@@ -1,0 +1,5 @@
+add_library(libcustomDeserialization SHARED   src/customDeserialization.cpp)
+target_include_directories(libserver PUBLIC include)
+target_link_libraries(libcustomDeserialization PUBLIC  libdata_struct libserialization )
+add_dependencies(libcustomDeserialization rapidjson)
+

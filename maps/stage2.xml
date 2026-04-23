@@ -1,0 +1,71 @@
+<map>
+    <stage>
+        <element name="line" startX="50" startY="848" endX="50" endY="1002" centerX="0" centerY="0"/>
+
+        <element name="line" startX="50" startY="850" endX="1128" endY="850" centerX="0" centerY="0"/>
+        <element name="line" startX="50" startY="1000" endX="678" endY="1000" centerX="0" centerY="0"/>
+
+        <element name="arc" startX="675" startY="1000" endX="725" endY="1050" centerX="675" centerY="1050"/>
+        <element name="line" startX="725" startY="1053" endX="725" endY="1047" centerX="0" centerY="0"/>
+        <element name="arc" startX="775" startY="1100" endX="725" endY="1050" centerX="775" centerY="1050"/>
+
+        <element name="line" startX="772" startY="1100" endX="1128" endY="1100" centerX="0" centerY="0"/>
+
+        <element name="delayer" startX="825" startY="1075" endX="1125" endY="975" centerX="975" centerY="1025"/>
+
+        <element name="arc" startX="1125" startY="500" endX="1125" endY="1100" centerX="1125" centerY="800"/>
+        <element name="arc" startX="1125" startY="750" endX="1125" endY="850" centerX="1125" centerY="800"/>
+        <element name="line" startX="1128" startY="500" endX="947" endY="500" centerX="0" centerY="0"/>
+        <element name="line" startX="1128" startY="750" endX="947" endY="750" centerX="0" centerY="0"/>
+        <element name="accelerator" startX="1000" startY="675" endX="1200" endY="525" centerX="1100" centerY="600"/>
+
+        <element name="arc" startX="875" startY="575" endX="950" endY="500" centerX="950" centerY="575"/>
+        <element name="line" startX="875" startY="572" endX="875" endY="578" centerX="0" centerY="0"/>
+        <element name="arc" startX="875" startY="575" endX="800" endY="650" centerX="800" centerY="575"/>
+
+        <element name="arc" startX="925" startY="775" endX="950" endY="750" centerX="950" centerY="775"/>
+        <element name="line" startX="925" startY="773" endX="925" endY="778" centerX="0" centerY="0"/>
+        <element name="arc" startX="925" startY="775" endX="900" endY="800" centerX="900" centerY="775"/>
+
+        <element name="line" startX="247" startY="650" endX="803" endY="650" centerX="0" centerY="0"/>
+        <element name="line" startX="247" startY="800" endX="903" endY="800" centerX="0" centerY="0"/>
+
+        <element name="arc" startX="250" startY="650" endX="250" endY="550" centerX="250" centerY="600"/>
+        <element name="arc" startX="250" startY="800" endX="250" endY="400" centerX="250" centerY="600"/>
+
+        <element name="line" startX="247" startY="400" endX="603" endY="400" centerX="0" centerY="0"/>
+        <element name="line" startX="247" startY="550" endX="603" endY="550" centerX="0" centerY="0"/>
+
+        <element name="arc" startX="675" startY="325" endX="925" endY="75" centerX="925" centerY="325"/>
+        <element name="line" startX="675" startY="323" endX="675" endY="327" centerX="0" centerY="0"/>
+        <element name="arc" startX="675" startY="325" endX="600" endY="400" centerX="600" centerY="325"/>
+
+        <element name="arc" startX="825" startY="325" endX="925" endY="225" centerX="925" centerY="325"/>
+        <element name="line" startX="825" startY="323" endX="825" endY="327" centerX="0" centerY="0"/>
+        <element name="arc" startX="825" startY="325" endX="600" endY="550" centerX="600" centerY="325"/>
+
+
+        <element name="line" startX="922" startY="75" endX="1678" endY="75" centerX="0" centerY="0"/>
+        <element name="line" startX="922" startY="225" endX="1678" endY="225" centerX="0" centerY="0"/>
+
+        <element name="arc" startX="1675" startY="75" endX="1675" endY="475" centerX="1675" centerY="275"/>
+        <element name="arc" startX="1675" startY="225" endX="1675" endY="325" centerX="1675" centerY="275"/>
+
+        <element name="line" startX="1547" startY="325" endX="1678" endY="325" centerX="0" centerY="0"/>
+        <element name="line" startX="1547" startY="475" endX="1678" endY="475" centerX="0" centerY="0"/>
+
+        <element name="arc" startX="1550" startY="525" endX="1550" endY="475" centerX="1550" centerY="500"/>
+        <element name="arc" startX="1550" startY="675" endX="1550" endY="325" centerX="1550" centerY="500"/>
+
+        <element name="line" startX="1547" startY="525" endX="1678" endY="525" centerX="0" centerY="0"/>
+        <element name="line" startX="1547" startY="675" endX="1678" endY="675" centerX="0" centerY="0"/>
+
+        <element name="arc" startX="1675" startY="525" endX="1850" endY="700" centerX="1675" centerY="700"/>
+        <element name="arc" startX="1675" startY="675" endX="1700" endY="700" centerX="1675" centerY="700"/>
+
+        <element name="line" startX="1700" startY="697" endX="1700" endY="1000" centerX="0" centerY="0"/>
+        <element name="line" startX="1850" startY="697" endX="1850" endY="1000" centerX="0" centerY="0"/>
+
+        <element name="finish" startX="1700" startY="1000" endX="1850" endY="1050" centerX="1775" centerY="1025"/>
+    </stage>
+</map>

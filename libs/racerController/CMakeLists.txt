@@ -1,0 +1,4 @@
+add_library(racerController STATIC src/racerController.cpp)
+
+target_include_directories(racerController PUBLIC include)
+target_link_libraries(racerController PUBLIC racer mechanicalValues)
